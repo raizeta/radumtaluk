@@ -1,8 +1,8 @@
 'use strict';
-myAppModule.controller("SalesmanController", ["$scope", "$location","$http", "authService", "auth", function ($scope, $location, $http, authService, auth) 
+myAppModule.controller("SalesmanController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
     
-
+    $scope.isCollapsed = false;
     $scope.loading = true ;
     $scope.userInfo = auth;
     $http.get('http://api.lukisongroup.com/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
@@ -52,6 +52,16 @@ myAppModule.controller("SalesmanController", ["$scope", "$location","$http", "au
     {
             
     });
+
+
+    $scope.logout = function () 
+    {
+        
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+
+    }
     
 }]);
 

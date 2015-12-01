@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.controller("SalesmanEditController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", function ($scope, $location, $http, $routeParams, authService, auth) 
+myAppModule.controller("SalesmanEditController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
 {
     $scope.loading = true ;
     $scope.userInfo = auth;
@@ -99,6 +99,14 @@ myAppModule.controller("SalesmanEditController", ["$scope", "$location","$http",
     {
             
     });
-    
+
+    $scope.logout = function () 
+    {
+        
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+
+    }
 }]);
 
