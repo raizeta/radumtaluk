@@ -1,0 +1,42 @@
+<div class="row">
+  <div class="col-md-12">
+  <!-- for flashMessage in app.session.flashbag.get('notice') -->
+    <div class="alert alert-success alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+      </button>
+      <h4>SALESMAN LIST TYPE BARANG</h4>
+    </div>
+  <!-- endfor flashMessage -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+  	 <table class="table table-responsive table-hovered table-striped table-bordered">
+  	 	<thead>
+  	 		<tr>
+  	 			<th>ID</th>
+  	 			<th>KD TYPE</th>
+  	 			<th>NM TYPE</th>
+  	 			<th>NOTE</th>
+  	 			<th>STATUS</th>
+  	 			<th>EDIT</th>
+  	 			<th>DELETE</th>
+
+  	 		</tr>
+  	 	</thead>
+  	 	<tbody>
+  	 		<tr ng-repeat="typebarang in typebarangs">
+  	 			<td>{{typebarang.ID}}</td>
+  	 			<td>{{typebarang.KD_TYPE}}</td>
+  	 			<td>{{typebarang.NM_TYPE}}</td>
+  	 			<td>{{typebarang.NOTE}}</td>
+  	 			<td>{{typebarang.STATUS}}</td>
+  	 			<td><a href="">EDIT</td>
+  	 			<td><a href="">DELETE</td>
+  	 		</tr>
+  	 	</tbody>
+  	 </table>
+
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="row">
+  <div class="col-md-12">
+  <!-- for flashMessage in app.session.flashbag.get('notice') -->
+    <div class="alert alert-success alert-dismissable">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+      </button>
+      <h4>SALESMAN LIST BARANG UMUM</h4>
+    </div>
+  <!-- endfor flashMessage -->
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <a href="#/salesman/newbarangumum"class="">New Barang Umum</a>
+  </div>
+  <div class="col-md-12">
+  	 <table class="table table-responsive table-hovered table-striped table-bordered">
+  	 	<thead>
+  	 		<tr>
+  	 			<th>ID</th>
+  	 			<th>KD BRG</th>
+  	 			<th>NM BRG</th>
+  	 			<th>KD TYPE</th>
+  	 			<th>KD KAT</th>
+  	 			<th>KD UNIT</th>
+  	 			<th>KD SUP</th>
+  	 			<th>KD DIS</th>
+  	 			<th>PARENT</th>
+  	 			<th>HPP</th>
+  	 			<th>HARGA</th>
+  	 			<th>BARCODE</th>
+  	 			<th>IMAGE</th>
+  	 			<th>NOTE</th>
+  	 			<th>KD CORP</th>
+  	 			<th>KD CAB</th>
+  	 			<th>KD DEP</th>
+  	 			<th>STATUS</th>
+  	 			<th>EDIT</th>
+  	 			<th>DELETE</th>
+
+  	 		</tr>
+  	 	</thead>
+  	 	<tbody>
+  	 		<tr ng-repeat="barangumum in barangumums">
+  	 			<td>{{barangumum.ID}}</td>
+  	 			<td>{{barangumum.KD_BARANG}}</td>
+  	 			<td>{{barangumum.NM_BARANG}}</td>
+  	 			<td>{{barangumum.KD_TYPE}}</td>
+  	 			<td>{{barangumum.KD_KATEGORI}}</td>
+  	 			<td>{{barangumum.KD_UNIT}}</td>
+  	 			<td>{{barangumum.KD_SUPPLIER}}</td>
+  	 			<td>{{barangumum.KD_DISTRIBUTOR}}</td>
+  	 			<td>{{barangumum.PARENT}}</td>
+  	 			<td>{{barangumum.HPP}}</td>
+  	 			<td>{{barangumum.HARGA}}</td>
+  	 			<td>{{barangumum.BARCODE}}</td>
+  	 			<td>{{barangumum.IMAGE}}</td>
+  	 			<td>{{barangumum.NOTE}}</td>
+  	 			<td>{{barangumum.KD_CORP}}</td>
+  	 			<td>{{barangumum.KD_CAB}}</td>
+  	 			<td>{{barangumum.KD_DEP}}</td>
+  	 			<td>{{barangumum.STATUS}}</td>
+  	 			<td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">EDIT</td>
+  	 			<td><a href="">DELETE</td>
+  	 		</tr>
+  	 	</tbody>
+  	 </table>
+
+  </div>
+</div>
