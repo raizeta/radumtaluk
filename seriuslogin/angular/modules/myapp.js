@@ -1,2 +1,2 @@
-var myAppModule 	= angular.module('myApp',['ngRoute','angularSpinner','ui.bootstrap']);
+var myAppModule 	= angular.module('myApp',['ngRoute','angularSpinner','ui.bootstrap','ng-fusioncharts']);
 
