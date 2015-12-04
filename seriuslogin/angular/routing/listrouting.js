@@ -1,30 +1,11 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-	$routeProvider.when('/salesman/edit/barangumum/:idbarangumum',
-	{
-		templateUrl	: 'angular/partial/salesman/editbarangumum.html',
-		controller 	: 'EditBarangUmumController',
-		resolve: 
-		{
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-	});
-    $routeProvider.when('/salesman/edit/kategori/:idkategori',
+
+    $routeProvider.when('/salesman/listbarangumum',
     {
-        templateUrl : 'angular/partial/salesman/editkategori.html',
-        controller  : 'EditKategoriController',
+        templateUrl : 'angular/partial/salesman/listbarangumum.html',
+        controller  : 'ListBarangUmumController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -41,10 +22,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/salesman/edit/suplier/:idsuplier',
+    $routeProvider.when('/salesman/listkategori',
     {
-        templateUrl : 'angular/partial/salesman/editsuplier.html',
-        controller  : 'EditSuplierController',
+        templateUrl : 'angular/partial/salesman/listkategori.html',
+        controller  : 'ListKategoriController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -62,10 +43,31 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
-    $routeProvider.when('/salesman/edit/tipebarang/:idtipebarang',
+    $routeProvider.when('/salesman/listsuplier',
     {
-        templateUrl : 'angular/partial/salesman/edittipebarang.html',
-        controller  : 'EditTipeBarangController',
+        templateUrl : 'angular/partial/salesman/listsuplier.html',
+        controller  : 'ListSuplierController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/salesman/listtipebarang',
+    {
+        templateUrl : 'angular/partial/salesman/listtipebarang.html',
+        controller  : 'ListTipeBarangController',
         resolve: 
         {
             auth: function ($q, authService,$location) 

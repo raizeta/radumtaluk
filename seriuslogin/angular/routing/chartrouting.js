@@ -1,71 +1,11 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-	$routeProvider.when('/salesman/edit/barangumum/:idbarangumum',
-	{
-		templateUrl	: 'angular/partial/salesman/editbarangumum.html',
-		controller 	: 'EditBarangUmumController',
-		resolve: 
-		{
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-	});
-    $routeProvider.when('/salesman/edit/kategori/:idkategori',
-    {
-        templateUrl : 'angular/partial/salesman/editkategori.html',
-        controller  : 'EditKategoriController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
-    $routeProvider.when('/salesman/edit/suplier/:idsuplier',
-    {
-        templateUrl : 'angular/partial/salesman/editsuplier.html',
-        controller  : 'EditSuplierController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
 
-    $routeProvider.when('/salesman/edit/tipebarang/:idtipebarang',
+    $routeProvider.when('/salesman/chart/esm/sales',
     {
-        templateUrl : 'angular/partial/salesman/edittipebarang.html',
-        controller  : 'EditTipeBarangController',
+        templateUrl : 'angular/partial/salesman/chartesmsales.html',
+        controller  : 'ChartEsmController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -82,6 +22,46 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-
     
+    $routeProvider.when('/salesman/chart/esm/warehouses',
+    {
+        templateUrl : 'angular/partial/salesman/chartesmwarehouses.html',
+        controller  : 'ChartWarehousesController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/salesman/chart/hrm/personalia',
+    {
+        templateUrl : 'angular/partial/salesman/charthrmpersonalia.html',
+        controller  : 'ChartHrmController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
 }]);
