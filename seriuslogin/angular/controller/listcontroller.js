@@ -2,18 +2,21 @@
 myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
     
+    $scope.loading  = true;
     $scope.userInfo = auth;
     $http.get('http://api.lukisongroup.com/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
     .success(function(data,status, headers, config) 
     {
         $scope.barangumums = data.BarangUmum ;
-        return $scope.barangumums;
-
     })
 
     .error(function (data, status, header, config) 
     {
             
+    })
+
+    .finally(function(){
+        $scope.loading = false;
     });
 
 
@@ -30,6 +33,7 @@ myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http
 myAppModule.controller("ListKategoriController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
 
+    $scope.loading  = true;
     $scope.userInfo = auth;
     $http.get('http://api.lukisongroup.com/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
     .success(function(data,status, headers, config) 
@@ -41,6 +45,10 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
     .error(function (data, status, header, config) 
     {
             
+    })
+
+    .finally(function(){
+        $scope.loading = false;
     });
 
     $scope.logout = function () 
@@ -55,6 +63,7 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
 myAppModule.controller("ListTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
 
+    $scope.loading  = true;
     $scope.userInfo = auth;
     $http.get('http://api.lukisongroup.com/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
     .success(function(data,status, headers, config) 
@@ -65,6 +74,10 @@ myAppModule.controller("ListTipeBarangController", ["$scope", "$location","$http
     .error(function (data, status, header, config) 
     {
             
+    })
+
+    .finally(function(){
+        $scope.loading = false;
     });
 
     $scope.logout = function () 
@@ -77,6 +90,7 @@ myAppModule.controller("ListTipeBarangController", ["$scope", "$location","$http
 
 myAppModule.controller("ListSuplierController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
+    $scope.loading  = true;
     $scope.userInfo = auth;
     $http.get('http://api.lukisongroup.com/master/supliers?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
     .success(function(data,status, headers, config) 
@@ -87,6 +101,10 @@ myAppModule.controller("ListSuplierController", ["$scope", "$location","$http", 
     .error(function (data, status, header, config) 
     {
             
+    })
+
+    .finally(function(){
+        $scope.loading = false;
     });
 
     $scope.logout = function () 
