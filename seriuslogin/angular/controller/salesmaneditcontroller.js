@@ -167,3 +167,42 @@ myAppModule.controller("EditSuplierController", ["$scope", "$location","$http", 
     }
 }]);
 
+myAppModule.controller("EditBarangUnitController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
+{
+    $scope.loading = true ;
+    $scope.userInfo = auth;
+    $scope.idbarangunit = $routeParams.idbarangunit;
+    $http.get('http://api.lukisongroup.com/master/unitbarangs/'+ $scope.idbarangunit + '?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    .success(function(data,status, headers, config) 
+    {
+        $scope.buid = data.ID;
+        $scope.bukdunit = data.KD_UNIT;
+        $scope.bunmunit = data.NM_UNIT;
+        $scope.buqty = data.QTY;
+        $scope.busize = data.SIZE;
+        $scope.buweight = data.WEIGHT;
+        $scope.bucolor = data.COLOR;
+        $scope.bunote = data.NOTE;
+        $scope.bustatus = data.STATUS;
+    })
+
+    .error(function (data, status, header, config) 
+    {
+        alert("Data tidak berhasil diterima");    
+    })
+
+    .finally(function()
+    {
+        $scope.loading = false ;
+    });
+
+    $scope.logout = function () 
+    {
+        
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+
+    }
+}]);
+

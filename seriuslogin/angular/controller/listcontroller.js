@@ -114,6 +114,33 @@ myAppModule.controller("ListSuplierController", ["$scope", "$location","$http", 
         window.location.href = "index.html";
     }
 }]);
+
+myAppModule.controller("ListBarangUnitController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+{
+    $scope.loading  = true;
+    $scope.userInfo = auth;
+    $http.get('http://api.lukisongroup.com/master/unitbarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    .success(function(data,status, headers, config) 
+    {
+        $scope.unitbarangs = data.Unitbarang ;
+    })
+
+    .error(function (data, status, header, config) 
+    {
+            
+    })
+
+    .finally(function(){
+        $scope.loading = false;
+    });
+
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+}]);
    
 
     

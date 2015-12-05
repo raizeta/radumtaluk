@@ -1,6 +1,5 @@
 <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span
 <div class="wrapper">
-      <span data-ng-show="loading" us-spinner spinner-theme="smallRed" ></span>
       <header class="main-header">
         <!-- Logo -->
         <a href="#/salesman" class="logo">
@@ -305,6 +304,18 @@
                 <li><a href="#/salesman/new/suplier"><i class="fa fa-circle-o"></i>New Suplier</a></li>
               </ul>
             </li>
+            <li class="active treeview">
+              <a href="javascript:;">
+                <i class="fa fa-th"></i>
+                <span>Chart Elements</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#/salesman/chart/esm/sales"><i class="fa fa-circle-o"></i>Chart Sales</a></li>
+                <li><a href="#/salesman/chart/esm/warehouses"><i class="fa fa-circle-o"></i>Chart Warehouses</a></li>
+                <li><a href="#/salesman/chart/hrm/personalia"><i class="fa fa-circle-o"></i>Chart Personalia</a></li>
+              </ul>
+            </li>
 
             <li>
               <a href="#/salesman/chatting">
@@ -344,38 +355,48 @@
                 <div class="box-header">
                   <h3 class="box-title">Create New Barang Umum</h3>
                 </div>
-                <form action="index.html" method="post">
+                <form ng-submit="createbarangumum(barangumum)" method="post" validate>
                 <div class="box-body">
                   <div class="form-group">
-                    <label>Kode Product</label>
-                    <select class="form-control select2" style="width: 100%;" required>
-                      <option selected="selected" value="">Pilih Barang</option>
-                      <option ng-repeat="barangumum in barangumums" value="{{barangumum.ID}}">{{barangumum.NM_BARANG}}</option>
+                    <label>Nama Product</label>
+                      <input type="text" class="form-control" ng-model="barangumum.namaproduct" required>
                     </select>
                   </div><!-- /.form-group -->
                   <!-- /.form group -->
                   <div class="form-group">
                     <label>Kode Supplier</label>
-                    <select class="form-control select2" style="width: 100%;" required>
-                      <option selected="selected" value="">Pilih Suplier</option>
+                    <select class="form-control select2" style="width: 100%;" ng-model="barangumum.suplier"required>
+                      <option selected="selected" value="">--Pilih Suplier--</option>
                       <option ng-repeat="suplier in supliers" value="{{suplier.ID}}">{{suplier.NM_SUPPLIER}}</option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <label>Kode Kategori</label>
-                    <select class="form-control select2" style="width: 100%;" required>
-                      <option selected="selected" value="">Pilih Kategori</option>
-                      <option ng-repeat="category in categories" value="category.ID">{{category.NM_KATEGORI}}</option>
+                    <select class="form-control select2" style="width: 100%;" ng-model="barangumum.kategori"required>
+                      <option selected="selected" value="">--Pilih Kategori--</option>
+                      <option ng-repeat="category in categories" value="{{category.ID}}">{{category.NM_KATEGORI}}</option>
                     </select>
                   </div>
 
                   <div class="form-group">
                     <label>Type Barang</label>
-                    <select class="form-control select2" style="width: 100%;" required>
-                      <option selected="selected" value="">Pilih Type</option>
+                    <select class="form-control select2" style="width: 100%;" ng-model="barangumum.typebarang"required>
+                      <option selected="selected" value="">--Pilih Type--</option>
                       <option ng-repeat="typebarang in typebarangs" value="{{typebarang.ID}}">{{typebarang.NM_TYPE}}</option>
                     </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label>Barang Unit</label>
+                    <select class="form-control select2" style="width: 100%;" ng-model="barangumum.unitbarang" required >
+                      <option selected="selected" value="">--Pilih Unit Barang--</option>
+                      <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.ID}}">{{unitbarang.NM_UNIT}}</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Barang Unit</label>
+                    <input type="file" ng-model="barangumum" required>
                   </div>
 
                   <!-- phone mask -->
@@ -385,7 +406,7 @@
                       <div class="input-group-addon">
                         <i class="fa fa-minus"></i>
                       </div>
-                      <input type="number" class="form-control" name="quantity" min=0 required>
+                      <input type="number" class="form-control" name="quantity" ng-model="barangumum.quantity" min=0 required>
                       <div class="input-group-addon">
                         <i class="fa fa-plus"></i>
                       </div>

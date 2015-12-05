@@ -305,6 +305,18 @@
                 <li><a href="#/salesman/new/suplier"><i class="fa fa-circle-o"></i>New Suplier</a></li>
               </ul>
             </li>
+            <li class="active treeview">
+              <a href="javascript:;">
+                <i class="fa fa-th"></i>
+                <span>Chart Elements</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#/salesman/chart/esm/sales"><i class="fa fa-circle-o"></i>Chart Sales</a></li>
+                <li><a href="#/salesman/chart/esm/warehouses"><i class="fa fa-circle-o"></i>Chart Warehouses</a></li>
+                <li><a href="#/salesman/chart/hrm/personalia"><i class="fa fa-circle-o"></i>Chart Personalia</a></li>
+              </ul>
+            </li>
 
             <li>
               <a href="#/salesman/chatting">
@@ -356,40 +368,46 @@
                 <div class="box-header">
                   <h3 class="box-title">CREATE NEW TIPE BARANG</h3>
                 </div>
-                <form action="index.html" method="post">
+                <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
                 <div class="box-body">
-                  <div class="form-group">
-                    <label>NAMA TIPE</label>
-                      <input type="text" class="form-control" ng-model="eknamakategori">
+                  <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                      <label>Name*</label>
+                      <input type="text" name="name" class="form-control" ng-model="user.name" required>
+                      <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
                   </div>
-                  <div class="form-group">
-                    <label>NOTE</label>
-                      <textarea class="form-control" ng-model="eknote"></textarea>
+                  
+                  <!-- USERNAME -->
+                  <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+                      <label>Username</label>
+                      <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3">
+                      <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
+                  </div>
+                      
+                  <!-- EMAIL -->
+                  <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                      <label>Email</label>
+                      <input type="email" name="email" class="form-control" ng-model="user.email">
+                      <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
                   </div>
                   <div class="form-group">
                     <label>Status</label>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                        <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios1" value="aktif" required>
                         Aktif
-                        
                       </label>
                     </div>
                     <div class="radio">
                       <label>
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios2" value="tidak aktif" required>
                         Tidak Aktif
                       </label>
                     </div>
                   </div>
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer clearfix">
-                  <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
-                  <button type="submit" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
-                </div>
+                  <button type="submit" class="btn btn-primary">Submit</button>
               </div>
-            </form>
+                  
+              </form>
               <!-- /.box -->
             </div>
             <!-- /.col (left) -->

@@ -53,8 +53,17 @@ myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $
                 		$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
                 		deferred.resolve(userInfo);
 					}
-			});
+                else
+                {
+                    alert("You Have Invalid Credential");
+                }
+			})
+            .error(function()
+            {
+                deferred.reject(error);
+            });
         })
+
         .error(function()
         {
             deferred.reject(error);

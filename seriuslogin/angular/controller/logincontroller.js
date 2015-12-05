@@ -6,7 +6,8 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
 
 	    $scope.login = function (user) 
 	    {
-	        $scope.user = angular.copy(user);
+	        $scope.loading = true;
+            $scope.user = angular.copy(user);
 	    	var username = $scope.user.username;
 	    	var password	= $scope.user.password;
 	    	authService.login(username, password)
@@ -26,9 +27,9 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
                 
             }, 
             function (error) 
-            {
+            {          
                 $window.alert("Invalid credentials");
-                console.log(error);
+                
             });
 
 	    }

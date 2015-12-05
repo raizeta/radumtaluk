@@ -83,5 +83,26 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
+    $routeProvider.when('/salesman/new/barangunit',
+    {
+        templateUrl : 'angular/partial/salesman/newbarangunit.html',
+        controller  : 'NewTipeBarangController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
     
 }]);

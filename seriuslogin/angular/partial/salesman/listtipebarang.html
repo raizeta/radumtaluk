@@ -304,6 +304,18 @@
                 <li><a href="#/salesman/new/suplier"><i class="fa fa-circle-o"></i>New Suplier</a></li>
               </ul>
             </li>
+            <li class="active treeview">
+              <a href="javascript:;">
+                <i class="fa fa-th"></i>
+                <span>Chart Elements</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="#/salesman/chart/esm/sales"><i class="fa fa-circle-o"></i>Chart Sales</a></li>
+                <li><a href="#/salesman/chart/esm/warehouses"><i class="fa fa-circle-o"></i>Chart Warehouses</a></li>
+                <li><a href="#/salesman/chart/hrm/personalia"><i class="fa fa-circle-o"></i>Chart Personalia</a></li>
+              </ul>
+            </li>
 
             <li>
               <a href="#/salesman/chatting">
@@ -362,6 +374,7 @@
                         <th>NM TYPE</th>
                         <th>NOTE</th>
                         <th>STATUS</th>
+                        <th>DETAIL</th>
                         <th>EDIT</th>
                         <th>DELETE</th>
 
@@ -374,6 +387,9 @@
                         <td>{{typebarang.NM_TYPE}}</td>
                         <td>{{typebarang.NOTE}}</td>
                         <td>{{typebarang.STATUS}}</td>
+                        <td><a href="#/salesman/edit/tipebarang/{{typebarang.ID}}">
+                          <i class="fa fa-eye fa-2x"></i></a>
+                        </td>
                         <td><a href="#/salesman/edit/tipebarang/{{typebarang.ID}}">
                           <i class="fa fa-refresh fa-2x"></i></a>
                         </td>

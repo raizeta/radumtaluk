@@ -85,5 +85,26 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
+    $routeProvider.when('/salesman/listbarangunit',
+    {
+        templateUrl : 'angular/partial/salesman/listbarangunit.html',
+        controller  : 'ListBarangUnitController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
     
 }]);

@@ -83,5 +83,26 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
+    $routeProvider.when('/salesman/edit/barangunit/:idbarangunit',
+    {
+        templateUrl : 'angular/partial/salesman/editbarangunit.html',
+        controller  : 'EditBarangUnitController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
     
 }]);

@@ -1,5 +1,6 @@
-
+<span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span
 <div class="wrapper">
+      <span data-ng-show="loading" us-spinner spinner-theme="smallRed" ></span>
       <header class="main-header">
         <!-- Logo -->
         <a href="#/salesman" class="logo">
@@ -350,39 +351,71 @@
       <div class="content-wrapper">
         <section class="content">
           <div class="row">
-            <div class="col-md-12">
-            <!-- for flashMessage in app.session.flashbag.get('notice') -->
-              <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
-                </button>
-                <h4>HRM PERSONALIA 3D</h4>
+            <div class="col-md-6">
+              <div class="box box-danger">
+                <div class="box-header">
+                  <h3 class="box-title">Edit Barang Unit</h3>
+                </div>
+                <form ng-submit="submit" method="post">
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>NAMA BARANG UNIT</label>
+                      <input type="text" class="form-control" ng-model="bunmunit">
+                  </div>
+                </div>
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>QUANTITY BARANG UNIT</label>
+                      <input type="number" class="form-control" ng-model="buqty" min=0>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>UKURAN BARANG UNIT</label>
+                      <input type="number" class="form-control" ng-model="busize" min=0>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>BERAT BARANG UNIT</label>
+                      <input type="number" class="form-control" ng-model="buweight" min=0>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>WARNA BARANG UNIT</label>
+                      <input type="number" class="form-control" ng-model="bucolor" min=0>
+                  </div>
+                </div>
+                <div class="box-body">
+                  <div class="form-group">
+                    <label>CATATAN BARANG UNIT</label>
+                      <textarea class="form-control" ng-model="bunote"></textarea>
+                  </div>
+                </div>
+                <div class="box-footer clearfix">
+                  <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
+                  <button type="submit" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
+                </div>
+                </form>
               </div>
-            <!-- endfor flashMessage -->
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <fusioncharts width="100%" height="300"type="pie3d" datasource="{{esm_pie_myDatasource}}">
-              </fusioncharts>   
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <fusioncharts width="100%" height="300"type="pie3d" datasource="{{lipat_pie_myDatasource}}">
-              </fusioncharts>   
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-12">
-              <fusioncharts width="100%" height="300"type="pie3d" datasource="{{sss_pie_myDatasource}}">
-              </fusioncharts>   
             </div>
           </div>
         </section><!-- /.content -->
-        
       </div><!-- /.content-wrapper -->
       <footer class="main-footer">
         <strong>Copyright &copy;<a href="http://lukisongroup.com">Lukison Group</a>.</strong>
       </footer>
-</div>
-<script src="asset/admin/dist/js/app.min.js"></script>
+
+
+    </div>
+
+    <script src="asset/admin/dist/js/app.min.js"></script>
+    <script src="asset/admin/plugins/select2/select2.full.min.js"></script>
+    <script>
+      $(function () 
+      {
+        //Initialize Select2 Elements
+        $(".select2").select2();
+      });
+    </script>
