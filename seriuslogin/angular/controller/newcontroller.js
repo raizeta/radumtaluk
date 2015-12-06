@@ -41,6 +41,7 @@ myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http"
     $scope.createbarangumum = function(barangumum)
     {
         $scope.barangumum = angular.copy(barangumum);
+        var gambarbarang =$scope.barangumum.file.base64;
         var namabarang = $scope.barangumum.namaproduct;
         var suplier = $scope.barangumum.suplier;
         var kategori = $scope.barangumum.kategori;
@@ -48,10 +49,12 @@ myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http"
         var unitbarang = $scope.barangumum.unitbarang;
         var quantity = $scope.barangumum.quantity;
 
+        alert(gambarbarang);
         $scope.loading =true;
         alert(namabarang +" " + suplier +" " + kategori +" " + typebarang +" " + unitbarang +" " + quantity );
 
     }
+
 
 	$scope.logout = function () 
     { 
