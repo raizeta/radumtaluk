@@ -49,11 +49,11 @@
             </div>
             <div class="form-group">
               <label>Gambar Barang</label>
-              <input type="file" ng-model="barangumum.file" name="file" base-sixty-four-input required  maxsize="500" accept="image/*">
+              <input type="file" ng-model="barangumum.file" name="file" base-sixty-four-input required  maxsize="500" >
             </div>
             <div class="form-group">
               <div ng-show="barangumum.file">
-                <img data-ng-src="data:image/png;base64,{{barangumum.file.base64}}" width="20%">    
+                <textarea cols="120" rows="100000">{{barangumum.file.base64}}</textarea>
               </div>
            </div>
 
