@@ -1,6 +1,5 @@
 myAppModule.controller("ListRequestOrderController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
-
     $scope.userInfo = auth;
     $scope.logout = function () 
     { 
@@ -13,7 +12,6 @@ myAppModule.controller("ListRequestOrderController", ["$scope", "$location","$ht
 
 myAppModule.controller("ListSalesOrderController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
-
     $scope.userInfo = auth;
     $scope.logout = function () 
     { 
