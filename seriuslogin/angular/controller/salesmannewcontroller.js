@@ -48,10 +48,7 @@ myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http"
         var typebarang = $scope.barangumum.typebarang;
         var unitbarang = $scope.barangumum.unitbarang;
         var quantity = $scope.barangumum.quantity;
-
-        alert(gambarbarang);
         $scope.loading =true;
-        alert(namabarang +" " + suplier +" " + kategori +" " + typebarang +" " + unitbarang +" " + quantity );
 
     }
 

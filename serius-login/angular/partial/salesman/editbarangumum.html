@@ -1,0 +1,63 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+      <!-- for flashMessage in app.session.flashbag.get('notice') -->
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+          </button>
+          <h4>SALESMAN EDIT BARANG UMUM</h4>
+        </div>
+      <!-- endfor flashMessage -->
+      </div>
+    </div>
+
+    <div class="row">
+
+      <div class="col-md-6">
+        <div class="box box-danger">
+          <div class="box-header">
+            <h3 class="box-title">EDIT BARANG UMUM</h3>
+          </div>
+          <form action="index.html" method="post">
+          <div class="box-body">
+            <div class="form-group">
+              <label>NAMA BARANG UMUM</label>
+                <input type="text" class="form-control" ng-model="ebunmbarang">
+            </div>
+            <div class="form-group">
+              <label>KODE UNIT</label>
+                <input type="text" class="form-control" ng-model="ebukdunit">
+            </div>
+            <div class="form-group">
+              <label>KODE SUPLIER</label>
+                <input type="text" class="form-control" ng-model="ebukdsuplier">
+            </div>
+            <div class="form-group">
+              <label>KODE DISTRIBUTOR</label>
+                <input type="text" class="form-control" ng-model="ebukddistributor">
+            </div>
+            <div class="form-group">
+              <label>KODE PARENT</label>
+                <input type="text" class="form-control" ng-model="ebuparent">
+            </div>
+
+
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer clearfix">
+            <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
+            <button type="submit" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
+          </div>
+        </div>
+      </form>
+        <!-- /.box -->
+      </div>
+      <!-- /.col (left) -->
+    </div>
+  </section><!-- /.content -->
+</div><!-- /.cont -->
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>
