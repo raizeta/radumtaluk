@@ -1,0 +1,71 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+      <!-- for flashMessage in app.session.flashbag.get('notice') -->
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+          </button>
+          <h4>SALESMAN NEW TIPE BARANG</h4>
+        </div>
+      <!-- endfor flashMessage -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box box-danger">
+          <div class="box-header">
+            <h3 class="box-title">CREATE NEW TIPE BARANG</h3>
+          </div>
+          <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+          <div class="box-body">
+            <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                <label>Name*</label>
+                <input type="text" name="name" class="form-control" ng-model="user.name" required>
+                <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
+            </div>
+            
+            <!-- USERNAME -->
+            <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
+                <label>Username</label>
+                <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3">
+                <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
+            </div>
+                
+            <!-- EMAIL -->
+            <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" ng-model="user.email">
+                <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+            </div>
+            <div class="form-group">
+              <label>Status</label>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios1" value="aktif" required>
+                  Aktif
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios2" value="tidak aktif" required>
+                  Tidak Aktif
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+            
+        </form>
+        <!-- /.box -->
+      </div>
+      <!-- /.col (left) -->
+    </div>
+  </section><!-- /.content -->
+  
+</div><!-- /.content-wrapper -->
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

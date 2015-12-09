@@ -1,0 +1,188 @@
+<span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
+<div class="wrapper">
+	<header class="main-header">
+	<!-- Logo -->
+	<a href="#/salesman" class="logo">
+	  <!-- mini logo for sidebar mini 50x50 pixels -->
+	  <span class="logo-mini"><b>L</b>G</span>
+	  <!-- logo for regular state and mobile devices -->
+	  <span class="logo-lg"><b>Lukison</b>Group</span>
+	</a>
+	<!-- Header Navbar: style can be found in header.less -->
+	<nav class="navbar navbar-static-top" role="navigation">
+	  <!-- Sidebar toggle button-->
+	  <a href="javascript:;" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+	    <span class="sr-only">Toggle navigation</span>
+	  </a>
+	  <div class="navbar-custom-menu">
+	    <ul class="nav navbar-nav">
+	      <li class="user user-menu">
+	        <a href="javascipt:;">
+	          <img src="asset/admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+	          <span class="hidden-xs">Admin: {{userInfo.username}}</span>
+	        </a>
+	        <ul class="dropdown-menu">
+	          <li class="user-header">
+	            <img src="asset/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+	            <p>
+	              {{userInfo.username}} - Web Developer
+	              <small>Member since Nov. 2012</small>
+	            </p>
+	          </li>
+	          <!-- Menu Body -->
+	          <li class="user-body">
+	            <div class="col-xs-4 text-center">
+	              <a href="#">Followers</a>
+	            </div>
+	            <div class="col-xs-4 text-center">
+	              <a href="#">Sales</a>
+	            </div>
+	            <div class="col-xs-4 text-center">
+	              <a href="#">Friends</a>
+	            </div>
+	          </li>
+	          <!-- Menu Footer-->
+	          <li class="user-footer">
+	            <div class="pull-left">
+	              <a href="#" class="btn btn-default btn-flat">Profile</a>
+	            </div>
+	            <div class="pull-right">
+	              <a ng-click="logout()" class="btn btn-default btn-flat">Sign out</a>
+	            </div>
+	          </li>
+	        </ul>
+	      </li>
+	    </ul>
+	  </div>
+	</nav>
+	</header>
+	<!-- Left side column. contains the logo and sidebar -->
+	<aside class="main-sidebar">
+	<!-- sidebar: style can be found in sidebar.less -->
+	<section class="sidebar">
+	  <!-- Sidebar user panel -->
+	  <div class="user-panel">
+	    <div class="pull-left image">
+	      <img src="asset/admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+	    </div>
+	    <div class="pull-left info">
+	      <p>{{userInfo.username}}</p>
+	      <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+	    </div>
+	  </div>
+	  <!-- search form -->
+	  <form action="#" method="get" class="sidebar-form">
+	    <div class="input-group">
+	      <input type="text" name="q" class="form-control" placeholder="Search...">
+	      <span class="input-group-btn">
+	        <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+	      </span>
+	    </div>
+	  </form>
+	  <!-- /.search form -->
+	  <!-- sidebar menu: : style can be found in sidebar.less -->
+	  <ul class="sidebar-menu">
+	    <li class="header">PT LUKISON GROUP</li>
+	    <li class="active">
+	      <a href="#/salesman">
+	        <i class="fa fa-th"></i> <span>HOME</span>
+	        <small class="label pull-right bg-green">new</small>
+	      </a>
+	    </li>
+	    <li class="treeview">
+	      <a href="javascript:;">
+	        <i class="fa fa-th"></i>
+	        <span>List Elements</span>
+	        <i class="fa fa-angle-left pull-right"></i>
+	      </a>
+	      <ul class="treeview-menu">
+	        <li><a href="#/salesman/listbarangumum"><i class="fa fa-circle-o"></i>Barang Umum</a></li>
+	        <li><a href="#/salesman/listkategori"><i class="fa fa-circle-o"></i> Kategori</a></li>
+	        <li><a href="#/salesman/listtipebarang"><i class="fa fa-circle-o"></i> Tipe Barang</a></li>
+	        <li><a href="#/salesman/listsuplier"><i class="fa fa-circle-o"></i> Suplier</a></li>
+	      </ul>
+	    </li>
+	    <li class="treeview">
+	      <a href="javascript:;">
+	        <i class="fa fa-th"></i>
+	        <span>New Elements</span>
+	        <i class="fa fa-angle-left pull-right"></i>
+	      </a>
+	      <ul class="treeview-menu">
+	        <li><a href="#/salesman/new/barangumum"><i class="fa fa-circle-o"></i>New Barang Umum</a></li>
+	        <li><a href="#/salesman/new/kategori"><i class="fa fa-circle-o"></i>New Kategori</a></li>
+	        <li><a href="#/salesman/new/tipebarang"><i class="fa fa-circle-o"></i>New Tipe Barang</a></li>
+	        <li><a href="#/salesman/new/suplier"><i class="fa fa-circle-o"></i>New Suplier</a></li>
+	      </ul>
+	    </li>
+	    <li class="treeview">
+	      <a href="javascript:;">
+	        <i class="fa fa-th"></i>
+	        <span>Chart Elements</span>
+	        <i class="fa fa-angle-left pull-right"></i>
+	      </a>
+	      <ul class="treeview-menu">
+	        <li><a href="#/salesman/chart/esm/sales"><i class="fa fa-circle-o"></i>Chart Sales</a></li>
+	        <li><a href="#/salesman/chart/esm/warehouses"><i class="fa fa-circle-o"></i>Chart Warehouses</a></li>
+	        <li><a href="#/salesman/chart/hrm/personalia"><i class="fa fa-circle-o"></i>Chart Personalia</a></li>
+	      </ul>
+	    </li>
+
+	    <li class="treeview">
+	      <a href="javascript:;">
+	        <i class="fa fa-th"></i>
+	        <span>List Order Elements</span>
+	        <i class="fa fa-angle-left pull-right"></i>
+	      </a>
+	      <ul class="treeview-menu">
+	        <li><a href="#/orders/requestorder/list"><i class="fa fa-circle-o"></i>List Request Order</a></li>
+	        <li><a href="#/orders/salesorder/list"><i class="fa fa-circle-o"></i>List Sales Order</a></li>
+	        <li><a href="#/orders/purchaseorder/list"><i class="fa fa-circle-o"></i>List Purchase Order</a></li>
+	      </ul>
+	    </li>
+
+	    <li class="treeview">
+	      <a href="javascript:;">
+	        <i class="fa fa-th"></i>
+	        <span>New Order Elements</span>
+	        <i class="fa fa-angle-left pull-right"></i>
+	      </a>
+	      <ul class="treeview-menu">
+	        <li><a href="#/orders/requestorder/new"><i class="fa fa-circle-o"></i>New Request Order</a></li>
+	        <li><a href="#/orders/salesorder/new"><i class="fa fa-circle-o"></i>New Sales Order</a></li>
+	        <li><a href="#/orders/purchaseorder/new"><i class="fa fa-circle-o"></i>New Purchase Order</a></li>
+	      </ul>
+	    </li>
+
+	    <li>
+	      <a href="#/salesman/chatting">
+	        <i class="fa fa-th"></i> <span>CHATTING</span>
+	        <small class="label pull-right bg-green">new</small>
+	      </a>
+	    </li>
+	    <li>
+	      <a href="#/salesman/faq">
+	        <i class="fa fa-th"></i> <span>FAQ</span>
+	        <small class="label pull-right bg-green">new</small>
+	      </a>
+	    </li>
+	    <li>
+	      <a href="#/salesman/tips">
+	        <i class="fa fa-th"></i> <span>TIPS</span>
+	        <small class="label pull-right bg-green">new</small>
+	      </a>
+	    </li>
+	    <li>
+	      <a href="#/salesman/setting">
+	        <i class="fa fa-th"></i> <span>SETTING</span>
+	        <small class="label pull-right bg-green">new</small>
+	      </a>
+	    </li>
+	  </ul>
+	</section>
+	<!-- /.sidebar -->
+	</aside>
+
+	<!-- Content Wrapper. Contains page content -->
+	
+	

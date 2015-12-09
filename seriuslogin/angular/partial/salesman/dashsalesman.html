@@ -1,0 +1,60 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+      <!-- for flashMessage in app.session.flashbag.get('notice') -->
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+          </button>
+          <h4>SALESMAN HOME</h4>
+        </div>
+      <!-- endfor flashMessage -->
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-dm-4  col-lg-4">
+          <div class="panel panel-info">
+            <div class="panel-heading"><b>DATA PROSESS</b></div>
+            <div class="list-group">
+              <a  class="list-group-item" href="#/salesman/listbarangumum"><span class="badge">0</span>List Barang Umum
+              </a>
+              <a  class="list-group-item" href="#/salesman/listkategori"><span class="badge">0</span>List Kategori
+              </a>
+              <a  class="list-group-item" href="#/salesman/listtipebarang"><span class="badge">0</span>List Tipe Barang
+              </a>
+              <a  class="list-group-item" href="#/salesman/listsuplier"><span class="badge">0</span>List Suplier
+              </a>
+              <a  class="list-group-item" href="#/salesman/listbarangunit"><span class="badge">0</span>List Barang Unit
+              </a>
+            </div>
+          </div>      
+        </div>
+        <div class="col-xs-12 col-sm-6 col-dm-4  col-lg-4">
+          <div class="panel panel-info">
+              <div class="panel-heading"><b>WIDGET</b></div>
+              <div class="list-group"><a ng-click="spin()" class="list-group-item" href="#/salesman/chart/esm/sales"><span class="badge">0</span>Chart ESM Sales</a>
+                <a ng-click="spin()" class="list-group-item" href="#/salesman/chart/esm/warehouses"><span class="badge">0</span>Chart ESM Warehouse</a>
+                <a ng-click="spin()" class="list-group-item" href="#/salesman/chart/hrm/personalia"><span class="badge">0</span>Chart HRM Personalia</a>
+                <a ng-click="spin()" class="list-group-item" href="#/salesman/profile"><span class="badge">0</span>Profile</a>
+              </div>
+          </div>      
+        </div>
+        <div class="col-xs-12 col-sm-6 col-dm-4  col-lg-4">
+          <div class="panel panel-info">
+            <div class="panel-heading"><b>REPORTING</b></div>
+            <div class="list-group"><a class="list-group-item" href="#/salesman/new/barangumum"><span class="badge">0</span>New Barang Umum</a>
+              <a class="list-group-item" href="#/salesman/new/kategori"><span class="badge">0</span>New Kategori</a>
+              <a class="list-group-item" href="#/salesman/new/suplier"><span class="badge">0</span>New Suplier</a>
+              <a class="list-group-item" href="#/salesman/new/tipebarang"><span class="badge">0</span>New Tipe Barang</a>
+            </div>
+          </div>        
+        </div>
+    </div>
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>
+ 

@@ -1,0 +1,66 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+      <!-- for flashMessage in app.session.flashbag.get('notice') -->
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+          </button>
+          <h4>SALESMAN LIST BARANG UNIT</h4>
+        </div>
+      <!-- endfor flashMessage -->
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-danger">
+          <div class="panel-heading">List Barang Unit</div>
+          <div class="panel-body table-responsive">
+             <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>KD UNIT</th>
+                  <th>NM UNIT</th>
+                  <th>QUANTITY</th>
+                  <th>WEIGHT</th>
+                  <th>COLOR</th>
+                  <th>NOTE</th>
+                  <th>STATUS</th>
+                  <th>DETAIL</th>
+                  <th>EDIT</th>
+                  <th>DELETE</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="unitbarang in unitbarangs">
+                  <td>{{unitbarang.ID}}</td>
+                  <td>{{unitbarang.KD_UNIT}}</td>
+                  <td>{{unitbarang.NM_UNIT}}</td>
+                  <td>{{unitbarang.QTY}}</td>
+                  <td>{{unitbarang.WEIGHT}}</td>
+                  <td>{{unitbarang.COLOR}}</td>
+                  <td>{{unitbarang.NOTE}}</td>
+                  <td>{{unitbarang.STATUS}}</td>
+                  <td><a href="#/salesman/edit/barangunit/{{unitbarang.ID}}">
+                    <i class="fa fa-eye fa-2x"></i></a>
+                  </td>
+                  <td><a href="#/salesman/edit/barangunit/{{unitbarang.ID}}">
+                    <i class="fa fa-refresh fa-2x"></i></a>
+                  </td>
+                  <td><a href=""><i class="fa fa-trash-o fa-2x"></i></a></td>
+                </tr>
+              </tbody>
+             </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- /.content -->
+  
+</div><!-- /.content-wrapper -->
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>
