@@ -16,9 +16,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     {
                     	$location.path('/salesman');
                     }
-
                 } 
-
             }
         }
 	});	
