@@ -4,7 +4,7 @@ myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http
     $scope.loading = true ;
     $scope.userInfo = auth;
     $scope.idbarangumum = $routeParams.idbarangumum;
-    $http.get('http://api.lukisongroup.com/master/barangumums/'+ $scope.idbarangumum + '?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    $http.get('http://api.lukisongroup.com/master/barangumums/'+ $scope.idbarangumum + '?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&expand=type,kategori,unit')
     .success(function(data,status, headers, config) 
     {
         $scope.ebuid = data.ID ;
@@ -35,6 +35,25 @@ myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http
     finally(function()
     {
         $scope.loading = false ;
+    });
+
+    $http.get('http://api.lukisongroup.com/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    .success(function(data,status, headers, config) 
+    {
+        $scope.categories = data.Kategori ;
+
+    });
+
+    $http.get('http://api.lukisongroup.com/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    .success(function(data,status, headers, config) 
+    {
+        $scope.typebarangs = data.Tipebarang ;
+    });
+
+    $http.get('http://api.lukisongroup.com/master/supliers?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    .success(function(data,status, headers, config) 
+    {
+        $scope.supliers = data.Suplier ;
     });
     
     $scope.logout = function () 

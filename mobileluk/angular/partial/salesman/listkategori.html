@@ -23,9 +23,10 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>KD KATEGORI</th>
+                  <!-- <th>KD KATEGORI</th> -->
                   <th>NM KATEGORI</th>
                   <th>NOTE</th>
+                  <th>STATUS</th>
                   <th>DETAIL</th>
                   <th>EDIT</th>
                   <th>DELETE</th>
@@ -35,9 +36,11 @@
               <tbody>
                 <tr ng-repeat="category in categories">
                   <td>{{category.ID}}</td>
-                  <td>{{category.KD_KATEGORI}}</td>
-                  <td>{{category.NM_KATEGORI}}</td>
+                  <!-- <td>{{category.KD_KATEGORI}}</td> -->
+                  <td><a href="">{{category.NM_KATEGORI}}</a></td>
                   <td>{{category.NOTE}}</td>
+                  <td ng-if='category.STATUS === 1' >AKTIF </td>
+                  <td ng-if='category.STATUS === 0' >TIDAK AKTIF </td>
                   <td><a href="#/salesman/edit/kategori/{{category.ID}}">
                     <i class="fa fa-eye fa-2x"></i></a>
                   </td>

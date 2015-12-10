@@ -4,7 +4,7 @@ myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http
     
     $scope.loading  = true;
     $scope.userInfo = auth;
-    $http.get('http://api.lukisongroup.com/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
+    $http.get('http://api.lukisongroup.com/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&expand=type,kategori,unit')
     .success(function(data,status, headers, config) 
     {
         $scope.barangumums = data.BarangUmum ;

@@ -23,7 +23,7 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>KD TYPE</th>
+                  <!-- <th>KD TYPE</th> -->
                   <th>NM TYPE</th>
                   <th>NOTE</th>
                   <th>STATUS</th>
@@ -36,10 +36,11 @@
               <tbody>
                 <tr ng-repeat="typebarang in typebarangs">
                   <td>{{typebarang.ID}}</td>
-                  <td>{{typebarang.KD_TYPE}}</td>
+                  <!-- <td>{{typebarang.KD_TYPE}}</td> -->
                   <td>{{typebarang.NM_TYPE}}</td>
                   <td>{{typebarang.NOTE}}</td>
-                  <td>{{typebarang.STATUS}}</td>
+                  <td ng-if='typebarang.STATUS === 1'>AKTIF</td>
+                  <td ng-if='typebarang.STATUS === 0'>TIDAK AKTIF</td>
                   <td><a href="#/salesman/edit/tipebarang/{{typebarang.ID}}">
                     <i class="fa fa-eye fa-2x"></i></a>
                   </td>

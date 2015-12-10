@@ -23,12 +23,8 @@
           <form action="index.html" method="post">
           <div class="box-body">
             <div class="form-group">
-              <label>ID KATEGORI</label>
-                <input type="text" class="form-control" ng-model="ekid">
-            </div>
-            <div class="form-group">
               <label>KODE KATEGORI</label>
-                <input type="text" class="form-control" ng-model="ekkdkategori">
+                <input type="text" class="form-control" ng-model="ekkdkategori" disabled>
             </div>
             <div class="form-group">
               <label>NAMA KATEGORI</label>
@@ -36,15 +32,22 @@
             </div>
             <div class="form-group">
               <label>NOTE</label>
-                <input type="text" class="form-control" ng-model="eknote">
+                <textarea class="form-control" ng-model="eknote"></textarea>
             </div>
+
             <div class="form-group">
-              <label>STATUS</label>
-                <input type="text" class="form-control" ng-model="ekstatus">
-            </div>
-            <div class="form-group">
-              <label>CORP ID</label>
-                <input type="text" class="form-control" ng-model="ekacorpid">
+              <label>Status</label>
+              <div class="radio" >
+                <label>
+                  <input type="radio" class="flat-red" ng-model="ekstatus"  value="1">
+                  Aktif
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" class="flat-red" ng-model="ekstatus"  value="0">Tidak Aktif
+                </label>
+              </div> 
             </div>
           </div>
           <!-- /.box-body -->
