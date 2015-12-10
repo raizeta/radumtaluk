@@ -64,4 +64,25 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
+
+    $routeProvider.when('/salesman/chart/hrm/employeturnover',
+    {
+        templateUrl : 'angular/partial/salesman/charthrmturnover.html',
+        controller  : 'ChartHrmEmployeTurnOverController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
 }]);

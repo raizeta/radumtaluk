@@ -10,10 +10,17 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             auth: function ($q, authService,$location) 
             {
                 var userInfo = authService.getUserInfo();
-                if (userInfo.rulename === 'SALESMAN') 
+                if(userInfo)
                 {
-                    return $q.when(userInfo);
-                } 
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
                 else 
                 {
                     $location.path('/');
@@ -21,5 +28,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
 	});
+    $routeProvider.otherwise({redirectTo:'/error/404'});
 
 }]);

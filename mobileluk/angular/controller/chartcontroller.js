@@ -74,3 +74,35 @@ myAppModule.controller("ChartHrmController", ["$scope", "$location","$http", "au
     }
 }]);
 
+
+myAppModule.controller("ChartHrmEmployeTurnOverController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+{
+    $scope.userInfo = auth;
+    var jsonDatapersonalias = $.ajax
+    ({
+          url: "http://api.lukisongroup.com/chart/hrm-personalias",
+          type: "GET",
+          dataType:"json",
+          async: false,
+    }).responseText;
+
+    var myData1= jsonDatapersonalias;
+
+     $scope.support_attrs=JSON.parse(myData1)['support_attrs'];
+     $scope.support_catg=JSON.parse(myData1)['support_catg'];
+     $scope.support_dataset=JSON.parse(myData1)['support_dataset'];
+     
+     $scope.bisnis_attrs=JSON.parse(myData1)['bisnis_attrs'];
+     $scope.bisnis_catg=JSON.parse(myData1)['bisnis_catg'];
+     $scope.bisnis_dataset=JSON.parse(myData1)['bisnis_dataset'];
+
+     $scope.Employe_Summary = JSON.parse(myData1)['Employe_Summary']; 
+
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+}]);
+

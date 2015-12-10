@@ -29,7 +29,7 @@ myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http
 
     .error(function (data, status, header, config) 
     {
-            
+           $location.path('/error/404');
     }).
 
     finally(function()
