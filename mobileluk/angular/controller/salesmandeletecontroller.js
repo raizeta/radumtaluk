@@ -1,14 +1,11 @@
 'use strict';
 myAppModule.controller("DeleteBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
 {
-    $scope.loading = true ;
+    // $scope.loading = true ;
     $scope.userInfo = auth;
     $scope.idbarangumum = $routeParams.idbarangumum;
-    if(confirm("Apakah Anda Yakin Menghapus Barang Umum Dengan Id:" + $scope.idbarangumum))
-    {
-        location.path('#/salesman');
-    }
-
+    
+    alert($scope.idbarangumum);
     
     $scope.logout = function () 
     {
