@@ -19,7 +19,7 @@
             <div class="form-group">
               <label>Kode Supplier</label>
               <select class="form-control select2" style="width: 100%;" ng-model="barangumum.suplier"required>
-                <option selected="selected" value="">--Pilih Suplier--</option>
+                <option value="" disabled selected>--Pilih Suplier--</option>
                 <option ng-repeat="suplier in supliers" value="{{suplier.ID}}">{{suplier.NM_SUPPLIER}}</option>
               </select>
             </div>
@@ -27,7 +27,7 @@
             <div class="form-group">
               <label>Kode Kategori</label>
               <select class="form-control select2" style="width: 100%;" ng-model="barangumum.kategori"required>
-                <option selected="selected" value="">--Pilih Kategori--</option>
+                <option disabled selected value="">--Pilih Kategori--</option>
                 <option ng-repeat="category in categories" value="{{category.ID}}">{{category.NM_KATEGORI}}</option>
               </select>
             </div>
@@ -35,7 +35,7 @@
             <div class="form-group">
               <label>Type Barang</label>
               <select class="form-control select2" style="width: 100%;" ng-model="barangumum.typebarang"required>
-                <option selected="selected" value="">--Pilih Type--</option>
+                <option disabled selected value="">--Pilih Type--</option>
                 <option ng-repeat="typebarang in typebarangs" value="{{typebarang.ID}}">{{typebarang.NM_TYPE}}</option>
               </select>
             </div>
@@ -43,7 +43,7 @@
             <div class="form-group">
               <label>Barang Unit</label>
               <select class="form-control select2" style="width: 100%;" ng-model="barangumum.unitbarang" required >
-                <option selected="selected" value="">--Pilih Unit Barang--</option>
+                <option disabled selected value="">--Pilih Unit Barang--</option>
                 <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.ID}}">{{unitbarang.NM_UNIT}}</option>
               </select>
             </div>

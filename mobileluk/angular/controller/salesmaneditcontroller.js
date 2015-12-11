@@ -10,9 +10,9 @@ myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http
         $scope.ebuid = data.ID ;
         $scope.ebukdbarang = data.KD_BARANG ;
         $scope.ebunmbarang = data.NM_BARANG ;
-        $scope.ebutypebarang = data.KD_TYPE ;
+        $scope.ebukdkategori = data.kategori.ID;
+        $scope.ebutypebarang = data.type.ID ;
         $scope.ebukdunit = data.KD_UNIT ;
-        $scope.ebukdsuplier = data.KD_SUPPLIER ;
         $scope.ebukddistributor = data.KD_DISTRIBUTOR ;
         $scope.ebuparent = data.PARENT ;
         $scope.ebuhpp = data.HPP ;

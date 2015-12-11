@@ -21,7 +21,7 @@
           <div class="box-header">
             <h3 class="box-title">EDIT BARANG UMUM</h3>
           </div>
-          <form action="index.html" method="post">
+          <form action="" method="post">
           <div class="box-body">
             <div class="form-group">
               <label>KODE BARANG UMUM</label>
@@ -32,32 +32,18 @@
                 <input type="text" class="form-control" ng-model="ebunmbarang">
             </div>
             <div class="form-group">
-              <label>Kode Kategori</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.kategori"required>
-                <option  value="">--Pilih Kategori--</option>
-                <option ng-repeat="category in categories" value="{{category.ID}}">
-                  {{category.NM_KATEGORI}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group">
               <label>Type Barang</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.tipebarang" required>
-                <option  value="">--Pilih Tipe Barang--</option>
-                <option ng-repeat="typebarang in typebarangs" value="{{typebarang.ID}}">
-                  {{typebarang.NM_TYPE}}
-                </option>
+              <select class="form-control" ng-options="tipebarang.ID as tipebarang.NM_TYPE for tipebarang in typebarangs" ng-model="ebutypebarang" required>
+                <option value="" selected disabled>--Pilih Type Barang--</option>
               </select>
             </div>
             <div class="form-group">
-              <label>Kode Supplier</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.suplier"required>
-                <option value="">--Pilih Suplier--</option>
-                <option ng-repeat="suplier in supliers" value="{{suplier.ID}}">
-                  {{suplier.NM_SUPPLIER}}
-                </option>
+              <label>Kode Kategori</label>
+              <select class="form-control" ng-options="category.ID as category.NM_KATEGORI for category in categories" ng-model="ebukdkategori" required>
+                <option value="" selected disabled>--Pilih Kategori--</option>
               </select>
             </div>
+
             <div class="form-group">
               <label>Status</label>
               <div class="radio" >

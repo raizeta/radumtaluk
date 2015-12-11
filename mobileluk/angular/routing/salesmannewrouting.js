@@ -86,7 +86,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     $routeProvider.when('/salesman/new/barangunit',
     {
         templateUrl : 'angular/partial/salesman/newbarangunit.html',
-        controller  : 'NewTipeBarangController',
+        controller  : 'NewBarangUnitController',
         resolve: 
         {
             auth: function ($q, authService,$location) 

@@ -4,26 +4,20 @@
     <section class="content">
       <div class="row">
         <div class="col-md-12">
-        <!-- for flashMessage in app.session.flashbag.get('notice') -->
-          <div class="alert alert-success alert-dismissable">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
-            </button>
-            <h4>SALESMAN LIST BARANG UMUM</h4>
-          </div>
-        <!-- endfor flashMessage -->
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-12">
           <div class="panel panel-danger">
-            <div class="panel-heading">List Barang Umum  <a href="#/salesman/new/barangumum"class="">New Barang Umum</a></div>
+            <div class="panel-heading">
+                List Barang Umum  
+            </div>
+            <div class="panel-body">
+                <a class="btn btn-warning" href="#/salesman/new/barangumum">
+                    New Barang Umum <i class="fa fa-plus"></i>
+                </a>
+            </div>
             <div class="panel-body table-responsive">
                <table class="table table-hovered table-striped table-bordered">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>KD BRG</th>
                     <th>NM BRG</th>
                     <th>NAMA TYPE</th>
                     <th>NAMA KATEGORI</th>
@@ -51,7 +45,6 @@
                 <tbody>
                   <tr ng-repeat="barangumum in barangumums">
                     <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">{{barangumum.ID}}</a></td>
-                    <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">{{barangumum.KD_BARANG}}</a></td>
                     <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">{{barangumum.NM_BARANG}}</a></td>
                     <td><a href="">{{barangumum.type.NM_TYPE}}</a></td>
                     <td><a href="">{{barangumum.kategori.NM_KATEGORI}}</a></td>

@@ -32,15 +32,21 @@
             </div>
             <div class="form-group">
               <label>NOTE</label>
-                <input type="text" class="form-control" ng-model="etbnote">
+                <textarea class="form-control" ng-model="etbnote"></textarea>
             </div>
             <div class="form-group">
-              <label>STATUS</label>
-                <input type="text" class="form-control" ng-model="etbstatus">
-            </div>
-            <div class="form-group">
-              <label>CORP ID</label>
-                <input type="text" class="form-control" ng-model="etbcorpid">
+              <label>Status</label>
+              <div class="radio" >
+                <label>
+                  <input type="radio"  ng-model="etbstatus"  value="1">
+                  Aktif
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio"  ng-model="etbstatus"  value="0">Tidak Aktif
+                </label>
+              </div>
             </div>
           </div>
           <!-- /.box-body -->
