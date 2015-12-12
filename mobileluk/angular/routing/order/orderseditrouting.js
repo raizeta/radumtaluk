@@ -3,7 +3,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
 	$routeProvider.when('/orders/requestorder/edit/:idrequestorder',
 	{
-		templateUrl	: 'angular/partial/orders/requestorder/editrequestorder.html',
+		templateUrl	: 'angular/partial/erp/order/requestorder/editrequestorder.html',
 		controller 	: 'EditRequestOrderController',
 		resolve: 
 		{
@@ -23,7 +23,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 	});
     $routeProvider.when('/orders/salesorder/edit/:idsalesorder',
     {
-        templateUrl : 'angular/partial/orders/salesorder/editsalesorder.html',
+        templateUrl : 'angular/partial/erp/order/salesorder/editsalesorder.html',
         controller  : 'EditSalesOrderController',
         resolve: 
         {
@@ -43,7 +43,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/orders/purchaseorder/edit/:idpurchaseorder',
     {
-        templateUrl : 'angular/partial/orders/purchaseorder/editpurchaseorder.html',
+        templateUrl : 'angular/partial/erp/order/purchaseorder/editpurchaseorder.html',
         controller  : 'EditPurchaseOrderController',
         resolve: 
         {

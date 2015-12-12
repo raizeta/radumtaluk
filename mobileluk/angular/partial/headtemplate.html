@@ -1,7 +1,7 @@
 <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
   <header class="main-header">
   <!-- Logo -->
-  <a href="#/salesman" class="logo">
+  <a href="#/erp" class="logo">
     <!-- mini logo for sidebar mini 50x50 pixels -->
     <span class="logo-mini"><b>L</b>G</span>
     <!-- logo for regular state and mobile devices -->
@@ -83,7 +83,7 @@
     <ul class="sidebar-menu">
       <li class="header">PT LUKISON GROUP</li>
       <li class="active">
-        <a href="#/salesman">
+        <a href="#/erp">
           <i class="fa fa-th"></i> <span>HOME</span>
           <small class="label pull-right bg-green">new</small>
         </a>
@@ -94,37 +94,57 @@
           <span>Product Master</span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="#/salesman/listbarangumum"><i class="fa fa-circle-o"></i>Barang Umum</a></li>
-          <li><a href="#/salesman/listkategori"><i class="fa fa-circle-o"></i> Kategori</a></li>
-          <li><a href="#/salesman/listtipebarang"><i class="fa fa-circle-o"></i> Tipe Barang</a></li>
-          <li><a href="#/salesman/listsuplier"><i class="fa fa-circle-o"></i> Suplier</a></li>
-          <li><a href="#/salesman/listbarangunit"><i class="fa fa-circle-o"></i>List Barang Unit</a></li>
-          
+          <li><a href="#/erp/masterbarang/list/barangumum">
+            <i class="fa fa-circle-o"></i>Barang Umum</a>
+          </li>
+          <li><a href="#/erp/masterbarang/list/kategori">
+            <i class="fa fa-circle-o"></i> Kategori</a>
+          </li>
+          <li><a href="#/erp/masterbarang/list/tipebarang">
+            <i class="fa fa-circle-o"></i> Tipe Barang</a>
+          </li>
+          <li><a href="#/erp/masterbarang/list/suplier">
+            <i class="fa fa-circle-o"></i> Suplier</a></li>
+          <li><a href="#/erp/masterbarang/list/barangunit">
+            <i class="fa fa-circle-o"></i>List Barang Unit</a>
+          </li>
         </ul>
       </li>
-
-      <li class="active treeview">
-        <a href="javascript:;">
-          <i class="fa fa-th"></i>
-          <span>List Order Elements</span>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="#/orders/requestorder/list"><i class="fa fa-circle-o"></i>List Request Order</a></li>
-          <li><a href="#/orders/salesorder/list"><i class="fa fa-circle-o"></i>List Sales Order</a></li>
-          <li><a href="#/orders/purchaseorder/list"><i class="fa fa-circle-o"></i>List Purchase Order</a></li>
-        </ul>
-      </li>
-
       <li class="active treeview">
         <a href="javascript:;">
           <i class="fa fa-th"></i>
           <span>Chart Elements</span>
         </a>
         <ul class="treeview-menu">
-          <li><a href="#/salesman/chart/esm/sales"><i class="fa fa-circle-o"></i>Chart Sales</a></li>
-          <li><a href="#/salesman/chart/esm/warehouses"><i class="fa fa-circle-o"></i>Chart Warehouses</a></li>
-          <li><a href="#/salesman/chart/hrm/personalia"><i class="fa fa-circle-o"></i>Chart Personalia</a></li>
-          <li><a href="#/salesman/chart/hrm/employeturnover"><i class="fa fa-circle-o"></i>Chart Turn Over</a></li>
+          <li><a href="#/erp/chart/esm/sales">
+            <i class="fa fa-circle-o"></i>Chart Sales</a>
+          </li>
+          <li><a href="#/erp/chart/esm/warehouses">
+            <i class="fa fa-circle-o"></i>Chart Warehouses</a>
+          </li>
+          <li><a href="#/erp/chart/hrm/personalia">
+            <i class="fa fa-circle-o"></i>Chart Personalia</a>
+          </li>
+          <li><a href="#/erp/chart/hrm/employeturnover">
+            <i class="fa fa-circle-o"></i>Chart Turn Over</a>
+          </li>
+        </ul>
+      </li>
+      <li class="active treeview">
+        <a href="javascript:;">
+          <i class="fa fa-th"></i>
+          <span>List Order Elements</span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="#/erp/order/list/requestorder">
+            <i class="fa fa-circle-o"></i>List Request Order</a>
+          </li>
+          <li><a href="#/erp/order/list/salesorder">
+            <i class="fa fa-circle-o"></i>List Sales Order</a>
+          </li>
+          <li><a href="#/erp/order/list/purchaseorder">
+            <i class="fa fa-circle-o"></i>List Purchase Order</a>
+          </li>
         </ul>
       </li>
     </ul>

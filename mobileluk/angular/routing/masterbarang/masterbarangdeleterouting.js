@@ -1,11 +1,30 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-
-    $routeProvider.when('/salesman/listbarangumum',
+	$routeProvider.when('/salesman/delete/barangumum/:idbarangumum',
+	{
+		templateUrl	: 'angular/partial/erp/masterbarang/listbarangumum.html',
+		controller 	: 'DeleteBarangUmumController',
+		resolve: 
+		{
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+	});
+    $routeProvider.when('/salesman/delete/kategori/:idkategori',
     {
-        templateUrl : 'angular/partial/salesman/listbarangumum.html',
-        controller  : 'ListBarangUmumController',
+        templateUrl : 'angular/partial/erp/masterbarang/editkategori.html',
+        controller  : 'DeleteKategoriController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -22,52 +41,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/salesman/listkategori',
+    $routeProvider.when('/salesman/delete/suplier/:idsuplier',
     {
-        templateUrl : 'angular/partial/salesman/listkategori.html',
-        controller  : 'ListKategoriController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
-
-    $routeProvider.when('/salesman/listsuplier',
-    {
-        templateUrl : 'angular/partial/salesman/listsuplier.html',
-        controller  : 'ListSuplierController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
-
-    $routeProvider.when('/salesman/listtipebarang',
-    {
-        templateUrl : 'angular/partial/salesman/listtipebarang.html',
-        controller  : 'ListTipeBarangController',
+        templateUrl : 'angular/partial/erp/masterbarang/editsuplier.html',
+        controller  : 'DeleteSuplierController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -85,10 +62,31 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
-    $routeProvider.when('/salesman/listbarangunit',
+    $routeProvider.when('/salesman/delete/tipebarang/:idtipebarang',
     {
-        templateUrl : 'angular/partial/salesman/listbarangunit.html',
-        controller  : 'ListBarangUnitController',
+        templateUrl : 'angular/partial/erp/masterbarang/edittipebarang.html',
+        controller  : 'DeleteTipeBarangController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/salesman/delete/barangunit/:idbarangunit',
+    {
+        templateUrl : 'angular/partial/erp/masterbarang/editbarangunit.html',
+        controller  : 'DeleteBarangUnitController',
         resolve: 
         {
             auth: function ($q, authService,$location) 

@@ -1,5 +1,4 @@
 <div ng-include="'angular/partial/headtemplate.html'"></div>
-
 <div class="content-wrapper">
     <section class="content">
       <div class="row">
@@ -9,7 +8,7 @@
                 List Barang Umum  
             </div>
             <div class="panel-body">
-                <a class="btn btn-warning" href="#/salesman/new/barangumum">
+                <a class="btn btn-warning" href="#/erp/masterbarang/new/barangumum">
                     New Barang Umum <i class="fa fa-plus"></i>
                 </a>
             </div>
@@ -44,8 +43,8 @@
                 </thead>
                 <tbody>
                   <tr ng-repeat="barangumum in barangumums">
-                    <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">{{barangumum.ID}}</a></td>
-                    <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">{{barangumum.NM_BARANG}}</a></td>
+                    <td><a href="#/erp/masterbarang/detail/barangumum/{{barangumum.ID}}">{{barangumum.ID}}</a></td>
+                    <td><a href="#/erp/masterbarang/detail/barangumum/{{barangumum.ID}}">{{barangumum.NM_BARANG}}</a></td>
                     <td><a href="">{{barangumum.type.NM_TYPE}}</a></td>
                     <td><a href="">{{barangumum.kategori.NM_KATEGORI}}</a></td>
                     <td>{{barangumum.unit.NM_UNIT}}</td>
@@ -65,10 +64,10 @@
                     <td ng-if='barangumum.STATUS === 1' >AKTIF </td>
                     <td ng-if='barangumum.STATUS === 0' >TIDAK AKTIF </td>
                     
-                    <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">
+                    <td><a href="#/erp/masterbarang/detail/barangumum/{{barangumum.ID}}">
                       <i class="fa fa-eye fa-2x"></i></a>
                     </td>
-                    <td><a href="#salesman/edit/barangumum/{{barangumum.ID}}">
+                    <td><a href="#/erp/masterbarang/edit/barangumum/{{barangumum.ID}}">
                       <i class="fa fa-refresh fa-2x"></i></a>
                     </td>
                     <td>

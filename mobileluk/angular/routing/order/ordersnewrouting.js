@@ -1,10 +1,10 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-	$routeProvider.when('/orders/requestorder/list',
+	$routeProvider.when('/orders/requestorder/new',
 	{
-		templateUrl	: 'angular/partial/orders/requestorder/listrequestorder.html',
-		controller 	: 'ListRequestOrderController',
+		templateUrl	: 'angular/partial/erp/order/requestorder/newrequestorder.html',
+		controller 	: 'NewRequestOrderController',
 		resolve: 
 		{
             auth: function ($q, authService,$location) 
@@ -21,10 +21,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
 	});
-    $routeProvider.when('/orders/salesorder/list',
+    $routeProvider.when('/orders/salesorder/new',
     {
-        templateUrl : 'angular/partial/orders/salesorder/listsalesorder.html',
-        controller  : 'ListSalesOrderController',
+        templateUrl : 'angular/partial/erp/order/salesorder/newsalesorder.html',
+        controller  : 'NewSalesOrderController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -41,10 +41,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/orders/purchaseorder/list',
+    $routeProvider.when('/orders/purchaseorder/new',
     {
-        templateUrl : 'angular/partial/orders/purchaseorder/listpurchaseorder.html',
-        controller  : 'ListPurchaseOrderController',
+        templateUrl : 'angular/partial/erp/order/purchaseorder/newpurchaseorder.html',
+        controller  : 'NewPurchaseOrderController',
         resolve: 
         {
             auth: function ($q, authService,$location) 

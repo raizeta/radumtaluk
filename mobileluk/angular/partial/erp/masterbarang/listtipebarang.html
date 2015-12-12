@@ -7,7 +7,7 @@
         <div class="panel panel-danger">
           <div class="panel-heading">List Tipe Barang</div>
           <div class="panel-body">
-            <a class="btn btn-warning" href="#/salesman/new/tipebarang">
+            <a class="btn btn-warning" href="#/erp/masterbarang/new/tipebarang">
                 <i class="fa fa-plus"></i> Add Tipe Barang 
             </a>
           </div>
@@ -34,10 +34,10 @@
                   <td>{{typebarang.NOTE}}</td>
                   <td ng-if='typebarang.STATUS === 1'>AKTIF</td>
                   <td ng-if='typebarang.STATUS === 0'>TIDAK AKTIF</td>
-                  <td><a href="#/salesman/edit/tipebarang/{{typebarang.ID}}">
+                  <td><a href="#/erp/masterbarang/detail/tipebarang/{{typebarang.ID}}">
                     <i class="fa fa-eye fa-2x"></i></a>
                   </td>
-                  <td><a href="#/salesman/edit/tipebarang/{{typebarang.ID}}">
+                  <td><a href="#/erp/masterbarang/edit/tipebarang/{{typebarang.ID}}">
                     <i class="fa fa-refresh fa-2x"></i></a>
                   </td>
                   <td><a href="" ng-click="deletetipebarang(typebarang)"><i class="fa fa-trash-o fa-2x"></i></a></td>

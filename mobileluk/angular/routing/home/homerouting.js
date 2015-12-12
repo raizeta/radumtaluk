@@ -1,10 +1,10 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-	$routeProvider.when('/salesman',
+	$routeProvider.when('/erp',
 	{
-		templateUrl	: 'angular/partial/salesman/dashsalesman.html',
-		controller 	: 'SalesmanController',
+		templateUrl	: 'angular/partial/erp/home/home.html',
+		controller 	: 'HomeController',
 		resolve: 
 		{
             auth: function ($q, authService,$location) 

@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.controller("SalesmanController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("HomeController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
 
     $scope.userInfo = auth;

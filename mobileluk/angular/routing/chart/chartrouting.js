@@ -1,71 +1,11 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-	$routeProvider.when('/salesman/delete/barangumum/:idbarangumum',
-	{
-		templateUrl	: 'angular/partial/salesman/listbarangumum.html',
-		controller 	: 'DeleteBarangUmumController',
-		resolve: 
-		{
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-	});
-    $routeProvider.when('/salesman/delete/kategori/:idkategori',
-    {
-        templateUrl : 'angular/partial/salesman/editkategori.html',
-        controller  : 'DeleteKategoriController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
-    $routeProvider.when('/salesman/delete/suplier/:idsuplier',
-    {
-        templateUrl : 'angular/partial/salesman/editsuplier.html',
-        controller  : 'DeleteSuplierController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
 
-    $routeProvider.when('/salesman/delete/tipebarang/:idtipebarang',
+    $routeProvider.when('/erp/chart/esm/sales',
     {
-        templateUrl : 'angular/partial/salesman/edittipebarang.html',
-        controller  : 'DeleteTipeBarangController',
+        templateUrl : 'angular/partial/erp/chart/chartesmsales.html',
+        controller  : 'ChartEsmController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -82,27 +22,67 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-
-    $routeProvider.when('/salesman/delete/barangunit/:idbarangunit',
-    {
-        templateUrl : 'angular/partial/salesman/editbarangunit.html',
-        controller  : 'DeleteBarangUnitController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if (userInfo) 
-                {
-                    return $q.when(userInfo);
-                } 
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
-
     
+    $routeProvider.when('/erp/chart/esm/warehouses',
+    {
+        templateUrl : 'angular/partial/erp/chart/chartesmwarehouses.html',
+        controller  : 'ChartWarehousesController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/erp/chart/hrm/personalia',
+    {
+        templateUrl : 'angular/partial/erp/chart/charthrmpersonalia.html',
+        controller  : 'ChartHrmController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/erp/chart/hrm/employeturnover',
+    {
+        templateUrl : 'angular/partial/erp/chart/charthrmturnover.html',
+        controller  : 'ChartHrmEmployeTurnOverController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
 }]);

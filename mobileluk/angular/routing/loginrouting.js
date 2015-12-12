@@ -14,7 +14,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     if(userInfo.rulename === 'SALESMAN')
                     {
-                    	$location.path('/salesman');
+                    	$location.path('/erp');
                     }
 
                 } 

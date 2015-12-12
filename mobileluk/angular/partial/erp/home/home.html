@@ -1,0 +1,63 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+      <!-- for flashMessage in app.session.flashbag.get('notice') -->
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+          </button>
+          <h4>SALESMAN HOME</h4>
+        </div>
+      <!-- endfor flashMessage -->
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-dm-4  col-lg-4">
+          <div class="panel panel-info">
+            <div class="panel-heading"><b>MASTER BARANG</b></div>
+            <div class="list-group">
+              <a  class="list-group-item" href="#/erp/masterbarang/list/barangumum">
+                <span class="badge">0</span>List Barang Umum
+              </a>
+              <a  class="list-group-item" href="#/erp/masterbarang/list/kategori">
+                <span class="badge">0</span>List Kategori
+              </a>
+              <a  class="list-group-item" href="#/erp/masterbarang/list/tipebarang">
+                <span class="badge">0</span>List Tipe Barang
+              </a>
+              <a  class="list-group-item" href="#/erp/masterbarang/list/suplier">
+                <span class="badge">0</span>List Suplier
+              </a>
+              <a  class="list-group-item" href="#/erp/masterbarang/list/barangunit">
+                <span class="badge">0</span>List Barang Unit
+              </a>
+
+            </div>
+          </div>      
+        </div>
+        <div class="col-xs-12 col-sm-6 col-dm-4  col-lg-4">
+          <div class="panel panel-info">
+              <div class="panel-heading"><b>WIDGET</b></div>
+              <div class="list-group">
+                <a class="list-group-item" href="#/erp/chart/esm/sales"><span class="badge">0</span>Chart ESM Sales</a>
+                <a class="list-group-item" href="#/erp/chart/esm/warehouses"><span class="badge">0</span>Chart ESM Warehouse</a>
+                <a class="list-group-item" href="#/erp/chart/hrm/personalia"><span class="badge">0</span>Chart HRM Personalia</a>
+              </div>
+          </div>      
+        </div>
+        <div class="col-xs-12 col-sm-6 col-dm-4  col-lg-4">
+          <div class="panel panel-info">
+            <div class="panel-heading"><b>List Order</b></div>
+            <div class="list-group"><a class="list-group-item" href="#/erp/order/requestorder/list"><span class="badge">0</span>List Request Order</a>
+              <a class="list-group-item" href="#/erp/order/salesorder/list"><span class="badge">0</span>List Salest Order</a>
+              <a class="list-group-item" href="#/erp/order/purchaseorder/list"><span class="badge">0</span>List Purchase Order</a>
+            </div>
+          </div>        
+        </div>
+    </div>
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<div ng-include="'angular/partial/foottemplate.html'"></div>
+ 

@@ -6,7 +6,7 @@
       <div class="panel panel-danger">
         <div class="panel-heading">List Barang Unit</div>
         <div class="panel-body">
-            <a class="btn btn-warning" href="#/salesman/new/barangunit">
+            <a class="btn btn-warning" href="#/erp/masterbarang/new/barangunit">
                 <i class="fa fa-plus"></i> Add Unit Barang 
             </a>
         </div>
@@ -39,10 +39,10 @@
                 <td>{{unitbarang.NOTE}}</td>
                 <td ng-if='unitbarang.STATUS === 1' >AKTIF </td>
                 <td ng-if='unitbarang.STATUS === 0' >TIDAK AKTIF </td>
-                <td><a href="#/salesman/edit/barangunit/{{unitbarang.ID}}">
+                <td><a href="#/erp/masterbarang/detail/barangunit/{{unitbarang.ID}}">
                   <i class="fa fa-eye fa-2x"></i></a>
                 </td>
-                <td><a href="#/salesman/edit/barangunit/{{unitbarang.ID}}">
+                <td><a href="#/erp/masterbarang/edit/barangunit/{{unitbarang.ID}}">
                   <i class="fa fa-refresh fa-2x"></i></a>
                 </td>
                 <td>
