@@ -56,6 +56,7 @@ myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $
                 else
                 {
                     alert("You Have Invalid Credential");
+                    window.location.href = "index.html";
                 }
 			})
             .error(function()

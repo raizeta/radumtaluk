@@ -28,7 +28,7 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
             }, 
             function (error) 
             {          
-                $window.alert("Invalid credentials");
+                $scope.loading = false ;
                 
             });
 
