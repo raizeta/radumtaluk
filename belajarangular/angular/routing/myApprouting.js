@@ -4,21 +4,25 @@ myApp.config(function($stateProvider) {
     .state('index', {
       url: "",
       views: {
-        "viewA": { templateUrl: "angular/partial/state1.html" }
+        "viewA": { templateUrl: "angular/partial/login.html" }
       }
     })
-    .state('route1', {
-      url: "/route1",
+    .state('home', {
+      url: "/erp",
       views: {
-        "viewA": { templateUrl: "angular/partial/state2.html" },
-        "viewC": { template: "angular/partial/state1.html" }
+        "viewA": { templateUrl: "angular/partial/headtemplate.html" },
+        "viewC": { templateUrl: "angular/partial/footemplate.html" },
+        "viewD": { templateUrl: "angular/partial/home/content.html" }
+        
       }
     })
-    .state('route2', {
-      url: "/route2",
+    .state('chart', {
+      url: "/erp/chart",
       views: {
-        "viewA": { template: "route2.viewA" },
-        "viewB": { template: "route2.viewB" }
+        "viewA": { templateUrl: "angular/partial/headtemplate.html" },
+        "viewC": { templateUrl: "angular/partial/footemplate.html" },
+        "viewD": { templateUrl: "angular/partial/chart/chart.html" }
+        
       }
     })
 });
