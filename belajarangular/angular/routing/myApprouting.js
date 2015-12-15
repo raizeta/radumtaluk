@@ -1,9 +1,10 @@
-'use strict';
+
 myApp.config(function($stateProvider) {
   $stateProvider
     .state('index', {
       url: "",
-      views: {
+      views: 
+      {
         "viewA": { templateUrl: "angular/partial/login.html" }
       }
     })
