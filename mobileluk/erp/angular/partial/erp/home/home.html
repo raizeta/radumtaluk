@@ -77,9 +77,10 @@
               </table>
             </div>
 
-            <div class=" col-xs-12 col-sm-4 col-dm-3 col-lg-3" style="padding-left:0">
-              <div data-ng-app="monospaced.qrcode" id="ng-app" data-ng-init="foo='LG.2015.000000';bar='http://localhost/angular-qrcode-master/dist/angular-qrcode';v=4;e='M';s=100;" class="ng-scope"> 
-                <qrcode version="4" error-correction-level="M" size="100" data="LG.2015.000000"><canvas class="qrcode" height="100" width="100"></canvas></qrcode>
+            <div class=" col-xs-12 col-sm-4 col-dm-3 col-lg-3"  style="padding-left:0"  >
+              <div data-ng-app="monospaced.qrcode" data-ng-init="foo='LG.2015.000000';bar='http://localhost/angular-qrcode-master/dist/angular-qrcode';v=4;e='M';s=100;"> 
+                <qrcode version="{{v}}" error-correction-level="{{e}}" size="{{s}}" data="{{foo}}">
+                </qrcode>
               </div>
             </div>
           </div>

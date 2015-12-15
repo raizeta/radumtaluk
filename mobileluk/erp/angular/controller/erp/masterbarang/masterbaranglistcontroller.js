@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner", function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner) 
 {
     
     $scope.loading  = true;
@@ -27,7 +27,13 @@ myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http
        var id = barangumum.ID;
         if(confirm("Apakah Anda Yakin Menghapus Barang Umum:" + nama))
         {
-            $location.path('/salesman/delete/barangumum/'+ id)
+                $cordovaBarcodeScanner
+                  .scan()
+                  .then(function(barcodeData) {
+                    // Success! Barcode data is here
+                  }, function(error) {
+                    // An error occurred
+                  });
         }   
     }
 

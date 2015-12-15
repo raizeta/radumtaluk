@@ -20,47 +20,40 @@
           <div class="box-header">
             <h3 class="box-title">CREATE NEW TIPE BARANG</h3>
           </div>
-          <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate>
+          <form name="tipebarangForm" ng-submit="submitForm(tipebarangForm.$valid)" novalidate>
           <div class="box-body">
-            <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
-                <label>Name*</label>
-                <input type="text" name="name" class="form-control" ng-model="user.name" required>
-                <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
+            <div class="form-group" ng-class="{ 'has-error' : tipebarangForm.namatipe.$invalid && !tipebarangForm.namatipe.$pristine }">
+                <label>Name Tipe Barang</label>
+                <input type="text" name="namatipe" class="form-control" ng-model="tipebarang.namatipe" required>
+                
             </div>
             
             <!-- USERNAME -->
-            <div class="form-group" ng-class="{ 'has-error' : userForm.username.$invalid && !userForm.username.$pristine }">
-                <label>Username</label>
-                <input type="text" name="username" class="form-control" ng-model="user.username" ng-minlength="3">
-                <p ng-show="userForm.username.$error.minlength" class="help-block">Username is too short.</p>
+            <div class="form-group" ng-class="{ 'has-error' : tipebarangForm.catatan.$invalid && !tipebarangForm.catatan.$pristine }">
+                <label>Catatan Tipe Barang</label>
+                <textarea name="catatan" class="form-control" ng-model="tipebarang.catatan" required>
+                </textarea>
+                <p ng-show="tipebarangForm.catatan.$invalid && !tipebarangForm.catatan.$pristine" class="help-block">Catatan Untuk Tipe Barang Tidak Boleh Kosong</p>
             </div>
-                
-            <!-- EMAIL -->
-            <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
-                <label>Email</label>
-                <input type="email" name="email" class="form-control" ng-model="user.email">
-                <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
-            </div>
-            <div class="form-group">
-              <label>Status</label>
+            <div class="form-group" ng-class="{ 'has-error' : tipebarangForm.statustipebarang.$invalid && !tipebarangForm.statustipebarang.$pristine }">
+              <label>Status Tipe Barang</label>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios1" value="aktif" required>
+                  <input type="radio" ng-model="statustipebarang" name="statustipebarang" id="optionsRadios1" value="aktif" required>
                   Aktif
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios2" value="tidak aktif" required>
+                  <input type="radio" ng-model="statustipebarang" name="statustipebarang" id="optionsRadios2" value="tidak aktif" required>
                   Tidak Aktif
                 </label>
               </div>
+              <p ng-show="tipebarangForm.statustipebarang.$invalid && !tipebarangForm.statustipebarang.$pristine" class="help-block">Catatan Untuk Tipe Barang Tidak Boleh Kosong</p>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-            
-        </form>
-        <!-- /.box -->
+            <button type="submit" ng-disabled="tipebarangForm.$invalid" class="btn btn-primary">Submit</button>
+          </div>  
+          </form>
       </div>
       <!-- /.col (left) -->
     </div>

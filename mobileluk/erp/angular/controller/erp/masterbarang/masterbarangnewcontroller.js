@@ -38,7 +38,7 @@ myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http"
         $scope.unitbarangs = data.Unitbarang ;
     });
 
-    $scope.createbarangumum = function(barangumum)
+    $scope.submitForm = function(barangumum)
     {
         $scope.barangumum = angular.copy(barangumum);
         var gambarbarang =$scope.barangumum.file.base64;
@@ -140,6 +140,7 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
         else
         {
             alert("form tidak valid");
+            return true;
         }
 
 

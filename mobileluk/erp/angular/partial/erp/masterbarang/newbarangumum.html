@@ -8,11 +8,12 @@
           <div class="box-header">
             <h3 class="box-title">Create New Barang Umum</h3>
           </div>
-          <form ng-submit="createbarangumum(barangumum)" method="post" validate>
+          <form name="barangumumForm"ng-submit="submitForm(barangumum.$valid)" method="post" validate>
           <div class="box-body">
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine }">
               <label>Nama Product</label>
-                <input type="text" class="form-control" ng-model="barangumum.namaproduct" required>
+                <input type="text" name="namaproduct" class="form-control" ng-model="barangumum.namaproduct" required>
+                <p ng-show="barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine" class="help-block">Nama Product Tidak Boleh Kosong.</p>
               </select>
             </div><!-- /.form-group -->
             <!-- /.form group -->
@@ -86,7 +87,7 @@
           <!-- /.box-body -->
           <div class="box-footer clearfix">
             <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
-            <button type="submit" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
+            <button type="submit" ng-disabled="barangumumForm.$invalid" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
           </div>
         </div>
       </form>

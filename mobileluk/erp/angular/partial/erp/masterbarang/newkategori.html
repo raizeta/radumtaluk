@@ -20,42 +20,42 @@
           <div class="box-header">
             <h3 class="box-title">CREATE NEW KATEGORI</h3>
           </div>
-          <form ng-submit="submit()" method="post">
+          <form name="kategoriForm" ng-submit="submitForm(kategoriForm.$valid)" novalidate>
           <div class="box-body">
-            <div class="form-group">
-              <label>NAMA KATEGORI</label>
-                <input type="text" class="form-control" name="eknamakategori" ng-model="eknamakategori">
+            <div class="form-group" ng-class="{ 'has-error' : kategoriForm.namakategori.$invalid && !kategoriForm.namakategori.$pristine }">
+                <label>Name Kategori</label>
+                <input type="text" name="namakategori" class="form-control" ng-model="kategori.namakategori" required>
+                <p ng-show="kategoriForm.namakategori.$invalid && !kategoriForm.namakategori.$pristine" class="help-block">Nama Kategori Tidak Boleh Kosong.</p>
             </div>
-            <div class="form-group">
-              <label>NOTE</label>
-                <textarea class="form-control" name="eknamakategori" ng-model="eknote"></textarea>
+            
+            <!-- USERNAME -->
+            <div class="form-group" ng-class="{ 'has-error' : kategoriForm.catatan.$invalid && !kategoriForm.catatan.$pristine }">
+                <label>Catatan Kategori</label>
+                <textarea name="catatan" class="form-control" ng-model="kategori.catatan" required>
+                </textarea>
+                <p ng-show="kategoriForm.catatan.$invalid && !kategoriForm.catatan.$pristine" class="help-block">Catatan Untuk Kategori Barang Tidak Boleh Kosong</p>
             </div>
-            <div class="form-group">
-              <label>Status</label>
+            <div class="form-group" ng-class="{ 'has-error' : kategoriForm.statuskategori.$invalid && !kategoriForm.statuskategori.$pristine }">
+              <label>Status Kategori</label>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios1" value="aktif">
+                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios1" value="aktif" required>
                   Aktif
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios2" value="tidak aktif">
+                  <input type="radio" ng-model="statuskategori" name="statuskategori" id="optionsRadios2" value="tidak aktif" required>
                   Tidak Aktif
                 </label>
               </div>
             </div>
-          </div>
-          <!-- /.box-body -->
-          <div class="box-footer clearfix">
-            <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
-            <button type="submit" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
-          </div>
-        </div>
-      </form>
+            <button type="submit" ng-disabled="kategoriForm.$invalid" class="btn btn-primary">Submit</button>
+          </div>  
+          </form>
         <!-- /.box -->
+        </div>
       </div>
-      <!-- /.col (left) -->
     </div>
 
   </section><!-- /.content -->
