@@ -1,6 +1,5 @@
-<span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
-  <header class="main-header">
-  <!-- Logo -->
+
+<header class="main-header">
   <a href="#/erp" class="logo bg-red">
     <img src="http://lukisongroup.com/favicon.ico" width="30" alt="">
     <!-- mini logo for sidebar mini 50x50 pixels -->
@@ -55,9 +54,9 @@
       </ul>
     </div>
   </nav>
-  </header>
-  <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+</header>
+
+<aside class="main-sidebar">
   <!-- sidebar: style can be found in sidebar.less -->
   <section class="sidebar">
     <!-- Sidebar user panel -->
@@ -107,7 +106,13 @@
           <li><a href="#/erp/masterbarang/list/suplier">
             <i class="fa fa-circle-o"></i> Suplier</a></li>
           <li><a href="#/erp/masterbarang/list/barangunit">
-            <i class="fa fa-circle-o"></i>List Barang Unit</a>
+            <i class="fa fa-circle-o"></i>Barang Unit</a>
+          </li>
+          <li><a href="#/erp/masterbarang/list/customer">
+            <i class="fa fa-circle-o"></i>Customer</a>
+          </li>
+          <li><a href="#/erp/masterbarang/list/distributor">
+            <i class="fa fa-circle-o"></i>Distributor</a>
           </li>
         </ul>
       </li>
@@ -134,17 +139,17 @@
       <li class="active treeview">
         <a href="javascript:;">
           <i class="fa fa-th"></i>
-          <span>List Order Elements</span>
+          <span>Order Elements</span>
         </a>
         <ul class="treeview-menu">
           <li><a href="#/erp/order/list/requestorder">
-            <i class="fa fa-circle-o"></i>List Request Order</a>
+            <i class="fa fa-circle-o"></i>Request Order</a>
           </li>
           <li><a href="#/erp/order/list/salesorder">
-            <i class="fa fa-circle-o"></i>List Sales Order</a>
+            <i class="fa fa-circle-o"></i>Sales Order</a>
           </li>
           <li><a href="#/erp/order/list/purchaseorder">
-            <i class="fa fa-circle-o"></i>List Purchase Order</a>
+            <i class="fa fa-circle-o"></i>Purchase Order</a>
           </li>
         </ul>
       </li>
@@ -168,4 +173,5 @@
       </li>
     </ul>
   </section>
-  </aside>
+</aside>
+<span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>

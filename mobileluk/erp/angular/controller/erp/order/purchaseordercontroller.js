@@ -1,3 +1,16 @@
+myAppModule.controller("NewPurchaseOrderController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+{
+
+    $scope.userInfo = auth;
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+    
+}]);
+
 myAppModule.controller("ListPurchaseOrderController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
 
@@ -11,18 +24,6 @@ myAppModule.controller("ListPurchaseOrderController", ["$scope", "$location","$h
     
 }]);
 
-myAppModule.controller("NewPurchaseOrderController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
-{
-
-    $scope.userInfo = auth;
-    $scope.logout = function () 
-    { 
-        $scope.userInfo = null;
-        $window.sessionStorage.clear();
-        window.location.href = "index.html";
-    }
-    
-}]);
 myAppModule.controller("DetailPurchaseOrderController", ["$scope", "$location","$http", "authService", "auth","$window","$routeParams", function ($scope, $location, $http, authService, auth,$window,$routeParams) 
 {
 
@@ -37,9 +38,6 @@ myAppModule.controller("DetailPurchaseOrderController", ["$scope", "$location","
     }
     
 }]);
-
-
-
 
 myAppModule.controller("EditPurchaseOrderController", ["$scope", "$location","$http", "authService", "auth","$window","$routeParams", function ($scope, $location, $http, authService, auth,$window,$routeParams) 
 {

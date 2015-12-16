@@ -14,12 +14,13 @@
   <link rel="stylesheet" href="asset/admin/dist/css/skins/_all-skins.min.css">
   <link rel="stylesheet" href="asset/admin/plugins/iCheck/square/blue.css">
   <link rel="stylesheet" href="asset/admin/plugins/select2/select2.min.css">
+  <link rel="stylesheet" href="animation.css">
 </head>
 <body class="skin-blue login-page">
-<div class="wrapper">
-  <div ng-view> 
-
-  </div>
+  <div class="wrapper">
+    <div class="ng-view">
+    </div>
+  <div>
 </div>
 
 <script src="asset/admin/plugins/jQuery/jQuery-2.1.4.min.js"></script>
@@ -32,7 +33,8 @@
 <script src="asset/admin/bootstrap/js/bootstrap.min.js"></script>
 
 <script src="angular/vendor/angular.js"></script>
-<script src="angular/vendor/angular-route.min.js"></script>
+<script src="angular/vendor/angular-route.js"></script>
+<script src="angular/vendor/angular-animate.js"></script>
 
 
 <script src="angular/vendor/fusioncharts.js"></script>
@@ -52,55 +54,49 @@
 <script src="angular/vendor/ng-angular.js"></script>
 <!-- <script src="angular/vendor/cordova.js"></script> -->
 
-
+<script src="angular/directives/directives.js"></script>
 
 <script src="angular/routing/loginrouting.js"></script>
 <script src="angular/routing/errorrouting.js"></script>
 <script src="angular/routing/erp/home/homerouting.js"></script>
+<script src="angular/routing/erp/chart/chartrouting.js"></script>
 
-
-
-<script src="angular/routing/erp/masterbarang/masterbarangeditrouting.js"></script>
-<script src="angular/routing/erp/masterbarang/masterbarangnewrouting.js"></script>
-<script src="angular/routing/erp/masterbarang/masterbarangdeleterouting.js"></script>
-<script src="angular/routing/erp/masterbarang/masterbaranglistrouting.js"></script>
-<script src="angular/routing/erp/masterbarang/masterbarangnewrouting.js"></script>
-<script src="angular/routing/erp/masterbarang/masterbarangdetailrouting.js"></script>
-
-
+<script src="angular/routing/erp/masterbarang/barangumumrouting.js"></script>
+<script src="angular/routing/erp/masterbarang/barangunitrouting.js"></script>
+<script src="angular/routing/erp/masterbarang/kategorirouting.js"></script>
+<script src="angular/routing/erp/masterbarang/suplierrouting.js"></script>
+<script src="angular/routing/erp/masterbarang/tipebarangrouting.js"></script>
+<script src="angular/routing/erp/masterbarang/distributorrouting.js"></script>
+<script src="angular/routing/erp/masterbarang/customerrouting.js"></script>
 
 <script src="angular/routing/erp/order/requestorderrouting.js"></script>
 <script src="angular/routing/erp/order/purchaseorderrouting.js"></script>
 <script src="angular/routing/erp/order/salesorderrouting.js"></script>
 
-<script src="angular/routing/erp/widget/beritaacara/beritaacararouting.js"></script>
-<script src="angular/routing/erp/widget/memo/memorouting.js"></script>
-<script src="angular/routing/erp/widget/notulen/notulenrouting.js"></script>
-
-<script src="angular/routing/erp/chart/chartrouting.js"></script>
+<script src="angular/routing/erp/widget/beritaacararouting.js"></script>
+<script src="angular/routing/erp/widget/memorouting.js"></script>
+<script src="angular/routing/erp/widget/notulenrouting.js"></script>
 
 <script src="angular/controller/logincontroller.js"></script>
 <script src="angular/controller/errorcontroller.js"></script>
 <script src="angular/controller/erp/home/homecontroller.js"></script>
+<script src="angular/controller/erp/chart/chartcontroller.js"></script>
 
-<script src="angular/controller/erp/masterbarang/masterbarangeditcontroller.js"></script>
-<script src="angular/controller/erp/masterbarang/masterbarangdeletecontroller.js"></script>
-<script src="angular/controller/erp/masterbarang/masterbaranglistcontroller.js"></script>
-<script src="angular/controller/erp/masterbarang/masterbarangnewcontroller.js"></script>
-<script src="angular/controller/erp/masterbarang/masterbarangdetailcontroller.js"></script>
-
+<script src="angular/controller/erp/masterbarang/barangumumcontroller.js"></script>
+<script src="angular/controller/erp/masterbarang/barangunitcontroller.js"></script>
+<script src="angular/controller/erp/masterbarang/kategoricontroller.js"></script>
+<script src="angular/controller/erp/masterbarang/supliercontroller.js"></script>
+<script src="angular/controller/erp/masterbarang/tipebarangcontroller.js"></script>
+<script src="angular/controller/erp/masterbarang/distributorcontroller.js"></script>
+<script src="angular/controller/erp/masterbarang/customercontroller.js"></script>
 
 <script src="angular/controller/erp/order/requestordercontroller.js"></script>
 <script src="angular/controller/erp/order/purchaseordercontroller.js"></script>
 <script src="angular/controller/erp/order/salesordercontroller.js"></script>
 
-<script src="angular/controller/erp/widget/beritaacara/beritaacaracontroller.js"></script>
-<script src="angular/controller/erp/widget/memo/memocontroller.js"></script>
-<script src="angular/controller/erp/widget/notulen/notulencontroller.js"></script>
-
-<script src="angular/controller/erp/chart/chartcontroller.js"></script>
-
-
+<script src="angular/controller/erp/widget/beritaacaracontroller.js"></script>
+<script src="angular/controller/erp/widget/memocontroller.js"></script>
+<script src="angular/controller/erp/widget/notulencontroller.js"></script>
 
 </body>
 </html>
