@@ -1,0 +1,5 @@
+if (($this->get('security.context')->isGranted('ROLE_ADMIN') === true) 
+or 
+($comment->getOwner() == $this->get('security.context')->getToken()->getUser()))
+
+################################################################################4

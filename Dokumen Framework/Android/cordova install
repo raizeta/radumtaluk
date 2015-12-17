@@ -1,0 +1,22 @@
+#Check Requiretments
+cordova requirements android
+
+############################
+
+#update npm
+npm install -g npm
+
+npm install -g cordova
+
+cordova create hello com.example.hello HelloWorld
+
+cd MyApp
+
+
+#For SDK 21
+cordova platforms add android@3.7.1
+
+#For SDK 22
+cordova platforms add android@5.1.1
+
+cordova build android //lakukan berkalikali sampai tidak ada error

@@ -1,0 +1,2 @@
+composer validate
+composer diagnose

@@ -1,0 +1,13 @@
+#Misalkan sebuah data JSON sebagai berikut:
+{
+	"rajaongkir":
+		{
+			"query":[],
+			"status":{"code": 200,"description":"OK"},
+			"results":[{"id":"1","nama":"Radumta","alamat":"Medan"},{"id":"2","nama":"Wawan","alamat":"Tangerang"}]
+		}	
+}
+
+#Untuk memparsing nilai json results to Array Lakukan Hal Berikut
+
+$result = (json_decode($response)->rajaongkir->results);

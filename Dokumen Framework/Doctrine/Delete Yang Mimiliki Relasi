@@ -1,0 +1,30 @@
+    /**
+     * Deletes a Category entity.
+     *
+     */
+    public function deleteAction(Request $request, $id)
+    {
+        $form = $this->createDeleteForm($id);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) 
+        {
+            $em = $this->getDoctrine()->getManager();
+            $entity = $em->getRepository('OneToManyBundle:Category')->find($id);
+
+            if (!$entity) 
+            {
+                throw $this->createNotFoundException('Unable to find Category entity.');
+            }
+
+            foreach ($entity->getProducts() as $products) 
+            {
+                $em->remove($products);
+            }
+
+            $em->remove($entity);
+            $em->flush();
+        }
+
+        return $this->redirect($this->generateUrl('category'));
+    }

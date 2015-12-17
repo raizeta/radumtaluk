@@ -1,0 +1,16 @@
+1. php app/console doctrine:mapping:import AppBlogBundle annotation --filter=Post 
+2. php app/console doctrine:generate:entities AppBlogBundle  #for All Entity In Blog Bundle
+3. php app/console doctrine:generate:entities AppBlogBundle/Entity/Post #ForSingleEntity -Post
+
+$entity->setCreateAt(new \DateTime('now'));
+
+->add('createAt','date',array('format'=>'dd-MM-yyyy'))
+
+->add('jeniskelamin','choice',array('placeholder' => 'Choose an option','choices'=>array('male'=>'Male','female'=>'Female')))
+
+
+    public function __construct()
+    {
+        $this->setCreateAt(new \DateTime('now'));
+        $this->setUpdateAt(new \DateTime('now'));
+    }

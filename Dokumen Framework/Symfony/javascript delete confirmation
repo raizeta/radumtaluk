@@ -1,0 +1,4 @@
+<td>
+  <a href="javascript:if(confirm('Apakah Anda Yakin Untuk Menghapus ?')){document.location.href='{{url('delete_komentar',{'id':entities.k_id})}}'};">Delete
+  </a>
+</td>

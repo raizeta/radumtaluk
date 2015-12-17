@@ -1,0 +1,2 @@
+1.php -r "readfile('http://symfony.com/installer');" > symfony 
+2.php symfony new any_name

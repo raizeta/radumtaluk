@@ -1,0 +1,21 @@
+composer require liip/imagine-bundle
+
+#AppKernel.php
+new Liip\ImagineBundle\LiipImagineBundle(),
+
+#routing.yml
+_liip_imagine:
+    resource: "@LiipImagineBundle/Resources/config/routing.xml"
+
+
+#config.yml
+liip_imagine:
+    filter_sets:
+        cache: ~
+        my_thumb:
+            quality: 100
+            filters:
+                thumbnail: { size: [200, 200], mode: outbound }
+
+#template.html.twig
+<img src="{{('/images/products/' ~ entities.productImage) | imagine_filter('my_thumb')}}">

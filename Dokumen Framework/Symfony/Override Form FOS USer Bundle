@@ -1,0 +1,72 @@
+<?php
+#Build Your Form Type
+#Add Code Below After Your Form Class
+
+class RegistrationType extends AbstractType
+{
+    public function getParent()
+    {
+        return 'fos_user_registration';
+    }
+
+    //Your Another Code
+}
+
+
+#Create Your Service To Extends Your Form
+
+services:
+    users.form.registration:
+        class: UsersBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: usersbundle_user } 
+            # alias = you get from your form function getname()
+
+
+#update fosuser config on config.yml
+
+fos_user:
+    # ...
+    registration:
+        form:
+            type: usersbundle_user 
+            #this type you get from your service alias on your bundle service
+
+
+########################################################
+Over Ride Profile From Edit
+########################################################
+#Build Your Form Type
+#Add Code Below After Your Form Class
+
+class ProfileFormType extends AbstractType
+{
+    public function getParent()
+    {
+        return 'fos_user_registration';
+    }
+
+    //Your Another Code
+}
+
+#Create Your Service To Extends Your Form
+
+services:
+    users.form.profile:
+        class: UsersBUndle\Form\ProfileFormType
+        tags:
+            - { name: form.type, alias: usersbundle_userprofile } 
+            # alias = you get from your form function getname()
+
+#update fosuser config on config.yml
+
+fos_user:
+    # ...
+    registration:
+        form:
+            type: usersbundle_user 
+            #this type you get from your service alias on your bundle service
+    profile:
+        form:
+            type: usersbundle_userprofile 
+            #this type you get from your service alias on your bundle service

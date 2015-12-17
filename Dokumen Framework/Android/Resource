@@ -1,0 +1,9 @@
+Phone Gap
+Cordova
+Gmotion
+
+
+#jika adb tidak running maka lakukan hal di bawah ini, buka cmd dan ketik:
+adb kill-service
+
+adb start-service

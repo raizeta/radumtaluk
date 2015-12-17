@@ -1,0 +1,167 @@
+1. composer require friendsofsymfony/user-bundle: "~2.0@dev"
+2. composer require hwi/oauth-bundle
+3. php app/console doctrine:generate:entity --entity=YourBundleName:User
+4. Copy This Code To Your src/YourBundleName/Entity/User
+
+	<?php
+	namespace YourBundleName\Entity;
+
+
+	use FOS\UserBundle\Model\User as BaseUser;
+	use Doctrine\ORM\Mapping as ORM;
+
+	/**
+	 * @ORM\Entity
+	 * @ORM\Table(name="fos_user")
+	 */
+	class User extends BaseUser
+	{
+	    /**
+	     * @ORM\Id
+	     * @ORM\Column(type="integer")
+	     * @ORM\GeneratedValue(strategy="AUTO")
+	     */
+	    protected $id;
+
+	    /**
+	     * @var string
+	     *
+	     * @ORM\Column(name="github_id", type="string", nullable=true)
+	     */
+	    private $githubID;
+
+
+	    public function __construct()
+	    {
+		parent::__construct();
+		// your own logic
+	    }
+
+	    /**
+	     * Get id
+	     *
+	     * @return integer 
+	     */
+	    public function getId()
+	    {
+		return $this->id;
+	    }
+	}
+5.Register FosUserBundle and HwioAuthBundle To AppKernel.php
+	// ...
+	new FOS\UserBundle\FOSUserBundle(),
+	new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+
+6. Add entity info in the app/config/config.yml
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: secure_area
+    user_class: App\UserBundle\Entity\User
+    registration:
+        confirmation:
+            enabled:    false
+
+hwi_oauth:
+    firewall_name: secure_area
+    connect:
+        confirmation: true
+        #account_connector: hwi_oauth.user.provider.fosub_bridge
+        #registration_form_handler: hwi_oauth.registration.form.handler.fosub_bridge
+        #registration_form: fos_user.registration.form
+
+    resource_owners:
+        github:
+            type:                github
+            client_id:           ec5561dc5c1904ab1af2
+            client_secret:       3fa8c179820a8340473c5f3f15cfa74f5f57c09e
+            scope:               "user:email"
+        facebook:
+            type:                facebook
+            client_id:           836187393127673         
+            client_secret:    31d765ac6de1e744bd6df6e068df9cb2 
+            scope:         "email"  
+            options:
+                display: popup #dialog is optimized for popup window
+    fosub:
+        username_iterations: 30
+        properties:
+            github: githubID
+            facebook: facebookID
+		    
+7. Generate Your Entities
+	php app/console doctrine:generate:entities AppBundle
+	
+		    
+7. If You Have Create Your Database Skip to point 8
+	php app/console doctrine:database:create
+
+8. Updete Your Database Schema
+	php app/console doctrine:schema:update --force
+
+9. Add FosUserBundle routing in to routing.yml
+fos_user_security:
+    resource: "@FOSUserBundle/Resources/config/routing/security.xml"
+    prefix: /auth
+
+fos_user_profile:
+    resource: "@FOSUserBundle/Resources/config/routing/profile.xml"
+    prefix: /auth/profile
+
+fos_user_register:
+    resource: "@FOSUserBundle/Resources/config/routing/registration.xml"
+    prefix: /auth/register
+
+fos_user_resetting:
+    resource: "@FOSUserBundle/Resources/config/routing/resetting.xml"
+    prefix: /auth/resetting
+
+fos_user_change_password:
+    resource: "@FOSUserBundle/Resources/config/routing/change_password.xml"
+    prefix: /auth/profile
+
+9. Add HwioAuthBundle routing in to routing.yml
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /auth/connect
+
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /auth/connect
+
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /auth/connect
+
+hwi_github_login:
+    pattern: /auth/login/check-github
+hwi_facebook_login:
+    pattern: /auth/login/check-facebook
+
+connect_github:
+    pattern:   /auth/connect/github
+connect_facebook:
+    pattern:   /auth/connect/facebook
+
+10. Edit your security.yml
+security:
+    #...
+    firewalls:
+        #...
+        secure_area:
+            pattern: ^/secure_area
+
+            oauth:
+                failure_path: /secure_area/connect
+                login_path: /secure_area/connect
+                check_path: /secure_area/connect
+                provider: fos_userbundle
+                resource_owners:
+                    github:           "/secure_area/login/check-github"
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider.fosub_bridge
+
+            anonymous:    true
+            logout:
+                path:           /secure_area/logout
+                target:         /secure_area/connect #where to go after logout

@@ -1,0 +1,125 @@
+1. composer require vich/uploader-bundle
+
+2. new Vich\UploaderBundle\VichUploaderBundle(),
+3. Update config.yml
+
+vich_uploader:
+    db_driver: orm
+
+4. Update config.yml
+vich_uploader:
+    db_driver: orm
+    mappings:
+        product_image:
+            uri_prefix:         /images/products
+            upload_destination: %kernel.root_dir%/../web/images/products
+
+            inject_on_load:     false
+            delete_on_update:   true
+            delete_on_remove:   true
+            
+5.Create Your Entity, exam:Product
+namespace Acme\DemoBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+/**
+ * @ORM\Entity
+ * @Vich\Uploadable
+ */
+class Product
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    // ..... other fields
+
+    /**
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     * 
+     * @Vich\UploadableField(mapping="post_image", fileNameProperty="imageName")
+     * 
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="image_name", type="string", length=255, nullable=true)
+     */
+    private $imageName;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime", nullable=false)
+     */
+    private $createAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="update_at", type="datetime", nullable=true)
+     */
+    private $updateAt;
+
+
+    /**
+     * If manually uploading a file (i.e. not using Symfony Form) ensure an instance
+     * of 'UploadedFile' is injected into this setter to trigger the  update. If this
+     * bundle's configuration parameter 'inject_on_load' is set to 'true' this setter
+     * must be able to accept an instance of 'File' as the bundle will inject one here
+     * during Doctrine hydration.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile $image
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        if ($image) 
+            {
+                $this->updateAt = new \DateTime('now');
+            }
+    }
+
+    /**
+    * @return File
+    */
+    public function getImageFile()
+    {
+            return $this->imageFile;
+    }
+
+}
+
+
+
+6. Add This To Your Form Type
+->add('image', 'vich_file', array('required'=> false,'allow_delete'  => true, 'download_link' => true))
+
+###############################################################################################
+
+1. composer require oneup/flysystem-bundle
+
+2. new Oneup\FlysystemBundle\OneupFlysystemBundle(),
+
+3. Add this to your config.yml
+
+oneup_flysystem:
+    adapters:
+        product_adapter:
+            local:
+                directory: %kernel.root_dir%/../web/images/products
+
+    filesystems:
+        product_image_fs:
+            adapter:    product_adapter
+            mount:      product_image_fs

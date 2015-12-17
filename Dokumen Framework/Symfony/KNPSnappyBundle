@@ -1,0 +1,26 @@
+#update composer
+composer require knplabs/knp-snappy-bundle
+
+#register on AppKernel
+new Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+
+#add this to your config.yml
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary: "\"C:/Program Files (x86)/wkhtmltopdf/bin/wkhtmltopdf.exe\""
+        options:    []
+
+#add this to your controller
+#use this namespace
+use Symfony\Component\HttpFoundation\Response;
+
+$pdfgenerator= $this->get('knp_snappy.pdf');
+
+$html = $this->renderView('ProductBundle:GenPDF:index.html.twig', array('entity'=>$entity,
+	'result'=>$result));
+
+return new Response($pdfgenerator->getOutputFromHtml($html,array('orientation'=>'Landscape',
+                                 'default-header'=>true)),200,
+	  array('Content-Type'          => 'application/pdf',
+		'Content-Disposition'   => 'inline; filename="invoice.pdf"'));

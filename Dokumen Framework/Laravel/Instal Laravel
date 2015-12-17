@@ -1,0 +1,24 @@
+1. Via Composer
+composer create-project laravel/laravel --prefer-dist
+
+2. Maintenance Mode
+php artisan down
+
+3. After Maintenance
+php artisan up
+
+############
+laravelcollective/html: "~5.0"
+
+  'providers' => [
+    // ...
+    'Collective\Html\HtmlServiceProvider',
+    // ...
+  ],
+
+  'aliases' => [
+    // ...
+      'Form' => 'Collective\Html\FormFacade',
+      'Html' => 'Collective\Html\HtmlFacade',
+    // ...
+  ],

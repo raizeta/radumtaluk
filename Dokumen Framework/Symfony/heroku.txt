@@ -1,0 +1,30 @@
+1. heroku login
+2. echo "web: bin/heroku-php-apache2 web/" > Procfile
+3. Add this to your config_prod.yml
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: error
+            handler:      nested
+        nested:
+            type:  stream
+            path:  "%kernel.logs_dir%/%kernel.environment%.log"
+            level: debug
+            path: "php://stderr"
+        console:
+            type:  console
+#remove this from git ignore
+/app/config/parameters.yml
+
+4. git init 
+5. git add .
+6. git commit -m "First Commit"
+7. heroku create radumtablog
+8. heroku config:set SYMFONY_ENV=prod
+9. git push heroku master
+$ heroku run php app/console doctrine:schema:create
+
+
+#####################
+heroku run bash

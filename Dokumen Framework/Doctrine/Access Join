@@ -1,0 +1,65 @@
+<?php
+//Cara Mengakses Setiap Field Yang Ada Di Join Pada Controller
+$query = $em->createQuery("SELECT p,c,u FROM ProductBundle:Cart c
+                                                JOIN c.products p
+                                                JOIN c.customer u WHERE (u.id=:id AND p.id=:productid)"); 
+                $query->setParameter('id',$user);
+                $query->setParameter('productid',$id);
+        $result = $query->getResult();//jangan gunakan getScalarResult()
+
+//Untuk Mengakses Field dari entity Cart Gunakan CodeDibawah
+foreach($result as $result)
+{
+    $id         =$result->getId();
+    $jumlah     =$result->getJumlah();
+}
+
+//Untuk Mengakses Field dari entity Products Gunakan CodeDibawah, Dimana getProducts Berasal Dari Foreign Key Yang Terdapat Di Entity Cart
+foreach($result as $result)
+{
+    $id         =$result->getProducts->getId();
+    $jumlah     =$result->getProducts->getproductName();
+}
+
+//Untuk Mengakses Field dari entity User Gunakan CodeDibawah, Dimana getCostumer Berasal Dari Foreign Key Yang Terdapat Di Entity Cart
+foreach($result as $result)
+{
+    $id         =$result->getCostumer->getId();
+    $jumlah     =$result->getCostumer->getUsername();
+}
+
+
+#Untuk Mengakses Field Dari Entity Jika Yang Digunakan Adalah getScalarResult()
+foreach($product as $result)
+{
+    echo $id    = $result['p_id'];
+    echo $nama  =  $result['p_nama'];
+}
+
+#Ini Adalah Contoh Lain
+public function findProductAll()
+{
+        $qb = $this->createQueryBuilder('p');
+        $qb             ->      select('p','c','b','v','s','cl')
+                        ->      innerjoin('p.productCategory','c')
+                        ->      innerjoin('p.productBrand','b')
+                        ->      innerjoin('p.variant','v')
+                        ->      innerjoin('v.size','s')
+                        ->      innerjoin('v.color','cl');      
+        return $qb->getQuery()->getResult();        
+}
+
+$em = $this->getDoctrine()->getManager();
+$product = $em->getRepository('EntityBundle:Product')->findProductAll();
+
+foreach($product as $result)
+{
+    echo $nama  =  $result->getNama() ."<br/>";
+    foreach($result->getVariant() as $result)
+    {
+        
+        echo $variant = $result->getColor()->getColor() ." ";
+        echo $variant = $result->getSize()->getSize() ."<br/>";
+    }
+    
+}

@@ -1,0 +1,18 @@
+1. composer require friendsofsymfony/comment-bundle
+2. register bundle in AppKernel
+	new FOS\RestBundle\FOSRestBundle(),
+	new FOS\CommentBundle\FOSCommentBundle(),
+        new JMS\SerializerBundle\JMSSerializerBundle($this),
+3.Configure Your Application
+	fos_comment:
+	    db_driver: orm
+	    class:
+	        model:
+	            comment: AppBundle\Entity\Comment
+	            thread: AppBundle\Entity\Thread
+	
+	assetic:
+    		bundles: [ "FOSCommentBundle" ]
+4. Generate Comment Entity and Thread Entity
+	php app/console doctrine:generate:entity --entity=AppBundle:Comment
+	php app/console doctrine:generate:entity --entity=AppBundle:Thread

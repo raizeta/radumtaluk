@@ -1,0 +1,34 @@
+1. heroku config:set BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
+2. https://github.com/heroku/heroku-buildpack-php.git
+3. https://github.com/dscout/wkhtmltopdf-buildpack.git
+4. Edit Your knp_snappy config on config.yml, add this code
+
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary:     "%kernel.root_dir%/../bin/wkhtmltopdf"
+        options:    []
+        
+5. git add .
+6. git commit -m "Add Buildpack wkhtmltopdf"
+7. git push heroku master
+
+
+
+#This Setting For Local In Windows
+knp_snappy:
+    pdf:
+        enabled:    true
+        binary: "\"C:/Program Files (x86)/wkhtmltopdf/bin/wkhtmltopdf.exe\""
+        options:    []
+
+
+#on controller
+$html = $this->renderView('ProductBundle:GenPDF:index.html.twig', array('entity'=>$entity,
+	'result'=>$result));
+$pdfgenerator= $this->get('knp_snappy.pdf');
+
+return new Response($pdfgenerator->getOutputFromHtml($html,array('orientation'=>'Landscape',
+                                 'default-header'=>true)),200,
+	  array('Content-Type'          => 'application/pdf',
+		'Content-Disposition'   => 'inline; filename="invoice.pdf"'));

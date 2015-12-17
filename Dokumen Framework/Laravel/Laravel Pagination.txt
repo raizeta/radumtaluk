@@ -1,0 +1,26 @@
+<div class="panel-body">
+    <table class="table table-striped table-hovered">
+        @foreach($post as $posts)
+            <tr>
+                <td>{{$posts->id}}</a></td>
+                <td>{{$posts->judul}}</a></td>
+                <td>{{$posts->slug}}</a></td>
+                <td>{{$posts->isi}}</a></td>
+                <td>{{$posts->author->name}}</a></td>
+                <td><a href="{{url('/posts/show/'.$posts ->id)}}">Show</a></td>
+                <td><a href="{{url('/posts/edit/'.$posts ->id)}}">Edit</a></td>
+                <td><a href="{{url('/posts/delete/'.$posts ->id)}}">Delete</a></td>   
+            </tr>
+        @endforeach
+    </table>
+</div>
+<div class="panel-footer">
+    {!!  str_replace('/?', '?', $post->render()) !!}
+</div>
+
+=>untuk @foreach($post as $posts)->tidak boleh memakai variabel yang sama dengan yang digunakan untuk pagination
+
+contoh @foreach($post(ini adalah variabel yang dikirim dari kontroller) as $post(ini adalah variabel baru untuk menampilkan))
+, maka pagination tidak akan berjalan
+
+{!!  str_replace('/?', '?', $post(variabel yang dikirim dari kontroller->render()) !!}

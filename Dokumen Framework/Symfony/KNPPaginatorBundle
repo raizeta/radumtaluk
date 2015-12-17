@@ -1,0 +1,32 @@
+#update your composer
+composer require knplabs/knp-paginator-bundle
+
+#add this to AppKernel
+new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+
+#add this to your config.yml
+knp_paginator:
+    page_range: 5                      # default page range used in pagination control
+    default_options:
+        page_name: page                # page query parameter name
+        sort_field_name: sort          # sort field query parameter name
+        sort_direction_name: direction # sort direction query parameter name
+        distinct: true                 # ensure distinct results, useful when ORM queries are using GROUP BY statements
+    template:
+        #pagination: KnpPaginatorBundle:Pagination:sliding.html.twig     # sliding pagination controls template
+        sortable: KnpPaginatorBundle:Pagination:sortable_link.html.twig # sort link template
+        #pagination: KnpPaginatorBundle:Pagination:sliding.html.twig` (by default)
+        pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_v3_pagination.html.twig
+        #pagination: KnpPaginatorBundle:Pagination:twitter_bootstrap_pagination.html.twig
+        
+#add this to your controller
+$paginator  = $this->get('knp_paginator');
+$em = $this->getDoctrine()->getManager();
+
+$query = $em->createQuery("SELECT p,k,u FROM EntitasBundle:Posts p
+                                        JOIN p.kategori k
+                                        JOIN p.penulis u");     
+$entities = $query->getScalarResult();
+$pagination = $paginator->paginate($entities,$request->query->getInt('page', 1),5);
+
+return $this->render('BlogBundle:Post:index.html.twig', array('entities' => $pagination));

@@ -1,0 +1,18 @@
+1. Object Operator
+	-> //sering disebut dengan pseudo-variable
+	Alat yang digunakan untuk mengakses property dari sebuah Class
+
+2. Set Property dari New Object
+
+	$product_A = new Product();
+	$product_B = new Product();
+	$product_C = new Product();
+
+	//Set Property
+	$product_A->nama="Product A";
+	$product_B->nama="Product B";
+	$product_C->nama="Product C";
+
+	//Tampilkan Property
+	echo $product_A->nama; //hasilnya Product A
+	echo $product_B->nama; //Hasilnya Product B

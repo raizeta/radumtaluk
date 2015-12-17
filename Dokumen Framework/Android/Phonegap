@@ -1,0 +1,8 @@
+
+npm install -g phonegap@latest
+
+phonegap create my-app
+
+cd my-app
+
+phonegap run ios
