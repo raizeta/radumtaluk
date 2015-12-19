@@ -134,6 +134,8 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
         $scope.etbnote = data.NOTE ;
         $scope.etbstatus = data.STATUS ;
         $scope.etbcorpid = data.CORP_ID ;
+
+        $scope.loading = false;
     },
     function(error)
     {

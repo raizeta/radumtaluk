@@ -6,7 +6,6 @@ myAppModule.config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',
     
     $ocLazyLoadProvider.config({debug:false,events:true,});
     $urlRouterProvider.otherwise('/dashboard/home');
-    $stateProvider
     $stateProvider.state('dashboard', 
     {
         url:'/',

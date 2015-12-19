@@ -1,6 +1,8 @@
 'use strict';
-myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
+myAppModule.config(['$routeProvider','$ocLazyLoadProvider',
+function($routeProvider,$authProvider,$ocLazyLoadProvider)
 {
+
     $routeProvider.when('/erp/masterbarang/new/kategori',
     {
         templateUrl : 'angular/partial/erp/masterbarang/kategori/newkategori.html',
@@ -38,7 +40,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
-            }
+            },
         }
     });
     $routeProvider.when('/erp/masterbarang/detail/kategori/:idkategori',
