@@ -9,26 +9,9 @@ myAppModule.config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',
     $stateProvider
     $stateProvider.state('dashboard', 
     {
-        url:'/dashboard',
-        templateUrl: 'angular/views/adminlte.html',
-        resolve: {
-            loadMyDirectives:function($ocLazyLoad)
-            {
-                return $ocLazyLoad.load(
-                {
-                    name:'myAppModule',
-                    files:[]
-                }),
-
-                $ocLazyLoad.load(
-                {
-                   name:'toggle-switch',
-                   files:["bower_components/angular-toggle-switch/angular-toggle-switch.min.js",
-                          "bower_components/angular-toggle-switch/angular-toggle-switch.css"
-                      ]
-                })
-            }
-        }
+        url:'/',
+        templateUrl: 'angular/views/dashboard.html',
+        controller:"MainCtrl"
     });
     $stateProvider.state('dashboard.home',
     {
