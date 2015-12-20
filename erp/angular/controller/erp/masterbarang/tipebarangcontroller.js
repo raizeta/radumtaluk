@@ -67,7 +67,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     function (error) 
     {          
         $window.alert("Invalid credentials");    
-    });;
+    });
 
     $scope.deletetipebarang = function(typebarang)
     {

@@ -1,40 +1,31 @@
-myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", 
+function ($scope, $location, $http, authService, auth,$window,apiService) 
 {
 
+    $scope.loading  = true;
     $scope.userInfo = auth;
-
-    $http.get('http://api.lukisongroup.com/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
-    .success(function(data,status, headers, config) 
+    apiService.listkategori()
+    .then(function (result) 
     {
-        $scope.categories = data.Kategori ;
-
-    })
-    .error(function (data, status, header, config) 
-    {
-        alert("Tidak Bisa Mendapatkan Data Kategori");    
+        $scope.categories = result.Kategori;
+        $scope.loading  = false;   
     });
 
-    $http.get('http://api.lukisongroup.com/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
-    .success(function(data,status, headers, config) 
+    apiService.listbarangunit()
+    .then(function (result) 
     {
-        $scope.typebarangs = data.Tipebarang ;
-    })
-
-    .error(function (data, status, header, config) 
-    {
-            
+        $scope.unitbarangs = result.Unitbarang;  
     });
 
-    $http.get('http://api.lukisongroup.com/master/supliers?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
-    .success(function(data,status, headers, config) 
+    apiService.listsuplier()
+    .then(function (result) 
     {
-        $scope.supliers = data.Suplier ;
+        $scope.supliers = result.Suplier;
     });
-
-    $http.get('http://api.lukisongroup.com/master/unitbarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa')
-    .success(function(data,status, headers, config) 
+    apiService.listtipebarang()
+    .then(function (result) 
     {
-        $scope.unitbarangs = data.Unitbarang ;
+        $scope.typebarangs = result.Tipebarang;    
     });
 
     $scope.submitForm = function(barangumum)
@@ -67,7 +58,7 @@ myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http
     apiService.listbarangumum()
     .then(function (result) 
     {
-        $scope.barangumum = result;
+        $scope.barangumums = result.BarangUmum;
         $scope.loading = false;
         console.log($scope.barangumum);
        
@@ -108,51 +99,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
     $scope.loading = true ;
     $scope.userInfo = auth;
     var idbarangumum = $routeParams.idbarangumum;
-    apiService.singlelistbarangumum(idbarangumum)
-    .then(function (result) 
-    {
-        $scope.ebuid = data.ID ;
-        $scope.ebukdbarang = data.KD_BARANG ;
-        $scope.ebunmbarang = data.NM_BARANG ;
-        $scope.ebukdkategori = data.kategori.NM_KATEGORI;
-        $scope.ebutypebarang = data.type.NM_TYPE ;
-        $scope.ebukdunit = data.unit.NM_UNIT ;
-        $scope.ebukddistributor = data.KD_DISTRIBUTOR ;
-        $scope.ebuparent = data.PARENT ;
-        $scope.ebuhpp = data.HPP ;
-        $scope.ebuharga = data.HARGA ;
-        $scope.ebubarcode = data.BARCODE ;
-        $scope.ebuimage = data.IMAGE;
-        $scope.ebunote = data.NOTE  ;
-        $scope.ebukdcorp = data.KD_CORP ;
-        $scope.ebukdcab = data.KD_CAB ;
-        $scope.ebukddep = data.KD_DEP ;
-        $scope.ebustatus = data.STATUS ;
-        
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");
-        
-    });
-
-    $scope.logout = function () 
-    {
-        
-        $scope.userInfo = null;
-        $window.sessionStorage.clear();
-        window.location.href = "index.html";
-
-    }
-}]);
-
-myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService",
-function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 
-{
-    $scope.loading = true ;
-    $scope.userInfo = auth;
-    var idbarangumum = $routeParams.idbarangumum;
-    apiService.singlelistbarangumum(idbarangumum)
+    singleapiService.singlelistbarangumum(idbarangumum)
     .then(function (data) 
     {
         $scope.ebuid = data.ID ;
@@ -172,12 +119,97 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
         $scope.ebukdcab = data.KD_CAB ;
         $scope.ebukddep = data.KD_DEP ;
         $scope.ebustatus = data.STATUS ;
+
+        $scope.loading = false;
         
     }, 
     function (error) 
     {          
         $window.alert("Invalid credentials");
         
+    });
+
+    
+    $scope.logout = function () 
+    {
+        
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+
+    }
+}]);
+
+myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService","singleapiService",
+function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService,singleapiService) 
+{
+    $scope.loading = true ;
+    $scope.userInfo = auth;
+    var idbarangumum = $routeParams.idbarangumum;
+    singleapiService.singlelistbarangumum(idbarangumum)
+    .then(function (data) 
+    {
+        $scope.ebuid = data.ID ;
+        $scope.ebukdbarang = data.KD_BARANG ;
+        $scope.ebunmbarang = data.NM_BARANG ;
+        $scope.ebukdkategori = data.kategori.ID;
+        $scope.ebutypebarang = data.type.ID ;
+        $scope.ebukdunit = data.unit.ID ;
+        $scope.ebukddistributor = data.ID ;
+        $scope.ebuparent = data.PARENT ;
+        $scope.ebuhpp = data.HPP ;
+        $scope.ebuharga = data.HARGA ;
+        $scope.ebubarcode = data.BARCODE ;
+        $scope.ebuimage = data.IMAGE;
+        $scope.ebunote = data.NOTE  ;
+        $scope.ebukdcorp = data.KD_CORP ;
+        $scope.ebukdcab = data.KD_CAB ;
+        $scope.ebukddep = data.KD_DEP ;
+        $scope.ebustatus = data.STATUS ;
+
+        $scope.loading = false;
+        
+    }, 
+    function (error) 
+    {          
+        $window.alert("Invalid credentials");
+        
+    });
+
+    apiService.listkategori()
+    .then(function (result) 
+    {
+        $scope.categories = result.Kategori;
+        console.log($scope.categories);
+        $scope.loading  = false;
+       
+    });
+
+    apiService.listbarangunit()
+    .then(function (result) 
+    {
+        $scope.unitbarangs = result.Unitbarang;
+        $scope.loading = false;
+        console.log($scope.unitbarangs);
+       
+    });
+
+    apiService.listsuplier()
+    .then(function (result) 
+    {
+        $scope.supliers = result.Suplier;
+        $scope.loading = false;
+        console.log($scope.supliers);
+       
+    });
+
+    apiService.listtipebarang()
+    .then(function (result) 
+    {
+        $scope.typebarangs = result.Tipebarang;
+        $scope.loading = false;
+        console.log($scope.typebarangs);
+       
     });
 
     $scope.logout = function () 
@@ -189,6 +221,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
 
     }
 }]);
+
 
 myAppModule.controller("DeleteBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
 {

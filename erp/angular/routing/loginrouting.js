@@ -3,7 +3,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
 	$routeProvider.when('/',
 	{
-		templateUrl : 'angular/partial/login.html',
+        templateUrl : 'angular/partial/login.html',
 		controller	: 'LoginController',
 		resolve: 
 		{

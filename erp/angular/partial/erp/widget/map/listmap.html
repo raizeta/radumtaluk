@@ -1,0 +1,13 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div class="content-wrapper">
+  	<section class="content">
+
+	  <ng-map zoom="3" center="41.850033, -87.6500523" style="height:400px">
+	      <fusion-tables-layer query="{
+	        select: 'Geocodable address',
+	        from: '1mZ53Z70NsChnBMm-qEYmSDOvLXgrreLTkQUvvg'}">
+	      </fusion-tables-layer>
+	    </ng-map>
+    </section>
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>

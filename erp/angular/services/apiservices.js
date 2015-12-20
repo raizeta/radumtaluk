@@ -1,7 +1,6 @@
 'use strict';
 myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $window)
 {
-	var deferred = $q.defer();
 	var listbarangumum = function()
 	{
 		var deferred = $q.defer();
@@ -12,7 +11,6 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         {
 		  deferred.resolve(response);
         })
-
         .error(function()
         {
             deferred.reject(error);
@@ -96,6 +94,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+
+
 
 	return{
 			listbarangumum:listbarangumum,

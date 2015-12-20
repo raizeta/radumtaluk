@@ -22,3 +22,8 @@ bower install angular-toggle-switch --save
 
 #8. TO Install Angular Animate #https://github.com/angular/bower-angular-animate
 bower install angular-animate
+
+#9. To Install Google Map
+bower install ngmap
+
+https://ngmap.github.io/#/layer-fusiontables-simple.html

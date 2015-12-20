@@ -1,0 +1,14 @@
+<ul id="w4" class="navbar-nav navbar-left nav">
+    <li class="dropdown"><a class="dropdown-toggle" href="http://lukisongroup.com/site/index" data-toggle="dropdown"><i class="fa fa-dashboard"></i> Dashboard <span class="caret"></span></a><ul id="w5" class="dropdown-menu"><li class="dropdown dropdown-submenu"><a class="dropdown-toggle" href="http://lukisongroup.com/dashboard/crm" tabindex="-1" data-toggle="dropdown"><i class="fa fa-share-alt"></i> CRM</a><ul class="dropdown-menu"><li><a href="http://lukisongroup.com/dashboard/crm-manufactory" tabindex="-1"><i class="fa fa-"></i> Manufactory</a></li>
+<li><a href="http://lukisongroup.com/dashboard/crm-distributor" tabindex="-1"><i class="fa fa-"></i> Distributor</a></li>
+<li><a href="http://lukisongroup.com/dashboard/crm-customer" tabindex="-1"><i class="fa fa-"></i> Customer</a></li>
+<li><a href="http://lukisongroup.com/dashboard/crm-salesmen" tabindex="-1"><i class="fa fa-"></i> Salesmen</a></li>
+<li><a href="http://lukisongroup.com/dashboard/crm-salespromo" tabindex="-1"><i class="fa fa-"></i> Seles Promotion</a></li></ul></li>
+<li class="dropdown dropdown-submenu"><a class="dropdown-toggle" href="http://lukisongroup.com/dashboard/rpt" tabindex="-1" data-toggle="dropdown"><i class="fa fa-"></i> Reporting</a><ul class="dropdown-menu"><li><a href="http://lukisongroup.com/dashboard/rpt-sss" tabindex="-1"><i class="fa fa-"></i> PT. Sarana Sinar Surya</a></li>
+<li><a href="http://lukisongroup.com/dashboard/rpt-alg" tabindex="-1"><i class="fa fa-"></i> PT. Arta Lipat Ganda</a></li>
+<li><a href="http://lukisongroup.com/dashboard/rpt-esm" tabindex="-1"><i class="fa fa-"></i> PT. Efembi Sukses Makmur</a></li>
+<li><a href="http://lukisongroup.com/dashboard/rpt-gosent" tabindex="-1"><i class="fa fa-"></i> PT. Gosent</a></li></ul></li>
+</ul></li>
+
+
+<li><a href="http://lukisongroup.com/site/logout" data-method="post"><i class="fa fa-power-off"></i> </a></li></ul>
