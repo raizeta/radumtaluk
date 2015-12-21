@@ -4,7 +4,7 @@ git add .  //for all files
 
 git commit -m "Deskripris Message"
 
-git push 
+git push
 
 
 
@@ -27,3 +27,7 @@ mobile-cordova.com
 labtest3
 radumta
 asd123
+
+http://labtest3-crm.int/
+
+http://labtest3-erp.int/
