@@ -31,3 +31,5 @@ asd123
 http://labtest3-crm.int/
 
 http://labtest3-erp.int/
+
+http://labtest3-api.int/
