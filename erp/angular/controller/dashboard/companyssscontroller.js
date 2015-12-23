@@ -2,7 +2,7 @@ myAppModule.controller("DashCompSssMarketingController", ["$scope", "$location",
     function ($scope, $location, $http, authService, auth,$window) 
 {
 
-    $scope.loading  = true;
+    // $scope.loading  = true;
     $scope.userInfo = auth;
 
     $scope.logout = function () 

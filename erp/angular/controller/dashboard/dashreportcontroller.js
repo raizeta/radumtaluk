@@ -2,7 +2,7 @@ myAppModule.controller("DashReportSSSController", ["$scope", "$location","$http"
     function ($scope, $location, $http, authService, auth,$window) 
 {
 
-    $$scope.loading  = true;
+    // $scope.loading  = true;
     $scope.userInfo = auth;
 
     $scope.logout = function () 

@@ -3,7 +3,7 @@ myAppModule.controller("DashDeptHrdPersonaliaController", ["$scope", "$location"
 {
 
 
-    $scope.userInfo = auth;
+    // $scope.userInfo = auth;
 
     var jsonDatapersonalias = $.ajax
     ({

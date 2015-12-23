@@ -20,32 +20,32 @@
           <div class="box-header">
             <h3 class="box-title">EDIT KATEGORI</h3>
           </div>
-          <form action="index.html" method="post">
+          <form name ="editkategoriForm" ng-submit="index.html" method="post" novalidate>
           <div class="box-body">
             <div class="form-group">
               <label>KODE KATEGORI</label>
                 <input type="text" class="form-control" ng-model="ekkdkategori" disabled>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editkategoriForm.ekanamakategori.$invalid && !editkategoriForm.ekanamakategori.$pristine,'has-success':editkategoriForm.ekanamakategori.$valid}">
               <label>NAMA KATEGORI</label>
-                <input type="text" class="form-control" ng-model="eknamakategori">
+                <input type="text" name="ekanamakategori" class="form-control" ng-model="eknamakategori" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editkategoriForm.eknote.$invalid && !editkategoriForm.eknote.$pristine,'has-success':editkategoriForm.eknote.$valid}">
               <label>NOTE</label>
-                <textarea class="form-control" ng-model="eknote"></textarea>
+                <textarea class="form-control" name="eknote" ng-model="eknote" required></textarea>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editkategoriForm.ekstatus.$invalid && !editkategoriForm.ekstatus.$pristine,'has-success':editkategoriForm.ekstatus.$valid}">
               <label>Status</label>
               <div class="radio" >
                 <label>
-                  <input type="radio" class="flat-red" ng-model="ekstatus"  value="1">
+                  <input type="radio" class="flat-red" name="ekstatus" ng-model="ekstatus"  value="1">
                   Aktif
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" class="flat-red" ng-model="ekstatus"  value="0">Tidak Aktif
+                  <input type="radio" class="flat-red" name="ekstatus" ng-model="ekstatus"  value="0">Tidak Aktif
                 </label>
               </div> 
             </div>

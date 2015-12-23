@@ -20,39 +20,40 @@
           <div class="box-header">
             <h3 class="box-title">EDIT SUPLIER</h3>
           </div>
-          <form action="index.html" method="post">
+          <form name="editsuplierForm" action="index.html" method="post">
           <div class="box-body">
             <div class="form-group">
               <label>KODE SUPLIER</label>
                 <input type="text" class="form-control"  ng-model="esupkdsup" disabled>
             </div>
-            <div class="form-group">
+
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esupnamasup.$invalid && !editsuplierForm.esupnamasup.$pristine,'has-success':editsuplierForm.esupnamasup.$valid}">
               <label>NAMA SUPLIER</label>
-                <input type="text" class="form-control" ng-model="esupnamasup">
+                <input type="text" class="form-control" name="esupnamasup" ng-model="esupnamasup" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esupalamat.$invalid && !editsuplierForm.esupalamat.$pristine,'has-success':editsuplierForm.esupalamat.$valid}">
               <label>ALAMAT SUPLIER</label>
-                <input type="text" class="form-control" ng-model="esupalamat">
+                <input type="text" class="form-control" name="esupalamat" ng-model="esupalamat">
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esupkota.$invalid && !editsuplierForm.esupkota.$pristine,'has-success':editsuplierForm.esupkota.$valid}">
               <label>KOTA SUPLIER</label>
-                <input type="text" class="form-control" ng-model="esupkota">
+                <input type="text" class="form-control" name="esupkota" ng-model="esupkota">
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esuptlp.$invalid && !editsuplierForm.esuptlp.$pristine,'has-success':editsuplierForm.esuptlp.$valid}">
               <label>TELP SUPLIER</label>
-                <input type="text" class="form-control" ng-model="esuptlp">
+                <input type="text" class="form-control" name="esuptlp" sng-model="esuptlp">
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esupmobile.$invalid && !editsuplierForm.esupmobile.$pristine,'has-success':editsuplierForm.esupmobile.$valid}">
               <label>HP SUPLIER</label>
-                <input type="text" class="form-control" ng-model="esupmobile">
+                <input type="text" class="form-control" name="esupmobile" ng-model="esupmobile">
             </div>
             <div class="form-group">
               <label>FAX SUPLIER</label>
                 <input type="text" class="form-control" ng-model="esupfax">
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esupemail.$invalid && !editsuplierForm.esupemail.$pristine,'has-success':editsuplierForm.esupemail.$valid}">
               <label>EMAIL SUPLIER</label>
-                <input type="text" class="form-control" ng-model="esupemail">
+                <input type="text" class="form-control" name="esupemail" ng-model="esupemail">
             </div>
             <div class="form-group">
               <label>WEBSITE SUPLIER</label>
@@ -78,17 +79,17 @@
               <label>KODE DEPARTEMENT</label>
                 <input type="text" class="form-control" ng-model="esupkddep">
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':editsuplierForm.esupstatus.$invalid && !editsuplierForm.esupstatus.$pristine,'has-success':editsuplierForm.esupstatus.$valid}">
               <label>Status</label>
               <div class="radio" >
                 <label>
-                  <input type="radio"  ng-model="esupstatus"  value="1">
+                  <input type="radio"  name="esupstatus" ng-model="esupstatus"  value="1">
                   Aktif
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio"  ng-model="esupstatus"  value="0">Tidak Aktif
+                  <input type="radio"  name="esupstatus" ng-model="esupstatus"  value="0">Tidak Aktif
                 </label>
               </div>
             </div>

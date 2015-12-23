@@ -2,7 +2,7 @@ myAppModule.controller("DashCompDataMasterUmumController", ["$scope", "$location
     function ($scope, $location, $http, authService, auth,$window) 
 {
 
-    $scope.loading  = true;
+    // $scope.loading  = false;
     $scope.userInfo = auth;
 
     $scope.logout = function () 

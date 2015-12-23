@@ -8,49 +8,49 @@
           <div class="box-header">
             <h3 class="box-title">Create New Barang Umum</h3>
           </div>
-          <form name="barangumumForm"ng-submit="submitForm(barangumum.$valid)" method="post" validate>
+          <form name="barangumumForm" ng-submit="submitForm(barangumum.$valid)" method="post" novalidate>
           <div class="box-body">
-            <div class="form-group" ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine }">
+            <div class="form-group" ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine,'has-success':barangumumForm.namaproduct.$valid  }">
               <label>Nama Product</label>
                 <input type="text" name="namaproduct" class="form-control" ng-model="barangumum.namaproduct" required>
                 <p ng-show="barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine" class="help-block">Nama Product Tidak Boleh Kosong.</p>
               </select>
             </div><!-- /.form-group -->
             <!-- /.form group -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.suplier.$invalid && !barangumumForm.suplier.$pritine,'has-success':barangumumForm.suplier.$valid}">
               <label>Kode Supplier</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.suplier"required>
+              <select class="form-control select2" name="suplier" style="width: 100%;" ng-model="barangumum.suplier"required>
                 <option value="" disabled selected>--Pilih Suplier--</option>
                 <option ng-repeat="suplier in supliers" value="{{suplier.ID}}">{{suplier.NM_SUPPLIER}}</option>
               </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.category.$invalid && !barangumumForm.category.$pritine,'has-success':barangumumForm.category.$valid}">
               <label>Kode Kategori</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.kategori"required>
+              <select class="form-control select2" name="category"style="width: 100%;" ng-model="barangumum.kategori"required>
                 <option disabled selected value="">--Pilih Kategori--</option>
                 <option ng-repeat="category in categories" value="{{category.ID}}">{{category.NM_KATEGORI}}</option>
               </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.tipebarang.$invalid && !barangumumForm.tipebarang.$pritine,'has-success':barangumumForm.tipebarang.$valid}">
               <label>Type Barang</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.typebarang"required>
+              <select class="form-control select2" name="tipebarang" style="width: 100%;" ng-model="barangumum.typebarang"required>
                 <option disabled selected value="">--Pilih Type--</option>
                 <option ng-repeat="typebarang in typebarangs" value="{{typebarang.ID}}">{{typebarang.NM_TYPE}}</option>
               </select>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.barangunit.$invalid && !barangumumForm.barangunit.$pritine,'has-success':barangumumForm.barangunit.$valid}">
               <label>Barang Unit</label>
-              <select class="form-control select2" style="width: 100%;" ng-model="barangumum.unitbarang" required >
+              <select class="form-control select2" name="barangunit" style="width: 100%;" ng-model="barangumum.unitbarang" required >
                 <option disabled selected value="">--Pilih Unit Barang--</option>
                 <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.ID}}">{{unitbarang.NM_UNIT}}</option>
               </select>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.files.$invalid && !barangumumForm.files.$pritine,'has-success':barangumumForm.files.$valid}">
               <label>Gambar Barang</label>
-              <input type="file" ng-model="barangumum.file" name="file" base-sixty-four-input required  maxsize="500" >
+              <input type="file" ng-model="barangumum.file" name="files" base-sixty-four-input>
             </div>
             <div class="form-group">
               <div ng-show="barangumum.file">
@@ -59,25 +59,25 @@
            </div>
 
             <!-- phone mask -->
-            <div class="form-group">
+            <div class="form-group" ng-class="{ 'has-error' : barangumumForm.quantity.$invalid && !barangumumForm.quantity.$pristine,'has-success':barangumumForm.quantity.$valid  }">
               <label>Quantity</label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-minus"></i>
                 </div>
-                <input type="number" class="form-control" name="quantity" ng-model="barangumum.quantity" min=0 required>
+                <input type="number" class="form-control" name="quantity" ng-model="barangumum.quantity" min=1 required>
                 <div class="input-group-addon">
                   <i class="fa fa-plus"></i>
                 </div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.date.$invalid && !barangumumForm.date.$pritine,'has-success':barangumumForm.date.$valid}">
               <label>Tanggal Masuk</label>
               <div class="input-group">
                 <div class="input-group-addon">
                   <i class="fa fa-minus"></i>
                 </div>
-                <input type="date" class="form-control" uib-datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <input type="date" name="date" class="form-control" uib-datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                 <div class="input-group-addon">
                   <i class="fa fa-plus"></i>
                 </div>
