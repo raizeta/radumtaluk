@@ -8,7 +8,7 @@ myAppModule.run(["$rootScope", "$location", function ($rootScope, $location)
     {
         // console.log(userInfo);
     });
-    
+   
     $rootScope.$on("$routeChangeSuccess", function (userInfo) 
     {
         // console.log(userInfo);

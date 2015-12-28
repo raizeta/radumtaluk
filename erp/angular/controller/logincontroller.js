@@ -1,3 +1,5 @@
+/* global myAppModule */
+/* global angular */
 'use strict';
 myAppModule.controller("LoginController", ["$scope", "$location", "$window", "authService",function ($scope, $location, $window, authService) 
 {
