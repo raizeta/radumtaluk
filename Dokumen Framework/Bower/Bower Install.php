@@ -27,3 +27,5 @@ bower install angular-animate
 bower install ngmap
 
 https://ngmap.github.io/#/layer-fusiontables-simple.html
+
+http://willowsystems.github.io/jSignature/#/demo/
