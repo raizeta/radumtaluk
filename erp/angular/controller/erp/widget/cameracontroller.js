@@ -39,6 +39,9 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaCamera,Cam
 
 
     Camera.getPicture().then(function(imageURI) {
+      var image = document.getElementById('myImage');
+      image.src = "data:image/jpeg;base64," + imageURI;
+      alert(image);
       console.log(imageURI);
     }, function(err) {
       console.err(err);

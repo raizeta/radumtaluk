@@ -1,13 +1,9 @@
 <div ng-include="'angular/partial/headtemplate.html'"></div>
 <div class="content-wrapper">
   	<section class="content">
-
-	  <ng-map zoom="7" center="41.850033, -87.6500523">
-	      <fusion-tables-layer query="{
-	        select: 'Geocodable address',
-	        from: '1mZ53Z70NsChnBMm-qEYmSDOvLXgrreLTkQUvvg'}">
-	      </fusion-tables-layer>
-	    </ng-map>
+	  <ng-map zoom="{{zoomvalue}}" center="{{lat}},{{long}}">
+            <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+        </ng-map>
     </section>
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>
