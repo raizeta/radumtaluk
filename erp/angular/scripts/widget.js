@@ -18,3 +18,6 @@ document.write('<script src="angular/routing/erp/widget/camerarouting.js"></scri
 
 document.write('<script src="angular/controller/erp/widget/geocontroller.js"></script>');
 document.write('<script src="angular/routing/erp/widget/georouting.js"></script>');
+
+document.write('<script src="angular/controller/erp/widget/barcodecontroller.js"></script>');
+document.write('<script src="angular/routing/erp/widget/barcoderouting.js"></script>');

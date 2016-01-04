@@ -4,6 +4,10 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 
     $scope.loading  = true;
     $scope.userInfo = auth;
+    $scope.select2Options = {
+        allowClear:true
+    };
+    
     apiService.listkategori()
     .then(function (result) 
     {
@@ -50,24 +54,36 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     }   
 }]);
 
-myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner","apiService", function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner,apiService) 
+myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner","apiService","$interval",
+function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner,apiService,$interval) 
 {
     
     $scope.loading  = true;
     $scope.userInfo = auth;
-    apiService.listbarangumum()
-    .then(function (result) 
+    $scope. barangumum = function()
     {
-        $scope.barangumums = result.BarangUmum;
-        $scope.loading = false;
-        console.log($scope.barangumum);
-       
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");    
-    });
+        $scope.loading  = true;
+        apiService.listbarangumum()
+        .then(function (result) 
+        {
+            $scope.barangumums = result.BarangUmum;
+            $scope.loading = false;
+            console.log($scope.barangumum);
+           
+        }, 
+        function (error) 
+        {          
+            $window.alert("Invalid credentials");    
+        });
+    }
 
+    $scope.barangumum();
+
+    $interval(function()
+        {
+            $scope.barangumum()
+        }
+        , 1000000);
 
     $scope.deletebarangumum = function(barangumum)
     {
@@ -96,6 +112,8 @@ myAppModule.controller("ListBarangUmumController", ["$scope", "$location","$http
 myAppModule.controller("DetailBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService",
 function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 
 {
+
+
     $scope.loading = true ;
     $scope.userInfo = auth;
     var idbarangumum = $routeParams.idbarangumum;
@@ -143,6 +161,9 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
 myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService","singleapiService",
 function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService,singleapiService) 
 {
+    $scope.select2Options = {
+        allowClear:true
+    };
     $scope.loading = true ;
     $scope.userInfo = auth;
     var idbarangumum = $routeParams.idbarangumum;

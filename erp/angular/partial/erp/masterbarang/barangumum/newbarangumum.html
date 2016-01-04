@@ -19,32 +19,32 @@
             <!-- /.form group -->
             <div class="form-group" ng-class="{'has-error':barangumumForm.suplier.$invalid && !barangumumForm.suplier.$pritine,'has-success':barangumumForm.suplier.$valid}">
               <label>Kode Supplier</label>
-              <select class="form-control select2" name="suplier" style="width: 100%;" ng-model="barangumum.suplier"required>
-                <option value="" disabled selected>--Pilih Suplier--</option>
+              <select class="form-control" ui-select2="select2Options" name="suplier" style="width: 100%;" ng-model="barangumum.suplier" ng-required="true">
+                <option value=""></option>
                 <option ng-repeat="suplier in supliers" value="{{suplier.ID}}">{{suplier.NM_SUPPLIER}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.category.$invalid && !barangumumForm.category.$pritine,'has-success':barangumumForm.category.$valid}">
               <label>Kode Kategori</label>
-              <select class="form-control select2" name="category"style="width: 100%;" ng-model="barangumum.kategori"required>
-                <option disabled selected value="">--Pilih Kategori--</option>
+              <select class="form-control" ui-select2="select2Options" name="category"style="width: 100%;" ng-model="barangumum.kategori" ng-required="true">
+                <option value=""></option>
                 <option ng-repeat="category in categories" value="{{category.ID}}">{{category.NM_KATEGORI}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.tipebarang.$invalid && !barangumumForm.tipebarang.$pritine,'has-success':barangumumForm.tipebarang.$valid}">
               <label>Type Barang</label>
-              <select class="form-control select2" name="tipebarang" style="width: 100%;" ng-model="barangumum.typebarang"required>
-                <option disabled selected value="">--Pilih Type--</option>
+              <select class="form-control" ui-select2="select2Options" name="tipebarang" style="width: 100%;" ng-model="barangumum.typebarang" ng-required="true">
+                <option value=""></option>
                 <option ng-repeat="typebarang in typebarangs" value="{{typebarang.ID}}">{{typebarang.NM_TYPE}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.barangunit.$invalid && !barangumumForm.barangunit.$pritine,'has-success':barangumumForm.barangunit.$valid}">
               <label>Barang Unit</label>
-              <select class="form-control select2" name="barangunit" style="width: 100%;" ng-model="barangumum.unitbarang" required >
-                <option disabled selected value="">--Pilih Unit Barang--</option>
+              <select class="form-control" ui-select2="select2Options" name="barangunit" style="width: 100%;" ng-model="barangumum.unitbarang" ng-required="true">
+                <option value=""></option>
                 <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.ID}}">{{unitbarang.NM_UNIT}}</option>
               </select>
             </div>

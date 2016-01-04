@@ -33,20 +33,25 @@
             </div>
             <div class="form-group" ng-class="{'has-error':editbarangumumForm.ebutypebarang.$invalid && !editbarangumumForm.ebutypebarang.$pristine,'has-success':editbarangumumForm.ebutypebarang.$valid}">
               <label>Type Barang</label>
-              <select class="form-control" name="ebutypebarang" ng-options="tipebarang.ID as tipebarang.NM_TYPE for tipebarang in typebarangs" ng-model="ebutypebarang" required>
-                <option value="" selected disabled>--Pilih Type Barang--</option>
+              <select class="form-control" name="ebutypebarang" ui-select2="select2Options" ng-model="ebutypebarang" required>
+                <option value=""></option>
+                <option ng-repeat="tipebarang in typebarangs" value="{{tipebarang.ID}}">{{tipebarang.NM_TYPE}}</option>
               </select>
             </div>
             <div class="form-group" ng-class="{'has-error':editbarangumumForm.ebukdkategori.$invalid && !editbarangumumForm.ebukdkategori.$pristine,'has-success':editbarangumumForm.ebukdkategori.$valid}">
               <label>Kode Kategori</label>
-              <select class="form-control" name="ebukdkategori" ng-options="category.ID as category.NM_KATEGORI for category in categories" ng-model="ebukdkategori" required>
-                <option value="" selected disabled>--Pilih Kategori--</option>
+              <select class="form-control" name="ebukdkategori" ui-select2="select2Options"  ng-model="ebukdkategori" required>
+                <option value=""></option>
+                <option ng-repeat="category in categories" value="{{category.ID}}">
+                  {{category.NM_KATEGORI}}
+                </option>
               </select>
             </div>
             <div class="form-group" ng-class="{'has-error':editbarangumumForm.ebukdunit.$invalid && !editbarangumumForm.ebukdunit.$pristine,'has-success':editbarangumumForm.ebukdunit.$valid}">
               <label>Unit Barang</label>
-              <select class="form-control" name="ebukdunit" ng-options="unitbarang.ID as unitbarang.NM_UNIT for unitbarang in unitbarangs" ng-model="ebukdunit" required>
-                <option value="" selected disabled>--Pilih Unit--</option>
+              <select class="form-control" ui-select2="select2Options" name="ebukdunit" ng-model="ebukdunit" required>
+                <option value=""></option>
+                <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.ID}}">{{unitbarang.NM_UNIT}}</option>
               </select>
             </div>
 

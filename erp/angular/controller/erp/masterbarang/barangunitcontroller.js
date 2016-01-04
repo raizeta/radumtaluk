@@ -1,5 +1,11 @@
-myAppModule.controller("NewBarangUnitController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("NewBarangUnitController", ["$scope", "$location","$http", "authService", "auth","$window","$filter", 
+function ($scope, $location, $http, authService, auth,$window,$filter) 
 {
+    $scope.setdecimali = function(buqty)
+    {
+        $scope.buqty = $filter('setDecimal')(buqty,2);
+    }
+    
     $scope.submitForm = function(isValid)
     {
         if (isValid) 

@@ -18,7 +18,7 @@
           <div class="box-body">
             <div class="form-group" ng-class="{'has-error':newbarangunitForm.buqty.$invalid && !newbarangunitForm.buqty.$pristine,'has-success':newbarangunitForm.buqty.$valid}">
               <label>QUANTITY BARANG UNIT</label>
-                <input type="number" class="form-control" name="buqty" ng-model="buqty" min=0 required>
+                <input type="number" class="form-control" name="buqty" ng-change="setdecimali(buqty)" ng-model="buqty" min=0 required >
             </div>
           </div>
           <div class="box-body">
