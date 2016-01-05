@@ -1,0 +1,12 @@
+<div class="carousel">
+  <div class="carousel-inner">
+    <ng-map zoom="15" center="{{lat}},{{long}}" style="height:600px;margin:12px;box-shadow:0 3px 25px black;">
+            <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+            <marker position="-6.219667, 106.663280"  icon='http://google-maps-icons.googlecode.com/files/sailboat-tourism.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+            <marker position="-6.222201, 106.651958"  icon='http://google-maps-icons.googlecode.com/files/sailboat-tourism.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+        </ng-map>
+  </div>
+</div>

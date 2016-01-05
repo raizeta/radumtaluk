@@ -1,4 +1,5 @@
-myAppModule.controller("BarCodeController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner","apiService", function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner,apiService) 
+myAppModule.controller("BarCodeController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner","apiService", 
+function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner,apiService) 
 {
     
     $scope.scanbarcode = function()
