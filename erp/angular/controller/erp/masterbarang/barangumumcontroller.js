@@ -107,6 +107,27 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+
+    $scope.menuOptions = 
+    [
+        ['View Detail', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.barangumum.ID;
+            alert($scope.selected);
+        }],
+        null, // Dividier
+        ['Edit', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.barangumum.ID;
+            alert($scope.selected);
+        }],
+        null, // Dividier
+        ['Delete', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.barangumum.ID;
+            alert($scope.selected);
+        }]
+    ];
 }]);
 
 myAppModule.controller("DetailBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService",

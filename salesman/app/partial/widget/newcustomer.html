@@ -1,0 +1,45 @@
+<div ui-content-for="title">
+  <span>Forms</span>
+</div>
+
+<div class="scrollable">
+ <div class="scrollable-content section">
+   
+  <form role="form" ng-submit='login()'>
+    <fieldset>
+      <legend>New Customer</legend>
+        <div class="form-group has-success has-feedback">
+          <label>Email</label>
+          <input type="email" ng-model="email" class="form-control" placeholder="Enter email">
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <ui-select ng-model="selectedItem" theme="bootstrap">
+              <ui-select-match>
+                  <span ng-bind="$select.selected.name"></span>
+              </ui-select-match>
+              <ui-select-choices repeat="item in (itemArray | filter: $select.search) track by item.id">
+                  <span ng-bind="item.name"></span>
+              </ui-select-choices>
+          </ui-select>
+        </div>
+        <div class="form-group">
+          <label>Remember Me</label>
+          <ui-switch ng-model='rememberMe'></ui-switch>
+        </div>
+    </fieldset>
+    <hr>
+
+    <button class="btn btn-primary btn-block">
+      Login
+    </button>
+
+
+
+  </form>
+ </div>
+</div>

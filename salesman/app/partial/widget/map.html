@@ -1,11 +1,29 @@
 <div class="carousel">
   <div class="carousel-inner">
-    <ng-map zoom="15" center="{{lat}},{{long}}" style="height:600px;margin:12px;box-shadow:0 3px 25px black;">
+    <ng-map zoom="18" center="{{lat}},{{long}}" style="height:600px;margin:12px;box-shadow:0 3px 25px black;">
             <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+      			<shape name="circle" stroke-color='#FF0000' stroke-weight="2"
+                        center="{{lat}}, {{long}}" radius="5">
+      			</shape>
 
-            <marker position="-6.219667, 106.663280"  icon='http://google-maps-icons.googlecode.com/files/sailboat-tourism.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+            <marker radius="3500" position="-6.219667, 106.663280"  icon='http://google-maps-icons.googlecode.com/files/factory.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+            <shape name="circle" stroke-color='#FF00CC' stroke-weight="2"
+                  center="-6.219667, 106.663280" radius="5">
+			       </shape>
 
             <marker position="-6.222201, 106.651958"  icon='http://google-maps-icons.googlecode.com/files/sailboat-tourism.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+            <shape name="circle" stroke-color='#FFAABB' stroke-weight="2"
+                  center="-6.222201, 106.651958" radius="5">
+		        </shape>
+
+            <marker position="-6.224129, 106.649415"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+            <shape name="circle" stroke-color='#FFAABB' stroke-weight="2"
+                  center="-6.224129, 106.649415" radius="5">
+            </shape>
+
+      
 
         </ng-map>
   </div>

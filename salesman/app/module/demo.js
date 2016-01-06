@@ -3,7 +3,9 @@
 // has dependent on mobile-angular-ui
 // 
 var app = angular.module('myAppModule', 
-['ngRoute','mobile-angular-ui','mobile-angular-ui.gestures','ngMap','ngCordova']);
+['ngRoute','mobile-angular-ui','mobile-angular-ui.gestures',
+'ngMap','ngCordova','ngAnimate','ngSanitize']);
+
 
 app.run(function($rootScope,$transform) 
 {

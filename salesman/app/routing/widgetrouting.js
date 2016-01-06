@@ -29,5 +29,12 @@ app.config(function($routeProvider) {
       templateUrl: 'app/partial/widget/detailcustomer.html',
       controller:'DetailCustomerController', 
       reloadOnSearch: false
-    }); 
+    });
+
+    $routeProvider.when('/widget/newcustomer',        
+    {
+      templateUrl: 'app/partial/widget/newcustomer.html',
+      controller:'DetailCustomerController', 
+      reloadOnSearch: false
+    });  
 });
