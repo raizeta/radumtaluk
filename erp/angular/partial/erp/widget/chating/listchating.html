@@ -1,47 +1,262 @@
 <div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/layout/widget/chatingmenu.html'"></div>
 <div class="content-wrapper">
     <section class="content">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        RECENT CHAT HISTORY
+                    </div>
+                    <div class="pre-scrollableChatBase panel-body">
+                <ul class="media-list">
+                  <li class="media">
+                    <div class="media-body">
+                      <div class="media">
+                        <a class="pull-left" href="#">
+                          <img class="media-object img-circle " src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                        </a>
+                        <div class="media-body">
+                          Donec sit amet ligula enim. Duis vel condimentum massa.              
+                          Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim. 
+                          Duis vel condimentum massa.
+                          Donec sit amet ligula enim. Duis vel condimentum massa.
+                          <br>
+                           <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+                          <hr>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+                  <li class="media">
+                    <div class="media-body">
+                      <div class="media">
+                        <a class="pull-left" href="#">
+                          <img class="media-object img-circle " src="http://lukisongroup.com/upload/hrd/orgimage/ailey.png">
+                        </a>
+                        <div class="media-body">
+                          Donec sit amet ligula enim. Duis vel condimentum massa.              
+                          Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim. 
+                          Duis vel condimentum massa.
+                          Donec sit amet ligula enim. Duis vel condimentum massa.
+                          <br>
+                           <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
+                          <hr>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+                  <li class="media">
+                    <div class="media-body">
+                      <div class="media">
+                        <a class="pull-left" href="#">
+                          <img class="media-object img-circle " src="http://lukisongroup.com/upload/hrd/orgimage/stephen.png">
+                        </a>
+                        <div class="media-body">
+                          Donec sit amet ligula enim. Duis vel condimentum massa.              
+                          Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim. 
+                          Duis vel condimentum massa.
+                          Donec sit amet ligula enim. Duis vel condimentum massa.
+                          <br>
+                           <small class="text-muted">Alex Deo | 23rd June at 5:00pm</small>
+                          <hr>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li class="media">
+                    <div class="media-body">
+                      <div class="media">
+                        <a class="pull-left" href="#">
+                          <img class="media-object img-circle " src="http://lukisongroup.com/upload/hrd/orgimage/tano.png">
+                        </a>
+                        <div class="media-body">
+                          Donec sit amet ligula enim. Duis vel condimentum massa.              
+                          Donec sit amet ligula enim. Duis vel condimentum massa.Donec sit amet ligula enim. 
+                          Duis vel condimentum massa.
+                          Donec sit amet ligula enim. Duis vel condimentum massa.
+                          <br>
+                           <small class="text-muted">Jhon Rexa | 23rd June at 5:00pm</small>
+                          <hr>
+                        </div>
+                      </div>
+
+                    </div>
+                  </li>
+                </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <div class="input-group">
+                  <input type="text" class="form-control" style="height:100px" placeholder="Enter Message">
+                  <span class="input-group-btn">
+                    <button class="btn btn-info" style="height:100px" type="button">SEND</button>
+                  </span>
+                </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-md-4">
           <div class="panel panel-danger">
             <div class="panel-heading">
-                List NOTULEN 
+                     ROOMS    
             </div>
-            <div class="panel-body">
-                <a class="btn btn-warning" href="#/erp/widget/new/notulen">
-                    New Notulen <i class="fa fa-plus"></i>
-                </a>
+            <div class="pre-scrollableRooms  panel-body" id="room">
+              <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Alex Deo | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/ailey.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Jhon Rexa | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/stephen.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Alex Deo | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+            </div>      
+          </div>   
+          <div class="panel panel-info">
+            <div class="panel-heading">
+                     ONLINE USERS   
             </div>
-            <div class="panel-body table-responsive">
-               <table class="table table-hovered table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>NM BRG</th>
-                    <th>NAMA TYPE</th>
-                    <th>NAMA KATEGORI</th>
-                    <th>NAMA UNIT</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>   
-                    <td><a href="#/erp/widget/detail/notulen/1">
-                      <i class="fa fa-eye fa-2x"></i></a>
-                    </td>
-                    <td><a href="#/erp/widget/edit/notulen/1">
-                      <i class="fa fa-refresh fa-2x"></i></a>
-                    </td>
-                    <td>
-                        <a href="" ng-click="deletenotulen(notulen)">
-                            <i class="fa fa-trash-o fa-2x"></i>
-                        </a>
-                    </td>
-                  </tr>
-                </tbody>
-               </table>
-             </div>
-           </div>
-
+            <div class="pre-scrollableUser panel-body" id="user">
+              <ul class="media-list">
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Alex Deo | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/ailey.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Jhon Rexa | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/stephen.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Alex Deo | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/tano.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Jhon Rexa | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Alex Deo | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Jhon Rexa | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Alex Deo | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li class="media">
+                  <div class="media-body">
+                    <div class="media">
+                      <a class="pull-left" href="#">
+                        <img class="media-object img-circle" style="max-height:40px;" src="http://lukisongroup.com/upload/hrd/orgimage/piter.png">
+                      </a>
+                      <div class="media-body">
+                        <h5>Jhon Rexa | User </h5>                                                    
+                         <small class="text-muted">Active From 3 hours</small>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </section><!-- /.content -->

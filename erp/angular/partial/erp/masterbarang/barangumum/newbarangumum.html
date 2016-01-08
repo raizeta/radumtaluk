@@ -10,7 +10,7 @@
           </div>
           <form name="barangumumForm" ng-submit="submitForm(barangumum.$valid)" method="post" novalidate>
           <div class="box-body">
-            <div class="form-group" ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine,'has-success':barangumumForm.namaproduct.$valid  }">
+            <div class="form-group"  ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine,'has-success':barangumumForm.namaproduct.$valid  }">
               <label>Nama Product</label>
                 <input type="text" name="namaproduct" class="form-control" ng-model="barangumum.namaproduct" required>
                 <p ng-show="barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine" class="help-block">Nama Product Tidak Boleh Kosong.</p>

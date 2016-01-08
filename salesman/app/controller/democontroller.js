@@ -12,7 +12,7 @@ app.controller('MainController', function($rootScope, $scope){
 
 
   $scope.rememberMe = true;
-  $scope.email = 'me@example.com';
+
   
   $scope.login = function() {
     alert('You submitted the login form');
