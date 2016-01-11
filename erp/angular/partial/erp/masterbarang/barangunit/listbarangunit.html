@@ -30,10 +30,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="unitbarang in unitbarangs">
+              <tr ng-repeat="unitbarang in unitbarangs" context-menu="menuOptions">
                 <td>{{unitbarang.ID}}</td>
                 <!-- <td>{{unitbarang.KD_UNIT}}</td> -->
-                <td>{{unitbarang.NM_UNIT}}</td>
+                <td><a href="" editable-text="unitbarang.NM_UNIT">{{unitbarang.NM_UNIT}}</a></td>
                 <td>{{unitbarang.QTY}}</td>
                 <td>{{unitbarang.WEIGHT}}</td>
                 <td>{{unitbarang.COLOR}}</td>

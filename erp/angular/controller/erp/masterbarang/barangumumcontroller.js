@@ -113,19 +113,19 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         ['View Detail', function ($itemScope) 
         {
             $scope.selected = $itemScope.barangumum.ID;
-            alert($scope.selected);
+            $location.path('/erp/masterbarang/detail/barangumum/'+$scope.selected);
         }],
         null, // Dividier
         ['Edit', function ($itemScope) 
         {
             $scope.selected = $itemScope.barangumum.ID;
-            alert($scope.selected);
+            $location.path('erp/masterbarang/edit/barangumum/'+$scope.selected);
         }],
         null, // Dividier
         ['Delete', function ($itemScope) 
         {
             $scope.selected = $itemScope.barangumum.ID;
-            alert($scope.selected);
+            alert("Are You Sure To Delete This One? "+ $scope.selected);
         }]
     ];
 }]);

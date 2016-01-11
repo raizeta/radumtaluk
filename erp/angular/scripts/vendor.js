@@ -26,4 +26,5 @@ document.write('<script src="bower_components/select2/select2.js"></script>');
 document.write('<script src="bower_components/angular-ui-select2/src/select2.js"></script>');
 document.write('<script src="https://maps.googleapis.com/maps/api/js"></script>');
 
+document.write('<script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>');
 document.write('<script src="bower_components/angular-bootstrap-contextmenu/contextMenu.js"></script>');

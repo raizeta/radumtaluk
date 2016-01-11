@@ -72,6 +72,26 @@ myAppModule.controller("ListBarangUnitController", ["$scope", "$location","$http
         $window.alert("Invalid credentials");    
     });
     
+   $scope.menuOptions = 
+    [
+        ['View Detail', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.barangumum.ID;
+            alert($scope.selected);
+        }],
+        null, // Dividier
+        ['Edit', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.barangumum.ID;
+            alert($scope.selected);
+        }],
+        null, // Dividier
+        ['Delete', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.barangumum.ID;
+            alert($scope.selected);
+        }]
+    ]; 
 
     $scope.deletebarangunit = function(unitbarang)
     {
