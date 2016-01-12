@@ -1,20 +1,29 @@
 myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
-    $scope.submitForm = function(isValid)
+    $scope.submitForm = function()
     {
-        if (isValid) 
-        { 
-            
+ 
             $scope.loading = true;
-            var data = $.param({json: JSON.stringify
-                ({
-                    eknamakategori: $scope.eknamakategori,
-                    eknote: $scope.eknote,
-                    status: $scope.statuskategori
-                })
-            });
+            var data = 
+                {
+                    NM_TYPE: $scope.namatipe,
+                    STATUS: 1,
+                    KD_TYPE: $scope.kodetipe,
+                    NOTE: $scope.catatan
+                };
 
-            $http.post('http://api.lukisongroup.com/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',data)
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+            console.log(data);
+            $http.post('http://api.lukisongroup.com/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',data,config)
             .success(function(data,status, headers, config) 
             {
                 alert("Berhasil");
@@ -31,15 +40,9 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
                alert("Finally");
                 $scope.loading = false;  
             });
-        }
-        else
-        {
-            alert("form tidak valid");
-            return true;
-        }
-
 
     }
+
     $scope.userInfo = auth;
 
     $scope.logout = function () 

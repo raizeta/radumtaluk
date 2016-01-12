@@ -6,30 +6,53 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
         $scope.buqty = $filter('setDecimal')(buqty,2);
     }
     
-    $scope.submitForm = function(isValid)
+    $scope.submitForm = function()
     {
-        if (isValid) 
-        { 
-            
-            $scope.loading = true;
-            var data = $.param({json: JSON.stringify
-                ({
-                    eknamakategori: $scope.eknamakategori,
-                    eknote: $scope.eknote,
-                    status: $scope.statuskategori
-                })
-            });
 
-            $http.post('http://api.lukisongroup.com/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',data)
+            // var data = $.param({json: JSON.stringify
+            //     ({
+            //         eknamakategori: $scope.eknamakategori,
+            //         eknote: $scope.eknote,
+            //         status: $scope.statuskategori
+            //     })
+            // });
+
+            var data = {
+                    "LAT": "2",
+                    "LAG": "2",
+                    "RADIUS": "1",
+                    "CREATED_BY": "1",
+                    "CREATED_AT": "2015-01-12 10:00:01",
+                    "CUST_ID": "1"
+                };
+            var config = {
+                headers : {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
+                    'Accept': 'application/json, text/plain, */*'
+                }
+            };
+
+
+            console.log(data);
+
+            $http.post('http://api.lukisongroup.com/notify/gps_customers/acreate?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',data)
+
             .success(function(data,status, headers, config) 
             {
+                console.log(data);
+                console.log(status);
+                console.log(header);
+                console.log(config);
                 alert("Berhasil");
 
             })
 
             .error(function (data, status, header, config) 
             {
-                alert("Error");       
+                alert(header);
+                console.log(data);
+                console.log(config);
+                alert(status);       
             })
 
             .finally(function()
@@ -37,14 +60,9 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
                alert("Finally");
                 $scope.loading = false;  
             });
-        }
-        else
-        {
-            alert("form tidak valid");
-        }
-
-
+            console.log(http);
     }
+
     $scope.userInfo = auth;
 
     $scope.logout = function () 
@@ -59,6 +77,7 @@ myAppModule.controller("ListBarangUnitController", ["$scope", "$location","$http
 {
     $scope.loading  = true;
     $scope.userInfo = auth;
+    
     apiService.listbarangunit()
     .then(function (result) 
     {

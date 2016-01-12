@@ -134,7 +134,7 @@ myAppModule.controller("DetailBarangUmumController", ["$scope", "$location","$ht
 function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 
 {
 
-
+//http://api.lukisongroup.com/master/tipebarangs/1?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa
     $scope.loading = true ;
     $scope.userInfo = auth;
     var idbarangumum = $routeParams.idbarangumum;

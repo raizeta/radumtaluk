@@ -4,15 +4,15 @@
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
-      <div class="col-xs-12 col-sm-12 col-dm-12  col-lg-12">
+      <div class="col-lg-12">
           <div class="panel panel-danger">
             <div class="panel-heading"><div>Employee Dashboard</div></div>
             <div class="panel-body">    
-              <div class="col-xs-12 col-sm-3 col-dm-2 col-lg-2" style="valign:bottom; margin-left:0 ; text-align: center">
+              <div class="col-lg-2">
                 <img src="http://lukisongroup.com/upload/hrd/Employee/default.jpg" class="img-thumbnail" alt="Cinque Terre" width="100px" height="100px">
               </div>
   
-              <div class="col-xs-12 col-sm-5 col-dm-3 col-lg-3" style="margin-left:0 ;padding-left: 0; padding-top:0px; margin-bottom: 20px">
+              <div class="col-lg-3">
 
                 <table id="table1" style="display:block;padding-left: 0; color: darkred">
                   <tbody>
@@ -48,7 +48,7 @@
                 </table>
 
               </div>
-              <div class=" col-xs-12 col-sm-4 col-dm-3 col-lg-3" style="padding-left:0">
+              <div class="col-lg-3">
                 <table id="table1" style="display:block;; color: darkred">
                    <tbody><tr>
                        <td width="auto" valign="top">Company  </td>
@@ -79,12 +79,35 @@
               </table>
             </div>
 
-            <div class=" col-xs-12 col-sm-4 col-dm-3 col-lg-3"  style="padding-left:0"  >
+            <div class="col-lg-2">
               <div data-ng-app="monospaced.qrcode" data-ng-init="foo='LG.2015.000000';bar='http://localhost/angular-qrcode-master/dist/angular-qrcode';v=4;e='M';s=100;"> 
                 <qrcode version="{{v}}" error-correction-level="{{e}}" size="{{s}}" data="{{foo}}">
                 </qrcode>
               </div>
             </div>
+            <div class="col-lg-2">
+                <div>
+                  <form >
+                  <p>
+                    <label for="data">Data</label>
+                    <textarea id="data" data-ng-model="foo" maxlength="2953"></textarea>
+                  </p>
+                  <p>
+                    <label for="size">Size</label>
+                    <input id="size" type="number" data-ng-model="s">
+                  </p>
+                  <p>
+                    <label for="version">Version</label>
+                    <input id="version" type="number" data-ng-model="v" min="1" max="40">
+                  </p>
+                  <p>
+                    <label for="level" title="Error Correction Level">Level</label>
+                    <select id="level" data-ng-model="e" data-ng-options="option.version as option.name for option in [{name:'Low', version:'L'},{name:'Medium', version:'M'},{name:'Quartile', version:'Q'},{name:'High', version:'H'}]"></select>
+                  </p>
+                  </form>
+                </div>
+            </div>
+
           </div>
         </div>      
       </div>

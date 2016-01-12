@@ -8,7 +8,7 @@
           <div class="box-header">
             <h3 class="box-title">Edit Barang Unit</h3>
           </div>
-          <form name="newbarangunitForm" ng-submit="submit" method="post" validate>
+          <form name="newbarangunitForm" ng-submit="submitForm()" method="post" validate>
           <div class="box-body">
             <div class="form-group" ng-class="{'has-error':newbarangunitForm.bunmunit.$invalid && !newbarangunitForm.bunmunit.$pristine,'has-success':newbarangunitForm.bunmunit.$valid}">
               <label>NAMA BARANG UNIT</label>
