@@ -49,11 +49,12 @@
                         editable-text="barangumum.NM_BARANG">
                         {{barangumum.NM_BARANG}}</a>
                     </td>
-                    <td><a href="#/erp/masterbarang/detail/tipebarang/{{barangumum.type.ID}}">
+                    <td><a href="#/erp/masterbarang/detail/tipebarang/{{barangumum.type.ID}}" 
+                        editable-select="barangumum.type.ID" e-ng-options="t.ID as t.NM_TYPE for t in typebarangs">
                         {{barangumum.type.NM_TYPE}}</a>
                     </td>
                     <td><a href="#/erp/masterbarang/detail/kategori/{{barangumum.kategori.ID}}" 
-                        editable-select="barangumum.kategori">
+                        editable-select="barangumum.kategori.ID" e-ng-options="c.ID as c.NM_KATEGORI for c in categories">
                         {{barangumum.kategori.NM_KATEGORI}}</a>
                     </td>
                     <td>{{barangumum.unit.NM_UNIT}}</td>

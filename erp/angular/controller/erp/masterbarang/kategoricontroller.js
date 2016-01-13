@@ -27,6 +27,10 @@ myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", 
 
 myAppModule.controller("ListKategoriController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", function ($scope, $location, $http, authService, auth,$window,apiService) 
 {
+  $scope.statuses = [
+    {value: 1, text: 'Aktif'},
+    {value: 2, text: 'Tidak Aktif'}
+  ]; 
 
     $scope.loading  = true;
     $scope.userInfo = auth;
@@ -62,6 +66,28 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+
+    $scope.menuOptions = 
+    [
+        ['View Detail', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.category.ID;
+            $location.path('/erp/masterbarang/detail/kategori/'+$scope.selected);
+        }],
+        null, // Dividier
+        ['Edit', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.category.ID;
+            $location.path('erp/masterbarang/edit/kategori/'+$scope.selected);
+        }],
+        null, // Dividier
+        ['Delete', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.category.ID;
+            alert("Are You Sure To Delete This One? "+ $scope.selected);
+        }]
+    ];
+
 }]);
 
 myAppModule.controller("DetailKategoriController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService", function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 

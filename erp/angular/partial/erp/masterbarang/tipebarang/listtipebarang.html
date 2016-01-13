@@ -20,27 +20,21 @@
                   <th>NM TYPE</th>
                   <th>NOTE</th>
                   <th>STATUS</th>
-                  <th>DETAIL</th>
-                  <th>EDIT</th>
-                  <th>DELETE</th>
-
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="typebarang in typebarangs">
+                <tr ng-repeat="typebarang in typebarangs" context-menu="menuOptions">
                   <td>{{typebarang.ID}}</td>
                   <!-- <td>{{typebarang.KD_TYPE}}</td> -->
-                  <td>{{typebarang.NM_TYPE}}</td>
-                  <td>{{typebarang.NOTE}}</td>
+                  <td>
+                    <a href="" editable-text="typebarang.NM_TYPE" ng-model="typebarang.NM_TYPE" onbeforesave="updateUser(typebarang)">
+                      {{typebarang.NM_TYPE}}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="" editable-textarea="typebarang.NOTE" ng-model="typebarang.NOTE" onbeforesave="updateUser(typebarang)">{{typebarang.NOTE}}</a></td>
                   <td ng-if='typebarang.STATUS === 1'>AKTIF</td>
                   <td ng-if='typebarang.STATUS === 0'>TIDAK AKTIF</td>
-                  <td><a href="#/erp/masterbarang/detail/tipebarang/{{typebarang.ID}}">
-                    <i class="fa fa-eye fa-2x"></i></a>
-                  </td>
-                  <td><a href="#/erp/masterbarang/edit/tipebarang/{{typebarang.ID}}">
-                    <i class="fa fa-refresh fa-2x"></i></a>
-                  </td>
-                  <td><a href="" ng-click="deletetipebarang(typebarang)"><i class="fa fa-trash-o fa-2x"></i></a></td>
                 </tr>
               </tbody>
              </table>

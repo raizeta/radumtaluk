@@ -8,23 +8,6 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
     
     $scope.submitForm = function()
     {
-
-            // var data = $.param({json: JSON.stringify
-            //     ({
-            //         eknamakategori: $scope.eknamakategori,
-            //         eknote: $scope.eknote,
-            //         status: $scope.statuskategori
-            //     })
-            // });
-
-            var data = {
-                    "LAT": "2",
-                    "LAG": "2",
-                    "RADIUS": "1",
-                    "CREATED_BY": "1",
-                    "CREATED_AT": "2015-01-12 10:00:01",
-                    "CUST_ID": "1"
-                };
             var config = {
                 headers : {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
@@ -32,10 +15,22 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
                 }
             };
 
+            var data = 
+                {
+                    KD_UNIT: $scope.kodeunit,
+                    NM_UNIT: $scope.bunmunit,
+                    QTY: $scope.buqty
+                };
 
-            console.log(data);
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+            var serialized = serializeObj(data); 
 
-            $http.post('http://api.lukisongroup.com/notify/gps_customers/acreate?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',data)
+            $http.post('http://api.lukisongroup.com/master/unitbarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',serialized,config)
 
             .success(function(data,status, headers, config) 
             {

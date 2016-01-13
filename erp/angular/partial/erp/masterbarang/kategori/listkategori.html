@@ -23,29 +23,20 @@
                   <th>NM KATEGORI</th>
                   <th>NOTE</th>
                   <th>STATUS</th>
-                  <th>DETAIL</th>
-                  <th>EDIT</th>
-                  <th>DELETE</th>
-
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="category in categories" ng-animate="'animate'">
+                <tr ng-repeat="category in categories" ng-animate="'animate'" context-menu="menuOptions">
                   <td>{{category.ID}}</td>
                   <!-- <td>{{category.KD_KATEGORI}}</td> -->
-                  <td><a href="">{{category.NM_KATEGORI}}</a></td>
-                  <td>{{category.NOTE}}</td>
+                  <td><a href="" editable-text="category.NM_KATEGORI">{{category.NM_KATEGORI}}</a></td>
+                  <td>
+                    <a href="" editable-textarea="category.NOTE" e-rows="7" e-cols="40">
+                      {{category.NOTE}}
+                    </a>
+                  </td>
                   <td ng-if='category.STATUS === 1' >AKTIF </td>
                   <td ng-if='category.STATUS === 0' >TIDAK AKTIF </td>
-                  <td><a href="#/erp/masterbarang/detail/kategori/{{category.ID}}">
-                    <i class="fa fa-eye fa-2x"></i></a>
-                  </td>
-                  <td><a href="#/erp/masterbarang/edit/kategori/{{category.ID}}">
-                    <i class="fa fa-refresh fa-2x"></i></a>
-                  </td>
-                  <td>
-                    
-                  </td>
                 </tr>
               </tbody>
              </table>

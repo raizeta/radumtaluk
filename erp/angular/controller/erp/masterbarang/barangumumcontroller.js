@@ -4,7 +4,8 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 
     $scope.loading  = true;
     $scope.userInfo = auth;
-    $scope.select2Options = {
+    $scope.select2Options = 
+    {
         allowClear:true
     };
     
@@ -79,26 +80,33 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
 
     $scope.barangumum();
 
+    apiService.listtipebarang()
+    .then(function (result) 
+    {
+        $scope.typebarangs = result.Tipebarang;    
+    });
+    
+    apiService.listkategori()
+    .then(function (result) 
+    {
+        $scope.categories = result.Kategori;
+        $scope.loading  = false;
+       
+    });
+
+
     $interval(function()
         {
             $scope.barangumum()
         }
-        , 1000000);
+        , 10000000000);
 
     $scope.deletebarangumum = function(barangumum)
     {
        var nama = barangumum.NM_BARANG;
        var id = barangumum.ID;
-        if(confirm("Apakah Anda Yakin Menghapus Barang Umum:" + nama))
-        {
-                $cordovaBarcodeScanner
-                  .scan()
-                  .then(function(barcodeData) {
-                    // Success! Barcode data is here
-                  }, function(error) {
-                    // An error occurred
-                  });
-        }   
+       $window.dialog = new Messi('my message');
+ 
     }
 
     $scope.logout = function () 
@@ -125,7 +133,7 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         ['Delete', function ($itemScope) 
         {
             $scope.selected = $itemScope.barangumum.ID;
-            alert("Are You Sure To Delete This One? "+ $scope.selected);
+            Messi.alert('my message');
         }]
     ];
 }]);
