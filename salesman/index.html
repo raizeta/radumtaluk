@@ -38,79 +38,18 @@
     <!-- App -->
     <script src="app/module/demo.js"></script>
     <script src="app/controller/democontroller.js"></script>
+    <script src="app/controller/logincontroller.js"></script>
     <script src="app/routing/demorouting.js"></script>
     <script src="app/directives/demodirectives.js"></script>
     <script src="app/controller/customercontroller.js"></script>
     <script src="app/controller/widgetcontroller.js"></script>
     <script src="app/routing/widgetrouting.js"></script>
     <script src="app/services/googlemap.js"></script>
-
-  <style>
-
-
-    .select2 > .select2-choice.ui-select-match {
-      /* Because of the inclusion of Bootstrap */
-      height: 29px;
-    }
-
-    .selectize-control > .selectize-dropdown {
-      top: 36px;
-    }
-  </style>
+    <script src="app/services/authservices.js"></script>
 
   </head>
 
-  <body ng-controller="MainController" ui-prevent-touchmove-defaults>
-
-    <!-- Sidebars -->
-    <div ng-include="'app/partial/sidebar.html'" ui-track-as-search-param='true'
-            class="sidebar sidebar-left"></div>
-
-    <div ng-include="'app/partial/sidebarRight.html'"
-            class="sidebar sidebar-right"></div>
-
-    <div class="app"
-         ui-swipe-right='Ui.turnOn("uiSidebarLeft")'
-         ui-swipe-left='Ui.turnOff("uiSidebarLeft")'>
-
-      <!-- Navbars -->
-
-      <div class="navbar navbar-app navbar-absolute-top">
-        <div class="navbar-brand navbar-brand-center" ui-yield-to="title">
-          PT. LUKISON GROUP
-        </div>
-        <div class="btn-group pull-left">
-          <div ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
-            <i class="fa fa-bars"></i> Menu
-          </div>
-        </div>
-        <div class="btn-group pull-right" ui-yield-to="navbarAction">
-          <div ui-toggle="uiSidebarRight" class="btn">
-            <i class="fa fa-comment"></i> Cust
-          </div>
-        </div>
-      </div>
-
-      <div class="navbar navbar-app navbar-absolute-bottom">
-        <div class="btn-group justified">
-          <a href="" class="btn btn-navbar"><i class="fa fa-home fa-navbar"></i> HOME</a>
-          <a href="" class="btn btn-navbar"><i class="fa fa-github fa-navbar"></i> Sources</a>
-          <a href="" class="btn btn-navbar"><i class="fa fa-exclamation-circle fa-navbar"></i> LOGOUT</a>
-        </div>
-      </div>
-
-      <!-- App Body -->
-      <div class="app-body" ng-class="{loading: loading}">
-        <div ng-show="loading" class="app-content-loading">
-          <i class="fa fa-spinner fa-spin loading-spinner"></i>
-        </div>
-        <div class="app-content">
-          <ng-view></ng-view>
-        </div>
-      </div>
-
-    </div><!-- ~ .app -->
-
-    <div ui-yield-to="modals"></div>
+  <body ui-prevent-touchmove-defaults>
+    <div ng-view></div>   
   </body>
 </html>

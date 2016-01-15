@@ -1,0 +1,65 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/erp/masterbarang/menukiri.html'"></div>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box box-danger">
+          <div class="box-header">
+            <h3 class="box-title">Edit Barang Unit</h3>
+          </div>
+          <form name="newbarangunitForm" ng-submit="submitForm()" method="post" validate>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.kodeunit.$invalid && !newbarangunitForm.kodeunit.$pristine,'has-success':newbarangunitForm.kodeunit.$valid}">
+              <label>KODE UNIT</label>
+                <input type="text" class="form-control" name="kodeunit" ng-model="kodeunit" required>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.bunmunit.$invalid && !newbarangunitForm.bunmunit.$pristine,'has-success':newbarangunitForm.bunmunit.$valid}">
+              <label>NAMA BARANG UNIT</label>
+                <input type="text" class="form-control" name="bunmunit" ng-model="bunmunit" required>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.buqty.$invalid && !newbarangunitForm.buqty.$pristine,'has-success':newbarangunitForm.buqty.$valid}">
+              <label>QUANTITY BARANG UNIT</label>
+                <input type="number" class="form-control" name="buqty" ng-change="setdecimali(buqty)" ng-model="buqty" min=0 required >
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.busize.$invalid && !newbarangunitForm.busize.$pristine,'has-success':newbarangunitForm.busize.$valid}">
+              <label>UKURAN BARANG UNIT</label>
+                <input type="number" class="form-control" name="busize" ng-model="busize" min=0 required>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.buweight.$invalid && !newbarangunitForm.buweight.$pristine,'has-success':newbarangunitForm.buweight.$valid}">
+              <label>BERAT BARANG UNIT</label>
+                <input type="number" class="form-control" name="buweight" ng-model="buweight" min=0 required>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.bucolor.$invalid && !newbarangunitForm.bucolor.$pristine,'has-success':newbarangunitForm.bucolor.$valid}">
+              <label>WARNA BARANG UNIT</label>
+                <input type="number" class="form-control" name="bucolor" ng-model="bucolor" min=0 required>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':newbarangunitForm.bunote.$invalid && !newbarangunitForm.bunote.$pristine,'has-success':newbarangunitForm.bunote.$valid}">
+              <label>CATATAN BARANG UNIT</label>
+                <textarea class="form-control" name="bunote" ng-model="bunote" required></textarea>
+            </div>
+          </div>
+          <div class="box-footer clearfix">
+            <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
+            <button type="submit" ng-disabled="newbarangunitForm.$invalid" class="btn btn-sm btn-success btn-flat pull-right">Submit</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

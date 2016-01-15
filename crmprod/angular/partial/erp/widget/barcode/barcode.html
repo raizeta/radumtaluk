@@ -1,0 +1,31 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/layout/widget/barcodemenu.html'"></div>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+      <!-- for flashMessage in app.session.flashbag.get('notice') -->
+        <div class="alert alert-success alert-dismissable">
+          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
+          </button>
+          <h4>NEW BERITA ACARA</h4>
+        </div>
+      <!-- endfor flashMessage -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="box box-danger">
+          <div class="box-header">
+            <h3 class="box-title">CREATE NEW BERITA ACARA</h3>
+          </div>
+          <form name="beritaacaraForm" ng-submit="submitForm(beritaacaraForm.$valid)" novalidate>
+          <div class="box-body">
+            <button class="btn btn-success" ng-click="scanbarcode()">Scan Barcode</button>
+          </div> 
+      </div>
+      <!-- /.col (left) -->
+    </div>
+  </section><!-- /.content --> 
+</div><!-- /.content-wrapper -->
+<div ng-include="'angular/partial/foottemplate.html'"></div>

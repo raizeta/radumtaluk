@@ -1,0 +1,76 @@
+<div ng-include="'app/partial/sidebar.html'" ui-track-as-search-param='true'
+            class="sidebar sidebar-left"></div>
+
+
+    <div class="app"
+         ui-swipe-right='Ui.turnOn("uiSidebarLeft")'
+         ui-swipe-left='Ui.turnOff("uiSidebarLeft")'>
+
+      <!-- Navbars -->
+
+      <div class="navbar navbar-app navbar-absolute-top">
+        <div class="navbar-brand navbar-brand-center" ui-yield-to="title">
+          PT. LUKISON GROUP
+        </div>
+        <div class="btn-group pull-left">
+          <div ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
+            <i class="fa fa-bars"></i> Menu
+          </div>
+        </div>
+        <div class="btn-group pull-right" ui-yield-to="navbarAction">
+          <div ui-toggle="uiSidebarRight" class="btn">
+            <i class="fa fa-comment"></i> Cust
+          </div>
+        </div>
+      </div>
+      
+      <div class="app-body" ng-class="{loading: loading}">
+        <div ng-show="loading" class="app-content-loading">
+          <i class="fa fa-spinner fa-spin loading-spinner"></i>
+        </div>
+        <div class="app-content">
+<div class="scrollable">  
+  <div class="scrollable-content">
+
+    <div class="list-group text-center">
+      <div class="list-group-item list-group-item-home">
+          <h2><a class="list-group-item active" href="#/widget/newcustomer">New Customer <i class="fa fa-chevron-right pull-right"></i></a></h2>
+      </div>
+
+      <div class="list-group-item list-group-item-home">
+          <h2><a class="list-group-item active" href="#/widget/listcustomer">Customer Visit <i class="fa fa-chevron-right pull-right"></i></a></h2>
+      </div>
+
+      <div class="list-group-item list-group-item-home">
+          <h2><a class="list-group-item active" href="#/widget/map">Customer Map<i class="fa fa-chevron-right pull-right"></i></a></h2>
+      </div>
+
+      <div class="list-group-item list-group-item-home">
+          <h2>
+            <a class="list-group-item active" href="#/">Reportase<i class="fa fa-chevron-right pull-right"></i></a></h2>
+      </div>
+
+      <div class="list-group-item list-group-item-home">
+          <h2>
+            <a class="list-group-item active" href="#/">Profile<i class="fa fa-chevron-right pull-right"></i></a></h2>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+        </div>
+      </div>
+      <div class="navbar navbar-app navbar-absolute-bottom">
+        <div class="btn-group justified">
+          <a href="#/" class="btn btn-navbar"><i class="fa fa-home fa-navbar"></i> HOME</a>
+          <a href="" class="btn btn-navbar"><i class="fa fa-github fa-navbar"></i> Sources</a>
+          <a href="" class="btn btn-navbar"><i class="fa fa-exclamation-circle fa-navbar"></i> LOGOUT</a>
+        </div>
+      </div>
+
+      <!-- App Body -->
+
+
+    </div><!-- ~ .app -->
+
