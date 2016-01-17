@@ -23,10 +23,6 @@
                 <th>COLOR</th>
                 <th>NOTE</th>
                 <th>STATUS</th>
-                <th>DETAIL</th>
-                <th>EDIT</th>
-                <th>DELETE</th>
-
               </tr>
             </thead>
             <tbody>
@@ -40,17 +36,6 @@
                 <td>{{unitbarang.NOTE}}</td>
                 <td ng-if='unitbarang.STATUS === 1' >AKTIF </td>
                 <td ng-if='unitbarang.STATUS === 0' >TIDAK AKTIF </td>
-                <td><a href="#/erp/masterbarang/detail/barangunit/{{unitbarang.ID}}">
-                  <i class="fa fa-eye fa-2x"></i></a>
-                </td>
-                <td><a href="#/erp/masterbarang/edit/barangunit/{{unitbarang.ID}}">
-                  <i class="fa fa-refresh fa-2x"></i></a>
-                </td>
-                <td>
-                  <a href="" ng-click="deletebarangunit(unitbarang)">
-                    <i class="fa fa-trash-o fa-2x"></i>
-                  </a>
-                </td>
               </tr>
             </tbody>
            </table>

@@ -25,14 +25,10 @@
                   <th>FAX</th>
                   <th>EMAIL</th>
                   <th>WEBSITE</th>
-                  <th>DETAIL</th>
-                  <th>EDIT</th>
-                  <th>DELETE</th>
-
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="suplier in supliers">
+                <tr ng-repeat="suplier in supliers" context-menu="menuOptions">
                   <td>{{suplier.ID}}</td>
                   <!-- <td>{{suplier.KD_SUPPLIER}}</td> -->
                   <td>{{suplier.NM_SUPPLIER}}</td>
@@ -43,17 +39,6 @@
                   <td>{{suplier.FAX}}</td>
                   <td>{{suplier.EMAIL}}</td>
                   <td>{{suplier.WEBSITE}}</td>
-                  <td><a href="#/erp/masterbarang/detail/suplier/{{suplier.ID}}">
-                    <i class="fa fa-eye fa-2x"></i></a>
-                  </td>
-                  <td><a href="#/erp/masterbarang/edit/suplier/{{suplier.ID}}">
-                    <i class="fa fa-refresh fa-2x"></i></a>
-                  </td>
-                  <td>
-                    <a href="" ng-click="deletesuplier(suplier)">
-                      <i class="fa fa-trash-o fa-2x"></i>
-                    </a>
-                  </td>
                 </tr>
               </tbody>
              </table>

@@ -35,17 +35,47 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 
     $scope.submitForm = function(barangumum)
     {
-        $scope.barangumum = angular.copy(barangumum);
-        var gambarbarang =$scope.barangumum.file.base64;
-        var namabarang = $scope.barangumum.namaproduct;
-        var suplier = $scope.barangumum.suplier;
-        var kategori = $scope.barangumum.kategori;
-        var typebarang = $scope.barangumum.typebarang;
-        var unitbarang = $scope.barangumum.unitbarang;
-        var quantity = $scope.barangumum.quantity;
-        $scope.loading =true;
-    }
+ 
+            $scope.loading = true;
 
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+            
+            var serialized = serializeObj(barangumum); 
+
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+            $http.post("http://labtest3-api.int/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                $location.path("/erp/masterbarang/list/barangumum");
+
+            })
+            .error(function (data, status, header, config) 
+            {
+                console.log(data);
+                console.log(status);
+                console.log(header);
+                console.log(config);      
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
+    }
 
     $scope.logout = function () 
     { 
@@ -69,7 +99,6 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         {
             $scope.barangumums = result.BarangUmum;
             $scope.loading = false;
-            console.log($scope.barangumum);
            
         }, 
         function (error) 
@@ -101,13 +130,7 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         }
         , 10000000000);
 
-    $scope.deletebarangumum = function(barangumum)
-    {
-       var nama = barangumum.NM_BARANG;
-       var id = barangumum.ID;
-       $window.dialog = new Messi('my message');
- 
-    }
+
 
     $scope.logout = function () 
     { 
@@ -133,7 +156,10 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         ['Delete', function ($itemScope) 
         {
             $scope.selected = $itemScope.barangumum.ID;
-            Messi.alert('my message');
+            if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
+            {
+                $location.path('/erp/masterbarang/delete/barangumum/'+ $scope.selected)
+            }
         }]
     ];
 }]);
@@ -149,24 +175,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
     singleapiService.singlelistbarangumum(idbarangumum)
     .then(function (data) 
     {
-        $scope.ebuid = data.ID ;
-        $scope.ebukdbarang = data.KD_BARANG ;
-        $scope.ebunmbarang = data.NM_BARANG ;
-        $scope.ebukdkategori = data.kategori.NM_KATEGORI;
-        $scope.ebutypebarang = data.type.NM_TYPE ;
-        $scope.ebukdunit = data.unit.NM_UNIT ;
-        $scope.ebukddistributor = data.KD_DISTRIBUTOR ;
-        $scope.ebuparent = data.PARENT ;
-        $scope.ebuhpp = data.HPP ;
-        $scope.ebuharga = data.HARGA ;
-        $scope.ebubarcode = data.BARCODE ;
-        $scope.ebuimage = data.IMAGE;
-        $scope.ebunote = data.NOTE  ;
-        $scope.ebukdcorp = data.KD_CORP ;
-        $scope.ebukdcab = data.KD_CAB ;
-        $scope.ebukddep = data.KD_DEP ;
-        $scope.ebustatus = data.STATUS ;
-
+        $scope.data = data;
         $scope.loading = false;
         
     }, 
@@ -199,30 +208,8 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
     singleapiService.singlelistbarangumum(idbarangumum)
     .then(function (data) 
     {
-        $scope.ebuid = data.ID ;
-        $scope.ebukdbarang = data.KD_BARANG ;
-        $scope.ebunmbarang = data.NM_BARANG ;
-        $scope.ebukdkategori = data.kategori.ID;
-        $scope.ebutypebarang = data.type.ID ;
-        $scope.ebukdunit = data.unit.ID ;
-        $scope.ebukddistributor = data.ID ;
-        $scope.ebuparent = data.PARENT ;
-        $scope.ebuhpp = data.HPP ;
-        $scope.ebuharga = data.HARGA ;
-        $scope.ebubarcode = data.BARCODE ;
-        $scope.ebuimage = data.IMAGE;
-        $scope.ebunote = data.NOTE  ;
-        $scope.ebukdcorp = data.KD_CORP ;
-        $scope.ebukdcab = data.KD_CAB ;
-        $scope.ebukddep = data.KD_DEP ;
-        $scope.ebustatus = data.STATUS ;
-
+        $scope.barangumum = data;
         $scope.loading = false;
-        
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");
         
     });
 
@@ -230,7 +217,6 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
     .then(function (result) 
     {
         $scope.categories = result.Kategori;
-        console.log($scope.categories);
         $scope.loading  = false;
        
     });
@@ -240,28 +226,59 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
     {
         $scope.unitbarangs = result.Unitbarang;
         $scope.loading = false;
-        console.log($scope.unitbarangs);
-       
     });
 
     apiService.listsuplier()
     .then(function (result) 
     {
         $scope.supliers = result.Suplier;
-        $scope.loading = false;
-        console.log($scope.supliers);
-       
+        $scope.loading = false;     
     });
 
     apiService.listtipebarang()
     .then(function (result) 
     {
         $scope.typebarangs = result.Tipebarang;
-        $scope.loading = false;
-        console.log($scope.typebarangs);
-       
+        $scope.loading = false;     
     });
 
+    $scope.submitForm = function(barangumum)
+    {
+ 
+            $scope.loading = true;
+
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+            
+            var serialized = serializeObj(barangumum); 
+
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+            $http.put("http://labtest3-api.int/master/barangumums/"+ idbarangumum +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                $location.path("/erp/masterbarang/list/barangumum");
+
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
+
+    }
     $scope.logout = function () 
     {
         
@@ -275,7 +292,30 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
 
 myAppModule.controller("DeleteBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
 {
-    $location.path("/erp/masterbarang/list/barangumum")
+
+    var idbarangumum = $routeParams.idbarangumum;
+    var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+    $http.delete("http://labtest3-api.int/master/barangumums/"+ idbarangumum +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+    .success(function(data,status, headers, config) 
+    {
+        $location.path("/erp/masterbarang/list/barangumum");
+
+    })
+
+    .finally(function()
+    {
+        $scope.loading = false;  
+    });
+
 }]);
 
 

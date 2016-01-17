@@ -3,18 +3,48 @@ myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", 
 
     $scope.userInfo = auth;
 
-    $scope.submit = function()
+$scope.submitForm = function(barangumum)
     {
-        $scope.loading = true;
-        var data = $.param({json: JSON.stringify
-                ({
-                    eknamakategori: $scope.eknamakategori,
-                    eknote: $scope.eknote,
-                    status: $scope.statuskategori
-                })
-            });
-        console.log(data);
+ 
+            $scope.loading = true;
 
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+            
+            var serialized = serializeObj(barangumum); 
+
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+            $http.post("http://labtest3-api.int/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                $location.path("/erp/masterbarang/list/kategori");
+
+            })
+            .error(function (data, status, header, config) 
+            {
+                console.log(data);
+                console.log(status);
+                console.log(header);
+                console.log(config);      
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
     }
 
     $scope.logout = function () 
@@ -38,7 +68,6 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
     .then(function (result) 
     {
         $scope.categories = result.Kategori;
-        console.log($scope.categories);
         $scope.loading  = false;
        
     }, 

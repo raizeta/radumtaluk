@@ -8,66 +8,71 @@
           <div class="box-header">
             <h3 class="box-title">Create New Barang Umum</h3>
           </div>
-          <form name="barangumumForm" ng-submit="submitForm(barangumum.$valid)" method="post" novalidate>
+          <form name="barangumumForm" ng-submit="submitForm(barangumum)" method="post" novalidate>
           <div class="box-body">
+            <div class="form-group"  ng-class="{ 'has-error' : barangumumForm.kodeproduct.$invalid && !barangumumForm.kodeproduct.$pristine,'has-success':barangumumForm.kodeproduct.$valid  }">
+              <label>Kode Product</label>
+                <input type="text" name="kodeproduct" class="form-control" ng-model="barangumum.KD_BARANG" required>
+                <p ng-show="barangumumForm.kodeproduct.$invalid && !barangumumForm.kodeproduct.$pristine" class="help-block">Kode Product Tidak Boleh Kosong.</p>
+            </div>
+
             <div class="form-group"  ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine,'has-success':barangumumForm.namaproduct.$valid  }">
               <label>Nama Product</label>
-                <input type="text" name="namaproduct" class="form-control" ng-model="barangumum.namaproduct" required>
+                <input type="text" name="namaproduct" class="form-control" ng-model="barangumum.NM_BARANG" required>
                 <p ng-show="barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine" class="help-block">Nama Product Tidak Boleh Kosong.</p>
-              </select>
             </div><!-- /.form-group -->
             <!-- /.form group -->
             <div class="form-group" ng-class="{ 'has-error' : barangumumForm.statusbarum.$invalid && !barangumumForm.statusbarum.$pristine,'has-success':barangumumForm.statusbarum.$valid }">
               <label>Status Tipe Barang</label>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="statusbarum" name="statusbarum" id="optionsRadios1" value="1" required>
+                  <input type="radio" ng-model="barangumum.STATUS" name="statusbarum" id="optionsRadios1" value="1" required>
                   Aktif
                 </label>
               </div>
               <div class="radio">
                 <label>
-                  <input type="radio" ng-model="statusbarum" name="statusbarum" id="optionsRadios2" value="0" required>
+                  <input type="radio" ng-model="barangumum.STATUS" name="statusbarum" id="optionsRadios2" value="0" required>
                   Tidak Aktif
                 </label>
               </div>
-              <p ng-show="barangumumForm.statusbarum.$invalid && !barangumumForm.statusbarum.$pristine" class="help-block">Catatan Untuk Tipe Barang Tidak Boleh Kosong</p>
+              <p ng-show="barangumumForm.statusbarum.$invalid && !barangumumForm.statusbarum.$pristine" class="help-block">Status Barang Umum Tidak Boleh Kosong</p>
             </div>
             <div class="form-group" ng-class="{'has-error':barangumumForm.tipebarang.$invalid && !barangumumForm.tipebarang.$pritine,'has-success':barangumumForm.tipebarang.$valid}">
-              <label>Type Barang</label>
-              <select class="form-control" ui-select2="select2Options" name="tipebarang" style="width: 100%;" ng-model="barangumum.typebarang" ng-required="true">
+              <label>Kode Type Barang</label>
+              <select class="form-control" ui-select2="select2Options" name="tipebarang" style="width: 100%;" ng-model="barangumum.KD_TYPE" ng-required="true">
                 <option value=""></option>
-                <option ng-repeat="typebarang in typebarangs" value="{{typebarang.ID}}">{{typebarang.NM_TYPE}}</option>
+                <option ng-repeat="typebarang in typebarangs" value="{{typebarang.KD_TYPE}}">{{typebarang.NM_TYPE}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.category.$invalid && !barangumumForm.category.$pritine,'has-success':barangumumForm.category.$valid}">
               <label>Kode Kategori</label>
-              <select class="form-control" ui-select2="select2Options" name="category"style="width: 100%;" ng-model="barangumum.kategori" ng-required="true">
+              <select class="form-control" ui-select2="select2Options" name="category"style="width: 100%;" ng-model="barangumum.KD_KATEGORI" ng-required="true">
                 <option value=""></option>
-                <option ng-repeat="category in categories" value="{{category.ID}}">{{category.NM_KATEGORI}}</option>
+                <option ng-repeat="category in categories" value="{{category.KD_KATEGORI}}">{{category.NM_KATEGORI}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.barangunit.$invalid && !barangumumForm.barangunit.$pritine,'has-success':barangumumForm.barangunit.$valid}">
-              <label>Barang Unit</label>
-              <select class="form-control" ui-select2="select2Options" name="barangunit" style="width: 100%;" ng-model="barangumum.unitbarang" ng-required="true">
+              <label>Kode Barang Unit</label>
+              <select class="form-control" ui-select2="select2Options" name="barangunit" style="width: 100%;" ng-model="barangumum.KD_UNIT" ng-required="true">
                 <option value=""></option>
-                <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.ID}}">{{unitbarang.NM_UNIT}}</option>
+                <option ng-repeat="unitbarang in unitbarangs" value="{{unitbarang.KD_UNIT}}">{{unitbarang.NM_UNIT}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.suplier.$invalid && !barangumumForm.suplier.$pritine,'has-success':barangumumForm.suplier.$valid}">
               <label>Kode Supplier</label>
-              <select class="form-control" ui-select2="select2Options" name="suplier" style="width: 100%;" ng-model="barangumum.suplier" ng-required="true">
+              <select class="form-control" ui-select2="select2Options" name="suplier" style="width: 100%;" ng-model="barangumum.KD_SUPPLIER" ng-required="true">
                 <option value=""></option>
-                <option ng-repeat="suplier in supliers" value="{{suplier.ID}}">{{suplier.NM_SUPPLIER}}</option>
+                <option ng-repeat="suplier in supliers" value="{{suplier.KD_SUPPLIER}}">{{suplier.NM_SUPPLIER}}</option>
               </select>
             </div>
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.kodekorp.$invalid && !barangumumForm.kodekorp.$pritine,'has-success':barangumumForm.kodekorp.$valid}">
               <label>Kode Corporation</label>
-              <select class="form-control" ui-select2="select2Options" name="kodekorp" style="width: 100%;" ng-model="barangumum.kodekorp" ng-required="true">
+              <select class="form-control" ui-select2="select2Options" name="kodekorp" style="width: 100%;" ng-model="barangumum.KD_CORP" ng-required="true">
                 <option value=""></option>
                 <option value="ALG">Arta Lipat Ganda</option>
                 <option value="ESM">Efenbi Sukses Makmur</option>
@@ -94,7 +99,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-minus"></i>
                 </div>
-                <input type="number" class="form-control" name="quantity" ng-model="barangumum.quantity" min=1 required>
+                <input type="number" class="form-control" name="quantity" ng-model="barangumum.QTY" min=1 required>
                 <div class="input-group-addon">
                   <i class="fa fa-plus"></i>
                 </div>
@@ -107,7 +112,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-minus"></i>
                 </div>
-                <input type="number" class="form-control" name="hpp" ng-model="barangumum.hpp" min=1 required>
+                <input type="number" class="form-control" name="hpp" ng-model="barangumum.HPP" min=1 required>
                 <div class="input-group-addon">
                   <i class="fa fa-plus"></i>
                 </div>
@@ -120,7 +125,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-minus"></i>
                 </div>
-                <input type="number" class="form-control" name="harga" ng-model="barangumum.harga" min=1 required>
+                <input type="number" class="form-control" name="harga" ng-model="barangumum.HARGA" min=1 required>
                 <div class="input-group-addon">
                   <i class="fa fa-plus"></i>
                 </div>
@@ -139,6 +144,12 @@
                 </div>
               </div>
             </div>
+
+            <div class="form-group" ng-class="{'has-error':barangumumForm.bunote.$invalid && !barangumumForm.bunote.$pristine,'has-success':barangumumForm.bunote.$valid}">
+              <label>CATATAN BARANG UNIT</label>
+                <textarea class="form-control" name="bunote" ng-model="barangumum.NOTE" required></textarea>
+            </div>
+
           </div>
           <!-- /.box-body -->
           <div class="box-footer clearfix">

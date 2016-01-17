@@ -1,16 +1,9 @@
 myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
 {
-    $scope.submitForm = function()
+    $scope.submitForm = function(tipebarang)
     {
  
-            $scope.loading = true;
-            var data = 
-                {
-                    NM_TYPE: $scope.namatipe,
-                    STATUS: $scope.statustipebarang,
-                    KD_TYPE: $scope.kodetipe,
-                    NOTE: $scope.catatan
-                };
+            $scope.loading = true; 
 
             //http://stackoverflow.com/questions/29382004/how-serialize-objects-with-angularjs
             function serializeObj(obj) 
@@ -19,7 +12,8 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
               for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
               return result.join("&");
             }
-            var serialized = serializeObj(data); 
+            var serialized = serializeObj(tipebarang); 
+
             //##################################################################################
 
             var config = 
@@ -32,21 +26,23 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
                 }
             };
             
-            $http.post('http://api.lukisongroup.com/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',serialized,config)
+            $http.post('http://labtest3-api.int/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa',serialized,config)
             .success(function(data,status, headers, config) 
             {
                 
-
+                $location.path("/erp/masterbarang/list/tipebarang");
             })
 
             .error(function (data, status, header, config) 
             {
-                alert("Error");       
+                console.log(status);
+                console.log(data);
+                console.log(header);
+                console.log(config);      
             })
 
             .finally(function()
             {
-               alert("Finally");
                 $scope.loading = false;  
             });
 
@@ -159,36 +155,32 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
     singleapiService.singlelisttipebarang(idtipebarang)
     .then(function(data)
     {
-        $scope.kodetipe = data.KD_TYPE ;
-        $scope.namatipe = data.NM_TYPE ;
-        $scope.catatan = data.NOTE ;
-        $scope.statustipebarang = data.STATUS ;
-        $scope.loading = false;
+        // $scope.kodetipe = data.KD_TYPE ;
+        // $scope.namatipe = data.NM_TYPE ;
+        // $scope.catatan = data.NOTE ;
+        // $scope.statustipebarang = data.STATUS ;
+        // $scope.loading = false;
+        $scope.loading = false ;
+        $scope.tipebarang = data;
     },
     function(error)
     {
 
     });
 
-    $scope.submitForm = function()
+    $scope.submitForm = function(tipebarang)
     {
  
             $scope.loading = true;
-            var data = 
-                {
-                    NM_TYPE: $scope.namatipe,
-                    STATUS: $scope.statustipebarang,
-                    KD_TYPE: $scope.kodetipe,
-                    NOTE: $scope.catatan
-                };
-                function serializeObj(obj) 
-                {
-                  var result = [];
-                  for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
-                  return result.join("&");
-                }
-            var serialized = serializeObj(data); 
-            console.log(serialized); //username=ronald.araujo&password=123456
+
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+            
+            var serialized = serializeObj(tipebarang); 
 
             var config = 
             {
@@ -200,10 +192,10 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
                 }
             };
             
-            $http.put("http://api.lukisongroup.com/master/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            $http.put("http://labtest3-api.int/master/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
             .success(function(data,status, headers, config) 
             {
-                alert("Berhasil");
+                $location.path("/erp/masterbarang/list/tipebarang");
 
             })
 
@@ -214,7 +206,6 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
 
             .finally(function()
             {
-               alert("Finally");
                 $scope.loading = false;  
             });
 
@@ -238,15 +229,13 @@ myAppModule.controller("DeleteTipeBarangController", ["$scope", "$location","$ht
     {
         headers : 
         {
-            'Content-Type': 'application/json;'
-            
+            'Content-Type': 'application/x-www-form-urlencoded', 
         }
     };
     
-    $http.delete("http://api.lukisongroup.com/master/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+    $http.delete("http://labtest3-api.int/master/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
     .success(function(data,status, headers, config) 
     {
-        alert("Berhasil");
         $location.path("/erp/masterbarang/list/tipebarang");
 
     })
@@ -258,7 +247,6 @@ myAppModule.controller("DeleteTipeBarangController", ["$scope", "$location","$ht
 
     .finally(function()
     {
-       alert("Finally");
         $scope.loading = false;  
     });
 

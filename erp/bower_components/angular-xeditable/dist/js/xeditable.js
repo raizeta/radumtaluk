@@ -2115,7 +2115,7 @@ angular.module('xeditable').factory('editableIcons', function() {
       },
       'bs3': {
         ok: 'fa fa-check',
-        cancel: 'fa fa-trash'
+        cancel: 'fa fa-ban'
       }
     },
     external: {

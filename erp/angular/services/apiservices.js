@@ -1,10 +1,17 @@
 'use strict';
 myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $window)
 {
+	var geturl = function()
+	{
+		return "http://labtest3-api.int/master";
+	}
+
 	var listbarangumum = function()
 	{
+		var url = geturl();
+
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&expand=type,kategori,unit";
+		var url =  url + "/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&expand=type,kategori,unit";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -21,8 +28,10 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var listkategori = function()
 	{
+		var url = geturl();
+		
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url +"/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -40,8 +49,10 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var listtipebarang = function()
 	{
+		var url = geturl();
+
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -59,8 +70,10 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var listsuplier = function()
 	{
+		var url = geturl();
+
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/supliers?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/supliers?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -78,8 +91,10 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var listbarangunit = function()
 	{
+		var url = geturl();
+		
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/unitbarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/unitbarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
