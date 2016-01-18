@@ -35,8 +35,12 @@
                       {{category.NOTE}}
                     </a>
                   </td>
-                  <td ng-if='category.STATUS === 1' >AKTIF </td>
-                  <td ng-if='category.STATUS === 0' >TIDAK AKTIF </td>
+                  <td ng-if='category.STATUS === 1' >
+                    <a class="btn btn-success btn-xs"><i class="fa fa-edit"></i> &nbsp;Enable</a>
+                  </td>
+                  <td ng-if='category.STATUS === 0' >
+                    <a class="btn btn-danger btn-xs"><i class="fa fa-edit"></i> &nbsp;Disable</a> 
+                  </td>
                 </tr>
               </tbody>
              </table>

@@ -3,7 +3,7 @@ myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", 
 
     $scope.userInfo = auth;
 
-$scope.submitForm = function(barangumum)
+    $scope.submitForm = function(kategori)
     {
  
             $scope.loading = true;
@@ -15,7 +15,7 @@ $scope.submitForm = function(barangumum)
               return result.join("&");
             }
             
-            var serialized = serializeObj(barangumum); 
+            var serialized = serializeObj(kategori); 
 
             var config = 
             {
@@ -113,7 +113,10 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
         ['Delete', function ($itemScope) 
         {
             $scope.selected = $itemScope.category.ID;
-            alert("Are You Sure To Delete This One? "+ $scope.selected);
+            if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
+            {
+                $location.path('/erp/masterbarang/delete/kategori/'+ $scope.selected)
+            }
         }]
     ];
 
@@ -156,21 +159,55 @@ myAppModule.controller("EditKategoriController", ["$scope", "$location","$http",
     $scope.userInfo = auth;
     var idkategori = $routeParams.idkategori;
     singleapiService.singlelistkategori(idkategori)
-    .then(function(result)
+    .then(function(data)
     {
-        $scope.ekid = result.ID ;
-        $scope.ekkdkategori = result.KD_KATEGORI;
-        $scope.eknamakategori = result.NM_KATEGORI;
-        $scope.eknote = result.NOTE;
-        $scope.ekstatus = result.STATUS;
-        $scope.ekcorpid = result.CORP_ID;
+        $scope.kategori = data ;
         $scope.loading = false;
-    },
-    function(error)
-    {
-
     });
 
+    $scope.submitForm = function(kategori)
+    {
+ 
+            $scope.loading = true;
+
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+            
+            var serialized = serializeObj(kategori); 
+
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+            $http.put("http://labtest3-api.int/master/kategoris/"+idkategori+"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                $location.path("/erp/masterbarang/list/kategori");
+
+            })
+            .error(function (data, status, header, config) 
+            {
+                console.log(data);
+                console.log(status);
+                console.log(header);
+                console.log(config);      
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
+    }
     $scope.logout = function () 
     {
         
@@ -183,5 +220,33 @@ myAppModule.controller("EditKategoriController", ["$scope", "$location","$http",
 
 myAppModule.controller("DeleteKategoriController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
 {
-    $location.path("/erp/masterbarang/list/kategori");
+    var idkategori = $routeParams.idkategori;
+    var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+            
+            $http.delete("http://labtest3-api.int/master/kategoris/"+idkategori+"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+            .success(function(data,status, headers, config) 
+            {
+                $location.path("/erp/masterbarang/list/kategori");
+
+            })
+            .error(function (data, status, header, config) 
+            {
+                console.log(data);
+                console.log(status);
+                console.log(header);
+                console.log(config);      
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
 }]);

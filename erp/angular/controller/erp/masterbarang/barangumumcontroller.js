@@ -210,7 +210,6 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
     {
         $scope.barangumum = data;
         $scope.loading = false;
-        
     });
 
     apiService.listkategori()
