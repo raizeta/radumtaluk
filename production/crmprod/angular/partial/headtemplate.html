@@ -1,0 +1,35 @@
+<script src="asset/js/app.min.js"></script>
+<script src="asset/js/dropdown-x.js"></script>
+<script src="asset/js/sidenav.js"></script>
+<header class="main-header">
+    <a class="logo bg-red">
+        <img src="http://lukisongroup.com/favicon.ico" width="30px" alt=""> &nbsp;Lukison Group
+    </a>
+
+    <nav id="w3" class="navbar navbar-inverse navbar-static-top background-color:#313131 navbar" role="button" style="margin-bottom: 0">
+        <div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w3-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="javasript:;" class="sidebar-toggle" ng-click="toggleMenu()" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle Navigation</span>
+                </a>
+            </div>
+            <div id="w3-collapse" class="collapse navbar-collapse">
+              <ul id="w4" class="navbar-nav navbar-left nav">
+                <li pull-right>
+                  <a ng-click="logout()" data-method="post">
+                    <i class="fa fa-power-off"></i> 
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>

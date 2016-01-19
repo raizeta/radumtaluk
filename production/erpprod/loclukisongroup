@@ -1,0 +1,24 @@
+latitude = -6.2292;
+longitude =106.6605;
+
+latitude = -6.2292 
+latitude = -6.2292994
+JARAK =0.64m (2.11kAKI)
+
+longitude =106.6605;
+longitude =106.6602739;
+JARAK =26.93m (2.11kAKI)
+
+
+http://api.lukisongroup.com/notify/gps_customers/acreate?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAW
+    methodOST
+
+params:
+{
+ 	"LAT": "1",
+    "LAG": "1",
+    "RADIUS": "1",
+    "CREATED_BY": "1",
+    "CREATED_AT": "2015-01-12 10:00:01",
+    "CUST_ID": "1"
+}

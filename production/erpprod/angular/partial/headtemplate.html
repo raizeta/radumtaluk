@@ -1,0 +1,257 @@
+<script src="asset/js/app.min.js"></script>
+<script src="asset/js/dropdown-x.js"></script>
+<script src="asset/js/sidenav.js"></script>
+<header class="main-header">
+    <a class="logo bg-red">
+        <img src="http://lukisongroup.com/favicon.ico" width="30px" alt=""> &nbsp;Lukison Group
+    </a>
+
+    <nav id="w3" class="navbar navbar-inverse navbar-static-top background-color:#313131 navbar" role="button" style="margin-bottom: 0">
+        <div>
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#w3-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="javasript:;" class="sidebar-toggle" ng-click="toggleMenu()" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle Navigation</span>
+                </a>
+            </div>
+            <div id="w3-collapse" class="collapse navbar-collapse">
+              <!-- Disini Ul Di tempatkan -->
+              <ul id="w4" class="navbar-nav navbar-left nav">
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="" data-toggle="dropdown">
+                    <i class="fa fa-dashboard"></i> Dashboard <span class="caret"></span>
+                  </a>
+                  <ul id="w5" class="dropdown-menu">
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-share-alt"></i> CRM
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#/dashboard/crm/manufactory" tabindex="-1">Manufactory</a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/crm/distributor" tabindex="-1">Distributor</a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/crm/customer" tabindex="-1">Customer</a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/crm/salesman" tabindex="-1">Salesmen</a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/crm/salespromotion" tabindex="-1">
+                            Seles Promotion
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-female"></i>Report
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#/dashboard/report/report-sss" tabindex="-1">
+                            PT. Sarana Sinar Surya
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/report/report-alg" tabindex="-1">
+                            PT. Arta Lipat Ganda
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/report/report-esm" tabindex="-1">
+                            PT. Efembi Sukses Makmur
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/report/report-gosent" tabindex="-1">
+                            PT. Gosent
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-eye"></i>Setting
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#/dashboard/setting/adminlg" tabindex="-1">
+                            Admin Web LG
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/setting/admincrm" tabindex="-1">
+                            Admin Web CRM
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/setting/adminkrema" tabindex="-1">
+                            Admin Web Krema
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#/dashboard/setting/adminvinding" tabindex="-1">
+                            Admin Web Vinding
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="" data-toggle="dropdown">
+                    <i class="fa fa-flag-o"></i> Company 
+                    <span class="caret"></span>
+                  </a>
+                  <ul id="w6" class="dropdown-menu">
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-inbox"></i> Umum
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#/dashboard/company/umum/datamasterumum" tabindex="-1">
+                            <i class="fa fa-fa-inbox"></i> Data Master Umum
+                          </a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-columns"></i> ALG
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/company/alg/purchasing" tabindex="-1">Purchasing</a></li>
+                        <li><a href="#/dashboard/company/alg/warehouse" tabindex="-1">Warehouse</a></li>
+                        <li><a href="#/dashboard/company/alg/sales" tabindex="-1">Sales</a></li>
+                        <li><a href="#/dashboard/company/alg/marketing" tabindex="-1">Marketing</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-windows"></i> ESM
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a href="#/dashboard/company/esm/datamasterproduction" tabindex="-1">
+                            Data Master Production
+                          </a>
+                        </li>
+                        <li><a href="#/dashboard/company/esm/purchasing" tabindex="-1">Purchasing</a></li>
+                        <li><a href="#/dashboard/company/esm/warehouse" tabindex="-1">Warehouse</a></li>
+                        <li><a href="#/dashboard/company/esm/factory" tabindex="-1">Factory</a></li>
+                        <li><a href="#/dashboard/company/esm/sales" tabindex="-1">Sales</a></li>
+                        <li><a href="#/dashboard/company/esm/marketing" tabindex="-1">Marketing</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-truck"></i> GOSEND
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/company/gosent/marketing" tabindex="-1">Marketing</a></li>
+                        <li><a href="#/dashboard/company/gosent/product" tabindex="-1">Product</a></li>
+                        <li><a href="#/dashboard/company/gosent/sales" tabindex="-1">Sales</a></li>
+                        <li><a href="#/dashboard/company/gosent/affiliation" tabindex="-1">Affiliation</a></li>
+                        <li><a href="#/dashboard/company/gosent/helpdesk" tabindex="-1">Helpdesk</a></li>
+                        <li><a href="#/dashboard/company/gosent/purchasing" tabindex="-1">Purchasing</a></li>
+                        <li><a href="#/dashboard/company/gosent/warehouse" tabindex="-1">Warehouse</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-cutlery "></i> SSS
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/company/sss/marketing" tabindex="-1">Marketing</a></li>
+                        <li><a href="#/dashboard/company/sss/sales" tabindex="-1">Sales</a></li>
+                        <li><a href="#/dashboard/company/sss/purchasing" tabindex="-1">Purchasing</a></li>
+                        <li><a href="#/dashboard/company/sss/warehouse" tabindex="-1">Warehouse</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li class="dropdown">
+                  <a class="dropdown-toggle" href="" data-toggle="dropdown">
+                    <i class="fa fa-sitemap"></i> Department <span class="caret"></span>
+                  </a>
+                  <ul id="w7" class="dropdown-menu">
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-users"></i> HRD
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/dept/hrd/personalia" tabindex="-1"><i class="fa fa-child"></i> Personalia</a></li>
+                        <li><a href="#/dashboard/dept/hrd/rekrutmen" tabindex="-1"><i class="fa fa-hand-o-up"></i> Rekrutmen</a></li>
+                        <li><a href="#/dashboard/dept/hrd/absensi" tabindex="-1"><i class="fa fa-calendar"></i> Absensi</a></li>
+                        <li><a href="#/dashboard/dept/hrd/payroll" tabindex="-1"><i class="fa fa-usd"></i> Payroll</a></li>
+                        <li><a href="#/dashboard/dept/hrd/modul" tabindex="-1"><i class="fa fa-cogs"></i> Modul</a></li>
+                        <li><a href="#/dashboard/dept/hrd/generalaffair" tabindex="-1">General Afair</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-bank"></i> Accounting
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/dept/accounting/sales" tabindex="-1"><i class="fa fa-bar-chart-o"></i> Sales</a>
+                        </li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-camera"></i> Designer
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/dept/designer/matrialpromotion" tabindex="-1">
+                          <i class="fa fa-tags"></i> Matrial Promotion</a>
+                        </li>
+                        <li><a href="#/dashboard/dept/designer/draffdesign" tabindex="-1"><i class="fa fa-image"></i> Draff Design</a></li>
+                      </ul>
+                    </li>
+                    <li class="dropdown dropdown-submenu">
+                      <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">
+                        <i class="fa fa-umbrella"></i> IT Dept
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#/dashboard/dept/it/admin" tabindex="-1">admin</a></li>
+                        <li><a href="#/dashboard/dept/it/programmer" tabindex="-1">Programer</a></li>
+                        <li><a href="#/dashboard/dept/it/dbe" tabindex="-1">DBE</a></li>
+                        <li><a href="#/dashboard/dept/it/networking" tabindex="-1">Networking</a></li>
+                        <li><a href="#/dashboard/dept/it/support" tabindex="-1">Support</a></li>
+                        <li class="dropdown dropdown-submenu">
+                          <a class="dropdown-toggle" href="#/erp/xxx" tabindex="-1" data-toggle="dropdown">  System Log
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li><a href="#/erp/xxx" tabindex="-1">Error Log</a></li>
+                            <li><a href="#/erp/xxx" tabindex="-1">Delete log</a></li>
+                            <li><a href="#/erp/xxx" tabindex="-1">Cancel Log</a></li>
+                          </ul>
+                        </li>
+                        <li><a href="#/erp/xxx" tabindex="-1">Export/import</a></li>
+                        <li><a href="#/dashboard/dept/it/api" tabindex="-1">API</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li pull-right>
+                  <a ng-click="logout()" data-method="post">
+                    <i class="fa fa-power-off"></i> 
+                  </a>
+                </li>
+              </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>

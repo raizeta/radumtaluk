@@ -1,0 +1,63 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper">
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12 col-sm-6 col-xs-12" >
+                <div class="info-box bg-green">
+                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text" style="cursor:pointer" ><h3>CUSTOMER MAP</h3></span>
+                  </div>
+                </div>
+
+            </div>
+        </div>
+          <div class="col-md-12 col-sm-6 col-xs-12" >
+            <ng-map zoom="20" center="{{lat}},{{long}}" style="margin:12px;box-shadow:0 3px 25px black;">
+
+              <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false">
+              </marker>
+              <marker position="-6.2293388, 106.6602281"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+            <shape name="circle" stroke-color='#FFAABB' stroke-weight="2"
+                  center="-6.2293388, 106.6602281" radius="10">
+            </shape>
+            </ng-map>
+          </div>
+          <div class="col-md-12 col-sm-6 col-xs-12" >
+                <div class="info-box bg-green">
+                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text" style="cursor:pointer" ng-click="scanbarcode()">
+                      <h3>SCAN BARCODE</h3>
+                    </span>
+                  </div>
+                </div>
+
+          </div>
+          <div class="col-md-12 col-sm-6 col-xs-12" >
+                <div class="info-box bg-green">
+                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text" style="cursor:pointer" ng-click="takeapicture()">
+                      <h3>TAKE A PICTURE</h3>
+                    </span>
+                  </div>
+                </div>
+
+          </div>
+          <div class="col-md-12 col-sm-6 col-xs-12" >
+                <div class="info-box bg-green">
+                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+                  <div class="info-box-content">
+                    <span class="info-box-text" style="cursor:pointer" >
+                      <h3>PRODUCT INVENTORY CONTROL</h3>
+                    </span>
+                  </div>
+                </div>
+
+          </div>
+    </section>
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>
