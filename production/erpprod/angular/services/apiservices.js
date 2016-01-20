@@ -47,12 +47,12 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         return deferred.promise;
 	}
 
-	var listtipebarang = function()
+	var listtipebarang = function(page)
 	{
 		var url = geturl();
-
+		var page = page;
 		var deferred = $q.defer();
-		var url = url + "/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/tipebarangs?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&page="+ page;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 

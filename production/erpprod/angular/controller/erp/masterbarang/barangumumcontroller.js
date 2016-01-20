@@ -90,7 +90,7 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
     
     $scope.loading  = true;
     $scope.userInfo = auth;
-    $scope. barangumum = function()
+    $scope.loadData = function()
     {
         $scope.loading  = true;
         apiService.listbarangumum()
@@ -102,11 +102,11 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
         }, 
         function (error) 
         {          
-            $window.alert("Invalid credentials");    
+            $scope.barangumum();   
         });
     }
 
-    $scope.barangumum();
+    $scope.loadData();
 
     apiService.listtipebarang()
     .then(function (result) 
@@ -123,11 +123,11 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
     });
 
 
-    $interval(function()
-        {
-            $scope.barangumum()
-        }
-        , 10000000000);
+    // $interval(function()
+    //     {
+    //         $scope.barangumum()
+    //     }
+    //     , 10000000000);
 
 
 
@@ -157,7 +157,28 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
             $scope.selected = $itemScope.barangumum.ID;
             if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
             {
-                $location.path('/erp/masterbarang/delete/barangumum/'+ $scope.selected)
+                //$location.path('/erp/masterbarang/delete/barangumum/'+ $scope.selected)
+
+                var config = 
+                        {
+                            headers : 
+                            {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                                
+                            }
+                        };
+                        
+                $http.delete("http://labtest3-api.int/master/barangumums/"+ $scope.selected +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                .success(function(data,status, headers, config) 
+                {
+                        $scope.loadData();
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
             }
         }]
     ];

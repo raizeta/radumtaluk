@@ -27,7 +27,7 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
 
             .success(function(data,status, headers, config) 
             {
-                $location.path('/erp/masterbarang/list/barangunit');
+                //$location.path('/erp/masterbarang/list/barangunit');
 
             })
 
@@ -57,17 +57,21 @@ myAppModule.controller("ListBarangUnitController", ["$scope", "$location","$http
 {
     $scope.loading  = true;
     $scope.userInfo = auth;
-    
-    apiService.listbarangunit()
-    .then(function (result) 
+
+    $scope.loadData = function()
     {
-        $scope.unitbarangs = result.Unitbarang;
-        $scope.loading = false;  
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");    
-    });
+        apiService.listbarangunit()
+        .then(function (result) 
+        {
+            $scope.unitbarangs = result.Unitbarang;
+            $scope.loading = false;  
+        }, 
+        function (error) 
+        {          
+            $scope.loadData();    
+        });        
+    }
+    $scope.loadData();
     
    $scope.menuOptions = 
     [
@@ -89,7 +93,32 @@ myAppModule.controller("ListBarangUnitController", ["$scope", "$location","$http
 
             if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
             {
-                $location.path('/erp/masterbarang/delete/barangunit/'+ $scope.selected)
+                var config = 
+                {
+                    headers : 
+                    {
+                        'Content-Type': 'application/x-www-form-urlencoded', 
+                    }
+                };
+                
+                $http.delete("http://labtest3-api.int/master/unitbarangs/"+ $scope.selected +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                .success(function(data,status, headers, config) 
+                {
+                    // var index = $scope.unitbarangs.indexOf($scope.selected);
+                    // $scope.unitbarangs.splice(index, 1);
+                    $scope.loadData();
+
+                })
+
+                .error(function (data, status, header, config) 
+                {
+                    alert("Tidak Berhasil");    
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
             } 
 
         }]

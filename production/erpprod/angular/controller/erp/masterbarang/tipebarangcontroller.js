@@ -30,7 +30,7 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
             .success(function(data,status, headers, config) 
             {
                 
-                $location.path("/erp/masterbarang/list/tipebarang");
+                // $location.path("/erp/masterbarang/list/tipebarang");
             })
 
             .error(function (data, status, header, config) 
@@ -64,16 +64,37 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 
     $scope.loading  = true;
     $scope.userInfo = auth;
-    apiService.listtipebarang()
-    .then(function (result) 
+    $scope.page = 1;
+
+    $scope.loadData = function(page)
     {
-        $scope.typebarangs = result.Tipebarang;
-        $scope.loading = false;
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");    
-    });
+        apiService.listtipebarang(page)
+        .then(function (result) 
+        {
+            $scope.typebarangs = result.Tipebarang;
+            $scope.loading = false;
+        }, 
+
+        function (error) 
+        {          
+            $scope.loadData();   
+        });
+    }
+    
+    $scope.loadData($scope.page);
+
+    $scope.nextPage = function()
+    {
+        $scope.page++;
+        $scope.loadData($scope.page++);
+
+    }
+    $scope.prevPage = function()
+    {
+        $scope.page--;
+        $scope.loadData($scope.page--);
+
+    }
 
     $scope.menuOptions = 
     [
@@ -92,12 +113,35 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
         ['Delete', function ($itemScope) 
         {
             $scope.selected = $itemScope.typebarang.ID;
-
-            if(confirm("Apakah Anda Yakin Menghapus Type Barang:" + $scope.selected))
+            if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
             {
-                $location.path('/erp/masterbarang/delete/tipebarang/'+ $scope.selected)
-            } 
+                //$location.path('/erp/masterbarang/delete/barangumum/'+ $scope.selected)
+                var config = 
+                {
+                    headers : 
+                    {
+                        'Content-Type': 'application/x-www-form-urlencoded', 
+                    }
+                };
 
+                $http.delete("http://labtest3-api.int/master/tipebarangs/"+ $scope.selected  +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        // var index = $scope.typebarangs.indexOf($scope.selected);
+                        // $scope.typebarangs.splice(index, 1);
+                        $scope.loadData();
+                    })
+
+                    .error(function (data, status, header, config) 
+                    {
+                        alert("Tidak Berhasil");    
+                    })
+
+                    .finally(function()
+                    {
+                        $scope.loading = false;  
+                    });
+            }
         }]
     ];
 

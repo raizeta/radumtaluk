@@ -15,17 +15,22 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 {
     $scope.loading  = true;
     $scope.userInfo = auth;
-
-    apiService.listsuplier()
-    .then(function (result) 
+    $scope.loadData = function()
     {
-        $scope.supliers = result.Suplier;
-        $scope.loading = false;  
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");    
-    });
+        apiService.listsuplier()
+        .then(function (result) 
+        {
+            $scope.supliers = result.Suplier;
+            $scope.loading = false;  
+        }, 
+        function (error) 
+        {          
+            $scope.loadData();   
+        });
+    }
+    
+    $scope.loadData();
+    
 
     $scope.logout = function () 
     { 

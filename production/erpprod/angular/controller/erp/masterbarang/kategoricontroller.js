@@ -30,7 +30,7 @@ myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", 
             $http.post("http://labtest3-api.int/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
             .success(function(data,status, headers, config) 
             {
-                $location.path("/erp/masterbarang/list/kategori");
+                //$location.path("/erp/masterbarang/list/kategori");
 
             })
             .error(function (data, status, header, config) 
@@ -64,30 +64,24 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
 
     $scope.loading  = true;
     $scope.userInfo = auth;
-    apiService.listkategori()
-    .then(function (result) 
-    {
-        $scope.categories = result.Kategori;
-        $scope.loading  = false;
-       
-    }, 
-    function (error) 
-    {          
-        $window.alert("Invalid credentials");
-        
-    });
 
-    
-
-    $scope.deletekategori = function(category)
+    $scope.loadData = function()
     {
-       var id = category.ID;
-       var nama = category.NM_KATEGORI;
-        if(confirm("Apakah Anda Yakin Menghapus Kategori:" + nama))
+        apiService.listkategori()
+        .then(function (result) 
         {
-            $location.path('/erp/masterbarang/delete/kategori/'+ id)
-        }   
+            $scope.categories = result.Kategori;
+            $scope.loading  = false;
+           
+        }, 
+        function (error) 
+        {          
+            $scope.loadData();
+            
+        });
     }
+    
+    $scope.loadData();
 
     $scope.logout = function () 
     { 
@@ -115,7 +109,34 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
             $scope.selected = $itemScope.category.ID;
             if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
             {
-                $location.path('/erp/masterbarang/delete/kategori/'+ $scope.selected)
+                var config = 
+                    {
+                        headers : 
+                        {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                            
+                        }
+                    };
+                    
+                    $http.delete("http://labtest3-api.int/master/kategoris/"+$scope.selected+"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        $scope.loadData();
+
+                    })
+                    .error(function (data, status, header, config) 
+                    {
+                        console.log(data);
+                        console.log(status);
+                        console.log(header);
+                        console.log(config);      
+                    })
+
+                    .finally(function()
+                    {
+                        $scope.loading = false;  
+                    });
             }
         }]
     ];

@@ -30,7 +30,7 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
             }, 
             function (error) 
             {          
-                $window.alert("Invalid credentials");
+                alert("Gagal Mengambil Nilai Api");
                 
             });
 
