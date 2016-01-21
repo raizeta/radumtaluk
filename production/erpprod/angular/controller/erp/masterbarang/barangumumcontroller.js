@@ -8,18 +8,25 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     {
         allowClear:true
     };
-    
-    apiService.listkategori()
+
+    var len = apiService.listkategori()
     .then(function (result) 
     {
+        // alert((result.Kategori).length-1);
         $scope.categories = result.Kategori;
-        $scope.loading  = false;   
+        $scope.loading  = false;
+        // console.log(result.Kategori[10]);
+
+ 
     });
+
 
     apiService.listbarangunit()
     .then(function (result) 
     {
-        $scope.unitbarangs = result.Unitbarang;  
+        $scope.unitbarangs = result.Unitbarang;
+        // var length = ($scope.unitbarangs).length;
+        // console.log($scope.unitbarangs[length]);  
     });
 
     apiService.listsuplier()
@@ -35,45 +42,97 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 
     $scope.submitForm = function(barangumum)
     {
- 
-            barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_UNIT + '.0000';
-            function serializeObj(obj) 
+             $scope.loading = true; 
+             apiService.listbarangumum()
+            .then(function (result) 
             {
-              var result = [];
-              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
-              return result.join("&");
-            }
-            
-            var serialized = serializeObj(barangumum); 
+                var len = (result.BarangUmum).length-1;
+                var kode = result.BarangUmum[len].KD_BARANG;
+                var split = kode.split(".");
+                var kodes = parseInt(split[5]) + 1;
+                var str = "" + kodes;
+                var pad = "0000";
+                var ans = pad.substring(0, pad.length - str.length) + str;
 
-            var config = 
-            {
-                headers : 
+                barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + ans;
+                function serializeObj(obj) 
                 {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
-                    
+                  var result = [];
+                  for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+                  return result.join("&");
                 }
-            };
-            
-            $http.post("http://labtest3-api.int/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                $location.path("/erp/masterbarang/list/barangumum");
+                
+                var serialized = serializeObj(barangumum); 
 
-            })
-            .error(function (data, status, header, config) 
-            {
-                console.log(data);
-                console.log(status);
-                console.log(header);
-                console.log(config);      
-            })
+                var config = 
+                {
+                    headers : 
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                        
+                    }
+                };
+                
+                $http.post("http://labtest3-api.int/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+                .success(function(data,status, headers, config) 
+                {
+                    $location.path("/erp/masterbarang/list/barangumum");
 
-            .finally(function()
-            {
-                $scope.loading = false;  
+                })
+                .error(function (data, status, header, config) 
+                {
+                    console.log(data);
+                    console.log(status);
+                    console.log(header);
+                    console.log(config);      
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
+               
             });
+
+            // barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_UNIT + '.0000';
+            // function serializeObj(obj) 
+            // {
+            //   var result = [];
+            //   for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+            //   return result.join("&");
+            // }
+            
+            // var serialized = serializeObj(barangumum); 
+
+            // var config = 
+            // {
+            //     headers : 
+            //     {
+            //         'Accept': 'application/json',
+            //         'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+            //     }
+            // };
+            
+            // $http.post("http://labtest3-api.int/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            // .success(function(data,status, headers, config) 
+            // {
+            //     $location.path("/erp/masterbarang/list/barangumum");
+
+            // })
+            // .error(function (data, status, header, config) 
+            // {
+            //     console.log(data);
+            //     console.log(status);
+            //     console.log(header);
+            //     console.log(config);      
+            // })
+
+            // .finally(function()
+            // {
+            //     $scope.loading = false;  
+            // });
     }
 
     $scope.logout = function () 
@@ -264,7 +323,11 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
     $scope.submitForm = function(barangumum)
     {
             $scope.loading = true;
-            barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_UNIT + '.0000';
+            var temp_kdbarang = barangumum.KD_BARANG;
+            var split = temp_kdbarang.split(".");
+            var kodebarang = split[5];
+
+            barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + kodebarang;
             
             function serializeObj(obj) 
             {

@@ -57,13 +57,16 @@
                     </td>
                     <td><a href="#/erp/masterbarang/detail/tipebarang/{{barangumum.type.ID}}" 
                         editable-select="barangumum.type.ID" e-ng-options="t.ID as t.NM_TYPE for t in typebarangs">
-                        {{barangumum.type.NM_TYPE}}</a>
+                        {{barangumum.type.KD_TYPE}} {{barangumum.type.NM_TYPE}} </a>
                     </td>
                     <td><a href="#/erp/masterbarang/detail/kategori/{{barangumum.kategori.ID}}" 
                         editable-select="barangumum.kategori.ID" e-ng-options="c.ID as c.NM_KATEGORI for c in categories">
-                        {{barangumum.kategori.NM_KATEGORI}}</a>
+                        {{barangumum.kategori.KD_KATEGORI}} {{barangumum.kategori.NM_KATEGORI}}</a>
                     </td>
-                    <td>{{barangumum.unit.NM_UNIT}}</td>
+                    <td>
+                        <a href="#/erp/masterbarang/detail/kategori/{{barangumum.kategori.ID}}" 
+                        editable-select="barangumum.kategori.ID" e-ng-options="c.ID as c.NM_KATEGORI for c in categories">{{barangumum.unit.KD_UNIT}} {{barangumum.unit.NM_UNIT}}</a>
+                    </td>
                     <!--
                     <td>{{barangumum.KD_SUPPLIER}}</td>
                     <td>{{barangumum.KD_DISTRIBUTOR}}</td>

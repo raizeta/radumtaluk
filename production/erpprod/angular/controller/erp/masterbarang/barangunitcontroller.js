@@ -1,5 +1,5 @@
-myAppModule.controller("NewBarangUnitController", ["$scope", "$location","$http", "authService", "auth","$window","$filter", 
-function ($scope, $location, $http, authService, auth,$window,$filter) 
+myAppModule.controller("NewBarangUnitController", ["$scope", "$location","$http", "authService", "auth","$window","$filter","apiService", 
+function ($scope, $location, $http, authService, auth,$window,$filter,apiService) 
 {
     $scope.setdecimali = function(buqty)
     {
@@ -8,6 +8,26 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
     
     $scope.submitForm = function(barangunit)
     {
+        $scope.loading = true;    
+        apiService.listbarangunit()
+        .then(function (result) 
+        {
+            $scope.unitbarangs = result.Unitbarang;
+
+            var len = (result.Unitbarang).length-1;
+            var kode = result.Unitbarang[len].KD_UNIT;
+            
+            var split = kode.split("E");
+            
+            var kodes = parseInt(split[1]) + 1;
+            var str = "" + kodes;
+            var pad = "00";
+            var ans = pad.substring(0, pad.length - str.length) + str;
+
+            var kode_unit = "E" + ans;
+            
+            barangunit.KD_UNIT = kode_unit;
+
             var config = {
                 headers : {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;',
@@ -41,6 +61,12 @@ function ($scope, $location, $http, authService, auth,$window,$filter)
                alert("Finally");
                 $scope.loading = false;  
             });
+
+        }, 
+        function (error) 
+        {          
+            $scope.loadData();    
+        });
     }
 
     $scope.userInfo = auth;

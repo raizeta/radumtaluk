@@ -10,12 +10,6 @@
           </div>
           <form name="newbarangunitForm" ng-submit="submitForm(barangunit)" method="post" validate>
           <div class="box-body">
-            <div class="form-group" ng-class="{'has-error':newbarangunitForm.kodeunit.$invalid && !newbarangunitForm.kodeunit.$pristine,'has-success':newbarangunitForm.kodeunit.$valid}">
-              <label>KODE UNIT</label>
-                <input type="text" class="form-control" name="kodeunit" ng-model="barangunit.KD_UNIT" required>
-            </div>
-          </div>
-          <div class="box-body">
             <div class="form-group" ng-class="{'has-error':newbarangunitForm.bunmunit.$invalid && !newbarangunitForm.bunmunit.$pristine,'has-success':newbarangunitForm.bunmunit.$valid}">
               <label>NAMA BARANG UNIT</label>
                 <input type="text" class="form-control" name="bunmunit" ng-model="barangunit.NM_UNIT" required>
