@@ -4,7 +4,12 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 	var deferred = $q.defer();
 	var geturl = function()
 	{
-		return "http://labtest3-api.int/master";
+		return "http://lukison.int/master";
+	}
+
+	var gettoken = function()
+	{
+		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 	}
 
 	var singlelistbarangumum = function(idbarangumum)
@@ -13,7 +18,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 		var idbarangumum = idbarangumum;
 		var deferred = $q.defer();
 
-		var url = url +"/barangumums/"+ idbarangumum +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&expand=type,kategori,unit";
+		var url = url +"/barangumums/"+ idbarangumum +"?expand=type,kategori,unit";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -34,7 +39,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 		var url = geturl();
 		var idkategori = idkategori;
 		var deferred = $q.defer();
-		var url = url +"/kategoris/"+ idkategori +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url +"/kategoris/"+ idkategori;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -55,7 +60,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 		var url = geturl();
 		var idtipebarang = idtipebarang;
 		var deferred = $q.defer();
-		var url = url +"/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url +"/tipebarangs/"+ idtipebarang;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -76,7 +81,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 		var url = geturl();
 		var idsuplier = idsuplier;
 		var deferred = $q.defer();
-		var url = url +"/supliers/"+ idsuplier +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url +"/supliers/"+ idsuplier;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -97,7 +102,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 		var url = geturl();
 		var idbarangunit = idbarangunit;
 		var deferred = $q.defer();
-		var url = url +"/unitbarangs/"+ idbarangunit +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url +"/unitbarangs/"+ idbarangunit;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 

@@ -22,13 +22,6 @@
           </div>
           <form name="kategoriForm" ng-submit="submitForm(kategori)" novalidate>
           <div class="box-body">
-            <div class="form-group" ng-class="{ 'has-error' : kategoriForm.kodekategori.$invalid && !kategoriForm.kodekategori.$pristine,'has-success':kategoriForm.kodekategori.$valid
-                }">
-                <label>Kode Kategori</label>
-                <input type="text" name="kodekategori" class="form-control" ng-model="kategori.KD_KATEGORI" required>
-                <p ng-show="kategoriForm.kodekategori.$invalid && !kategoriForm.kodekategori.$pristine" class="help-block">Kode Kategori Tidak Boleh Kosong.</p>
-            </div>
-
             <div class="form-group" ng-class="{ 'has-error' : kategoriForm.namakategori.$invalid && !kategoriForm.namakategori.$pristine,'has-success':kategoriForm.namakategori.$valid
                 }">
                 <label>Name Kategori</label>

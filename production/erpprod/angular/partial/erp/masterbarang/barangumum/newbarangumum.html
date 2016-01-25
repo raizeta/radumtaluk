@@ -10,11 +10,36 @@
           </div>
           <form name="barangumumForm" ng-submit="submitForm(barangumum)" method="post" novalidate>
           <div class="box-body">
-            <!-- <div class="form-group"  ng-class="{ 'has-error' : barangumumForm.kodeproduct.$invalid && !barangumumForm.kodeproduct.$pristine,'has-success':barangumumForm.kodeproduct.$valid  }">
-              <label>Kode Product</label>
-                <input type="text" name="kodeproduct" class="form-control" ng-model="barangumum.KD_BARANG" required>
-                <p ng-show="barangumumForm.kodeproduct.$invalid && !barangumumForm.kodeproduct.$pristine" class="help-block">Kode Product Tidak Boleh Kosong.</p>
-            </div> -->
+            <div class="form-group" ng-class="{'has-error':barangumumForm.parent.$invalid && !barangumumForm.parent.$pritine,'has-success':barangumumForm.parent.$valid}">
+              <label>Parent Barang</label>
+              <select class="form-control" ui-select2="select2Options" name="parent" style="width: 100%;" ng-model="barangumum.PARENT" ng-change="parentchange()" ng-required="true">
+                <option ng-repeat="parent in parents" value="{{parent.id}}">{{parent.nama}}</option>
+              </select>
+            </div>
+            <div class="form-group" ng-class="{'has-error':barangumumForm.kodekorp.$invalid && !barangumumForm.kodekorp.$pritine,'has-success':barangumumForm.kodekorp.$valid}">
+              <label>Kode Corporation</label>
+              <select class="form-control" ui-select2="select2Options" name="kodekorp" style="width: 100%;" ng-model="barangumum.KD_CORP" ng-required="true" ng-change="corpchange()">
+                <option value=""></option>
+                <option ng-repeat="perusahaan in perusahaans" value="{{perusahaan.CORP}}">
+                  {{perusahaan.NM_ALAMAT}}
+                </option>
+              </select>
+            </div>
+            <div class="form-group" ng-class="{'has-error':barangumumForm.tipebarang.$invalid && !barangumumForm.tipebarang.$pritine,'has-success':barangumumForm.tipebarang.$valid}">
+              <label>Kode Type Barang</label>
+              <select class="form-control" ui-select2="select2Options" name="tipebarang" style="width: 100%;" ng-model="barangumum.KD_TYPE" ng-change="tipechange()" ng-required="true">
+                <option value=""></option>
+                <option ng-repeat="typebarang in typebarangs| filter:{PARENT:filterparent,CORP_ID:filtercorp}:true" value="{{typebarang.KD_TYPE}}">{{typebarang.NM_TYPE}}</option>
+              </select>
+            </div>
+
+            <div class="form-group" ng-class="{'has-error':barangumumForm.category.$invalid && !barangumumForm.category.$pritine,'has-success':barangumumForm.category.$valid}">
+              <label>Kode Kategori</label>
+              <select class="form-control" ui-select2="select2Options" name="category"style="width: 100%;" ng-model="barangumum.KD_KATEGORI" ng-required="true">
+                <option value=""></option>
+                <option ng-repeat="category in categories| filter:{PARENT:filterparent,CORP_ID:filtercorp,KD_TYPE:filtertipe}" value="{{category.KD_KATEGORI}}">{{category.NM_KATEGORI}}</option>
+              </select>
+            </div>
 
             <div class="form-group"  ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine,'has-success':barangumumForm.namaproduct.$valid  }">
               <label>Nama Product</label>
@@ -38,21 +63,9 @@
               </div>
               <p ng-show="barangumumForm.statusbarum.$invalid && !barangumumForm.statusbarum.$pristine" class="help-block">Status Barang Umum Tidak Boleh Kosong</p>
             </div>
-            <div class="form-group" ng-class="{'has-error':barangumumForm.tipebarang.$invalid && !barangumumForm.tipebarang.$pritine,'has-success':barangumumForm.tipebarang.$valid}">
-              <label>Kode Type Barang</label>
-              <select class="form-control" ui-select2="select2Options" name="tipebarang" style="width: 100%;" ng-model="barangumum.KD_TYPE" ng-required="true">
-                <option value=""></option>
-                <option ng-repeat="typebarang in typebarangs" value="{{typebarang.KD_TYPE}}">{{typebarang.NM_TYPE}}</option>
-              </select>
-            </div>
+            
 
-            <div class="form-group" ng-class="{'has-error':barangumumForm.category.$invalid && !barangumumForm.category.$pritine,'has-success':barangumumForm.category.$valid}">
-              <label>Kode Kategori</label>
-              <select class="form-control" ui-select2="select2Options" name="category"style="width: 100%;" ng-model="barangumum.KD_KATEGORI" ng-required="true">
-                <option value=""></option>
-                <option ng-repeat="category in categories" value="{{category.KD_KATEGORI}}">{{category.NM_KATEGORI}}</option>
-              </select>
-            </div>
+            
 
             <div class="form-group" ng-class="{'has-error':barangumumForm.barangunit.$invalid && !barangumumForm.barangunit.$pritine,'has-success':barangumumForm.barangunit.$valid}">
               <label>Kode Barang Unit</label>
@@ -67,18 +80,6 @@
               <select class="form-control" ui-select2="select2Options" name="suplier" style="width: 100%;" ng-model="barangumum.KD_SUPPLIER" ng-required="true">
                 <option value=""></option>
                 <option ng-repeat="suplier in supliers" value="{{suplier.KD_SUPPLIER}}">{{suplier.NM_SUPPLIER}}</option>
-              </select>
-            </div>
-
-            <div class="form-group" ng-class="{'has-error':barangumumForm.kodekorp.$invalid && !barangumumForm.kodekorp.$pritine,'has-success':barangumumForm.kodekorp.$valid}">
-              <label>Kode Corporation</label>
-              <select class="form-control" ui-select2="select2Options" name="kodekorp" style="width: 100%;" ng-model="barangumum.KD_CORP" ng-required="true">
-                <option value=""></option>
-                <option value="ALG">Arta Lipat Ganda</option>
-                <option value="ESM">Efenbi Sukses Makmur</option>
-                <option value="GSN">Gosent</option>
-                <option value="LG">Lukison Group</option>
-                <option value="SSS">Sarana Sinar Surya</option>
               </select>
             </div>
 

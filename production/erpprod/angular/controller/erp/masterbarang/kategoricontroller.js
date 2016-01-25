@@ -1,49 +1,61 @@
-myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", 
+function ($scope, $location, $http, authService, auth,$window,apiService) 
 {
 
     $scope.userInfo = auth;
 
     $scope.submitForm = function(kategori)
     {
- 
-            $scope.loading = true;
-
-            function serializeObj(obj) 
+            $scope.loading = true; 
+            apiService.listkategori()
+            .then(function (result) 
             {
-              var result = [];
-              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
-              return result.join("&");
-            }
-            
-            var serialized = serializeObj(kategori); 
+                var len = (result.Kategori).length-1;
+                var kode = result.Kategori[len].KD_KATEGORI;
+                var kodes = parseInt(kode) + 1;
+                var str = "" + kodes;
+                var pad = "00";
+                var ans = pad.substring(0, pad.length - str.length) + str;
 
-            var config = 
-            {
-                headers : 
+                kategori.KD_KATEGORI = ans;
+                function serializeObj(obj) 
                 {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
-                    
+                  var result = [];
+                  for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+                  return result.join("&");
                 }
-            };
-            
-            $http.post("http://labtest3-api.int/master/kategoris?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                //$location.path("/erp/masterbarang/list/kategori");
+                
+                var serialized = serializeObj(kategori); 
 
-            })
-            .error(function (data, status, header, config) 
-            {
-                console.log(data);
-                console.log(status);
-                console.log(header);
-                console.log(config);      
-            })
+                var config = 
+                {
+                    headers : 
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                        
+                    }
+                };
+                
+                $http.post("http://lukison.int/master/kategoris",serialized,config)
+                .success(function(data,status, headers, config) 
+                {
+                    $location.path("/erp/masterbarang/list/kategori");
 
-            .finally(function()
-            {
-                $scope.loading = false;  
+                })
+                .error(function (data, status, header, config) 
+                {
+                    console.log(data);
+                    console.log(status);
+                    console.log(header);
+                    console.log(config);      
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
+               
             });
     }
 
@@ -55,7 +67,8 @@ myAppModule.controller("NewKategoriController", ["$scope", "$location","$http", 
     }    
 }]);
 
-myAppModule.controller("ListKategoriController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", function ($scope, $location, $http, authService, auth,$window,apiService) 
+myAppModule.controller("ListKategoriController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", 
+function ($scope, $location, $http, authService, auth,$window,apiService) 
 {
   $scope.statuses = [
     {value: 1, text: 'Aktif'},
@@ -119,7 +132,7 @@ myAppModule.controller("ListKategoriController", ["$scope", "$location","$http",
                         }
                     };
                     
-                    $http.delete("http://labtest3-api.int/master/kategoris/"+$scope.selected+"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                    $http.delete("http://lukison.int/master/kategoris/"+$scope.selected,config)
                     .success(function(data,status, headers, config) 
                     {
                         $scope.loadData();
@@ -210,7 +223,7 @@ myAppModule.controller("EditKategoriController", ["$scope", "$location","$http",
                 }
             };
             
-            $http.put("http://labtest3-api.int/master/kategoris/"+idkategori+"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            $http.put("http://lukison.int/master/kategoris/"+idkategori,serialized,config)
             .success(function(data,status, headers, config) 
             {
                 $location.path("/erp/masterbarang/list/kategori");
@@ -252,7 +265,7 @@ myAppModule.controller("DeleteKategoriController", ["$scope", "$location","$http
                 }
             };
             
-            $http.delete("http://labtest3-api.int/master/kategoris/"+idkategori+"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+            $http.delete("http://lukison.int/master/kategoris/"+idkategori,config)
             .success(function(data,status, headers, config) 
             {
                 $location.path("/erp/masterbarang/list/kategori");

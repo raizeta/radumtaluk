@@ -10,15 +10,19 @@
           </div>
           <form name="barangumumForm" ng-submit="submitForm(barangumum)" method="post" novalidate>
           <div class="box-body">
+            <div class="form-group" ng-class="{'has-error':barangumumForm.parent.$invalid && !barangumumForm.parent.$pritine,'has-success':barangumumForm.parent.$valid}">
+              <label>Parent Barang</label>
+              <select class="form-control" ui-select2="select2Options" name="parent" style="width: 100%;" ng-model="barangumum.PARENT" ng-required="true">
+                <option ng-repeat="parent in parents" value="{{parent.id}}">{{parent.nama}}</option>
+              </select>
+            </div>
             <div class="form-group" ng-class="{'has-error':barangumumForm.kodekorp.$invalid && !barangumumForm.kodekorp.$pritine,'has-success':barangumumForm.kodekorp.$valid}">
               <label>Kode Corporation</label>
               <select class="form-control" ui-select2="select2Options" name="kodekorp" style="width: 100%;" ng-model="barangumum.KD_CORP" ng-required="true">
                 <option value=""></option>
-                <option value="ALG">Arta Lipat Ganda</option>
-                <option value="ESM">Efenbi Sukses Makmur</option>
-                <option value="GSN">Gosent</option>
-                <option value="LG">Lukison Group</option>
-                <option value="SSS">Sarana Sinar Surya</option>
+                <option ng-repeat="perusahaan in perusahaans" value="{{perusahaan.CORP}}">
+                  {{perusahaan.NM_ALAMAT}}
+                </option>
               </select>
             </div>
             <div class="form-group"  ng-class="{ 'has-error' : barangumumForm.namaproduct.$invalid && !barangumumForm.namaproduct.$pristine,'has-success':barangumumForm.namaproduct.$valid  }">

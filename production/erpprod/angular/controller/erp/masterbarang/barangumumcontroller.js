@@ -2,6 +2,19 @@ myAppModule.controller("NewBarangUmumController", ["$scope", "$location","$http"
 function ($scope, $location, $http, authService, auth,$window,apiService) 
 {
 
+    $scope.parentchange = function()
+    {
+        $scope.filterparent = parseInt($scope.barangumum.PARENT);
+    }
+    $scope.corpchange = function()
+    {
+        $scope.filtercorp = $scope.barangumum.KD_CORP;
+    }
+    $scope.tipechange = function()
+    {
+        $scope.filtertipe = $scope.barangumum.KD_TYPE;
+    }
+
     $scope.loading  = true;
     $scope.userInfo = auth;
     $scope.select2Options = 
@@ -9,15 +22,26 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
         allowClear:true
     };
 
+    $scope.parents = 
+    [
+        {
+            "id":0,
+            "nama":"Barang Umums",
+        },
+        {
+            "id":1,
+            "nama":"Barang Products",
+        }
+    ];
+    console.log($scope.parents);
     var len = apiService.listkategori()
     .then(function (result) 
     {
         // alert((result.Kategori).length-1);
         $scope.categories = result.Kategori;
+        console.log($scope.categories);
         $scope.loading  = false;
         // console.log(result.Kategori[10]);
-
- 
     });
 
 
@@ -40,6 +64,12 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
         $scope.typebarangs = result.Tipebarang;    
     });
 
+    apiService.listperusahaan()
+    .then(function (result) 
+    {
+        $scope.perusahaans = result.Perusahaan;    
+    });
+
     $scope.submitForm = function(barangumum)
     {
              $scope.loading = true; 
@@ -54,7 +84,17 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                 var pad = "0000";
                 var ans = pad.substring(0, pad.length - str.length) + str;
 
-                barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + ans;
+                var parent = parseInt(barangumum.PARENT);
+                if (parent === 0)
+                {
+                    barangumum.KD_BARANG = 'UM.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + ans;
+                
+                }
+                else if (parent === 1)
+                {
+                    barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + ans;  
+                }
+
                 function serializeObj(obj) 
                 {
                   var result = [];
@@ -278,6 +318,18 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
 myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService","singleapiService",
 function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService,singleapiService) 
 {
+    $scope.parents = 
+    [
+        {
+            "id":0,
+            "nama":"Barang Umums",
+        },
+        {
+            "id":1,
+            "nama":"Barang Products",
+        }
+    ];    
+
     $scope.select2Options = {
         allowClear:true
     };
@@ -320,14 +372,28 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
         $scope.loading = false;     
     });
 
+    apiService.listperusahaan()
+    .then(function (result) 
+    {
+        $scope.perusahaans = result.Perusahaan;    
+    });
+    
     $scope.submitForm = function(barangumum)
     {
             $scope.loading = true;
             var temp_kdbarang = barangumum.KD_BARANG;
             var split = temp_kdbarang.split(".");
             var kodebarang = split[5];
-
-            barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + kodebarang;
+            var parent = parseInt(barangumum.PARENT);
+            if (parent === 0)
+            {
+                barangumum.KD_BARANG = 'UM.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + kodebarang;
+            
+            }
+            else if (parent === 1)
+            {
+                barangumum.KD_BARANG = 'BRGU.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + kodebarang;  
+            }
             
             function serializeObj(obj) 
             {

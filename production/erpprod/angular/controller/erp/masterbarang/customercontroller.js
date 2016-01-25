@@ -1,8 +1,25 @@
-myAppModule.controller("NewCustomerController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("NewCustomerController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", 
+function ($scope, $location, $http, authService, auth,$window,apiService) 
 {
 
     $scope.userInfo = auth;
 
+    apiService.listprovinsi()
+    .then(function (result) 
+    {
+        $scope.provinsis = result.Provinsi;
+    });
+
+    apiService.listkabupaten()
+    .then(function (result) 
+    {
+        $scope.kabupatens = result.Kabupaten;
+    });
+    $scope.provinsichange = function()
+    {
+        $scope.filterprovinsi = $scope.barangumum.provinsi;
+    }
+    
     $scope.submitForm = function(barangumum)
     {
         $scope.loading =true;
