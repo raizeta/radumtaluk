@@ -14,43 +14,35 @@
         <div class="panel-body table-responsive">
            <table class="table table-hover table-striped table-bordered">
             <thead>
-              <tr>
-                <th>ID</th>
-                <!-- <th>KD UNIT</th> -->
-                <th>NM UNIT</th>
-                <th>QUANTITY</th>
-                <th>WEIGHT</th>
-                <th>COLOR</th>
-                <th>NOTE</th>
-                <th>STATUS</th>
-                <th>DETAIL</th>
-                <th>EDIT</th>
-                <th>DELETE</th>
-
-              </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{{unitbarang.ID}}</td>
+              <tr ng-repeat="customer in customers">
+                <td>{{customer.CUST_ID}}</td>
                 <!-- <td>{{unitbarang.KD_UNIT}}</td> -->
-                <td>{{unitbarang.NM_UNIT}}</td>
-                <td>{{unitbarang.QTY}}</td>
-                <td>{{unitbarang.WEIGHT}}</td>
-                <td>{{unitbarang.COLOR}}</td>
-                <td>{{unitbarang.NOTE}}</td>
-                <td ng-if='unitbarang.STATUS === 1' >AKTIF </td>
-                <td ng-if='unitbarang.STATUS === 0' >TIDAK AKTIF </td>
-                <td><a href="#/erp/masterbarang/detail/customer/1">
-                  <i class="fa fa-eye fa-2x"></i></a>
-                </td>
-                <td><a href="#/erp/masterbarang/edit/customer/1">
-                  <i class="fa fa-refresh fa-2x"></i></a>
-                </td>
-                <td>
-                  <a href="" ng-click="deletecustomer(customer)">
-                    <i class="fa fa-trash-o fa-2x"></i>
-                  </a>
-                </td>
+                <td>{{customer.CUST_KD_ALIAS}}</td>
+                <td>{{customer.CUST_GRP}}</td>
+                <td>{{customer.CUST_KTG}}</td>
+                <td>{{customer.JOIN_DATE}}</td>
+                <td>{{customer.MAP_LAT}}</td>
+                <td>{{customer.MAP_LNG}}</td>
+                <td>{{customer.KD_DISTRIBUTOR}}</td>
+                <td>{{customer.PIC}}</td>
+                <td>{{customer.ALAMAT}}</td>
+                <td>{{customer.TLP1}}</td>
+                <td>{{customer.TLP2}}</td>
+                <td>{{customer.FAX}}</td>
+                <td>{{customer.EMAIL}}</td>
+                <td>{{customer.WEBSITE}}</td>
+                <td>{{customer.NOTE}}</td>
+                <td>{{customer.NPWP}}</td>
+                <td>{{customer.STT_TOKO}}</td>
+                <td>{{customer.DATA_ALL}}</td>
+                <td>{{customer.CAB_ID}}</td>
+                <td>{{customer.CORP_ID}}</td>
+                <td>{{customer.EMAIL}}</td>
+                
+                <td ng-if='customer.STATUS === 1' >AKTIF </td>
+                <td ng-if='customer.STATUS === 0' >TIDAK AKTIF </td>
               </tr>
             </tbody>
            </table>

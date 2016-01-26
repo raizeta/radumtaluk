@@ -24,7 +24,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     $routeProvider.when('/erp/masterbarang/list/customer',
     {
         templateUrl : 'angular/partial/erp/masterbarang/customer/listcustomer.html',
-        controller  : 'ListDistributorController',
+        controller  : 'ListCustomerController',
         resolve: 
         {
             auth: function ($q, authService,$location) 

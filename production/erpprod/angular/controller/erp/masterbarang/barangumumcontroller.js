@@ -114,7 +114,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                     }
                 };
                 
-                $http.post("http://labtest3-api.int/master/barangumums?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+                $http.post("http://lukison.int/master/barangumums",serialized,config)
                 .success(function(data,status, headers, config) 
                 {
                     $location.path("/erp/masterbarang/list/barangumum");
@@ -401,8 +401,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
               for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
               return result.join("&");
             }
-            console.log(barangumum);
-            var serialized = serializeObj(barangumum); 
+            var data = serializeObj(barangumum); 
 
             var config = 
             {
@@ -414,7 +413,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
                 }
             };
             
-            $http.put("http://labtest3-api.int/master/barangumums/"+ idbarangumum +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
+            $http.put("http://lukison.int/master/barangumums/"+ idbarangumum ,data,config)
             .success(function(data,status, headers, config) 
             {
                 $location.path("/erp/masterbarang/list/barangumum");

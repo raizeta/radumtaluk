@@ -16,42 +16,18 @@ myAppModule.controller("NewDistributorController", ["$scope", "$location","$http
     }   
 }]);
 
-myAppModule.controller("ListDistributorController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner", function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner) 
+myAppModule.controller("ListDistributorController", ["$scope", "$location","$http", "authService", "auth","$window","$cordovaBarcodeScanner", "apiService",
+function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeScanner,apiService) 
 {  
     $scope.loading  = true;
     $scope.userInfo = auth;
-    $http.get('')
-    .success(function(data,status, headers, config) 
-    {
 
-    })
-
-    .error(function (data, status, header, config) 
+    apiService.listdistributor()
+    .then(function (result) 
     {
-            
-    })
-
-    .finally(function()
-    {
+        $scope.distributors = result.Distributor;
         $scope.loading = false;
     });
-
-
-    $scope.deletedistributor = function(distributora)
-    {
-       var namadistributor = distributor.NM_DISTRIBUTOR;
-       var id = distributor.ID;
-        if(confirm("Apakah Anda Yakin Menghapus Barang Umum:" + distributor))
-        {
-                $cordovaBarcodeScanner
-                  .scan()
-                  .then(function(barcodeData) {
-                    // Success! Barcode data is here
-                  }, function(error) {
-                    // An error occurred
-                  });
-        }   
-    }
 
     $scope.logout = function () 
     { 

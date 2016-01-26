@@ -184,6 +184,48 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+	var listcustomers = function()
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = url + "/customers";
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Customers Error');
+        });
+
+        return deferred.promise;
+	}
+	var listdistributor = function()
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = url + "/distributors";
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Distributor Error');
+        });
+
+        return deferred.promise;
+	}
 	return{
 			listbarangumum:listbarangumum,
 			listkategori:listkategori,
@@ -192,6 +234,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 			listbarangunit:listbarangunit,
 			listperusahaan:listperusahaan,
 			listprovinsi:listprovinsi,
-			listkabupaten:listkabupaten
+			listkabupaten:listkabupaten,
+			listcustomers:listcustomers,
+			listdistributor:listdistributor
 		}
 }]);

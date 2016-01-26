@@ -30,27 +30,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>{{unitbarang.ID}}</td>
+              <tr ng-repeat="distributor in distributors">
+                <td>{{distributor.ID}}</td>
                 <!-- <td>{{unitbarang.KD_UNIT}}</td> -->
-                <td>{{unitbarang.NM_UNIT}}</td>
-                <td>{{unitbarang.QTY}}</td>
-                <td>{{unitbarang.WEIGHT}}</td>
-                <td>{{unitbarang.COLOR}}</td>
-                <td>{{unitbarang.NOTE}}</td>
-                <td ng-if='unitbarang.STATUS === 1' >AKTIF </td>
-                <td ng-if='unitbarang.STATUS === 0' >TIDAK AKTIF </td>
-                <td><a href="#/erp/masterbarang/detail/distributor/1">
-                  <i class="fa fa-eye fa-2x"></i></a>
-                </td>
-                <td><a href="#/erp/masterbarang/edit/distributor/1">
-                  <i class="fa fa-refresh fa-2x"></i></a>
-                </td>
-                <td>
-                  <a href="" ng-click="deletedistributor(distributor)">
-                    <i class="fa fa-trash-o fa-2x"></i>
-                  </a>
-                </td>
+                <td>{{distributor.KD_DISTRIBUTOR}}</td>
+                <td>{{distributor.NM_DISTRIBUTOR}}</td>
+                <td>{{distributor.ALAMAT}}</td>
+                <td>{{distributor.PIC}}</td>
+                <td>{{distributor.TLP1}}</td>
+                <td>{{distributor.TLP2}}</td>
+                <td>{{distributor.EMAIL}}</td>
+                <td>{{distributor.WEBSITE}}</td>
+                <td>{{distributor.NOTE}}</td>
+                <td ng-if='distributor.STATUS === 1' >AKTIF </td>
+                <td ng-if='distributor.STATUS === 0' >TIDAK AKTIF </td>
               </tr>
             </tbody>
            </table>
