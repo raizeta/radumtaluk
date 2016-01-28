@@ -20,97 +20,112 @@
           <div class="box-header">
             <h3 class="box-title">Create New Customer</h3>
           </div>
-          <form name="customerForm" ng-submit="submitForm(barangumum.$valid)" method="post" novalidate>
+          <form name="customerForm" ng-submit="submitForm(customer)" method="post" novalidate>
           <div class="box-body">
             <fieldset class="scheduler-border">
               <legend class="scheduler-border">Customer Identity</legend>
-              <div class="form-group"  ng-class="{ 'has-error' : customerForm.namacustomer.$invalid && !customerForm.namacustomer.$pristine,'has-success':customerForm.namacustomer.$valid  }">
+              <div class="form-group"  ng-class="{ 'has-error' : customerForm.CUST_NM.$invalid && !customerForm.CUST_NM.$pristine,'has-success':customerForm.CUST_NM.$valid  }">
               <label>Nama Customer</label>
-                <input type="text" name="namacustomer" class="form-control" ng-model="barangumum.namacustomer" required>
-                <p ng-show="customerForm.namacustomer.$invalid && !customerForm.namacustomer.$pristine" class="help-block">Nama Customer Tidak Boleh Kosong.</p>
+                <input type="text" name="CUST_NM" class="form-control" ng-model="customer.CUST_NM" required>
+                <p ng-show="customerForm.CUST_NM.$invalid && !customerForm.CUST_NM.$pristine" class="help-block">Nama Customer Tidak Boleh Kosong.</p>
               </div>
-              <div class="form-group"  ng-class="{ 'has-error' : customerForm.custgroup.$invalid && !customerForm.custgroup.$pristine,'has-success':customerForm.custgroup.$valid  }">
-              <label>Customer Group</label>
-                <input type="text" name="custgroup" class="form-control" ng-model="barangumum.custgroup" required>
-                <p ng-show="customerForm.custgroup.$invalid && !customerForm.custgroup.$pristine" class="help-block">Customer Group Tidak Boleh Kosong.</p>
-              </div>
-              <div class="form-group"  ng-class="{ 'has-error' : customerForm.notelp.$invalid && !customerForm.notelp.$pristine,'has-success':customerForm.notelp.$valid  }">
+              
+              <div class="form-group"  ng-class="{ 'has-error' : customerForm.TLP1.$invalid && !customerForm.TLP1.$pristine,'has-success':customerForm.TLP1.$valid  }">
               <label>Customer Telpon Number</label>
-                <input type="text" name="notelp" class="form-control" ng-model="barangumum.notelp" required>
-                <p ng-show="customerForm.notelp.$invalid && !customerForm.notelp.$pristine" class="help-block">No.Telepon Tidak Boleh Kosong.</p>
+                <input type="number" name="TLP1" class="form-control" ng-model="customer.TLP1" required>
+                <p ng-show="customerForm.TLP1.$invalid && !customerForm.TLP1.$pristine" class="help-block">No.Telepon Tidak Boleh Kosong.</p>
               </div>
               <div class="form-group"  ng-class="{ 'has-error' : customerForm.email.$invalid && !customerForm.email.$pristine,'has-success':customerForm.email.$valid  }">
                 <label>Customer Email</label>
-                  <input type="email" name="email" class="form-control" ng-model="barangumum.email" required>
+                  <input type="email" name="email" class="form-control" ng-model="customer.email" required>
                   <p ng-show="customerForm.email.$invalid && !customerForm.email.$pristine" class="help-block">Email Tidak Boleh Kosong.</p>
               </div>
-
+              <div class="form-group"  ng-class="{ 'has-error' : customerForm.NPWP.$invalid && !customerForm.NPWP.$pristine,'has-success':customerForm.NPWP.$valid  }">
+                <label>Customer NPWP</label>
+                  <input type="text" name="NPWP" class="form-control" ng-model="customer.NPWP" required>
+                  <p ng-show="customerForm.email.$invalid && !customerForm.NPWP.$pristine" class="help-block">NPWP Tidak Boleh Kosong.</p>
+              </div>
+              <div class="form-group" ng-class="{ 'has-error' : customerForm.STT_TOKO.$invalid && !customerForm.STT_TOKO.$pristine,'has-success':customerForm.STT_TOKO.$valid }">
+              <label>Status Kategori</label>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="customer.STT_TOKO" name="STT_TOKO" id="optionsRadios1" value="1" required>
+                  Aktif
+                </label>
+              </div>
+              <div class="radio">
+                <label>
+                  <input type="radio" ng-model="customer.STT_TOKO" name="STT_TOKO" id="optionsRadios2" value="0" required>
+                  Tidak Aktif
+                </label>
+              </div>
+            </div>
             </fieldset>
             <fieldset class="scheduler-border">
               <legend class="scheduler-border">Customer Address</legend>
-                <div class="form-group" ng-class="{'has-error':customerForm.provinsi.$invalid && !customerForm.provinsi.$pritine,'has-success':customerForm.provinsi.$valid}">
+                <div class="form-group" ng-class="{'has-error':customerForm.PROVINCE_ID.$invalid && !customerForm.PROVINCE_ID.$pritine,'has-success':customerForm.PROVINCE_ID.$valid}">
                   <label>Customer Province</label>
-                  <select class="form-control" ui-select2="select2Options" name="provinsi" style="width: 100%;" ng-model="barangumum.provinsi" ng-change="provinsichange()" ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="PROVINCE_ID" style="width: 100%;" ng-model="customer.PROVINCE_ID" ng-change="provinsichange()" ng-required="true">
                     <option value=""></option>
                     <option ng-repeat="provinsi in provinsis" value="{{provinsi.PROVINCE_ID}}">
                       {{provinsi.PROVINCE}}
                     </option>
                   </select>
                 </div>
-                
-                <div class="form-group" ng-class="{'has-error':customerForm.kabupaten.$invalid && !customerForm.kabupaten.$pritine,'has-success':customerForm.kabupaten.$valid}">
+                <div class="form-group" ng-class="{'has-error':customerForm.CITY_ID.$invalid && !customerForm.CITY_ID.$pritine,'has-success':customerForm.CITY_ID.$valid}">
                   <label>Customer Kabupaten</label>
-                  <select class="form-control" ui-select2="select2Options" name="kabupaten" style="width: 100%;" ng-model="barangumum.kabupaten" ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="CITY_ID" style="width: 100%;" ng-model="customer.CITY_ID" ng-required="true">
                     <option value=""></option>
                     <option ng-repeat="kabupaten in kabupatens|filter:{PROVINCE_ID:filterprovinsi}:true" value="{{kabupaten.CITY_ID}}">
                       {{kabupaten.CITY_NAME}}
                     </option>
                   </select>
-                  </select>
-                </div>
-                <div class="form-group" ng-class="{'has-error':customerForm.custtype.$invalid && !customerForm.custtype.$pritine,'has-success':customerForm.custtype.$valid}">
-                  <label>Customer Kecamatan/Kota</label>
-                  <select class="form-control" ui-select2="select2Options" name="custtype" style="width: 100%;" ng-model="barangumum.custtype" ng-required="true">
-                    <option value=""></option>
-                    <option value="ALG">Arta Lipat Ganda</option>
-                    <option value="ESM">Efenbi Sukses Makmur</option>
-                    <option value="GSN">Gosent</option>
-                    <option value="LG">Lukison Group</option>
-                    <option value="SSS">Sarana Sinar Surya</option>
-                  </select>
                 </div>
 
-                <div class="form-group"  ng-class="{ 'has-error' : customerForm.street.$invalid && !customerForm.street.$pristine,'has-success':customerForm.street.$valid  }">
+                <div class="form-group" ng-class="{'has-error':customerForm.POSTAL_CODE.$invalid && !customerForm.POSTAL_CODE.$pritine,'has-success':customerForm.POSTAL_CODE.$valid}">
+                  <label>Customer Kabupaten</label>
+                  <select class="form-control" ui-select2="select2Options" name="POSTAL_CODE" style="width: 100%;" ng-model="customer.POSTAL_CODE" ng-required="true">
+                    <option value=""></option>
+                    <option ng-repeat="kabupaten in kabupatens|filter:{PROVINCE_ID:filterprovinsi}:true" value="{{kabupaten.POSTAL_CODE}}">
+                      {{kabupaten.POSTAL_CODE}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group"  ng-class="{ 'has-error' : customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine,'has-success':customerForm.ALAMAT.$valid  }">
                 <label>Customer Street</label>
-                  <input type="text" name="street" class="form-control" ng-model="barangumum.street" required>
-                  <p ng-show="customerForm.street.$invalid && !customerForm.street.$pristine" class="help-block">Street Tidak Boleh Kosong.</p>
+                  <input type="text" name="ALAMAT" class="form-control" ng-model="customer.ALAMAT" required>
+                  <p ng-show="customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine" class="help-block">Street Tidak Boleh Kosong.</p>
               </div>
+            </fieldset>
+            <fieldset class="scheduler-border">
+              <legend class="scheduler-border">DISTRIBUTORS</legend>
+                <div class="form-group"  ng-class="{ 'has-error' : customerForm.KD_DISTRIBUTOR.$invalid && !customerForm.KD_DISTRIBUTOR.$pristine,'has-success':customerForm.KD_DISTRIBUTOR.$valid  }">
+                <label>List Distributor</label>
+                  <select class="form-control" ui-select2="select2Options" name="KD_DISTRIBUTOR" style="width: 100%;" ng-model="customer.KD_DISTRIBUTOR"  ng-change="groupparentchange()" ng-required="true">
+                      <option value=""></option>
+                      <option ng-repeat="distributor in distributors" value="{{distributor.KD_DISTRIBUTOR}}">{{distributor.KD_DISTRIBUTOR}}</option>
+                    </select>
+                  <p ng-show="customerForm.KD_DISTRIBUTOR.$invalid && !customerForm.KD_DISTRIBUTOR.$pristine" class="help-block">Customer Distributor Tidak Boleh Kosong.</p>
+                </div>
             </fieldset>
 
             <fieldset class="scheduler-border">
               <legend class="scheduler-border">Category</legend>
-                <div class="form-group" ng-class="{'has-error':customerForm.category.$invalid && !customerForm.category.$pritine,'has-success':customerForm.category.$valid}">
-                  <label>Customer Category</label>
-                  <select class="form-control" ui-select2="select2Options" name="category" style="width: 100%;" ng-model="barangumum.category" ng-required="true">
-                    <option value=""></option>
-                    <option value="ALG">Arta Lipat Ganda</option>
-                    <option value="ESM">Efenbi Sukses Makmur</option>
-                    <option value="GSN">Gosent</option>
-                    <option value="LG">Lukison Group</option>
-                    <option value="SSS">Sarana Sinar Surya</option>
-                  </select>
+                <div class="form-group"  ng-class="{ 'has-error' : customerForm.CUST_KTG_PARENT.$invalid && !customerForm.CUST_KTG_PARENT.$pristine,'has-success':customerForm.CUST_KTG_PARENT.$valid  }">
+                <label>Customer Kategori</label>
+                  <select class="form-control" ui-select2="select2Options" name="CUST_KTG_PARENT" style="width: 100%;" ng-model="customer.CUST_KTG_PARENT"  ng-change="groupparentchange()" ng-required="true">
+                      <option value=""></option>
+                      <option ng-repeat="custkat in customerkategoris|filter:{CUST_KTG_PARENT:0}" value="{{custkat.CUST_KTG}}">{{custkat.CUST_KTG_NM}}</option>
+                    </select>
+                  <p ng-show="customerForm.CUST_GRP.$invalid && !customerForm.CUST_GRP.$pristine" class="help-block">Customer Group Tidak Boleh Kosong.</p>
                 </div>
-                
-                <div class="form-group" ng-class="{'has-error':customerForm.custtype.$invalid && !customerForm.custtype.$pritine,'has-success':customerForm.custtype.$valid}">
-                  <label>Customer Type</label>
-                  <select class="form-control" ui-select2="select2Options" name="custtype" style="width: 100%;" ng-model="barangumum.custtype" ng-required="true">
-                    <option value=""></option>
-                    <option value="ALG">Arta Lipat Ganda</option>
-                    <option value="ESM">Efenbi Sukses Makmur</option>
-                    <option value="GSN">Gosent</option>
-                    <option value="LG">Lukison Group</option>
-                    <option value="SSS">Sarana Sinar Surya</option>
-                  </select>
+                <div class="form-group"  ng-class="{ 'has-error' : customerForm.CUST_KTG.$invalid && !customerForm.CUST_KTG.$pristine,'has-success':customerForm.CUST_KTG.$valid  }">
+                <label>Customer Kategori</label>
+                  <select class="form-control" ui-select2="select2Options" name="CUST_KTG" style="width: 100%;" ng-model="customer.CUST_KTG"  ng-required="true">
+                      <option value=""></option>
+                      <option ng-repeat="custkat in customerkategoris|filter:{CUST_KTG_PARENT: '!' + 0,CUST_KTG_PARENT:filtergroupcust}" value="{{custkat.CUST_KTG}}">{{custkat.CUST_KTG_NM}}</option>
+                    </select>
+                  <p ng-show="customerForm.CUST_KTG.$invalid && !customerForm.CUST_KTG.$pristine" class="help-block">Customer Group Tidak Boleh Kosong.</p>
                 </div>
             </fieldset>
             <fieldset class="scheduler-border">
@@ -150,7 +165,7 @@
                 <div class="input-group-addon">
                   <i class="fa fa-minus"></i>
                 </div>
-                <input type="date" name="date" class="form-control" uib-datepicker-popup ng-model="dt" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+                <input type="date" name="date" class="form-control" uib-datepicker-popup ng-model="customer.JOIN_DATE" is-open="status.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
                 <div class="input-group-addon">
                   <i class="fa fa-plus"></i>
                 </div>

@@ -184,6 +184,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+
 	var listcustomers = function()
 	{
 		var url = geturl();
@@ -205,6 +206,29 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+
+	var listcustomerkategoris = function()
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = url + "/customerkategoris";
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Customers Error');
+        });
+
+        return deferred.promise;
+	}
+
 	var listdistributor = function()
 	{
 		var url = geturl();
@@ -236,6 +260,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 			listprovinsi:listprovinsi,
 			listkabupaten:listkabupaten,
 			listcustomers:listcustomers,
-			listdistributor:listdistributor
+			listdistributor:listdistributor,
+			listcustomerkategoris:listcustomerkategoris
 		}
 }]);

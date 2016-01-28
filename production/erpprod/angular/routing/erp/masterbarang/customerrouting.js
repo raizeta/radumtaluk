@@ -64,7 +64,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 	$routeProvider.when('/erp/masterbarang/edit/customer/:idcustomer',
 	{
 		templateUrl	: 'angular/partial/erp/masterbarang/customer/editcustomer.html',
-		controller 	: 'EditDistributorController',
+		controller 	: 'EditCustomerController',
 		resolve: 
 		{
             auth: function ($q, authService,$location) 

@@ -118,11 +118,32 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
         return deferred.promise;
 	}
 
+	var singlelistcustomer = function(idcustomer)
+	{
+		var url = geturl();
+		var idcustomer = idcustomer;
+		var deferred = $q.defer();
+		var url = url +"/customers/"+ idcustomer;
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+        });
+
+        return deferred.promise;
+	}
 	return{
 			singlelistbarangumum:singlelistbarangumum,
 			singlelistkategori:singlelistkategori,
 			singlelisttipebarang:singlelisttipebarang,
 			singlelistsuplier:singlelistsuplier,
-			singlelistbarangunit:singlelistbarangunit
+			singlelistbarangunit:singlelistbarangunit,
+			singlelistcustomer:singlelistcustomer
 		}
 }]);

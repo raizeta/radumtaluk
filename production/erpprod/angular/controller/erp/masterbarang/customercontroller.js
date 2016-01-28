@@ -3,7 +3,13 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 {
 
     $scope.userInfo = auth;
-
+    apiService.listcustomerkategoris()
+    .then(function (result) 
+    {
+        $scope.customerkategoris = result.Customerkategori;
+        console.log(result);
+        $scope.loading  = false;
+    });
     apiService.listprovinsi()
     .then(function (result) 
     {
@@ -15,14 +21,87 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     {
         $scope.kabupatens = result.Kabupaten;
     });
+
+    apiService.listdistributor()
+    .then(function (result) 
+    {
+        $scope.distributors = result.Distributor;
+        $scope.loading = false;
+    });
+
+    $scope.groupparentchange = function()
+    {
+        $scope.filtergroupcust = $scope.customer.CUST_KTG_PARENT;
+    }
+
     $scope.provinsichange = function()
     {
-        $scope.filterprovinsi = $scope.barangumum.provinsi;
+        $scope.filterprovinsi = $scope.customer.PROVINCE_ID;
     }
     
-    $scope.submitForm = function(barangumum)
+    $scope.submitForm = function(customer)
     {
-        $scope.loading =true;
+            $scope.loading =true;
+
+             apiService.listcustomers()
+            .then(function (result) 
+            {
+                var len = (result.Customer).length-1;
+                var kode = result.Customer[len].CUST_KD;
+                var split = kode.split(".");
+                var kodes = parseInt(split[3]) + 1;
+                var str = "" + kodes;
+                var pad = "000000000";
+
+                var nomorurut   = pad.substring(0, pad.length - str.length) + str;
+
+                var kodeprov    = customer.PROVINCE_ID;
+                var kodepos     = customer.POSTAL_CODE 
+
+                var kodedis     = customer.KD_DISTRIBUTOR;
+                var kodedist    = kodedis.split(".");
+                var kodedistributor = kodedist[1];
+
+                customer.CUST_KD = "CUS" + "." + kodedistributor + "." +  kodeprov + "." + kodepos + "." +  nomorurut;
+                customer.CUST_GRP = "PARENT";
+                function serializeObj(obj) 
+                {
+                  var result = [];
+                  for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+                  return result.join("&");
+                }
+                
+                var serialized = serializeObj(customer); 
+
+                var config = 
+                {
+                    headers : 
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                        
+                    }
+                };
+                
+                $http.post("http://lukison.int/master/customers",serialized,config)
+                .success(function(data,status, headers, config) 
+                {
+                    $location.path("/erp/masterbarang/list/customer");
+
+                })
+                .error(function (data, status, header, config) 
+                {
+                    console.log(data);
+                    console.log(status);
+                    console.log(header);
+                    console.log(config);      
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;
+                });  
+            });
     }
 
     $scope.logout = function () 
@@ -47,6 +126,52 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
     });
 
 
+
+    $scope.menuOptions = 
+    [
+        ['View Detail', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.customer.CUST_KD;
+            $location.path('/erp/masterbarang/detail/customer/'+$scope.selected);
+        }],
+        null, // Dividier
+        ['Edit', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.customer.CUST_KD;
+            $location.path('erp/masterbarang/edit/customer/'+$scope.selected);
+        }],
+        null, // Dividier
+        ['Delete', function ($itemScope) 
+        {
+            $scope.selected = $itemScope.customer.CUST_KD;
+            if(confirm("Apakah Anda Yakin Menghapus Unit Barang:" + $scope.selected))
+            {
+                //$location.path('/erp/masterbarang/delete/barangumum/'+ $scope.selected)
+
+                var config = 
+                        {
+                            headers : 
+                            {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                                
+                            }
+                        };
+                        
+                $http.delete("http://labtest3-api.int/master/barangumums/"+ $scope.selected +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                .success(function(data,status, headers, config) 
+                {
+                        $scope.loadData();
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
+            }
+        }]
+    ];
+
     $scope.logout = function () 
     { 
         $scope.userInfo = null;
@@ -60,7 +185,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
 {
     $scope.loading = true ;
     $scope.userInfo = auth;
-    $scope.iddistributor = $routeParams.iddistributor;
+    $scope.idcustomer = $routeParams.idcustomer;
     $http.get('')
     .success(function(data,status, headers, config) 
     {
@@ -90,26 +215,54 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
     }
 }]);
 
-myAppModule.controller("EditCustomerController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window", function ($scope, $location, $http, $routeParams, authService, auth, $window) 
+myAppModule.controller("EditCustomerController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService","singleapiService",
+function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService,singleapiService) 
 {
     $scope.loading = true ;
     $scope.userInfo = auth;
-    $scope.iddistributor = $routeParams.iddistributor;
-    $http.get('')
-    .success(function(data,status, headers, config) 
-    {
-    
-    })
 
-    .error(function (data, status, header, config) 
+    var idcustomer = $routeParams.idcustomer;
+    singleapiService.singlelistcustomer(idcustomer)
+    .then(function (data) 
     {
-           $location.path('/error/404');
-    }).
-
-    finally(function()
-    {
-        $scope.loading = false ;
+        $scope.filtergroupcust = data.PROVINCE_ID;
+        $scope.customer = data;
+        $scope.loading = false;
     });
+
+    $scope.userInfo = auth;
+    apiService.listcustomerkategoris()
+    .then(function (result) 
+    {
+        $scope.customerkategoris = result.Customerkategori;
+    });
+    apiService.listprovinsi()
+    .then(function (result) 
+    {
+        $scope.provinsis = result.Provinsi;
+    });
+
+    apiService.listkabupaten()
+    .then(function (result) 
+    {
+        $scope.kabupatens = result.Kabupaten;
+    });
+
+    apiService.listdistributor()
+    .then(function (result) 
+    {
+        $scope.distributors = result.Distributor;
+    });
+
+    $scope.groupparentchange = function()
+    {
+        $scope.filtergroupcust = $scope.customer.CUST_KTG_PARENT;
+    }
+
+    $scope.provinsichange = function()
+    {
+        $scope.filterprovinsi = $scope.customer.PROVINCE_ID;
+    }
 
     $scope.logout = function () 
     {

@@ -28,9 +28,15 @@
               </thead>
               <tbody>
                 <tr ng-repeat="category in categories" ng-animate="'animate'" context-menu="menuOptions">
-                  <td>{{category.ID}}</td>
+                  <td editable-text="category.ID" e-name="ID" e-form="rowform">
+                    {{category.ID}}
+                  </td>
                   <!-- <td>{{category.KD_KATEGORI}}</td> -->
-                  <td><a href="" editable-text="category.NM_KATEGORI">{{category.NM_KATEGORI}}</a></td>
+                  <td>
+                    <a href="" editable-text="category.NM_KATEGORI" e-name="NM_KATEGORI" e-form="rowform">
+                      {{category.NM_KATEGORI}}
+                    </a>
+                  </td>
                   <td><a href="">{{category.CORP_ID}}</a></td>
                   <td>
                     <a href="" editable-textarea="category.NOTE" e-rows="7" e-cols="40">
