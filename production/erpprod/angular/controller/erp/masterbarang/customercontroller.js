@@ -7,7 +7,6 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     .then(function (result) 
     {
         $scope.customerkategoris = result.Customerkategori;
-        console.log(result);
         $scope.loading  = false;
     });
     apiService.listprovinsi()
@@ -20,6 +19,13 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     .then(function (result) 
     {
         $scope.kabupatens = result.Kabupaten;
+    });
+
+    $http.get('angular/json/kecamatan.json').
+    success(function(data, status, headers, config) 
+    {
+      $scope.kecamatans = data.Kecamatan;
+      console.log('Success');
     });
 
     apiService.listdistributor()
@@ -54,15 +60,20 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                 var pad = "000000000";
 
                 var nomorurut   = pad.substring(0, pad.length - str.length) + str;
-
+                
                 var kodeprov    = customer.PROVINCE_ID;
+                var strprov = "" + kodeprov;
+                var padprov = "00";
+                var kodeprovinsi   = padprov.substring(0, padprov.length - strprov.length) + strprov;
+
+
                 var kodepos     = customer.POSTAL_CODE 
 
                 var kodedis     = customer.KD_DISTRIBUTOR;
                 var kodedist    = kodedis.split(".");
                 var kodedistributor = kodedist[1];
 
-                customer.CUST_KD = "CUS" + "." + kodedistributor + "." +  kodeprov + "." + kodepos + "." +  nomorurut;
+                customer.CUST_KD = "CUS" + "." + kodedistributor + "." +  kodeprovinsi + "." + kodepos + "." +  nomorurut;
                 customer.CUST_GRP = "PARENT";
                 function serializeObj(obj) 
                 {

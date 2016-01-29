@@ -25,9 +25,11 @@ var currentLocation = {
 }
 
 return {
-    GetLocation: function () {
+    GetLocation: function () 
+    {
         var d = $q.defer();
-        navigator.geolocation.getCurrentPosition(function (pos) {
+        navigator.geolocation.getCurrentPosition(function (pos) 
+        {
             currentLocation.latitude = pos.coords.latitude;
             currentLocation.longitude = pos.coords.longitude;
             d.resolve(currentLocation);

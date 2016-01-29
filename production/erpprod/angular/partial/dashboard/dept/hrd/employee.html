@@ -60,54 +60,57 @@
   <section class="content">
     <div class="row">
       <div class="col-md-12">
-      <!-- for flashMessage in app.session.flashbag.get('notice') -->
-        <div class="alert alert-success alert-dismissable">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
-          </button>
-          <h4>DASHBOARD DEPARTMENT HRD PERSONALIA</h4>
+        <div class="panel panel-danger">
+          <div class="panel-heading">List Suplier</div>
+          <div class="panel-body">
+            <a class="btn btn-warning" href="#/erp/masterbarang/new/suplier">
+                <i class="fa fa-plus"></i> Add Suplier 
+            </a>
+          </div>
+          <div class="panel-body table-responsive">
+             <table class="table table-hover table-striped table-bordered">
+              <thead>
+              </thead>
+              <tbody>
+                <tr ng-repeat="employee in employees" context-menu="menuOptions">
+                  <td>{{employee.EMP_ID}}</td>
+                  <td>{{employee.EMP_NM}}</td>
+                  <td>{{employee.EMP_NM_BLK}}</td>
+                  <td>{{employee.EMP_CORP_ID}}</td>
+                  <td>{{employee.DEP_ID}}</td>
+                  <td>{{employee.DEP_SUB_ID}}</td>
+                  <td>{{employee.GF_ID}}</td>
+                  <td>{{employee.SEQ_ID}}</td>
+                  <td>{{employee.JOBGRADE_ID}}</td>
+                  <td>{{employee.EMP_JOIN_DATE}}</td>
+                  <td>{{employee.EMP_RESIGN_DATE}}</td>
+                  <td>{{employee.EMP_STS}}</td>
+                  <td>{{employee.EMP_KTP}}</td>
+                  <td>{{employee.EMP_ALAMAT}}</td>
+                  <td>{{employee.EMP_ZIP}}</td>
+                  <td>{{employee.EMP_TLP}}</td>
+                  <td>{{employee.EMP_GENDER}}</td>
+                  <td>{{employee.EMP_TGL_LAHIR}}</td>
+                  <td>{{employee.EMP_HP}}</td>
+                  <td>{{employee.EMP_EMAIL}}</td>
+                  <td>{{employee.GRP_NM}}</td>
+                  <td>{{employee.filename}}</td>
+                  <td>{{employee.STATUS}}</td>
+                  <!-- <td>{{employee.CREATED_BY}}</td>
+                  <td>{{employee.UPDATED_BY}}</td>
+                  <td>{{employee.UPDATED_TIME}}</td>
+                  <td>{{employee.SIGSVGBASE64}}</td>
+                  <td>{{employee.SIGSVGBASE30}}</td>
+                  <td>{{employee.SIGPASSWORD}}</td> -->
+                </tr>
+              </tbody>
+             </table>
+          </div>
         </div>
-      <!-- endfor flashMessage -->
       </div>
     </div>
-      <div class="row">
-      <div class="col-md-6">
-        <fusioncharts
-          width= 100%,
-          type="msline",
-          chart='{{support_attrs}}',
-          categories='{{support_catg}}',
-          dataset='{{support_dataset}}'
-        >
-        </fusioncharts>   
-      </div>
-      <div class="col-md-6">
-        <fusioncharts
-          width= 100%
-          type="msline"
-          chart="{{bisnis_attrs}}"
-          categories="{{bisnis_catg}}"
-          dataset="{{bisnis_dataset}}"
-        >
-        </fusioncharts>   
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-4">
-        <fusioncharts width="100%" height="300"type="pie3d" datasource="{{sss_pie_myDatasource}}">
-        </fusioncharts>   
-      </div>
-      
-      <div class="col-md-4">
-        <fusioncharts width="100%" height="300"type="pie3d" datasource="{{lipat_pie_myDatasource}}">
-        </fusioncharts>   
-      </div>
 
-      <div class="col-md-4">
-        <fusioncharts width="100%" height="300"type="pie3d" datasource="{{esm_pie_myDatasource}}">
-        </fusioncharts>   
-      </div>
-      
-    </div>
+
   </section><!-- /.content --> 
 </div><!-- /.content-wrapper -->
 

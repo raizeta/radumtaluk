@@ -121,5 +121,26 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
+
+    $routeProvider.when('/dashboard/dept/hrd/employee',
+    {
+        templateUrl : 'angular/partial/dashboard/dept/hrd/employee.html',
+        controller  : 'DashDeptHrdEmployeeController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if (userInfo) 
+                {
+                    return $q.when(userInfo);
+                } 
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
   
 }]);

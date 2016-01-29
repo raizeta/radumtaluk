@@ -16,12 +16,12 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <div class="box box-danger">
+        <div class="box box-danger" style="margin:12px;box-shadow:0 3px 25px black;">
           <div class="box-header">
             <h3 class="box-title">Create New Customer</h3>
           </div>
           <form name="customerForm" ng-submit="submitForm(customer)" method="post" novalidate>
-          <div class="box-body">
+          <div class="box-body" >
             <fieldset class="scheduler-border">
               <legend class="scheduler-border">Customer Identity</legend>
               <div class="form-group"  ng-class="{ 'has-error' : customerForm.CUST_NM.$invalid && !customerForm.CUST_NM.$pristine,'has-success':customerForm.CUST_NM.$valid  }">
@@ -78,6 +78,15 @@
                     <option value=""></option>
                     <option ng-repeat="kabupaten in kabupatens|filter:{PROVINCE_ID:filterprovinsi}:true" value="{{kabupaten.CITY_ID}}">
                       {{kabupaten.CITY_NAME}}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group" ng-class="{'has-error':customerForm.kecamatan.$invalid && !customerForm.kecamatan.$pritine,'has-success':customerForm.kecamatan.$valid}">
+                  <label>Customer kecamatan</label>
+                  <select class="form-control" ui-select2="select2Options" name="kecamatan" style="width: 100%;" ng-model="customer.kecamatan" ng-required="true">
+                    <option value=""></option>
+                    <option ng-repeat="kecamatan in kecamatans" value="{{kecamatan.id_kecamatan}}">
+                      {{kecamatan.kecamatan}}
                     </option>
                   </select>
                 </div>

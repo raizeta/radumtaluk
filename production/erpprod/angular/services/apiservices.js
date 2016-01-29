@@ -184,6 +184,29 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+	var listkecamatan = function()
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = "angular/json/kecamatan.json";
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  console.log(response);
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Kabupaten Error');
+        });
+
+        return deferred.promise;
+	}
+
 
 	var listcustomers = function()
 	{
@@ -250,6 +273,27 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+	var listemployee = function()
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = url + "/employees";
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Employee Error');
+        });
+
+        return deferred.promise;
+	}
 	return{
 			listbarangumum:listbarangumum,
 			listkategori:listkategori,
@@ -261,6 +305,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 			listkabupaten:listkabupaten,
 			listcustomers:listcustomers,
 			listdistributor:listdistributor,
-			listcustomerkategoris:listcustomerkategoris
+			listcustomerkategoris:listcustomerkategoris,
+			listemployee:listemployee,
+			listkecamatan:listkecamatan
 		}
 }]);

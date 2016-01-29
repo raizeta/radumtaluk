@@ -103,3 +103,24 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window)
     }
 }]);
 
+myAppModule.controller("DashDeptHrdEmployeeController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService", 
+function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService) 
+{
+    $scope.loading = true ;
+    $scope.userInfo = auth;
+    apiService.listemployee()
+    .then(function (result) 
+    {
+        $scope.employees = result.Employee;
+        $scope.loading = false;
+        console.log($scope.employees);
+    });
+
+    $scope.logout = function () 
+    {  
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+}]);
+

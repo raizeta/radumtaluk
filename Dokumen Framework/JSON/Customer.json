@@ -1,0 +1,267 @@
+{
+	"Customer":
+	[
+		{
+			"id":1,
+			"nama":"Modern Market",
+			"jenis":
+				[
+					{
+						"id":1,
+						"nama":"Supermarket Modern",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					},
+					{
+						"id":2,
+						"nama":"Supermarket Medium",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					}
+				]
+
+		},
+
+		{
+			"id":2,
+			"nama":"General Market",
+			"jenis":
+				[
+					{
+						"id":1,
+						"nama":"Hospital",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Modern Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					},
+					{
+						"id":2,
+						"nama":"Grosir",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					},
+					{
+						"id":3,
+						"nama":"Fruit and Vegetable",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					},
+					{
+						"id":4,
+						"nama":"Car Repair",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					},
+					{
+						"id":5,
+						"nama":"University",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					},
+					{
+						"id":6,
+						"nama":"Self Service POM Bensin",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					}
+					,
+					{
+						"id":7,
+						"nama":"Cake and Petiserie",
+						"jenis":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":3,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								},
+								{
+									"id":4,
+									"nama":"Supermarket Medium Satu",
+									"alamat":"Jalan Benjamin Franklin"
+								}
+							]
+					}
+				]
+
+		}
+
+	]
+}
