@@ -22,8 +22,7 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
     {
       if (this.getAnimation() != null) 
       {
-        this.setAnimation(null);
-        
+        this.setAnimation(null);    
       } 
       else 
       {
@@ -44,15 +43,13 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
     {
         $scope.lat = data.latitude;
         $scope.long = data.longitude;
-        console.log(data);
     });
 
     singleapiService.singlelistcustomer(idcustomer)
     .then(function (result) 
     {
         $scope.customers = result;
-        $scope.loading  = false;
-        console.log($scope.customers);   
+        $scope.loading  = false;  
     });
     
     $scope.toggleBounce = function() 
