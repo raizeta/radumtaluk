@@ -15,12 +15,10 @@
         </div>
         <ng-map zoom="14" center="{{lat}},{{long}}" style="margin:12px;box-shadow:0 3px 25px black;">
             <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+            <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>
+
             <marker radius="3500" position="-6.218667, 106.663480"  icon='http://google-maps-icons.googlecode.com/files/factory.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
-            <marker position="-6.219667, 106.663280"  icon='http://google-maps-icons.googlecode.com/files/sailboat-tourism.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
-
-            <marker position="-6.222201, 106.651958"  icon='http://google-maps-icons.googlecode.com/files/sailboat-tourism.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
-            <marker position="-6.224129, 106.649415"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
-
         </ng-map>
     </section>
 </div>

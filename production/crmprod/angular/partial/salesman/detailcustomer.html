@@ -14,14 +14,15 @@
             </div>
         </div>
           <div class="col-md-12 col-sm-6 col-xs-12" >
-            <ng-map zoom="20" center="{{lat}},{{long}}" style="margin:12px;box-shadow:0 3px 25px black;">
+            <ng-map zoom="7" center="{{lat}},{{long}}" style="margin:12px;box-shadow:0 3px 25px black;">
 
               <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false">
               </marker>
-              <marker position="-6.2293388, 106.6602281"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+
+              <marker position="{{customers.MAP_LAT}}, {{customers.MAP_LNG}}"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
             <shape name="circle" stroke-color='#FFAABB' stroke-weight="2"
-                  center="-6.2293388, 106.6602281" radius="10">
+                  center="{{customers.MAP_LAT}}, {{customers.MAP_LNG}}" radius="10">
             </shape>
             </ng-map>
           </div>

@@ -98,7 +98,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	var listcustomer = function()
 	{
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/notify/gps_customers?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = "http://labtest3-api.int/master/customers";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 

@@ -14,17 +14,28 @@ function ($scope, $location, $http, authService, auth,$window,$filter,apiService
         {
             $scope.unitbarangs = result.Unitbarang;
 
-            var len = (result.Unitbarang).length-1;
-            var kode = result.Unitbarang[len].KD_UNIT;
-            
-            var split = kode.split("E");
-            
-            var kodes = parseInt(split[1]) + 1;
-            var str = "" + kodes;
-            var pad = "00";
-            var ans = pad.substring(0, pad.length - str.length) + str;
+            if((result.Unitbarang).length)
+            {
+                var len = (result.Unitbarang).length-1;
+                var kode = result.Unitbarang[len].KD_UNIT;
+                
+                var split = kode.split("E");
+                
+                var kodes = parseInt(split[1]) + 1;
+                var str = "" + kodes;
+                var pad = "00";
+                var ans = pad.substring(0, pad.length - str.length) + str;
 
-            var kode_unit = "E" + ans;
+                var kode_unit = "E" + ans;           
+            }
+            else
+            {
+                var str = "" + 1;
+                var pad = "00";
+                var ans = pad.substring(0, pad.length - str.length) + str;
+
+                var kode_unit = "E" + ans;
+            }
             
             barangunit.KD_UNIT = kode_unit;
 
@@ -47,7 +58,7 @@ function ($scope, $location, $http, authService, auth,$window,$filter,apiService
 
             .success(function(data,status, headers, config) 
             {
-                //$location.path('/erp/masterbarang/list/barangunit');
+                $location.path('/erp/masterbarang/list/barangunit');
 
             })
 
@@ -58,7 +69,6 @@ function ($scope, $location, $http, authService, auth,$window,$filter,apiService
 
             .finally(function()
             {
-               alert("Finally");
                 $scope.loading = false;  
             });
 

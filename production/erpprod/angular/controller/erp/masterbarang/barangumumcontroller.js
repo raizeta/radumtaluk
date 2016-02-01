@@ -76,15 +76,25 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
              apiService.listbarangumum()
             .then(function (result) 
             {
-                var len = (result.BarangUmum).length-1;
-                var kode = result.BarangUmum[len].KD_BARANG;
-                var split = kode.split(".");
-                var kodes = parseInt(split[5]) + 1;
-                var str = "" + kodes;
-                var pad = "0000";
-                var ans = pad.substring(0, pad.length - str.length) + str;
+                if((result.BarangUmums).length)
+                {
+                    var len = (result.BarangUmums).length-1;
+                    var kode = result.BarangUmums[len].KD_BARANG;
+                    var split = kode.split(".");
+                    var kodes = parseInt(split[5]) + 1;
+                    var str = "" + kodes;
+                    var pad = "0000";
+                    var ans = pad.substring(0, pad.length - str.length) + str;
+                }
+                else
+                {
+                    var str = "" + 1;
+                    var pad = "0000";
+                    var ans = pad.substring(0, pad.length - str.length) + str;
+                }
 
                 var parent = parseInt(barangumum.PARENT);
+                
                 if (parent === 0)
                 {
                     barangumum.KD_BARANG = 'UM.' + barangumum.KD_CORP + '.' + barangumum.KD_TYPE + '.' + barangumum.KD_KATEGORI + '.' + barangumum.KD_UNIT + '.' + ans;
@@ -189,23 +199,16 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
     
     $scope.loading  = true;
     $scope.userInfo = auth;
-    $scope.loadData = function()
+    $scope.loaddata = function()
     {
-        $scope.loading  = true;
         apiService.listbarangumum()
         .then(function (result) 
         {
-            $scope.barangumums = result.BarangUmum;
-            $scope.loading = false;
-           
-        }, 
-        function (error) 
-        {          
-            $scope.barangumum();   
+            $scope.barangumums = result.BarangUmums;
+            $scope.loading = false;  
         });
     }
-
-    $scope.loadData();
+    $scope.loaddata();
 
     apiService.listtipebarang()
     .then(function (result) 
@@ -271,7 +274,7 @@ function ($scope, $location, $http, authService, auth,$window,$cordovaBarcodeSca
                 $http.delete("http://labtest3-api.int/master/barangumums/"+ $scope.selected +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
                 .success(function(data,status, headers, config) 
                 {
-                        $scope.loadData();
+                        $scope.loaddata();
                 })
 
                 .finally(function()

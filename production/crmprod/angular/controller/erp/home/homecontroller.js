@@ -11,7 +11,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
     apiService.listcustomer()
     .then(function (result) 
     {
-        $scope.customers = result.gps;
+        $scope.customers = result.Customer;
         $scope.loading  = false;
         console.log($scope.customers);   
     });
