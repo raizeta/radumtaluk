@@ -105,7 +105,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 	var singlelistcustomer = function(idcustomer)
 	{
 		var deferred = $q.defer();
-		var url = "http://labtest3-api.int/master/customers/"+ idcustomer;
+		var url = "http://lukison.int/master/customers/"+ idcustomer;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 

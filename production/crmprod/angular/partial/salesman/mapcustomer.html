@@ -1,3 +1,4 @@
+
 <div ng-include="'angular/partial/headtemplate.html'"></div>
 <div ng-include="'angular/partial/homemenu.html'"></div>
 <div class="content-wrapper">
@@ -13,12 +14,15 @@
 
             </div>
         </div>
-        <ng-map zoom="14" center="{{lat}},{{long}}" style="margin:12px;box-shadow:0 3px 25px black;">
+        <ng-map zoom="2" center="{{lat}},{{long}}" style="height:600px;margin:12px;box-shadow:0 3px 25px black;">
             <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
-            <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>
+            <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}" on-click="toggleBounce()" animation="BOUNCE" draggable="true" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
+            on-dragend="doSth(customer)"></marker>
 
-            <marker radius="3500" position="-6.218667, 106.663480"  icon='http://google-maps-icons.googlecode.com/files/factory.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+<!--             <marker radius="3500" position="-6.218667, 106.663480"  icon='http://google-maps-icons.googlecode.com/files/factory.png' on-click="toggleBounce()" animation="BOUNCE" draggable="true" on-dragstart="vm.dragStart()"
+      on-drag="vm.drag()"
+      on-dragend="vm.dragEnd()"></marker> -->
         </ng-map>
     </section>
 </div>

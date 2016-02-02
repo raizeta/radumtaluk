@@ -65,7 +65,7 @@
               <legend class="scheduler-border">Customer Address</legend>
                 <div class="form-group" ng-class="{'has-error':customerForm.PROVINCE_ID.$invalid && !customerForm.PROVINCE_ID.$pritine,'has-success':customerForm.PROVINCE_ID.$valid}">
                   <label>Customer Province</label>
-                  <select class="form-control" ui-select2="select2Options" name="PROVINCE_ID" style="width: 100%;" ng-model="customer.PROVINCE_ID" ng-change="provinsichange()" ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="PROVINCE_ID" style="width: 100%;" data-allow-clear="true" ng-model="customer.PROVINCE_ID" ng-change="provinsichange()" ng-required="true">
                     <option value=""></option>
                     <option ng-repeat="provinsi in provinsis" value="{{provinsi.PROVINCE_ID}}">
                       {{provinsi.PROVINCE}}
@@ -74,7 +74,7 @@
                 </div>
                 <div class="form-group" ng-class="{'has-error':customerForm.CITY_ID.$invalid && !customerForm.CITY_ID.$pritine,'has-success':customerForm.CITY_ID.$valid}">
                   <label>Customer Kabupaten</label>
-                  <select class="form-control" ui-select2="select2Options" name="CITY_ID" style="width: 100%;" ng-model="customer.CITY_ID" ng-required="true">
+                  <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="CITY_ID" style="width: 100%;" ng-model="customer.CITY_ID" ng-required="true">
                     <option value=""></option>
                     <option ng-repeat="kabupaten in kabupatens|filter:{PROVINCE_ID:filterprovinsi}:true" value="{{kabupaten.CITY_ID}}">
                       {{kabupaten.CITY_NAME}}

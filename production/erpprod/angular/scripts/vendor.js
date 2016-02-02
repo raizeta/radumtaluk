@@ -28,3 +28,4 @@ document.write('<script src="https://maps.googleapis.com/maps/api/js"></script>'
 
 document.write('<script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>');
 document.write('<script src="bower_components/angular-bootstrap-contextmenu/contextMenu.js"></script>');
+document.write('<script src="bower_components/underscore/underscore.js"></script>');

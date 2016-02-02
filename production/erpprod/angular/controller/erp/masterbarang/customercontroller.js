@@ -24,7 +24,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     $http.get('angular/json/kecamatan.json').
     success(function(data, status, headers, config) 
     {
-      $scope.kecamatans = data.Kecamatan;
+      //$scope.kecamatans = data.Kecamatan;
       console.log('Success');
     });
 
@@ -249,12 +249,13 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
         $scope.loading = false;
     });
 
-    $scope.userInfo = auth;
+
     apiService.listcustomerkategoris()
     .then(function (result) 
     {
         $scope.customerkategoris = result.Customerkategori;
     });
+
     apiService.listprovinsi()
     .then(function (result) 
     {

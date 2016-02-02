@@ -142,6 +142,45 @@ myAppModule.controller("DeleteCustomerController", ["$scope", "$location","$http
         window.location.href = "index.html";
 
     }
+
+    _.each(products, function(result) 
+    {
+      _.each(result.properties, function(result) 
+      {      
+        var existingFilter = _.findWhere(filters, { name: result.name });
+
+        if (existingFilter) 
+        {
+
+
+          var existingOption = _.findWhere(existingFilter.options, { value: result.value });
+          if (existingOption) 
+          {
+
+            existingOption.count += 1;
+          } 
+          else 
+          {
+
+            existingFilter.options.push({ value: result.value, count: 1 }); 
+          }   
+        } 
+
+        else 
+        {
+
+          var filter = {};
+          filter.name = result.name;
+
+          filter.options = [];
+
+          filter.options.push({ value: result.value, count: 1 });
+
+          filters.push(filter);      
+        }   
+      });
+    });
+    
 }]);
 
 

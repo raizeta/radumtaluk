@@ -3,6 +3,7 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
 {
     $scope.zoomvalue = 17;
     $scope.loading  = true;
+    var geocoder = new google.maps.Geocoder;
     LocationService.GetLocation().then(function(data)
     {
         $scope.lat = data.latitude;
@@ -17,6 +18,82 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
         $scope.loading  = false;
         console.log($scope.customers);   
     });
+    //http://stackoverflow.com/questions/5968559/retrieve-latitude-and-longitude-of-a-draggable-pin-via-google-maps-api-v3
+    $scope.doSth = function($event,customer)
+    {
+        var idcustomer = customer.CUST_KD;
+        alert(idcustomer);
+        console.log(customer);
+        customer.MAP_LNG = this.getPosition().lng();
+        customer.MAP_LAT = this.getPosition().lat();
+        customer.NPWP = 200;
+        customer.TLP1 = 081260014478;
+        customer.TLP2 = 081260014478;
+        customer.FAX  = 081260014478;
+        function serializeObj(obj) 
+        {
+          var result = [];
+          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+          return result.join("&");
+        }
+        
+        var serialized = serializeObj(customer); 
+
+        var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                
+            }
+        };
+        
+        $http.put("http://lukison.int/master/customers/" + idcustomer,serialized,config)
+        .success(function(data,status, headers, config) 
+        {
+            //$location.path("/mapcustomer");
+            alert("Sukses");
+
+        })
+        .error(function (data, status, header, config) 
+        {
+            console.log(data);
+            console.log(status);
+            console.log(header);
+            console.log(config);      
+        })
+
+        .finally(function()
+        {
+            $scope.loading = false;
+        });
+        // geocoder.geocode(
+        // {
+        //     'location': this.getPosition()
+        // }, 
+        // function(results, status) 
+        // {
+        //     console.log(results);
+        //     if (status === google.maps.GeocoderStatus.OK) 
+        //     {
+        //           if (results[1]) 
+        //           {
+        //             console.log(results[2]);
+        //             console.log(this.getPosition);
+        //           } 
+        //           else 
+        //           {
+        //             window.alert('No results found');
+        //           }
+        //     } 
+        //     else 
+        //     {
+        //       window.alert('Geocoder failed due to: ' + status);
+        //     }
+        // });
+
+    }
 
     $scope.toggleBounce = function() 
     {
