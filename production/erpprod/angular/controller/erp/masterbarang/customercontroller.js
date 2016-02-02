@@ -52,14 +52,22 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
              apiService.listcustomers()
             .then(function (result) 
             {
-                var len = (result.Customer).length-1;
-                var kode = result.Customer[len].CUST_KD;
-                var split = kode.split(".");
-                var kodes = parseInt(split[3]) + 1;
-                var str = "" + kodes;
-                var pad = "000000000";
-
-                var nomorurut   = pad.substring(0, pad.length - str.length) + str;
+                if((result.Customer).length)
+                {
+                    var len = (result.Customer).length-1;
+                    var kode = result.Customer[len].CUST_KD;
+                    var split = kode.split(".");
+                    var kodes = parseInt(split[3]) + 1;
+                    var str = "" + kodes;
+                    var pad = "000000000";
+                    var nomorurut   = pad.substring(0, pad.length - str.length) + str;
+                }
+                else
+                {
+                    var str = "" + 1;
+                    var pad = "000000000";
+                    var nomorurut   = pad.substring(0, pad.length - str.length) + str;
+                }
                 
                 var kodeprov    = customer.PROVINCE_ID;
                 var strprov = "" + kodeprov;

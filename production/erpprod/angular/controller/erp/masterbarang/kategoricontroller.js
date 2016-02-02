@@ -10,14 +10,24 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
             apiService.listkategori()
             .then(function (result) 
             {
-                var len = (result.Kategori).length-1;
-                var kode = result.Kategori[len].KD_KATEGORI;
-                var kodes = parseInt(kode) + 1;
-                var str = "" + kodes;
-                var pad = "00";
-                var ans = pad.substring(0, pad.length - str.length) + str;
-
-                kategori.KD_KATEGORI = ans;
+                if((result.Kategori).length)
+                {
+                    var len = (result.Kategori).length-1;
+                    var kode = result.Kategori[len].KD_KATEGORI;
+                    var kodes = parseInt(kode) + 1;
+                    var str = "" + kodes;
+                    var pad = "00";
+                    var ans = pad.substring(0, pad.length - str.length) + str;
+                    kategori.KD_KATEGORI = ans;
+                }
+                else
+                {
+                    var str = "" + 1;
+                    var pad = "00";
+                    var ans = pad.substring(0, pad.length - str.length) + str;
+                    kategori.KD_KATEGORI = ans;
+                }
+                
                 function serializeObj(obj) 
                 {
                   var result = [];
