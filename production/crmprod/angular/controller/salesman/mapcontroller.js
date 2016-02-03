@@ -92,7 +92,6 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
         //       window.alert('Geocoder failed due to: ' + status);
         //     }
         // });
-
     }
 
     $scope.toggleBounce = function() 
@@ -125,10 +124,83 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
     singleapiService.singlelistcustomer(idcustomer)
     .then(function (result) 
     {
-        $scope.customers = result;
+        $scope.customer = result;
         $scope.loading  = false;  
     });
-    
+    $scope.doSth = function($event,customer)
+    {
+        // var idcustomer = customer.CUST_KD;
+        // alert(idcustomer);
+        console.log(customer);
+        customer.MAP_LNG = this.getPosition().lng();
+        customer.MAP_LAT = this.getPosition().lat();
+        customer.NPWP = 200;
+        customer.TLP1 = 081260014478;
+        customer.TLP2 = 081260014478;
+        customer.FAX  = 081260014478;
+        function serializeObj(obj) 
+        {
+          var result = [];
+          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+          return result.join("&");
+        }
+        
+        var serialized = serializeObj(customer); 
+
+        var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                
+            }
+        };
+        
+        $http.put("http://lukison.int/master/customers/" + idcustomer,serialized,config)
+        .success(function(data,status, headers, config) 
+        {
+            //$location.path("/mapcustomer");
+            alert("Sukses");
+
+        })
+        .error(function (data, status, header, config) 
+        {
+            console.log(data);
+            console.log(status);
+            console.log(header);
+            console.log(config);      
+        })
+
+        .finally(function()
+        {
+            $scope.loading = false;
+        });
+        // geocoder.geocode(
+        // {
+        //     'location': this.getPosition()
+        // }, 
+        // function(results, status) 
+        // {
+        //     console.log(results);
+        //     if (status === google.maps.GeocoderStatus.OK) 
+        //     {
+        //           if (results[1]) 
+        //           {
+        //             console.log(results[2]);
+        //             console.log(this.getPosition);
+        //           } 
+        //           else 
+        //           {
+        //             window.alert('No results found');
+        //           }
+        //     } 
+        //     else 
+        //     {
+        //       window.alert('Geocoder failed due to: ' + status);
+        //     }
+        // });
+    }
     $scope.toggleBounce = function() 
     {
       if (this.getAnimation() != null) 

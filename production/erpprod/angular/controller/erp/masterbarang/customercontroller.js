@@ -1,5 +1,5 @@
-myAppModule.controller("NewCustomerController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", 
-function ($scope, $location, $http, authService, auth,$window,apiService) 
+myAppModule.controller("NewCustomerController", ["$scope", "$location","$http", "authService", "auth","$window","apiService","singleapiService",
+function ($scope, $location, $http, authService, auth,$window,apiService,singleapiService) 
 {
 
     $scope.userInfo = auth;
@@ -42,7 +42,16 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
 
     $scope.provinsichange = function()
     {
+        $scope.loading = true;
         $scope.filterprovinsi = $scope.customer.PROVINCE_ID;
+        var idprovinsi = $scope.filterprovinsi;
+        singleapiService.singlelistkabupaten(idprovinsi)
+        .then(function (result) 
+        {
+            $scope.kabupatens = result.Kabupaten;
+            console.log($scope.kabupatens);
+            $scope.loading = false;
+        });
     }
     
     $scope.submitForm = function(customer)

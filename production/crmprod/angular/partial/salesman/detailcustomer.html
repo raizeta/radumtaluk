@@ -19,10 +19,10 @@
               <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false">
               </marker>
 
-              <marker position="{{customers.MAP_LAT}}, {{customers.MAP_LNG}}"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+              <marker position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" on-dragend="doSth(customer)" draggable="true"></marker>
 
             <shape name="circle" stroke-color='#FFAABB' stroke-weight="2"
-                  center="{{customers.MAP_LAT}}, {{customers.MAP_LNG}}" radius="10">
+                  center="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}" radius="10">
             </shape>
             </ng-map>
           </div>

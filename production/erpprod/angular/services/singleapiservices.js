@@ -138,12 +138,36 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
         return deferred.promise;
 	}
+
+	var singlelistkabupaten = function(idprovinsi)
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = url + "/kabupatens/search?PROVINCE_ID=" + idprovinsi;
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Kabupaten Error');
+        });
+
+        return deferred.promise;
+	}
+
 	return{
 			singlelistbarangumum:singlelistbarangumum,
 			singlelistkategori:singlelistkategori,
 			singlelisttipebarang:singlelisttipebarang,
 			singlelistsuplier:singlelistsuplier,
 			singlelistbarangunit:singlelistbarangunit,
-			singlelistcustomer:singlelistcustomer
+			singlelistcustomer:singlelistcustomer,
+			singlelistkabupaten:singlelistkabupaten
 		}
 }]);
