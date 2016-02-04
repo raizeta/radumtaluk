@@ -72,18 +72,18 @@
                     </option>
                   </select>
                 </div>
-                <div class="form-group" ng-class="{'has-error':customerForm.CITY_ID.$invalid && !customerForm.CITY_ID.$pritine,'has-success':customerForm.CITY_ID.$valid}">
+                <div class="form-group" ng-show="showkabupaten" ng-class="{'has-error':customerForm.CITY_ID.$invalid && !customerForm.CITY_ID.$pritine,'has-success':customerForm.CITY_ID.$valid}">
                   <label>Customer Kabupaten</label>
-                  <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="CITY_ID" style="width: 100%;" ng-model="customer.CITY_ID" ng-required="true">
+                  <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="CITY_ID" style="width: 100%;" ng-model="customer.CITY_ID" ng-required="true" ng-change="kabupatenchange()">
                     <option value=""></option>
                     <option ng-repeat="kabupaten in kabupatens|filter:{PROVINCE_ID:filterprovinsi}:true" value="{{kabupaten.CITY_ID}}">
                       {{kabupaten.CITY_NAME}}
                     </option>
                   </select>
                 </div>
-                <div class="form-group" ng-class="{'has-error':customerForm.kecamatan.$invalid && !customerForm.kecamatan.$pritine,'has-success':customerForm.kecamatan.$valid}">
+                <div class="form-group" ng-show="showkecamatan" ng-class="{'has-error':customerForm.kecamatan.$invalid && !customerForm.kecamatan.$pritine,'has-success':customerForm.kecamatan.$valid}">
                   <label>Customer kecamatan</label>
-                  <select class="form-control" ui-select2="select2Options" name="kecamatan" style="width: 100%;" ng-model="customer.kecamatan" ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="kecamatan" style="width: 100%;" ng-model="customer.kecamatan" ng-change="kodeposchange" ng-required="true">
                     <option value=""></option>
                     <option ng-repeat="kecamatan in kecamatans" value="{{kecamatan.id_kecamatan}}">
                       {{kecamatan.kecamatan}}
@@ -91,16 +91,16 @@
                   </select>
                 </div>
 
-                <div class="form-group" ng-class="{'has-error':customerForm.POSTAL_CODE.$invalid && !customerForm.POSTAL_CODE.$pritine,'has-success':customerForm.POSTAL_CODE.$valid}">
-                  <label>Customer Kabupaten</label>
-                  <select class="form-control" ui-select2="select2Options" name="POSTAL_CODE" style="width: 100%;" ng-model="customer.POSTAL_CODE" ng-required="true">
+                <div class="form-group" ng-show="showkodepos" sng-class="{'has-error':customerForm.POSTAL_CODE.$invalid && !customerForm.POSTAL_CODE.$pritine,'has-success':customerForm.POSTAL_CODE.$valid}">
+                  <label>Customer Kode Pos</label>
+                  <select class="form-control" ui-select2="select2Options" name="POSTAL_CODE" style="width: 100%;" ng-model="customer.POSTAL_CODE" ng-change="kodeposchange()"ng-required="true">
                     <option value=""></option>
                     <option ng-repeat="kabupaten in kabupatens|filter:{PROVINCE_ID:filterprovinsi}:true" value="{{kabupaten.POSTAL_CODE}}">
                       {{kabupaten.POSTAL_CODE}}
                     </option>
                   </select>
                 </div>
-                <div class="form-group"  ng-class="{ 'has-error' : customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine,'has-success':customerForm.ALAMAT.$valid  }">
+                <div class="form-group"  ng-show="showalamat" ng-class="{ 'has-error' : customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine,'has-success':customerForm.ALAMAT.$valid  }">
                 <label>Customer Street</label>
                   <input type="text" name="ALAMAT" class="form-control" ng-model="customer.ALAMAT" required>
                   <p ng-show="customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine" class="help-block">Street Tidak Boleh Kosong.</p>
@@ -110,7 +110,7 @@
               <legend class="scheduler-border">DISTRIBUTORS</legend>
                 <div class="form-group"  ng-class="{ 'has-error' : customerForm.KD_DISTRIBUTOR.$invalid && !customerForm.KD_DISTRIBUTOR.$pristine,'has-success':customerForm.KD_DISTRIBUTOR.$valid  }">
                 <label>List Distributor</label>
-                  <select class="form-control" ui-select2="select2Options" name="KD_DISTRIBUTOR" style="width: 100%;" ng-model="customer.KD_DISTRIBUTOR"  ng-change="groupparentchange()" ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="KD_DISTRIBUTOR" style="width: 100%;" ng-model="customer.KD_DISTRIBUTOR" ng-required="true">
                       <option value=""></option>
                       <option ng-repeat="distributor in distributors" value="{{distributor.KD_DISTRIBUTOR}}">{{distributor.KD_DISTRIBUTOR}}</option>
                     </select>
@@ -122,17 +122,18 @@
               <legend class="scheduler-border">Category</legend>
                 <div class="form-group"  ng-class="{ 'has-error' : customerForm.CUST_KTG_PARENT.$invalid && !customerForm.CUST_KTG_PARENT.$pristine,'has-success':customerForm.CUST_KTG_PARENT.$valid  }">
                 <label>Customer Kategori</label>
-                  <select class="form-control" ui-select2="select2Options" name="CUST_KTG_PARENT" style="width: 100%;" ng-model="customer.CUST_KTG_PARENT"  ng-change="groupparentchange()" ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="CUST_KTG_PARENT" style="width: 100%;" ng-model="customer.CUST_KTG_PARENT"  ng-change="groupparentchange()" ng-required="true" data-allow-clear="true">
                       <option value=""></option>
                       <option ng-repeat="custkat in customerkategoris|filter:{CUST_KTG_PARENT:0}" value="{{custkat.CUST_KTG}}">{{custkat.CUST_KTG_NM}}</option>
                     </select>
                   <p ng-show="customerForm.CUST_GRP.$invalid && !customerForm.CUST_GRP.$pristine" class="help-block">Customer Group Tidak Boleh Kosong.</p>
                 </div>
-                <div class="form-group"  ng-class="{ 'has-error' : customerForm.CUST_KTG.$invalid && !customerForm.CUST_KTG.$pristine,'has-success':customerForm.CUST_KTG.$valid  }">
+                <div class="form-group"  ng-show="tena" ng-class="{ 'has-error' : customerForm.CUST_KTG.$invalid && !customerForm.CUST_KTG.$pristine,'has-success':customerForm.CUST_KTG.$valid  }">
                 <label>Customer Kategori</label>
-                  <select class="form-control" ui-select2="select2Options" name="CUST_KTG" style="width: 100%;" ng-model="customer.CUST_KTG"  ng-required="true">
+                  <select class="form-control" ui-select2="select2Options" name="CUST_KTG" style="width: 100%;" ng-model="customer.CUST_KTG"  data-allow-clear="true" ng-required="true">
                       <option value=""></option>
-                      <option ng-repeat="custkat in customerkategoris|filter:{CUST_KTG_PARENT: '!' + 0,CUST_KTG_PARENT:filtergroupcust}" value="{{custkat.CUST_KTG}}">{{custkat.CUST_KTG_NM}}</option>
+                      <option ng-repeat="custkat in childcustomerkategoris" value="{{custkat.CUST_KTG}}">{{custkat.CUST_KTG_NM}}</option>
+                      <!-- <option ng-repeat="custkat in childcustomerkategoris|filter:{CUST_KTG_PARENT: '!' + 0,CUST_KTG_PARENT:filtergroupcust}" value="{{custkat.CUST_KTG}}">{{custkat.CUST_KTG_NM}}</option> -->
                     </select>
                   <p ng-show="customerForm.CUST_KTG.$invalid && !customerForm.CUST_KTG.$pristine" class="help-block">Customer Group Tidak Boleh Kosong.</p>
                 </div>

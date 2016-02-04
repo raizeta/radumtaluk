@@ -3,41 +3,50 @@ function ($scope, $location, $http, authService, auth,$window,apiService,singlea
 {
 
     $scope.userInfo = auth;
-    apiService.listcustomerkategoris()
+    apiService.listparentcustomerkategoris()
     .then(function (result) 
     {
-        $scope.customerkategoris = result.Customerkategori;
+        $scope.customerkategoris = result.CustomKategori;
         $scope.loading  = false;
     });
+
     apiService.listprovinsi()
     .then(function (result) 
     {
         $scope.provinsis = result.Provinsi;
     });
 
-    apiService.listkabupaten()
-    .then(function (result) 
-    {
-        $scope.kabupatens = result.Kabupaten;
-    });
+    // apiService.listkabupaten()
+    // .then(function (result) 
+    // {
+    //     $scope.kabupatens = result.Kabupaten;
+    // });
 
-    $http.get('angular/json/kecamatan.json').
-    success(function(data, status, headers, config) 
-    {
-      //$scope.kecamatans = data.Kecamatan;
-      console.log('Success');
-    });
+    // $http.get('angular/json/kecamatan.json').
+    // success(function(data, status, headers, config) 
+    // {
+    //   //$scope.kecamatans = data.Kecamatan;
+    //   console.log('Success');
+    // });
 
     apiService.listdistributor()
     .then(function (result) 
     {
         $scope.distributors = result.Distributor;
-        $scope.loading = false;
     });
-
+    
     $scope.groupparentchange = function()
     {
-        $scope.filtergroupcust = $scope.customer.CUST_KTG_PARENT;
+        $scope.filtergroupcust = $scope.customer.CUST_KTG_PARENT; 
+        var idparent = $scope.filtergroupcust;
+        $scope.loading  = true;
+        apiService.listchildcustomerkategoris(idparent)
+        .then(function (result) 
+        {
+            $scope.tena =true;
+            $scope.childcustomerkategoris = result.CustomKategori;
+            $scope.loading  = false;
+        });
     }
 
     $scope.provinsichange = function()
@@ -48,12 +57,23 @@ function ($scope, $location, $http, authService, auth,$window,apiService,singlea
         singleapiService.singlelistkabupaten(idprovinsi)
         .then(function (result) 
         {
+            $scope.showkabupaten = true;
             $scope.kabupatens = result.Kabupaten;
             console.log($scope.kabupatens);
             $scope.loading = false;
         });
     }
-    
+
+    $scope.kabupatenchange = function()
+    {
+        $scope.showkodepos = true;
+    }
+
+    $scope.kodeposchange = function()
+    {
+        $scope.showalamat = true;
+    }
+
     $scope.submitForm = function(customer)
     {
             $scope.loading =true;
@@ -258,12 +278,18 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
         $scope.loading = false;
     });
 
-
-    apiService.listcustomerkategoris()
+    apiService.listparentcustomerkategoris()
     .then(function (result) 
     {
-        $scope.customerkategoris = result.Customerkategori;
+        $scope.customerkategoris = result.CustomKategori;
+        $scope.loading  = false;
     });
+    
+    // apiService.listcustomerkategoris()
+    // .then(function (result) 
+    // {
+    //     $scope.customerkategoris = result.Customerkategori;
+    // });
 
     apiService.listprovinsi()
     .then(function (result) 

@@ -213,7 +213,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var url = geturl();
 		
 		var deferred = $q.defer();
-		var url = url + "/customers";
+		var url = url + "/customers?expand=kat";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -230,12 +230,34 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         return deferred.promise;
 	}
 
-	var listcustomerkategoris = function()
+	var listparentcustomerkategoris = function()
 	{
 		var url = geturl();
 		
 		var deferred = $q.defer();
-		var url = url + "/customerkategoris";
+		var url = url + "/customkategoris/search?CUST_KTG_PARENT=0";
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+            console.log('List Customers Error');
+        });
+
+        return deferred.promise;
+	}
+
+	var listchildcustomerkategoris = function(idparent)
+	{
+		var url = geturl();
+		
+		var deferred = $q.defer();
+		var url = url + "/customkategoris/search?CUST_KTG_PARENT="+ idparent;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -305,7 +327,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 			listkabupaten:listkabupaten,
 			listcustomers:listcustomers,
 			listdistributor:listdistributor,
-			listcustomerkategoris:listcustomerkategoris,
+			listparentcustomerkategoris:listparentcustomerkategoris,
+			listchildcustomerkategoris:listchildcustomerkategoris,
 			listemployee:listemployee,
 			listkecamatan:listkecamatan
 		}

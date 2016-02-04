@@ -17,16 +17,17 @@
             </thead>
             <tbody>
               <tr ng-repeat="customer in customers" context-menu="menuOptions">
-                <td>{{customer.CUST_ID}}</td>
+                <!-- <td>{{customer.CUST_ID}}</td> -->
                 <!-- <td>{{unitbarang.KD_UNIT}}</td> -->
-                <td>{{customer.CUST_KD_ALIAS}}</td>
-                <td>{{customer.CUST_GRP}}</td>
-                <td>{{customer.CUST_KTG}}</td>
+                <!-- <td>{{customer.CUST_KD_ALIAS}}</td> -->
+                <td>{{customer.CUST_NM}}</td>
+                <td>{{customer.kat.CUST_KTG_PARENT}}</td>
+                <td>{{customer.kat.CUST_KTG_NM}}</td>
                 <td>{{customer.JOIN_DATE}}</td>
                 <td>{{customer.MAP_LAT}}</td>
                 <td>{{customer.MAP_LNG}}</td>
                 <td>{{customer.KD_DISTRIBUTOR}}</td>
-                <td>{{customer.PIC}}</td>
+<!--                 <td>{{customer.PIC}}</td>
                 <td>{{customer.ALAMAT}}</td>
                 <td>{{customer.TLP1}}</td>
                 <td>{{customer.TLP2}}</td>
@@ -34,12 +35,12 @@
                 <td>{{customer.EMAIL}}</td>
                 <td>{{customer.WEBSITE}}</td>
                 <td>{{customer.NOTE}}</td>
-                <td>{{customer.NPWP}}</td>
+                <td>{{customer.NPWP}}</td> -->
                 <td>{{customer.STT_TOKO}}</td>
-                <td>{{customer.DATA_ALL}}</td>
+                <!-- <td>{{customer.DATA_ALL}}</td> -->
                 <td>{{customer.CAB_ID}}</td>
                 <td>{{customer.CORP_ID}}</td>
-                <td>{{customer.EMAIL}}</td>
+                <!-- <td>{{customer.EMAIL}}</td> -->
                 
                 <td ng-if='customer.STATUS === 1' >AKTIF </td>
                 <td ng-if='customer.STATUS === 0' >TIDAK AKTIF </td>
