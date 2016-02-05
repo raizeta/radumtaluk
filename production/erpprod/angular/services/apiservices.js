@@ -213,7 +213,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var url = geturl();
 		
 		var deferred = $q.defer();
-		var url = url + "/customers?expand=kat";
+		var url = url + "/customers?expand=kats,katparents";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 

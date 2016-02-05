@@ -3,12 +3,6 @@ myAppModule.controller("HomeController", ["$scope", "$location","$http", "authSe
 {
 
     $scope.userInfo = auth;
-
-    $scope.spin = function()
-    {
-
-    }
-    
 	$scope.logout = function () 
     { 
         $scope.userInfo = null;
