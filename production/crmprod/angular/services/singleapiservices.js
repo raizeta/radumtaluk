@@ -1,12 +1,23 @@
 'use strict';
 myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, $q, $window)
 {
+	var geturl = function()
+	{
+		return "http://labtest3-api.int/master";
+	}
+
+	var gettoken = function()
+	{
+		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+	}
+
 	var deferred = $q.defer();
 	var singlelistbarangumum = function(idbarangumum)
 	{
+		var url = geturl();
 		var idbarangumum = idbarangumum;
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/barangumums/"+ idbarangumum +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa&expand=type,kategori,unit";
+		var url = url + "/barangumums/"+ idbarangumum +"?expand=type,kategori,unit";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -24,9 +35,10 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
 	var singlelistkategori = function(idkategori)
 	{
+		var url = geturl();
 		var idkategori = idkategori;
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/kategoris/"+ idkategori +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/kategoris/"+ idkategori;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -44,9 +56,10 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
 	var singlelisttipebarang = function(idtipebarang)
 	{
+		var url = geturl();
 		var idtipebarang = idtipebarang;
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/tipebarangs/"+ idtipebarang;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -64,9 +77,10 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
 	var singlelistsuplier = function(idsuplier)
 	{
+		var url = geturl();
 		var idsuplier = idsuplier;
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/supliers/"+ idsuplier +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/supliers/"+ idsuplier;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -84,9 +98,10 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
 	var singlelistbarangunit = function(idbarangunit)
 	{
+		var url = geturl();
 		var idbarangunit = idbarangunit;
 		var deferred = $q.defer();
-		var url = "http://api.lukisongroup.com/master/unitbarangs/"+ idbarangunit +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+		var url = url + "/unitbarangs/"+ idbarangunit;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -104,8 +119,29 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
 	var singlelistcustomer = function(idcustomer)
 	{
+		var url = geturl();
 		var deferred = $q.defer();
-		var url = "http://lukison.int/master/customers/"+ idcustomer;
+		var url = url + "/customers/"+ idcustomer;
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function()
+        {
+            deferred.reject(error);
+        });
+
+        return deferred.promise;
+	}
+
+	var singlelistgroupcustomer = function(groupcustomer)
+	{
+		var url = geturl();
+		var deferred = $q.defer();
+		var url = "http://api.lukison.int/master" + "/customers/search?SCDL_GROUP="+ groupcustomer;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -126,6 +162,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 			singlelisttipebarang:singlelisttipebarang,
 			singlelistsuplier:singlelistsuplier,
 			singlelistbarangunit:singlelistbarangunit,
-			singlelistcustomer:singlelistcustomer
+			singlelistcustomer:singlelistcustomer,
+			singlelistgroupcustomer:singlelistgroupcustomer
 		}
 }]);

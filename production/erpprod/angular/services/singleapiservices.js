@@ -4,7 +4,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 	var deferred = $q.defer();
 	var geturl = function()
 	{
-		return "http://lukison.int/master";
+		return "http://labtest3-api.int/master";
 	}
 
 	var gettoken = function()

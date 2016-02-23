@@ -1,6 +1,10 @@
 
 document.write('<script src="angular/vendor/angular-route.js"></script>');
 document.write('<script src="angular/vendor/angular-animate.js"></script>');
+document.write('<script src="angular/vendor/angular-sanitize.js"></script>');
+document.write('<script src="angular/vendor/angular-resource.js"></script>');
+document.write('<script src="angular/vendor/angular-aria.js"></script>');
+document.write('<script src="angular/vendor/angular-messages.js"></script>');
 document.write('<script src="angular/vendor/ng-angular.js"></script>');
 
 document.write('<script src="angular/vendor/fusioncharts.js"></script>');
@@ -29,3 +33,5 @@ document.write('<script src="https://maps.googleapis.com/maps/api/js"></script>'
 document.write('<script src="bower_components/angular-xeditable/dist/js/xeditable.js"></script>');
 document.write('<script src="bower_components/angular-bootstrap-contextmenu/contextMenu.js"></script>');
 document.write('<script src="bower_components/underscore/underscore.js"></script>');
+
+document.write('<script src="bower_components/ngToast/dist/ngToast.js"></script>');

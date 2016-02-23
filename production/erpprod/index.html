@@ -36,12 +36,17 @@
 
     <link href="bower_components/angular-xeditable/dist/css/xeditable.css" rel="stylesheet">
     <link href="bower_components/MessiJS/dist/messi.css" rel="stylesheet">
+    <link href="bower_components/ngToast/dist/ngToast.css" rel="stylesheet">
+    <link href="bower_components/ngtoast/dist/ngToast-animations.min.css">
+
 </head>
 
 <body class="login-page sidebar-mini" off-canvas-menu ng-class="{'sidebar-collapse sidebar-open':isMenuOpen}">
         <div class="wrapper skin-blue">
+            <toast></toast>
             <div ng-view></div>
         <div>
+
         <script src="angular/vendor/angular.js"></script>
         <script src="angular/scripts/vendor.js"></script>
         <script src="angular/modules/myapp.js"></script>

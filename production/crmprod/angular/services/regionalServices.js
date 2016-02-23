@@ -1,9 +1,9 @@
 'use strict';
 myAppModule.factory('regionalService', ["$http","$q","$window",function($http, $q, $window)
 {
-	var geturl = function()
+	var getUrl = function()
 	{
-		return "http://lukison.int/master";
+		return "http://api.lukison.int/master";
 	}
 
 	var gettoken = function()
@@ -13,8 +13,9 @@ myAppModule.factory('regionalService', ["$http","$q","$window",function($http, $
 
 	var listpropinsi = function()
 	{
+		url = getUrl();
 		var deferred = $q.defer();
-		var url = "angular/json/propinsi.json";
+		var url = url + "/provinsis";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -46,12 +47,12 @@ myAppModule.factory('regionalService', ["$http","$q","$window",function($http, $
         return deferred.promise;
 	}
 
-	var singlelistkabupaten = function(idkabupaten)
+	var singlelistkabupaten = function(idprovinsi)
 	{
-		var url = geturl();
+		var url = getUrl();
 		
 		var deferred = $q.defer();
-		var url = url + "/kabupatens/search?="+ idkabupaten;
+		var url = url + "/kabupatens/search?PROVINCE_ID=" + idprovinsi;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -67,6 +68,7 @@ myAppModule.factory('regionalService', ["$http","$q","$window",function($http, $
 
         return deferred.promise;
 	}
+
 	return{
 			listpropinsi:listpropinsi,
 			listkabupaten:listkabupaten,

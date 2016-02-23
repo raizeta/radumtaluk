@@ -39,6 +39,27 @@
                     <th>STATUS</th>
                   </tr>
                 </thead>
+                <thead>
+
+<tr><th class="kv-align-center kv-align-middle kv-merged-header" style="text-align: center; width: 2.81%; font-family: verdana, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" rowspan="2" data-col-seq="0">No.</th><th class="kv-align-left kv-align-middle kv-grid-group-header" style="text-align: center; width: 11.25%; font-family: tahoma, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" data-group-key="cc194143" data-col-seq="1"><a href="/master/tipebarang/index?sort=PARENT" data-sort="PARENT">Parent</a></th><th class="kv-align-left kv-align-middle kv-grid-group-header" style="text-align: center; width: 12.54%; font-family: tahoma, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" data-group-key="dc4133ad" data-col-seq="2">Corporation</th><th class="kv-align-left kv-align-middle" style="text-align: center; width: 15.23%; font-family: tahoma, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" data-col-seq="3"><a href="/master/tipebarang/index?sort=NM_TYPE" data-sort="NM_TYPE">Type</a></th><th class="kv-align-left kv-align-middle" style="text-align: center; width: 45.2%; font-family: tahoma, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" data-col-seq="4"><a href="/master/tipebarang/index?sort=NOTE" data-sort="NOTE">Note</a></th><th class="kv-align-left kv-align-middle" style="text-align: center; width: 6.91%; font-family: tahoma, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" data-col-seq="5"><a href="/master/tipebarang/index?sort=STATUS" data-sort="STATUS">Status</a></th><th class="kv-align-center kv-align-middle skip-export kv-merged-header" style="text-align: center; width: 6.12%; font-family: tahoma, arial, sans-serif; font-size: 9pt; background-color: rgba(62, 0, 44, 0.2);" rowspan="2" data-col-seq="6">Actions</th></tr><tr id="type-grd-index-filters" class="skip-export" style="background-color:rgba(62, 0, 44, 0.2); align:center"><td class="kv-grid-group-filter" data-group-key="cc194143"><select class="form-control" name="TipebarangSearch[PARENT]">
+<option value=""></option>
+<option value="0">UMUM</option>
+<option value="1">PRODAK</option>
+</select></td><td class="kv-grid-group-filter" data-group-key="dc4133ad"><select class="form-control" name="TipebarangSearch[corp.CORP_NM]">
+<option value=""></option>
+<option value="ALG">PT. Arta Lipat Ganda</option>
+<option value="ESM">PT. Efenbi Sukses Makmur</option>
+<option value="GSN">PT. Gosent</option>
+<option value="LG">PT. Lukison Group</option>
+<option value="MM">Baverage</option>
+<option value="SSS">PT. Sarana Sinar Surya</option>
+</select></td><td><input type="text" class="form-control" name="TipebarangSearch[NM_TYPE]"></td><td><input type="text" class="form-control" name="TipebarangSearch[NOTE]"></td><td><select class="form-control" name="TipebarangSearch[STATUS]">
+<option value=""></option>
+<option value="0">DISABLE</option>
+<option value="1">ENABLE</option>
+</select></td></tr>
+
+</thead>
                 <tbody>
                   <tr ng-repeat="barangumum in barangumums" ng-animate="'animate'" context-menu="menuOptions">
                     <td>

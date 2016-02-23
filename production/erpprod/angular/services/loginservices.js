@@ -1,6 +1,4 @@
 'use strict';
-
-
 myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $window)
 {
 	var userInfo;
@@ -9,7 +7,7 @@ myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $
 		var deferred = $q.defer();
 		var username = username;
 		var password = password;
-		var url = "http://lukison.int/login/users?username=" + username;
+		var url = "http://api.lukison.int/login/users?username=" + username;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -19,7 +17,7 @@ myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $
             var rtoken		= response.uservalidation.token;
             var site		= response.uservalidation.site;
 
-            var url = "http://lukison.int/login/passwords?id=" + rid + "&token="
+            var url = "http://api.lukison.int/login/passwords?id=" + rid + "&token="
                 + rtoken + "&password=" + password;
 			var method ="GET";
 			$http({method:method, url:url})

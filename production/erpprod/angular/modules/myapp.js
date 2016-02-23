@@ -2,8 +2,9 @@
 var myAppModule 	= angular.module('myAppModule',
 								['ngRoute','angularSpinner','ui.bootstrap','ngAnimate',
                                  'oc.lazyLoad','signature','ui.select2',"xeditable",
-								 'ng-fusioncharts','naif.base64','monospaced.qrcode',
-                                 'ngCordova','ngMap','mm.acl','ui.bootstrap.contextMenu']);
+								 'ng-fusioncharts','naif.base64','monospaced.qrcode',"ngSanitize",
+                                 'ngCordova','ngMap','mm.acl','ui.bootstrap.contextMenu','ngToast','ngMessages']);
+
 myAppModule.run(["$rootScope", "$location","uiSelect2Config","editableOptions", 
 function ($rootScope, $location,uiSelect2Config,editableOptions) 
 {
@@ -28,4 +29,17 @@ function ($rootScope, $location,uiSelect2Config,editableOptions)
     });
 }]);
 
+myAppModule.config(['ngToastProvider', function(ngToastProvider) {
+  ngToastProvider.configure
+  ({
+            animation: 'slide', // or 'fade',
+            className: 'success',
+            dismissButton: true,
+            compileContent: true,
+            timeout:1000,
+            horizontalPosition:'right',     //left, center
+            verticalPosition:   'bottom',  //top,center
+            maxNumber: 3 // 0 for unlimited
+  });
+}]);
 

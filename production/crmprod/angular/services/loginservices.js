@@ -33,7 +33,8 @@ myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $
 						{
 							accessToken: rtoken,
                     		username: rusername,
-                    		rulename:rulename
+                    		rulename:rulename,
+                            id:rid
                 		};
                 		$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
                 		deferred.resolve(userInfo);

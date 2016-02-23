@@ -1,18 +1,141 @@
 <div ng-include="'angular/partial/headtemplate.html'"></div>
-<div ng-include="'angular/partial/dashboard/company/menukiri.html'"></div>
+<div ng-include="'angular/partial/dashboard/company/menusales.html'"></div>
 <div class="content-wrapper">
   <section class="content">
     <div class="row">
+      <div class="col-md-12" style="padding-left:25px; padding-right:25px">
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-group fa-5x"></i>
+                  </div>              
+                  <div class="col-xs-9 text-right">
+                    <!-- ngRepeat: nilai in Wh_Summary -->
+                    <div class="huge">{{sales_mt}}</div>
+                    <div>MT Customer Sell</div>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer">
+                  <span class="pull-left">View Details</span>
+                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                  <div class="clearfix"></div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-group fa-5x"></i>
+                  </div>              
+                  <div class="col-xs-9 text-right">
+                    <!-- ngRepeat: nilai in Wh_Summary -->
+                    <div class="huge">{{sales_gt}}</div>
+                    <div>GT Customer Sell</div>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer">
+                  <span class="pull-left">View Details</span>
+                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                  <div class="clearfix"></div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-group fa-5x"></i>
+                  </div>              
+                  <div class="col-xs-9 text-right">
+                    <!-- ngRepeat: nilai in Wh_Summary -->
+                    <div class="huge">{{sales_horeca}}</div>
+                    <div>Horeca Customer Sell</div>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer">
+                  <span class="pull-left">View Details</span>
+                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                  <div class="clearfix"></div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="panel panel-green">
+              <div class="panel-heading">
+                <div class="row">
+                  <div class="col-xs-3">
+                    <i class="fa fa-group fa-5x"></i>
+                  </div>              
+                  <div class="col-xs-9 text-right">
+                    <!-- ngRepeat: nilai in Wh_Summary -->
+                    <div class="huge">{{sales_other}}</div>
+                    <div>Other Customer Sell</div>
+                  </div>
+                </div>
+              </div>
+              <a href="#">
+                <div class="panel-footer">
+                  <span class="pull-left">View Details</span>
+                  <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                  <div class="clearfix"></div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
       <div class="col-md-12">
       <!-- for flashMessage in app.session.flashbag.get('notice') -->
         <div class="alert alert-success alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">    &times;
           </button>
-          <h4>DASHBOARD COMPANY EFEMBI SUKSES MAKMUR SALES</h4>
+          <h4>SALESMAN CHART</h4>
+        </div>
       <!-- endfor flashMessage -->
       </div>
     </div>
-  </section><!-- /.content -->
+    <div class="row">
+      <div class="col-md-12">
+        <fusioncharts width= 100% type="column2d" datasource="{{mt}}">
+        </fusioncharts> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <fusioncharts width= 100% type="column2d" datasource="{{gt}}">
+        </fusioncharts> 
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <fusioncharts width= 100% type="bar2d" datasource="{{horeca}}">
+        </fusioncharts> 
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <fusioncharts width= 100% type="bar2d" datasource="{{others}}">
+        </fusioncharts> 
+      </div>
+    </div>
+  </section><!-- /.content --> 
   
 </div><!-- /.content-wrapper -->
 

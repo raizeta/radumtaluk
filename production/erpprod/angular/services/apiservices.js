@@ -3,7 +3,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 {
 	var geturl = function()
 	{
-		return "http://lukison.int/master";
+		return "http://labtest3-api.int/master";
 	}
 
 	var gettoken = function()
@@ -58,9 +58,11 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	var listtipebarang = function(page)
 	{
 		var url = geturl();
+		var token = gettoken();
+
 		var page = page;
 		var deferred = $q.defer();
-		var url = url + "/tipebarangs?page="+ page;
+		var url = url + "/tipebarangs"+ token;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -295,6 +297,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+
 	var listemployee = function()
 	{
 		var url = geturl();
@@ -316,6 +319,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+	
 	return{
 			listbarangumum:listbarangumum,
 			listkategori:listkategori,

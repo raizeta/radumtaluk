@@ -58,6 +58,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
     {
         $scope.supliers = result.Suplier;
     });
+    
     apiService.listtipebarang()
     .then(function (result) 
     {
@@ -124,7 +125,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                     }
                 };
                 
-                $http.post("http://lukison.int/master/barangumums",serialized,config)
+                $http.post("http://labtest3-api.int/master/barangumums",serialized,config)
                 .success(function(data,status, headers, config) 
                 {
                     $location.path("/erp/masterbarang/list/barangumum");
@@ -318,8 +319,8 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
     }
 }]);
 
-myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService","singleapiService",
-function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService,singleapiService) 
+myAppModule.controller("EditBarangUmumController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","apiService","singleapiService","ngToast",
+function ($scope, $location, $http, $routeParams, authService, auth, $window,apiService,singleapiService,ngToast) 
 {
     $scope.parents = 
     [
@@ -416,9 +417,10 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,api
                 }
             };
             
-            $http.put("http://lukison.int/master/barangumums/"+ idbarangumum ,data,config)
+            $http.put("http://labtest3-api.int/master/barangumums/"+ idbarangumum ,data,config)
             .success(function(data,status, headers, config) 
             {
+                ngToast.create('Barang Umum Telah Berhasil Di Update');
                 $location.path("/erp/masterbarang/list/barangumum");
 
             })

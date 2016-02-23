@@ -1,4 +1,5 @@
-myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window", "ngToast",
+function ($scope, $location, $http, authService, auth,$window,ngToast) 
 {
     $scope.submitForm = function(tipebarang)
     {
@@ -31,6 +32,7 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
             {
                 
                 // $location.path("/erp/masterbarang/list/tipebarang");
+                ngToast.create('Tipe Barang Telah Berhasil Di Simpan');
             })
 
             .error(function (data, status, header, config) 
@@ -58,8 +60,8 @@ myAppModule.controller("NewTipeBarangController", ["$scope", "$location","$http"
     }  
 }]);
 
-myAppModule.controller("ListTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", 
-function ($scope, $location, $http, authService, auth,$window,apiService) 
+myAppModule.controller("ListTipeBarangController", ["$scope", "$location","$http", "authService", "auth","$window","apiService", "ngToast",
+function ($scope, $location, $http, authService, auth,$window,apiService,ngToast) 
 {
 
     $scope.loading  = true;
@@ -124,12 +126,13 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                     }
                 };
 
-                $http.delete("http://labtest3-api.int/master/tipebarangs/"+ $scope.selected  +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",config)
+                $http.delete("http://api.lukison.int/master/tipebarangs/"+ $scope.selected,config)
                     .success(function(data,status, headers, config) 
                     {
                         // var index = $scope.typebarangs.indexOf($scope.selected);
                         // $scope.typebarangs.splice(index, 1);
                         $scope.loadData();
+                        ngToast.create('Tipe Barang Telah Berhasil Di Delete');
                     })
 
                     .error(function (data, status, header, config) 
@@ -190,8 +193,8 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
     }
 }]);
 
-myAppModule.controller("EditTipeBarangController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService",
-function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 
+myAppModule.controller("EditTipeBarangController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService","ngToast",
+function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService,ngToast) 
 {
     $scope.loading = true ;
     $scope.userInfo = auth;
@@ -239,7 +242,9 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
             $http.put("http://labtest3-api.int/master/tipebarangs/"+ idtipebarang +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
             .success(function(data,status, headers, config) 
             {
+                ngToast.create('Tipe Barang Telah Berhasil Di Update');
                 $location.path("/erp/masterbarang/list/tipebarang");
+
 
             })
 

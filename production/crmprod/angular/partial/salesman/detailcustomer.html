@@ -2,63 +2,19 @@
 <div ng-include="'angular/partial/homemenu.html'"></div>
 <div class="content-wrapper">
     <section class="content">
-        <div class="row">
-            <div class="col-md-12 col-sm-6 col-xs-12" >
-                <div class="info-box bg-green">
-                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text" style="cursor:pointer" ><h3>CUSTOMER MAP {{customer.CUST_NM}}</h3></span>
-                  </div>
-                </div>
-
-            </div>
-        </div>
-          <div class="col-md-12 col-sm-6 col-xs-12" >
-            <ng-map zoom="7" center="{{lat}},{{long}}" style="height:600px;margin:12px;box-shadow:0 3px 25px black;">
-
-              <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false">
-              </marker>
-
-              <marker position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}"  icon='http://google-maps-icons.googlecode.com/files/climbing.png' on-click="toggleBounce()" animation="BOUNCE" on-dragend="doSth(customer)" draggable="true"></marker>
-
-            <shape name="circle" stroke-color='#FFAABB' stroke-weight="2"
-                  center="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}" radius="10">
-            </shape>
-            </ng-map>
-          </div>
-          <div class="col-md-12 col-sm-6 col-xs-12" >
-                <div class="info-box bg-green">
-                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text" style="cursor:pointer" ng-click="scanbarcode()">
-                      <h3>SCAN BARCODE</h3>
-                    </span>
-                  </div>
-                </div>
-
-          </div>
-          <div class="col-md-12 col-sm-6 col-xs-12" >
-                <div class="info-box bg-green">
-                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text" style="cursor:pointer" ng-click="takeapicture()">
-                      <h3>TAKE A PICTURE</h3>
-                    </span>
-                  </div>
-                </div>
-
-          </div>
-          <div class="col-md-12 col-sm-6 col-xs-12" >
-                <div class="info-box bg-green">
-                  <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
-                  <div class="info-box-content">
-                    <span class="info-box-text" style="cursor:pointer" >
-                      <h3>PRODUCT INVENTORY CONTROL</h3>
-                    </span>
-                  </div>
-                </div>
-
-          </div>
+      <div class="row">
+        <ul class="list-group">
+          <li class="list-group-item list-group-item-heading active" >Salesman Actions</li>
+          <li class="list-group-item list-group-item-heading" ng-click="takeapicture()">
+            <span class="badge danger">Do It!</span>Take A Picture
+          </li>
+          <li class="list-group-item list-group-item-heading" ng-show="gambar">
+            <img id="myImage" >
+          </li>
+          <li class="list-group-item list-group-item-heading" style="cursor:pointer" ng-click="scanbarcode()">
+            <span class="badge danger">Do It!</span>Scan Barcode
+          </li>
+        </ul>
     </section>
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>

@@ -1,7 +1,8 @@
 'use strict';
-myAppModule.controller("HomeController", ["$scope", "$location","$http", "authService", "auth","$window", function ($scope, $location, $http, authService, auth,$window) 
+myAppModule.controller("HomeController", ["$scope", "$location","$http", "authService", "auth","$window","ngToast",
+function ($scope, $location, $http, authService, auth,$window,ngToast) 
 {
-
+	ngToast.create('Welcome To Lukison Group...');
     $scope.userInfo = auth;
 	$scope.logout = function () 
     { 

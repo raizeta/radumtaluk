@@ -204,8 +204,8 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
     }
 }]);
 
-myAppModule.controller("EditBarangUnitController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService",
-function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 
+myAppModule.controller("EditBarangUnitController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService","ngToast",
+function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService,ngToast) 
 {
     $scope.loading = true ;
     $scope.userInfo = auth;
@@ -245,6 +245,7 @@ function ($scope, $location, $http, $routeParams, authService, auth, $window,sin
             $http.put("http://labtest3-api.int/master/unitbarangs/"+ idbarangunit +"?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa",serialized,config)
             .success(function(data,status, headers, config) 
             {
+                ngToast.create('Barang Unit Telah Berhasil Di Update');
                 $location.path("/erp/masterbarang/list/barangunit");
 
             })

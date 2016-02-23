@@ -47,7 +47,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                     }
                 };
                 
-                $http.post("http://lukison.int/master/kategoris",serialized,config)
+                $http.post("http://labtest3-api.int/master/kategoris",serialized,config)
                 .success(function(data,status, headers, config) 
                 {
                     $location.path("/erp/masterbarang/list/kategori");
@@ -142,7 +142,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService)
                         }
                     };
                     
-                    $http.delete("http://lukison.int/master/kategoris/"+$scope.selected,config)
+                    $http.delete("http://labtest3-api.int/master/kategoris/"+$scope.selected,config)
                     .success(function(data,status, headers, config) 
                     {
                         $scope.loadData();
@@ -197,7 +197,8 @@ myAppModule.controller("DetailKategoriController", ["$scope", "$location","$http
     }
 }]);
 
-myAppModule.controller("EditKategoriController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService", function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService) 
+myAppModule.controller("EditKategoriController", ["$scope", "$location","$http", "$routeParams", "authService", "auth", "$window","singleapiService", "ngToast",
+function ($scope, $location, $http, $routeParams, authService, auth, $window,singleapiService,ngToast) 
 {
     $scope.loading = true ;
     $scope.userInfo = auth;
@@ -233,9 +234,10 @@ myAppModule.controller("EditKategoriController", ["$scope", "$location","$http",
                 }
             };
             
-            $http.put("http://lukison.int/master/kategoris/"+idkategori,serialized,config)
+            $http.put("http://labtest3-api.int/master/kategoris/"+idkategori,serialized,config)
             .success(function(data,status, headers, config) 
             {
+                ngToast.create('Kategori Barang Telah Berhasil Di Update');
                 $location.path("/erp/masterbarang/list/kategori");
 
             })
@@ -275,7 +277,7 @@ myAppModule.controller("DeleteKategoriController", ["$scope", "$location","$http
                 }
             };
             
-            $http.delete("http://lukison.int/master/kategoris/"+idkategori,config)
+            $http.delete("http://labtest3-api.int/master/kategoris/"+idkategori,config)
             .success(function(data,status, headers, config) 
             {
                 $location.path("/erp/masterbarang/list/kategori");
