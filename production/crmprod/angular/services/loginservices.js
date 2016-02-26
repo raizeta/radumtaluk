@@ -1,7 +1,7 @@
 'use strict';
 
 
-myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $window)
+myAppModule.factory('authService', ["$http","$q","$window","sweet",function($http, $q, $window,sweet)
 {
 	var userInfo;
 	var login = function(username,password)
@@ -41,7 +41,7 @@ myAppModule.factory('authService', ["$http","$q","$window",function($http, $q, $
 					}
                 else
                 {
-                    alert("You Have Invalid Credential");
+                    deferred.reject("error");
                 }
 			})
             .error(function()

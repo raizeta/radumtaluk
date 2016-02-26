@@ -122,7 +122,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var url = getUrl();
 		
 		var deferred = $q.defer();
-		var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
+		//var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
+		var url = "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -130,11 +131,17 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		  deferred.resolve(response);
         })
 
-        .error(function()
+        .error(function(err,status)
         {
-            deferred.reject(error);
-            console.log('List Agenda Error');
-        });
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });	
 
         return deferred.promise;
 	}

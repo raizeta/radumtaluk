@@ -2,23 +2,6 @@
 myAppModule.controller("HomeController", ["$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet", 
 function ($scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet) 
 {
-        sweet.show({
-            title: 'Confirm',
-            text: 'Delete this file?',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes, delete it!',
-            closeOnConfirm: false,
-            closeOnCancel: false
-        }, function(isConfirm) {
-            if (isConfirm) {
-                sweet.show('Deleted!', 'The file has been deleted.', 'success');
-            }else{
-                sweet.show('Cancelled', 'Your imaginary file is safe :)', 'error');
-            }
-        });
-
     $scope.zoomvalue = 17;
     $scope.loading  = true;
     var geocoder = new google.maps.Geocoder;
@@ -28,13 +11,18 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
         $scope.long = data.longitude;
     });
 
-    apiService.listcustomer()
-    .then(function (result) 
+    $scope.customermap = function()
     {
-        $scope.customers = result.Customer;
-        $scope.loading  = false;  
-    });
-    $scope.doSth = function($event,customer)
+        apiService.listcustomer()
+        .then(function (result) 
+        {
+            $scope.customers = result.Customer;
+            $scope.loading  = false;  
+        });
+    };
+    $scope.customermap();
+
+    $scope.doSth = function(event,customer)
     {
         var idcustomer = customer.CUST_KD;
         console.log(customer);
@@ -44,7 +32,7 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
         customer.TLP1 = 081260014478;
         customer.TLP2 = 081260014478;
         customer.FAX  = 081260014478;
-        
+
         function serializeObj(obj) 
         {
           var result = [];
@@ -63,24 +51,47 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
                 
             }
         };
-        
-        $http.put("http://labtest3-api.int/master/customers/" + idcustomer,serialized,config)
-        .success(function(data,status, headers, config) 
-        {
-            ngToast.create(
-            {
-                content: 'Data Berhasi Di Ubah',
-            });
-        })
-        .error(function (data, status, header, config) 
-        {
-            // console.log(data);  
-        })
 
-        .finally(function()
+        sweet.show(
         {
-            $scope.loading = false;
+            title: 'Confirm',
+            text: 'Apakah Kamu Ingin Mengubah Posisi Customer Ini?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes, Change it!',
+            closeOnConfirm: true,
+            closeOnCancel: true
+        }, 
+        function(isConfirm) 
+        {
+            if (isConfirm) 
+            {
+                $http.put("http://labtest3-api.int/master/customers/" + idcustomer,serialized,config)
+                .success(function(data,status, headers, config) 
+                {
+                    ngToast.create(
+                    {
+                        content: 'Data Berhasi Di Ubah',
+                    });
+                })
+                .error(function (data, status, header, config) 
+                {
+                    // console.log(data);  
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;
+                });
+            }
+            else
+            {
+                $scope.customermap();
+            }
         });
+
+        
         // geocoder.geocode(
         // {
         //     'location': this.getPosition()

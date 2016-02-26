@@ -5,16 +5,17 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
 {
     	
         $scope.userInfo = null;
-
 	    $scope.login = function (user) 
 	    {
-	        $scope.loading = true;
+            $scope.loginLoading = true;
+            $scope.disableInput = true;
             $scope.user = angular.copy(user);
 	    	var username = $scope.user.username;
 	    	var password	= $scope.user.password;
 	    	authService.login(username, password)
             .then(function (result) 
             {
+                console.log(result);
                 $scope.userInfo = result;
                 var rulename = result.rulename;
                 if(rulename == 'SALESMAN')
@@ -26,12 +27,16 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
                 {
                 	$location.path('/spg');
                 }
+                $scope.loading = false;
                 
             }, 
-            function (error) 
+            function (err) 
             {          
-                $window.alert("Invalid credentials");
-                
+                sweetAlert("Oops...", "Username Or Password Wrong", "error");
+                $scope.loginLoading = false;
+                $scope.disableInput=false;
+                $scope.user.username="";
+                $scope.user.password="";  
             });
 
 	    }

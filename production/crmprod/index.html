@@ -27,7 +27,10 @@
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
     <link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css">
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <link href="bower_components/angular-bootstrap-calendar/dist/css/angular-bootstrap-calendar.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
+
+    <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
 
     <link href="asset/css/bootstrap.css" rel="stylesheet">
     <link href="asset/css/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -46,18 +49,22 @@
         <div class="wrapper skin-blue">
             <toast></toast>
             <div ng-view></div>
-            <nav mfb-menu position="br" effect="zoomin" active-icon="ion-navicon-round" resting-icon="ion-plus-round" toggling-method="hover">
+            <!-- <nav mfb-menu position="br" effect="zoomin" active-icon="ion-navicon-round" resting-icon="ion-plus-round" toggling-method="hover">
               <button mfb-button icon="ion-social-freebsd-devil" label="Add"></button>
               <button mfb-button icon="ion-social-usd" label="Remove"></button>
               <button mfb-button icon="ion-android-mail" label="Edit"></button>
-            </nav>
+            </nav> -->
         <div>
         <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>
         <script src="angular/vendor/angular.js"></script>
         <script src="angular/scripts/vendor.js"></script>
         <script src="bower_components/moment/moment.js"></script>
-        <script src="bower_components/angular-bootstrap-calendar/dist/js/angular-bootstrap-calendar-tpls.min.js">
+
+        <script type="text/javascript" src="bower_components/angular-ui-calendar/src/calendar.js">
         </script>
+        <script type="text/javascript" src="bower_components/fullcalendar/dist/fullcalendar.min.js">
+        </script>
+        <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js"></script>
 
         
         

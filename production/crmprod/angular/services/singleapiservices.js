@@ -141,7 +141,8 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 	{
 		var url = geturl();
 		var deferred = $q.defer();
-		var url = "http://api.lukison.int/master" + "/customers/search?SCDL_GROUP="+ groupcustomer;
+		//var url = "http://api.lukison.int/master" + "/customers/search?SCDL_GROUP="+ groupcustomer;
+		var url = "http://labtest3-api.int/master" + "/customers/search?SCDL_GROUP="+ groupcustomer;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -156,6 +157,34 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 
         return deferred.promise;
 	}
+
+	var detailkunjungan = function(iduser,idcustomer,tanggal)
+	{
+		var url = geturl();
+		var deferred = $q.defer();
+		//var url = "http://api.lukison.int/master/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
+		var url = "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+
+        return deferred.promise;
+	}
 	return{
 			singlelistbarangumum:singlelistbarangumum,
 			singlelistkategori:singlelistkategori,
@@ -163,6 +192,7 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 			singlelistsuplier:singlelistsuplier,
 			singlelistbarangunit:singlelistbarangunit,
 			singlelistcustomer:singlelistcustomer,
-			singlelistgroupcustomer:singlelistgroupcustomer
+			singlelistgroupcustomer:singlelistgroupcustomer,
+			detailkunjungan:detailkunjungan
 		}
 }]);

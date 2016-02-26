@@ -26,4 +26,7 @@ document.write('<script src="bower_components/angular-material/angular-material.
 
 
 document.write('<script src="bower_components/angular-sweetalert/dist/ngSweetAlert.js"></script>');
+document.write('<script src="bower_components/ladda/dist/spin.min.js"></script>');
+document.write('<script src="bower_components/ladda/dist/ladda.min.js"></script>');
+document.write('<script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>');
 
