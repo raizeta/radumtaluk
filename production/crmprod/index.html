@@ -47,6 +47,7 @@
 
 <body class="login-page sidebar-mini" off-canvas-menu ng-class="{'sidebar-collapse sidebar-open':isMenuOpen}">
         <div class="wrapper skin-blue">
+            <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
             <toast></toast>
             <div ng-view></div>
             <!-- <nav mfb-menu position="br" effect="zoomin" active-icon="ion-navicon-round" resting-icon="ion-plus-round" toggling-method="hover">
@@ -75,6 +76,7 @@
         <script src="angular/services/singleapiservices.js"></script>
         <script src="angular/services/cameraservice.js"></script>
         <script src="angular/services/regionalServices.js"></script>
+        <script src="angular/services/broadcastservices.js"></script>
 
         <!-- <script src="angular/vendor/cordova.js"></script> -->
         <script src="angular/routing/loginrouting.js"></script>

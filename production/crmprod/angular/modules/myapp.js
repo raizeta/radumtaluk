@@ -3,18 +3,19 @@ var myAppModule 	= angular.module('myAppModule',
 								['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','ngAnimate',
                                     'ui.select2','naif.base64','monospaced.qrcode','angular-ladda',
                                  'ngCordova','ngMap','mm.acl','ng-mfb','ngMaterial','ngMessages','hSweetAlert','ui.calendar']);
-myAppModule.run(["$rootScope", "$location","uiSelect2Config", 
-function ($rootScope, $location,uiSelect2Config) 
+myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q",
+function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q) 
 {
     uiSelect2Config.placeholder = "Placeholder text";
-    $rootScope.$on("$routeChangeSuccess", function (userInfo) 
+    $rootScope.loading= true;
+    $rootScope.$on("$routeChangeStart", function (userInfo) 
     {
-        // console.log(userInfo);
+        $rootScope.loading= true;
     });
    
     $rootScope.$on("$routeChangeSuccess", function (userInfo) 
     {
-        // console.log(userInfo);
+        $rootScope.loading = false;
     });
 
     $rootScope.$on("$routeChangeError", function (event, current, previous, eventObj) 
@@ -24,6 +25,76 @@ function ($rootScope, $location,uiSelect2Config)
             $location.path("/login");
         }
     });
+
+
+
+    var options = {timeout: 10000, enableHighAccuracy: false};
+
+
+
+    $rootScope.starttrack = function()
+    {
+        navigator.geolocation.getCurrentPosition(
+        function (options) 
+        {
+            
+            var userauth = $window.sessionStorage["userInfo"];
+            $rootScope.authen = JSON.parse(userauth);
+
+            $rootScope.lat = options.coords.latitude;
+            $rootScope.long = options.coords.longitude;
+
+            var detail ={};
+            detail.USER_ID = $rootScope.authen.username;
+            detail.LAT=$rootScope.lat;
+            detail.LAG=$rootScope.long;
+
+            
+
+
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+
+            var serialized = serializeObj(detail); 
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
+                
+            $http.post("http://labtest3-api.int/master/trackers",serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                ngToast.create('Detail Telah Berhasil Di Update');
+            })
+
+            .finally(function()
+            {
+                $rootScope.loading = false;  
+            });
+        },
+        function(err)
+        {
+          alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
+        });
+    }
+
+    setInterval(function() 
+    {
+        $rootScope.starttrack();
+    }, 10000);
+    // var userauth = $window.sessionStorage["userInfo"];
+    // $rootScope.authen = JSON.parse(userauth);
+    // console.log($rootScope.authen.username);
+
 }]);
 
 myAppModule.config(['ngToastProvider', function(ngToastProvider) 

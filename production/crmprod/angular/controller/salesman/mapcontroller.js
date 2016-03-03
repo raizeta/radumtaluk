@@ -6,6 +6,7 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
     var geocoder = new google.maps.Geocoder;
     LocationService.GetLocation().then(function(data)
     {
+
         $scope.lat = data.latitude;
         $scope.long = data.longitude;
     });
@@ -405,12 +406,12 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
         }, false);
     }
     
-    $scope.logout = function () 
-    { 
-        $scope.userInfo = null;
-        $window.sessionStorage.clear();
-        window.location.href = "index.html";
-    }
+    // $scope.logout = function () 
+    // { 
+    //     $scope.userInfo = null;
+    //     $window.sessionStorage.clear();
+    //     window.location.href = "index.html";
+    // }
     
 }]);
 

@@ -23,17 +23,35 @@ var currentLocation = {
     latitude: "",
     longitude: ""
 }
-  var pos = {timeout: 10000, enableHighAccuracy: false};
+  var options = {timeout: 10000, enableHighAccuracy: false};
 
 
     var GetLocation = function () 
     {
         var d = $q.defer();
         navigator.geolocation.getCurrentPosition(
-        function (pos) 
+        function (options) 
         {
-            currentLocation.latitude = pos.coords.latitude;
-            currentLocation.longitude = pos.coords.longitude;
+            currentLocation.latitude = options.coords.latitude;
+            currentLocation.longitude = options.coords.longitude;
+            d.resolve(currentLocation);
+        },
+        function(err)
+        {
+          alert("GPS Tidak Hidup");
+        });
+        
+        return d.promise
+    }
+
+    var WatchGetLocation = function () 
+    {
+        var d = $q.defer();
+        navigator.geolocation.watchPosition(
+        function (options) 
+        {
+            currentLocation.latitude = options.coords.latitude;
+            currentLocation.longitude = options.coords.longitude;
             d.resolve(currentLocation);
         },
         function(err)
@@ -46,7 +64,8 @@ var currentLocation = {
 
 
   return {
-            GetLocation:GetLocation
+            GetLocation:GetLocation,
+            WatchGetLocation:WatchGetLocation
         }
 
 });

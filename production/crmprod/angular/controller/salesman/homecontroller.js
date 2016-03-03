@@ -2,14 +2,18 @@
 myAppModule.controller("HomeController", ["$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet", 
 function ($scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet) 
 {
+
+    $scope.loading  = true;
     $scope.zoomvalue = 17;
     $scope.loading  = true;
     var geocoder = new google.maps.Geocoder;
-    LocationService.GetLocation().then(function(data)
+    LocationService.GetLocation()
+    .then(function(data)
     {
         $scope.lat = data.latitude;
         $scope.long = data.longitude;
     });
+
 
     $scope.customermap = function()
     {

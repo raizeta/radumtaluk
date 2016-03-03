@@ -1,0 +1,172 @@
+image:https://cloudant.com/wp-content/themes/cloudant/images/ibm_cloudant.png["IBM Cloudant"]
+
+= Location Tracker Part 2: Angular.JS
+_Make a single-page mobile web app, with AngularJS_
+
+== Intro
+
+In Part 1 of the Location Tracker tutorial, we learned how to use the HTML5 geolocation API to ask the web browser to share the device's location with us and save the location of a moving device -- whether that device represents a person, vehicle, or mobile sensor -- to Cloudant. We also learned how to take that data out of Cloudant and put it on a map. Those skills are important building blocks for any number of real-world apps you might develop, but the user interface left a lot to be desired. 
+
+In Part 2, we'll take the functionality developed in Part 1 and put it into a nicely polished http://en.wikipedia.org/wiki/Single-page_application[single-page app (SPA)] using the https://angularjs.org/[AngularJS] framework. This is _not_ a tutorial on AngularJS, nor a tutorial on how to create snazzy animated page effects, but you can study the code and learn how to do those on your own. The goal here is simply to take the design of our app to the next level using Angular. 
+
+What is Angular and why are we using it? Glad you asked. As it states in the https://code.angularjs.org/1.2.26/docs/guide/introduction[Angular docs], AngularJS is a structural framework for dynamic web apps. It lets you use HTML as your template language and extends HTML's syntax to express your application's components clearly and succinctly. Not every app is a good fit for Angular. Angular was built with the CRUD application in mind. Luckily CRUD applications represent the majority of web applications. If you're doing live, two-way data binding, Angular is a good fit. It excels in applications where the user changes data, and those changes necessitate an update to the user interface. 
+
+In this simple tutorial, we don't do much data binding, but you can imagine many cases where this would make sense in a mapping application. For example, if your application was supporting wildfire response, the map would change and alerts might get triggered when certain data events occurred. Or in a retail scenario, as a customer walked through a mall you could send them information tailored to the stores they were near, or attract shoppers away from competitors' stores and towards yours!
+
+== Getting the code
+
+In this chapter, we won't step through the code as slowly as in Part one, having you write and test a piece at a time. Instead, we'll have you download and peruse the code all at once, and explain it as a whole. Because no functionality has changed -- the code around capturing and saving location data is the same. We are simply re-organizing code into the AngularJS framework and adding UIX richness.
+
+All the code for this tutorial can be forked from GitHub from https://github.com/cloudant-labs/location-tracker-couchapp[this repository]. To download the code to your computer, run this from the command line:
+
+[source,bash]
+git clone https://github.com/cloudant-labs/location-tracker-angular.git
+
+[NOTE]
+====
+If you are new to GitHub, https://help.github.com/articles/set-up-git/[get set up with these instructions]. 
+====
+
+== Angular application overview
+
+For starters, let's look at the new Javascripts added to the HEAD
+[source,html]
+----
+<script src="https://code.angularjs.org/1.3.11/angular.min.js"></script>
+<script src="https://code.angularjs.org/1.3.11/angular-route.min.js"></script>
+<script src="https://code.angularjs.org/1.3.11/angular-animate.min.js"></script>
+<script src="//cdn.jsdelivr.net/velocity/1.2.1/velocity.min.js"></script>
+<script src="//cdn.jsdelivr.net/velocity/1.2.1/velocity.ui.min.js"></script>
+----
+
+In order to use Angular, you need the base Angular.min.js framework file. Because we are levaraging routing and animation, both the angular-route.min.js and angular-animate.min.js modules have been added. 
+To allow for fluid transitions and animation control via javascript, http://julian.com/research/velocity/[Velocity.js] has been added. It's setup to work with or without jQuery. It is simply the best of jQuery and CSS transitions combined.  
+
+Both the base velocity.min.js and ui pack velocity.ui.min.js files are used. 
+
+The way an Angular app gets initialized is by including the Angular Javascript code in your web page, and then putting the custom attribute `ng-app` on an element in your HTML. Angular only works on the HTML descended from this element, so you can have parts of your web page that don't depend at all on the framework. Usually, however, developers choose to have the whole page controlled by Angular, and therefore you'll find `ng-app` attached to the `html` or `body` element. In our case we put it on the body in the `index.html` file:
+
+[source,html]
+----
+<body ng-app="locationTrackingApp">
+----
+
+The value of the `ng-app` attribute is the module to use. And this is found in the Javascript file `app.js`, which was also included in the web page (and found in the `scripts` directory. App.js is the heart of any Angular app. As stated earlier, this is not a standalone Angular tutorial, so we'll just hit the high points of how functionality is laid out in the app. 
+
+[NOTE]
+====
+Some good AngularJS tutorials are https://docs.angularjs.org/tutorial/[the official one], http://campus.codeschool.com/courses/shaping-up-with-angular-js/intro[Shaping up with Angular.JS] and  http://www.revillweb.com/tutorials/angularjs-in-30-minutes-angularjs-tutorial/[Learn AngularJS in 30 minutes]
+====
+
+Looking at `app.js` a few main concepts stick out:
+
+. *value* definitions, which are basically global variables that can be exposed to controllers, 
+. *routes* in `.config(['$routeProvider'...` define what HTML is included (`templateUrl`) and what Javascript is run (`controller`) when certain URLs are requested 
+. *.controllers* where you bind model data to views (a.k.a HTML)
+. *.factorys* which are a great way to separate out the logic of creating objects that will be reused in multiple places
+. a *directive* called `animationdirective` that transforms a DOM element or changes its behavior.
+
+Let's walk through each of these major concepts to understand how the functionality of Location Tracker plays out in Angular.
+
+== Values
+
+This section is simple. We're just defining some variables we want to be accessible to multiple controllers. Some of them could be constants, like `remotedb`, but for simplicity we just make them all values, passing them into controllers and manipulating as needed.
+
+.Listing 1. Values in app.js
+[source,javascript]
+----
+.value("map", {})
+    .value("watchID", null)
+    .value("remotedb", 'https://USERNAME:PASSWORD@USERNAME.cloudant.com/locationtracker')
+    .value("num", 0)
+    .value("successMessage", {})
+    .value("errorMessage", "error")
+    .value("trackingMapInitialized", false)
+    .value("resultMapInitialized", false)
+----
+
+== Routes
+
+This section of `app.js` basically matches up URLs with controllers. When the user accesses one of the routes -- any one of the `$routeProvider.when` statements -- the `templateUrl` file is included and the specified `controller` takes "control" of what happens in that part of the page.
+
+For example, the `/welcome` route inserts `location-welcome.html`. We're only interested in showing some user interface goodness here, so no controller is needed. However, note that there's an href to `#tracking` near the bottom of `location-welcome.html`. When the user clicks that link, the `/tracking` route is called, which inserts `location-tracking.html` and activates the controller, `locationTrackingController`. The other routes work the same.
+
+.Listing 2. Routes
+[source,javascript]
+----
+.config(['$routeProvider', function($routeProvider) {
+    $routeProvider.
+    when('/welcome', {
+        templateUrl: 'location-welcome.html'
+    }).
+    when('/tracking', {
+        templateUrl: 'location-tracking.html',
+        controller: 'locationTrackingController'
+    }).
+    when('/savedata', {
+        templateUrl: 'location-savedata.html',
+        controller: 'locationTrackingSaveDataController'
+    }).
+    when('/success', {
+        templateUrl: 'location-success.html',
+        controller: 'locationTrackingSuccessController'
+    }).
+    when('/error', {
+        templateUrl: 'location-error.html',
+        controller: 'locationTrackingErrorController'
+    }).
+    when('/map', {
+        templateUrl: 'tutorial2-map.html',
+        controller: 'mapResultController'
+    }).
+    otherwise({
+        redirectTo: '/welcome'
+    })
+}])
+----
+
+== Controllers
+
+This is where the real action is. All the controllers are described in Table 1, and the graphic below depicts their interaction. The welcome route presents the introductory UI that directs the user to activate the `/tracking` route, which runs the `locationTrackingController` controller, which begins capturing device locations. Looking at the code for that controller, which starts with `.controller('locationTrackingController'...`, you see that we create a map that shows the user where they are (note that if the device you were tracking didn't have a human being in front of it, you would surely skip this part). Then you'll eventually come across the function `doWatch` in that controller. This function will be familiar to you from Part 1 of the tutorial. Except for some user interface manipulation, the code and functionality is the same -- we are taking the location given to us by the device and saving it to a local http://pouchdb.com[PouchDB] database. In addition to running the code in `locationTrackingController`, the `/tracking` route also injected HTML from the `location-tracking.html` file, which allows the user to click on a *_Stop and Save data to IBM Cloudant_* button when they are done collecting a series of locations. 
+
+The *_Stop and Save data to IBM Cloudant_* button activates the `/savedata` route, which runs  `locationTrackingSaveDataController`. The code for that controller, which starts with `.controller('locationTrackingSaveDataController'...`, runs some cool page animation effects and replicates our local PouchDB database to Cloudant. This is functionally equivalent to the `saveToServer` function in Part 1. When database replication is finished, the controller automatically redirects to either a success or error UI. 
+
+If the process was successful, we see some metadata about how many documents were written to the database, and we get an option to see a map of all the location data saved in the Cloudant database, just like we did at the end of Part 1. 
+
+.Angular routes
+[cols="2,2,2,2,2,2,2", frame="topbot"]
+|=====
+|*Route* |/welcome |/tracking |/savedata |/success |/map |/error
+|*templateUrl* |welcome.html |tracking.html |savedata.html |success.html |tutorial2-map.html |location-error.html 
+|*controller* |n/a |locationTrackingController |locationTrackingSaveDataController |locationTrackingSuccessController |mapResultController |locationTrackingErrorController
+|*description* |static introductory message |captures device location in PouchDB while showing current location on a map |Saves location data to Cloudant by replicating from the local PouchDB to a remote Cloudant database account |Shows metadata about the successful replication |Shows a map of all location data in the database |Shows metadata about a failed replication
+| |image:welcome_button_sm.png[] |image:graphics/tracking_sm.png[] |image:graphics/saving_sm.png[] |image:success_sm.png[] |image:graphics/map_sm.png[] |
+|=====
+
+
+== Animating UI changes with the `animationdirective`
+
+This tutorial was broken up into different sections to help developers more easily digest the different functions happening, such as storing data locally, saving it, then displaying the results. Having a asynchronous based single-page app allows us to separate these functions without refreshing the page. 
+
+One of the benefits of Angular when it comes to single-page applications, is that it emits event hooks when ui-views are being transitioned in and out. Specifically, `enter` and `leave`. Rather than having a simple show and hide, animated transitions have been added to help make the experience more fluid as you go through the steps of the application. 
+
+Two key things were used to make the transitions: a reusable directive and the animation module. Animations in AngularJS are completely based on CSS classes. For example, each time a new ui-view component is added, Angular will add a `ng-enter` class name to the element that is being added. When removed it will apply a ng-leave class name.
+
+Directives are helpful in that they attach a specified behavior to that DOM element or even transform the DOM element and its children. The main idea here is that each html page being injected into the ui-view is leveraging the same directive. Therefore, they can take advantage of enter and leave hooks and transition views in and out. 
+
+In order to modify the DOM we use the `link` option. `link` takes a function with the following, `function link(scope, element, attrs) { ... }`. Let's break things down:
+
+*  `scope` is an Angular scope object.
+*  `element` is the jqLite-wrapped element that this directive matches.
+*  `attrs` is a hash object with key-value pairs of normalized attribute names and their corresponding attribute values.
+
+By taking advantage of a custom directive, we can take advantage of the `$animate` service to handle the transition animations when `enter` and `leave` hooks are triggered. We're using Javascript animations using http://julian.com/research/velocity/[velocity.js] to allow for a bit more fine grained control over nested elements, particularly when `leave` is triggered.
+
+The last thing to mention with animations is that there are callbacks in both `enter` and `leave` hooks, that when called will look for `transEnter` or `transLeave`. This way, you can step things out to make the app more efficient. For example, on `locationTrackingController`, we want to be able to smoothly load in the map tiles after the `enter` hook has trigged and only after the page view has transitioned in. Then we want to be able to use the `remove()` function on the map on the `leave` so that we can clear out the events and leaflet map Javascript objects. 
+
+
+== Conclusion
+
+This tutorial has shown that you can take functional, but bare tutorial code and transform it into a highly polished application with a little background in AngularJS. By comparing the code in Parts 1 and 2 you can also begin to see a possible workflow where a core Javascript developer might work on purely functional elements, while a front-end developer worked on the user interface. In fact, that's one of the benefits of AngularJS. Controllers separate out the data processing and database access from the "view" or front-end code, so that teams can be more productive working together in parallel. Therefore the lesson of this tutorial is less about how to write an AngularJS app, and more about how to use a web development framework to make your team more efficient and productive. 
+
+In https://github.com/cloudant-labs/location-tracker-nodejs/blob/master/tutorial/tutorial.md[Part 3], we'll focus on another aspect of taking the Location Tracker tutorial app closer to production quality adding a middle tier to better manage users and other moving things. We'll leave the couchapp deployment methodology behind and add a Node.js middleware layer to the app so that client code doesn't contain database credentials, and we have a more flexible set up to add other cool processing at the middle tier.
