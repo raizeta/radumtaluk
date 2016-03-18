@@ -8,7 +8,7 @@
         <md-content class="md-padding">
           <md-tabs md-dynamic-height md-border-bottom class="md-accent" >
             <md-tab id="tab1">
-              <md-tab-label>LIST TODAY</md-tab-label>
+              <md-tab-label>LIST {{viewtanggal| date:'dd-MM-yyyy' }} </md-tab-label>
               <md-tab-body>
                   <md-list>
                     <md-list-item ng-repeat="customer in customers" ng-click="goToPerson(person.name, $event)">

@@ -2,118 +2,31 @@
 myAppModule.controller("AgendaController", ["$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig",
 function ($scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig) 
 {
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-    
-    $scope.changeTo = 'Hungarian';
-    /* event source that pulls from google.com */
-    $scope.eventSource = 
-    {
-            url: "http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
-            className: 'gcal-event',           // an option!
-            currentTimezone: 'America/Chicago' // an option!
-    };
-    /* event source that contains custom events on the scope */
-    $scope.events = [
-      {title: 'Visit Horeca',start: new Date(y, m, 1),allDay:true},
-      {title: 'Long Event',start: new Date(y, m, d - 5),end: new Date(y, m, d - 2)},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d - 3, 16, 0),allDay: false},
-      {id: 999,title: 'Repeating Event',start: new Date(y, m, d + 4, 16, 0),allDay: false},
-      {title: 'Visit GT',start: new Date(y, m, d + 1, 19, 0),end: new Date(y, m, d + 1, 22, 30),allDay: false},
-      {title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-    ];
-    /* event source that calls a function on every view switch */
-    $scope.eventsF = function (start, end, timezone, callback) 
-    {
-      var s = new Date(start).getTime() / 1000;
-      var e = new Date(end).getTime() / 1000;
-      var m = new Date(start).getMonth();
-      var events = [{title: 'Feed Me ' + m,start: s + (50000),end: s + (100000),allDay: false, className: ['customFeed']}];
-      callback(events);
-    };
+    var idsalesman = auth.id;
+    var data = $.ajax
+    ({
+          url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          type: "GET",
+          dataType:"json",
+          async: false
+    }).responseText;
 
-    $scope.calEventsExt = 
-    {
-       color: '#f00',
-       textColor: 'yellow',
-       events: [ 
-          {type:'party',title: 'Visit',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-          {type:'party',title: 'Lunch 2',start: new Date(y, m, d, 12, 0),end: new Date(y, m, d, 14, 0),allDay: false},
-          {type:'party',title: 'Click for Google',start: new Date(y, m, 28),end: new Date(y, m, 29),url: 'http://google.com/'}
-        ]
-    };
-    /* alert on eventClick */
-    $scope.alertOnEventClick = function( date, jsEvent, view)
-    {
-        $scope.alertMessage = (date.title + ' was clicked ');
-    };
-    /* alert on Drop */
-    $scope.alertOnDrop = function(event, delta, revertFunc, jsEvent, ui, view)
-    {
-       $scope.alertMessage = ('Event Droped to make dayDelta ' + delta);
-    };
-    /* alert on Resize */
-    $scope.alertOnResize = function(event, delta, revertFunc, jsEvent, ui, view )
-    {
-       $scope.alertMessage = ('Event Resized to make dayDelta ' + delta);
-    };
-    /* add and removes an event source of choice */
-    $scope.addRemoveEventSource = function(sources,source) 
-    {
-      var canAdd = 0;
-      angular.forEach(sources,function(value, key)
-      {
-        if(sources[key] === source)
-        {
-          sources.splice(key,1);
-          canAdd = 1;
-        }
-      });
-      if(canAdd === 0)
-      {
-        sources.push(source);
-      }
-    };
-    /* add custom event*/
-    $scope.addEvent = function() 
-    {
-      $scope.events.push
-      ({
-        title: 'Open Sesame',
-        start: new Date(y, m, 28),
-        end: new Date(y, m, 29),
-        className: ['openSesame']
-      });
-    };
+    var myData = data;
+    var mt = JSON.parse(myData)['JadwalKunjungan'];
 
-    /* remove event */
-    $scope.remove = function(index) 
+    $scope.events = [];
+
+    angular.forEach(mt, function(value, key)
     {
-      $scope.events.splice(index,1);
-    };
-    /* Change View */
-    $scope.changeView = function(view,calendar) 
-    {
-      uiCalendarConfig.calendars[calendar].fullCalendar('changeView',view);
-    };
-    /* Change View */
-    $scope.renderCalender = function(calendar) 
-    {
-      if(uiCalendarConfig.calendars[calendar])
-      {
-        uiCalendarConfig.calendars[calendar].fullCalendar('render');
-      }
-    };
-     /* Render Tooltip */
-    $scope.eventRender = function( event, element, view ) 
-    { 
-        element.attr({'tooltip': event.title,
-                     'tooltip-append-to-body': true});
-        $compile(element)($scope);
-    };
-    /* config object */
+        var tanggal= value.TGL1;
+        var data ={};
+        data.title = 'Visit Group Barat';
+        data.start = new Date(tanggal);
+        data.allDay =true;
+        data.url ="#/agenda/" + tanggal;
+        $scope.events.push(data);
+    });
+
     $scope.uiConfig = 
     {
       calendar:
@@ -134,24 +47,9 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
       }
     };
 
-    $scope.changeLang = function() 
-    {
-      if($scope.changeTo === 'Hungarian')
-      {
-        $scope.uiConfig.calendar.dayNames = ["Vasárnap", "Hétfő", "Kedd", "Szerda", "Csütörtök", "Péntek", "Szombat"];
-        $scope.uiConfig.calendar.dayNamesShort = ["Vas", "Hét", "Kedd", "Sze", "Csüt", "Pén", "Szo"];
-        $scope.changeTo= 'English';
-      } 
-      else 
-      {
-        $scope.uiConfig.calendar.dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-        $scope.uiConfig.calendar.dayNamesShort = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        $scope.changeTo = 'Hungarian';
-      }
-    };
-    /* event sources array*/
-    $scope.eventSources = [$scope.events, $scope.eventSource, $scope.eventsF];
-    $scope.eventSources2 = [$scope.calEventsExt, $scope.eventsF, $scope.events];
+
+
+    $scope.eventSources = [$scope.events];
 
 
     var geocoder = new google.maps.Geocoder;
@@ -167,6 +65,123 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
     var idsalesman = auth.id;
     // var tanggal = "2016-02-02";
     apiService.listagenda(idsalesman,tanggal)
+    .then(function (result) 
+    {
+        if(result.JadwalKunjungan)
+        {
+            var idgroupcustomer;
+            angular.forEach(result.JadwalKunjungan, function(value, key) 
+            {
+              idgroupcustomer =value.SCDL_GROUP;
+            });
+
+            singleapiService.singlelistgroupcustomer(idgroupcustomer)
+            .then(function (result) 
+            {
+                $scope.customers = result.Customer;
+                $scope.loading  = false;
+            });
+        }
+        else
+        {
+            $scope.loading  = false;
+            sweet.show({
+                title: 'Confirm',
+                text: 'Cheers...Kamu Belum Memiliki Agenda Untuk Saat Ini',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yeah. I Like This!',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, 
+            function(isConfirm) 
+            {
+                if (isConfirm) 
+                {
+                    window.location.href = "index.html";
+                }
+            });
+        }
+    });
+
+    $scope.userInfo = auth;
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+}]);
+
+myAppModule.controller("DetailAgendaController", ["$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","$routeParams",
+function ($scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,$routeParams) 
+{
+    var idtanggal = $routeParams.idtanggal;
+    $scope.viewtanggal = idtanggal;
+    var idsalesman = auth.id;
+    var data = $.ajax
+    ({
+          url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          type: "GET",
+          dataType:"json",
+          async: false
+    }).responseText;
+
+    var myData = data;
+    var mt = JSON.parse(myData)['JadwalKunjungan'];
+
+    $scope.events = [];
+
+    angular.forEach(mt, function(value, key)
+    {
+        var tanggal= value.TGL1;
+        var data ={};
+        data.title = 'Visit Group Barat';
+        data.start = new Date(tanggal);
+        data.allDay =true;
+        data.url ="#/agenda/" + tanggal;
+        $scope.events.push(data);
+    });
+
+    $scope.uiConfig = 
+    {
+      calendar:
+      {
+        height: 450,
+        editable: true,
+        header:
+        {
+          left: 'title',
+          center: '',
+          right: 'today prev,next'
+        },
+
+        eventClick: $scope.alertOnEventClick,
+        eventDrop: $scope.alertOnDrop,
+        eventResize: $scope.alertOnResize,
+        eventRender: $scope.eventRender
+      }
+    };
+
+
+
+    $scope.eventSources = [$scope.events];
+
+
+    var geocoder = new google.maps.Geocoder;
+    LocationService.GetLocation().then(function(data)
+    {
+        $scope.lat = data.latitude;
+        $scope.long = data.longitude;
+    });
+    
+    //var tanggals = new Date();
+    var idtanggal = idtanggal;
+    $scope.loading  = true;
+    var idsalesman = auth.id;
+    // var tanggal = "2016-02-02";
+    apiService.listagenda(idsalesman,idtanggal)
     .then(function (result) 
     {
         if(result.JadwalKunjungan)

@@ -23,3 +23,6 @@ cordova platforms add android@3.7.1
 cordova platforms add android@5.1.1
 
 cordova build android //lakukan berkalikali sampai tidak ada error
+
+
+cordova platform update android --save

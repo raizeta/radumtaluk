@@ -277,6 +277,34 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
+    $routeProvider.when('/agenda/:idtanggal',
+    {
+        templateUrl : 'angular/partial/salesman/agenda.html',
+        controller  : 'DetailAgendaController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
     $routeProvider.when('/mapagenda',
     {
         templateUrl : 'angular/partial/salesman/mapagenda.html',

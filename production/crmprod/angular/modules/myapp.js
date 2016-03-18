@@ -3,8 +3,8 @@ var myAppModule 	= angular.module('myAppModule',
 								['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','ngAnimate',
                                     'ui.select2','naif.base64','monospaced.qrcode','angular-ladda',
                                  'ngCordova','ngMap','mm.acl','ng-mfb','ngMaterial','ngMessages','hSweetAlert','ui.calendar']);
-myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q",
-function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q) 
+myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q","$filter",
+function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q,$filter) 
 {
     uiSelect2Config.placeholder = "Placeholder text";
     $rootScope.loading= true;
@@ -87,10 +87,21 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         });
     }
 
-    setInterval(function() 
+    var tanggal = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+    var tanggalmulai = $filter('date')(new Date(),'yyyy-MM-dd 05:00:00');
+    var tanggalakhir = $filter('date')(new Date(),'yyyy-MM-dd 23:59:59');
+
+    console.log(tanggalmulai);
+    console.log(tanggalakhir);
+
+    if( (tanggal > tanggalmulai) && (tanggal < tanggalakhir))
     {
-        $rootScope.starttrack();
-    }, 10000);
+        setInterval(function() 
+        {
+            $rootScope.starttrack();
+        }, 30000);
+    }
+
     // var userauth = $window.sessionStorage["userInfo"];
     // $rootScope.authen = JSON.parse(userauth);
     // console.log($rootScope.authen.username);

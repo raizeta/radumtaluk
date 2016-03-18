@@ -2,7 +2,7 @@ myAppModule.service('PollingService', ['$http', '$rootScope', '$interval',
 function($http, $rootScope, $interval) 
 {
 
-var updatedData;
+	var updatedData;
 
     $interval(function() {
       return $http.get(apiUrl).then(function successCallback(response) {

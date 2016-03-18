@@ -29,6 +29,7 @@ myAppModule.factory('regionalService', ["$http","$q","$window",function($http, $
 
         return deferred.promise;
 	}
+	
 	var listkabupaten = function()
 	{
 		var deferred = $q.defer();

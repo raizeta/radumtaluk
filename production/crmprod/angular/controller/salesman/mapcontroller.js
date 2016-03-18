@@ -262,7 +262,7 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
         });
     }
 
-    $scope.takeapicture = function()
+    $scope.starttakeapicture = function()
     {
         document.addEventListener("deviceready", function () {
 
@@ -316,11 +316,13 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
                 .success(function(data,status, headers, config) 
                 {
                     ngToast.create('Gambar Telah Berhasil Di Update');
+                    $scope.gambarstart ="success";
                 })
 
                 .finally(function()
                 {
-                    $scope.loading = false;  
+                    $scope.loading = false;
+                      
                 });
                 
             });

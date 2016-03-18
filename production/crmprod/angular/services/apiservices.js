@@ -146,12 +146,42 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         return deferred.promise;
 	}
 
+	var alllistagenda = function(idsalesman)
+	{
+		var url = getUrl();
+		
+		var deferred = $q.defer();
+		//var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
+		var url = "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman;
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });	
+
+        return deferred.promise;
+	}
+
 	return{
 			listcustomer:listcustomer,
 			listdistributor:listdistributor,
 			listparentcustomerkategoris:listparentcustomerkategoris,
 			listchildcustomerkategoris:listchildcustomerkategoris,
 			listgroupcustomer:listgroupcustomer,
-			listagenda:listagenda
+			listagenda:listagenda,
+			alllistagenda:alllistagenda
 		}
 }]);
