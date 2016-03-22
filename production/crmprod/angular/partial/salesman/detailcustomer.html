@@ -2,7 +2,7 @@
 <div ng-include="'angular/partial/homemenu.html'"></div>
 <div class="content-wrapper">
     <section class="content">
-      <div class="row">
+<!--       <div class="row">
         <ul class="list-group">
 
           <li class="list-group-item list-group-item-heading active" >
@@ -27,6 +27,45 @@
             <img id="myImage" >
           </li>
         </ul>
+      </div> -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- The time line -->
+          <ul class="timeline">
+            <li class="time-label">
+              <span class="bg-green">
+                  Start Action
+              </span>
+            </li>
+            <li >
+              <i class="fa fa-user bg-aqua" ng-class="noticestartgambar"></i>
+              <div class="timeline-item" ng-click="starttakeapicture()" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-class="noticestart">Take Start Picture</h3>
+              </div>
+            </li>
+            <li>
+              <i class="fa fa-user bg-aqua"></i>
+              <div class="timeline-item" ng-click="scanbarcode()">
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-class="productcheck">Product Inventory</h3>
+              </div>
+            </li>
+            <li>
+              <i class="fa fa-user bg-aqua" ng-class="noticeendgambar"></i>
+              <div class="timeline-item" ng-click="endtakeapicture()">
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-class="noticeend">Take End Picture</h3>
+              </div>
+            </li>
+
+            <li>
+              <i class="fa fa-clock-o bg-gray"></i>
+            </li>
+          </ul>
+        </div>
+        <!-- /.col -->
+      </div>
     </section>
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>

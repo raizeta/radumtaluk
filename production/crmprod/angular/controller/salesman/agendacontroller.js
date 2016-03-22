@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("AgendaController", ["$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig",
-function ($scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig) 
+myAppModule.controller("AgendaController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig) 
 {
     var idsalesman = auth.id;
     var data = $.ajax
@@ -15,7 +15,6 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
     var mt = JSON.parse(myData)['JadwalKunjungan'];
 
     $scope.events = [];
-
     angular.forEach(mt, function(value, key)
     {
         var tanggal= value.TGL1;
@@ -47,10 +46,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
       }
     };
 
-
-
     $scope.eventSources = [$scope.events];
-
 
     var geocoder = new google.maps.Geocoder;
     LocationService.GetLocation().then(function(data)
@@ -67,6 +63,7 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
     apiService.listagenda(idsalesman,tanggal)
     .then(function (result) 
     {
+        // console.log(result.JadwalKunjungan);
         if(result.JadwalKunjungan)
         {
             var idgroupcustomer;
@@ -78,10 +75,118 @@ function ($scope, $location, $http, authService, auth,$window,apiService,regiona
             singleapiService.singlelistgroupcustomer(idgroupcustomer)
             .then(function (result) 
             {
-                $scope.customers = result.Customer;
+                //$scope.customers = result.Customer;
+
                 $scope.loading  = false;
+                $scope.customers = [];
+                angular.forEach(result.Customer, function(value, key) 
+                {
+                    var ab={};
+                    ab.CUST_KD          = value.CUST_KD;
+                    ab.CUST_NM          = value.CUST_NM;
+
+                    var idcustomer =value.CUST_KD;
+
+                    var datas = $.ajax
+                    ({
+                          url: "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal,
+                          type: "GET",
+                          dataType:"json",
+                          async: false
+                    }).responseText;
+
+                    var mts = JSON.parse(datas)['DetailKunjungan'];
+                    ab.ID = mts[0].ID;
+                    // singleapiService.detailkunjungan(idsalesman,idcustomer,tanggal)
+                    // .then(function (result) 
+                    // {
+                    //     //console.log(result.DetailKunjungan);  
+                    //     // angular.forEach(result.DetailKunjungan, function(value, key) 
+                    //     // {
+                    //     //     var iddetailkunjungan =value.ID;
+                    //     //     var datasatu = $.ajax
+                    //     //     ({
+                    //     //           url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + iddetailkunjungan + "&IMG_NM=gambar start",
+                    //     //           type: "GET",
+                    //     //           dataType:"json",
+                    //     //           async: false
+                    //     //     });
+
+                    //     //     if(datasatu.status == "404")
+                    //     //     {
+                    //     //         $rootScope.hasilstart = 0;
+                    //     //     }
+                    //     //     if(datasatu.status == "200")
+                    //     //     {
+                    //     //         $rootScope.hasilstart = 1;
+                    //     //     }
+
+                    //     //     var datadua = $.ajax
+                    //     //     ({
+                    //     //           url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + iddetailkunjungan + "&IMG_NM=gambar end",
+                    //     //           type: "GET",
+                    //     //           dataType:"json",
+                    //     //           async: false
+                    //     //     });
+
+                    //     //     if(datadua.status == "404")
+                    //     //     {
+                    //     //         $rootScope.hasilend = 0;
+                    //     //     }
+
+                    //     //     if(datadua.status == "200")
+                    //     //     {
+                    //     //         $rootScope.hasilend = 1;
+                    //     //     }
+
+                    //     //     $rootScope.totals = $rootScope.hasilend + $rootScope.hasilstart;
+                    //     // });  
+                    // });
+
+                    var datasatu = $.ajax
+                    ({
+                          url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar start",
+                          type: "GET",
+                          dataType:"json",
+                          async: false
+                    });
+
+                    if(datasatu.status == "404")
+                    {
+                        $rootScope.hasilstart = 0;
+                    }
+                    if(datasatu.status == "200")
+                    {
+                        $rootScope.hasilstart = 1;
+                    }
+                    // console.log($rootScope.hasilstart);
+
+
+                    var datadua = $.ajax
+                    ({
+                          url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar end",
+                          type: "GET",
+                          dataType:"json",
+                          async: false
+                    });
+
+                    if(datadua.status == "404")
+                    {
+                        $rootScope.hasilend = 0;
+                    }
+                    if(datadua.status == "200")
+                    {
+                        $rootScope.hasilend = 1;
+                    }
+                    $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart;
+                    var persen = ($rootScope.jumlahstartdanend * 100)/3;
+                    ab.persen = persen;
+                    $scope.customers.push(ab);
+                });
+                // console.log($scope.customers);
             });
         }
+
         else
         {
             $scope.loading  = false;

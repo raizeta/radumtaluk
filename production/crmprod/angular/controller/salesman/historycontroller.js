@@ -23,10 +23,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
     var myData = data;
     var mt = JSON.parse(myData)['JadwalKunjungan'];
-    var tanggal = mt[0]['TGL1'];
-    var tanggal1 = mt[1]['TGL1'];
-    console.log(mt);
-    console.log(tanggal);
+    // var tanggal = mt[0]['TGL1'];
+    // var tanggal1 = mt[1]['TGL1'];
+    // console.log(mt);
+    // console.log(tanggal);
+    
     $scope.events = [];
 
     angular.forEach(mt, function(value, key)

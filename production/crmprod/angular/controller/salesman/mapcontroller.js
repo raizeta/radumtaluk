@@ -118,12 +118,12 @@ myAppModule.controller("DetailCustomerController", ["$scope", "$location","$http
 function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter) 
 {
     $scope.loading = true;
-    var idsalesman = auth.id;
-    var idcustomer = $routeParams.idcustomer;
     $scope.zoomvalue = 17;
     var geocoder = new google.maps.Geocoder;
 
+    var idcustomer = $routeParams.idcustomer;
     var tanggal = $filter('date')(new Date(),'yyyy-MM-dd');
+    var idsalesman = auth.id;
 
     LocationService.GetLocation().then(function(data)
     {
@@ -161,7 +161,24 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
             {
                 if(result.DetailKunjungan)
                 {
+                    var iddetailkunjungan = result.DetailKunjungan;
+                    var id = iddetailkunjungan[0].ID;
 
+                    $http.get("http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + id + "&IMG_NM=gambar start",config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        console.log(data);
+                        $scope.noticestart="bg-green";
+                        $scope.noticestartgambar="fa fa-check";
+                    });
+
+                    $http.get("http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + id + "&IMG_NM=gambar end",config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        console.log(data);
+                        $scope.noticeend="bg-green";
+                        $scope.noticeendgambar="fa fa-check";
+                    });
                 }
                 else
                 {
@@ -210,42 +227,39 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
                         $scope.loading = false;  
                     });
                  
+                    // $scope.takeapicture = function()
+                    // {
+                    //     document.addEventListener("deviceready", function () {
 
-                    $scope.takeapicture = function()
-                    {
-                        document.addEventListener("deviceready", function () {
+                    //       var options = {
+                    //         quality: 100,
+                    //         destinationType: Camera.DestinationType.DATA_URL,
+                    //         sourceType: Camera.PictureSourceType.CAMERA,
+                    //         allowEdit: false,
+                    //         encodingType: Camera.EncodingType.JPEG,
+                    //         targetWidth: 100,
+                    //         targetHeight: 100,
+                    //         popoverOptions: CameraPopoverOptions,
+                    //         saveToPhotoAlbum: false,
+                    //         correctOrientation:true
+                    //       };
 
-                          var options = {
-                            quality: 100,
-                            destinationType: Camera.DestinationType.DATA_URL,
-                            sourceType: Camera.PictureSourceType.CAMERA,
-                            allowEdit: false,
-                            encodingType: Camera.EncodingType.JPEG,
-                            targetWidth: 100,
-                            targetHeight: 100,
-                            popoverOptions: CameraPopoverOptions,
-                            saveToPhotoAlbum: false,
-                            correctOrientation:true
-                          };
+                    //       $cordovaCamera.getPicture(options).then(function(imageData) 
+                    //       {
+                    //         var image = document.getElementById('myImage');
+                    //         image.src = "data:image/jpeg;base64," + imageData;
+                    //         var gambar = imageData;
+                    //       }, 
+                    //       function(err) 
+                    //       {
+                    //         // error
+                    //       });
 
-                          $cordovaCamera.getPicture(options).then(function(imageData) 
-                          {
-                            var image = document.getElementById('myImage');
-                            image.src = "data:image/jpeg;base64," + imageData;
-                            var gambar = imageData;
-                          }, 
-                          function(err) 
-                          {
-                            // error
-                          });
-
-                        }, false);
-                    }
+                    //     }, false);
+                    // }
                 }
             });
         });
-
-
     });
 
     $scope.scanbarcode = function()
@@ -316,7 +330,8 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
                 .success(function(data,status, headers, config) 
                 {
                     ngToast.create('Gambar Telah Berhasil Di Update');
-                    $scope.gambarstart ="success";
+                    //$scope.gambarstart ="success";
+                    $scope.noticestart="bg-green";
                 })
 
                 .finally(function()
@@ -335,7 +350,6 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
         }, false);
     }
 
-    
     $scope.endtakeapicture = function()
     {
         document.addEventListener("deviceready", function () {
@@ -391,6 +405,7 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
                 .success(function(data,status, headers, config) 
                 {
                     ngToast.create('Gambar Telah Berhasil Di Update');
+                    $scope.noticeend="bg-green";
                 })
 
                 .finally(function()
@@ -407,14 +422,7 @@ function ($scope, $location, $http, authService, auth,$window,$routeParams,NgMap
 
         }, false);
     }
-    
-    // $scope.logout = function () 
-    // { 
-    //     $scope.userInfo = null;
-    //     $window.sessionStorage.clear();
-    //     window.location.href = "index.html";
-    // }
-    
+
 }]);
 
 myAppModule.controller("EditCustomerPositionController", ["$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast",

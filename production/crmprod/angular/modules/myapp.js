@@ -73,7 +73,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
             $http.post("http://labtest3-api.int/master/trackers",serialized,config)
             .success(function(data,status, headers, config) 
             {
-                ngToast.create('Detail Telah Berhasil Di Update');
+                //ngToast.create('Detail Telah Berhasil Di Update');
             })
 
             .finally(function()
