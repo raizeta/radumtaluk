@@ -29,6 +29,34 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
 	});
 
+    $routeProvider.when('/setposition',
+    {
+        templateUrl : 'angular/partial/salesman/setposition.html',
+        controller  : 'SetPositionController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
     $routeProvider.when('/customer',
     {
         templateUrl : 'angular/partial/salesman/customer.html',
@@ -166,7 +194,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/detailcustomer/:idcustomer',
+    $routeProvider.when('/detailcustomer/:idcustomer/:idtanggal',
     {
         templateUrl : 'angular/partial/salesman/detailcustomer.html',
         controller  : 'DetailCustomerController',
@@ -249,10 +277,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
-    $routeProvider.when('/agenda',
+    $routeProvider.when('/agendatoday',
     {
         templateUrl : 'angular/partial/salesman/agenda.html',
-        controller  : 'AgendaController',
+        controller  : 'AgendaTodayController',
         resolve: 
         {
             auth: function ($q, authService,$location) 

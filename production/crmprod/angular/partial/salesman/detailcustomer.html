@@ -45,10 +45,42 @@
               </div>
             </li>
             <li>
-              <i class="fa fa-user bg-aqua"></i>
-              <div class="timeline-item" ng-click="scanbarcode()">
+              <i class="fa fa-user bg-aqua" ng-class="noticesellinicon"></i>
+              <div class="timeline-item" >
                 <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                <h3 class="timeline-header no-border" ng-class="productcheck">Product Inventory</h3>
+                <h3 class="timeline-header no-border" ng-click="productinventory()" ng-class="noticesellin" id="headers">
+                  Product Sell In
+                </h3>
+                <div class="timeline-body" ng-show="sellinshow">
+<!--                   <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="KD_BARANG" data-placeholder="Pick a number" style="width: 100%;" ng-model="barang.KD_BARANG" ng-required="true" ng-change="updateinventory(barang.KD_BARANG,$index)">
+                    <option ng-repeat="barang in barangsai" id="{{$index}}" value="{{barang.KD_BARANG}}">
+                      {{barang.KD_BARANG}}
+                    </option>
+                  </select> -->
+
+                    <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellin(barang.KD_BARANG,$index)">
+
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <i class="fa fa-user bg-aqua" ng-class="noticesellouticon"></i>
+              <div class="timeline-item" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-click="productinventory()" ng-class="noticesellout" id="headers">
+                  Product Sell Out
+                </h3>
+                <div class="timeline-body" ng-show="selloutshow">
+<!--                   <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="KD_BARANG" data-placeholder="Pick a number" style="width: 100%;" ng-model="barang.KD_BARANG" ng-required="true" ng-change="updateinventory(barang.KD_BARANG,$index)">
+                    <option ng-repeat="barang in barangsai" id="{{$index}}" value="{{barang.KD_BARANG}}">
+                      {{barang.KD_BARANG}}
+                    </option>
+                  </select> -->
+
+                    <img ng-repeat="barang in barangsellout" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellout(barang.KD_BARANG,$index)">
+
+                </div>
               </div>
             </li>
             <li>

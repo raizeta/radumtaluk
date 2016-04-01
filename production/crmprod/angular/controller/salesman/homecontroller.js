@@ -28,6 +28,7 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
 
     $scope.doSth = function(event,customer)
     {
+        console.log(customer);
         var idcustomer = customer.CUST_KD;
         console.log(customer);
         customer.MAP_LNG = this.getPosition().lng();
@@ -123,6 +124,94 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
     }
     $scope.userInfo = auth;
 	$scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+}]);
+
+myAppModule.controller("SetPositionController", ["$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService",
+function ($scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,singleapiService) 
+{
+
+    $scope.loading  = true;
+    $scope.zoomvalue = 17;
+    $scope.loading  = true;
+    var geocoder = new google.maps.Geocoder;
+
+    $scope.customermap = function()
+    {
+        apiService.listcustomer()
+        .then(function (result) 
+        {
+            $scope.customers = result.Customer;
+            $scope.loading  = false;  
+        });
+    };
+    $scope.customermap();
+
+    $scope.submitForm = function(customer)
+    {
+        var idcustomer = customer.CUST_KD;
+        console.log(customer);
+        LocationService.GetLocation()
+        .then(function(data)
+        {
+            $scope.lat = data.latitude;
+            $scope.long = data.longitude;
+
+            customer.MAP_LAT = $scope.lat;
+            customer.MAP_LNG = $scope.long;
+
+            $http.get("http://labtest3-api.int/master/customers/"+ idcustomer)
+            .success(function(data,status, headers, config) 
+            {
+                data.MAP_LAT = customer.MAP_LAT;
+                data.MAP_LNG = customer.MAP_LNG;
+
+                function serializeObj(obj) 
+                {
+                  var result = [];
+                  for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+                  return result.join("&");
+                }
+                var data = serializeObj(data);
+                console.log(data); 
+
+                var config = 
+                {
+                    headers : 
+                    {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                        
+                    }
+                };
+
+                $http.put("http://labtest3-api.int/master/customers/"+ idcustomer ,data,config)
+                .success(function(data,status, headers, config) 
+                {
+                    ngToast.create('Posisi Customer Berhasil Di Update');
+
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
+
+
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
+        }); 
+    }
+
+    $scope.logout = function () 
     { 
         $scope.userInfo = null;
         $window.sessionStorage.clear();

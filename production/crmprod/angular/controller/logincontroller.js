@@ -20,7 +20,7 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
                 var rulename = result.rulename;
                 if(rulename == 'SALESMAN')
                 {
-                	$location.path('/agenda');
+                	$location.path('/history');
                 }
 
                 if(rulename == 'SALES_PROMOTION')

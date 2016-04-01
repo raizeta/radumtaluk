@@ -9,10 +9,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
     
 
     var idsalesman = auth.id;
-
-
-    
-
     var data = $.ajax
     ({
           url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
@@ -23,11 +19,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
     var myData = data;
     var mt = JSON.parse(myData)['JadwalKunjungan'];
-    // var tanggal = mt[0]['TGL1'];
-    // var tanggal1 = mt[1]['TGL1'];
-    // console.log(mt);
-    // console.log(tanggal);
-    
+
     $scope.events = [];
 
     angular.forEach(mt, function(value, key)
@@ -40,24 +32,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         data.url ="#/agenda/" + tanggal;
         $scope.events.push(data);
     });
-    console.log($scope.events);
 
-    // $scope.events = 
-    // [
-    //   {
-    //     title: 'Visit Group Barat',
-    //     start: new Date(tanggal),
-    //     allDay: true,
-    //     url: '#/agenda' + idsalesman
-    //   },
-    //   {
-    //     title: 'Visit Group Barat',
-    //     start: new Date(tanggal1),
-    //     allDay: true,
-    //     url: '#/agenda' + idsalesman
-    //   }
-    // ];
-    // console.log($scope.events);
+
 
     $scope.uiConfig = 
     {
@@ -78,18 +54,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         eventRender: $scope.eventRender
       }
     };
-
-
-
-    $scope.eventSources = [$scope.events];
     
-
-    // var idsalesman = auth.id;
-    // apiService.alllistagenda(idsalesman)
-    // .then(function (result) 
-    // {
-    //     $scope.customers = result.JadwalKunjungan;
-    //     console.log($scope.customers); 
-    // });
+    $scope.eventSources = [$scope.events];
 }]);
 
