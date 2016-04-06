@@ -70,7 +70,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
                 }
             };
                 
-            $http.post("http://labtest3-api.int/master/trackers",serialized,config)
+            $http.post("http://api.lukisongroup.com/master/trackers",serialized,config)
             .success(function(data,status, headers, config) 
             {
                 //ngToast.create('Detail Telah Berhasil Di Update');
@@ -105,24 +105,52 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
     // var userauth = $window.sessionStorage["userInfo"];
     // $rootScope.authen = JSON.parse(userauth);
     // console.log($rootScope.authen.username);
+    var getUrl = function()
+    {
+        //return "http://labtest3-api.int/master";
+        return "http://api.lukisongroup.com/master";
+    }
+
+    var gettoken = function()
+    {
+        return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+    }
+    
+    $rootScope.linkurl = getUrl();
 
 }]);
 
-myAppModule.config(['ngToastProvider', function(ngToastProvider) 
+myAppModule.config(['$locationProvider','ngToastProvider','$mdThemingProvider', function($locationProvider, ngToastProvider,$mdThemingProvider) 
 {
-      ngToastProvider.configure(
-      {
-            animation: 'slide', // or 'fade',
-            className: 'success',
-            dismissButton: true,
-            dismissButtonHtml:'&times;',
-            compileContent: true,
-            timeout:1000,
-            horizontalPosition:'right',     //left, center
-            verticalPosition:   'bottom',  //top,center
-            maxNumber: 3 // 0 for unlimited
-      });
+    $mdThemingProvider.theme('altTheme')
+    .primaryPalette('pink', {
+      'default': '400', // by default use shade 400 from the pink palette for primary intentions
+      'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+      'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+      'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+    })
+    // If you specify less than all of the keys, it will inherit from the
+    // default shades
+    .accentPalette('purple', {
+      'default': '200' // use shade 200 for default, and keep all other shades the same
+    });
+
+
+    $locationProvider.html5Mode(false);
       
+    ngToastProvider.configure(
+    {
+        animation: 'slide', // or 'fade',
+        className: 'success',
+        dismissButton: true,
+        dismissButtonHtml:'&times;',
+        compileContent: true,
+        timeout:1000,
+        horizontalPosition:'right',     //left, center
+        verticalPosition:   'bottom',  //top,center
+        maxNumber: 3 // 0 for unlimited
+    });
+
 }]);
 
 

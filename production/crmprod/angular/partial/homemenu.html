@@ -31,19 +31,19 @@
         </a>
       </li>
 
-<!--       <li ng-if="(userInfo.role =='manager')">
-        <a href="#/setposition">
-          <i class="fa fa-th"></i> SET POSITION<span></span>
-          <small class="label pull-right bg-green">new</small>
-        </a>
-      </li> -->
-
-      <li class="active">
+      <li class="active" ng-if="(userInfo.accessid == 1)">
         <a href="#/setposition">
           <i class="fa fa-th"></i> SET POSITION<span></span>
           <small class="label pull-right bg-green">new</small>
         </a>
       </li>
+
+<!--       <li class="active">
+        <a href="#/setposition">
+          <i class="fa fa-th"></i> SET POSITION<span></span>
+          <small class="label pull-right bg-green">new</small>
+        </a>
+      </li> -->
 
       <li class="active">
         <a href="#/agendatoday">

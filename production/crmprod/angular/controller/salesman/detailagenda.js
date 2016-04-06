@@ -1,12 +1,19 @@
 myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","$routeParams",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,$routeParams) 
 {
+    var url = $rootScope.linkurl;
+
+    var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
+    var tanggalplan     = $routeParams.idtanggal;
+    
     var idtanggal = $routeParams.idtanggal;
+
     $scope.viewtanggal = idtanggal;
     var idsalesman = auth.id;
     var data = $.ajax
     ({
-          url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          //url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          url: url + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
           type: "GET",
           dataType:"json",
           async: false
@@ -98,12 +105,14 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
                     ab.MAP_LAT          = value.MAP_LAT;
                     ab.MAP_LNG          = value.MAP_LNG;
                     ab.TANGGAL          = idtanggal;
+                    ab.ALAMAT           = value.ALAMAT;
 
                     var idcustomer      =value.CUST_KD;
 
                     var datas = $.ajax
                     ({
-                          url: "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + idtanggal,
+                          //url: "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + idtanggal,
+                          url: url + "/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + idtanggal,
                           type: "GET",
                           dataType:"json",
                           async: false
@@ -117,7 +126,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
          
                         var datasatu = $.ajax
                         ({
-                              url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar start",
+                              //url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar start",
+                              url: url + "/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM_START=gambar start",
                               type: "GET",
                               dataType:"json",
                               async: false
@@ -134,7 +144,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
                         var datadua = $.ajax
                         ({
-                              url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar end",
+                              //url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar end",
+                              url: url + "/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM_END=gambar end",
                               type: "GET",
                               dataType:"json",
                               async: false
@@ -149,84 +160,126 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
                             $rootScope.hasilend = 1;
                         }
 
-                        var tanggalinventory = $filter('date')(new Date(),'yyyy-MM-dd');
-                        var datainventory = $.ajax
-                        ({
-                              url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
-                              type: "GET",
-                              dataType:"json",
-                              async: false
-                        }).responseText;
+                        // var tanggalinventory = $filter('date')(new Date(),'yyyy-MM-dd');
+                        // var datainventory = $.ajax
+                        // ({
+                        //       //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
+                        //       url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan,
+                        //       type: "GET",
+                        //       dataType:"json",
+                        //       async: false
+                        // }).responseText;
 
-                        var Inventory = JSON.parse(datainventory)['ProductInventory'];
+                        // var Inventory = JSON.parse(datainventory)['ProductInventory'];
 
-                        $scope.inventory = [];
-                        angular.forEach(Inventory, function(value, key)
-                        {
+                        // $scope.inventory = [];
+                        // angular.forEach(Inventory, function(value, key)
+                        // {
                             
-                            KD_BARANG = value.KD_BARANG;
-                            $scope.inventory.push(KD_BARANG);
+                        //     KD_BARANG = value.KD_BARANG;
+                        //     $scope.inventory.push(KD_BARANG);
 
-                        });
+                        // });
 
-                        var dataproduct = $.ajax
+                        // var dataproduct = $.ajax
+                        // ({
+                        //       //url: "http://labtest3-api.int/master/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
+                        //       url: url + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
+                        //       type: "GET",
+                        //       dataType:"json",
+                        //       async: false
+                        // }).responseText;
+
+                        // var Product = JSON.parse(dataproduct)['BarangPenjualan'];
+
+                        // $scope.Barang = [];
+                        // angular.forEach(Product, function(value, key)
+                        // {
+                        //     // var data ={};
+                        //     var KD_BARANG = value.KD_BARANG;
+                        //     $scope.Barang.push(KD_BARANG);
+
+                        // });
+                        // //console.log($scope.Barang);
+
+                        // $scope.user3 = _.difference($scope.Barang,$scope.inventory);
+                        // //console.log("User Tiga " + $scope.user3);
+
+                        // var resultdiff = [];
+
+                        // angular.forEach($scope.Barang, function(key) 
+                        // {
+                        //   if (-1 === $scope.inventory.indexOf(key)) 
+                        //   {
+                        //     resultdiff.push(key);
+                        //   }
+                        // });
+                        // //console.log($scope.Barang);
+                        // //console.log($scope.inventory);
+                        // //console.log(resultdiff);
+
+                        // var barangsai=[];
+                        // for(var i =0; i < resultdiff.length; i++)
+                        // {
+                        //     var data = {}
+                        //     data.KD_BARANG = resultdiff[i];
+                        //     barangsai.push(data);
+                        // }
+
+                        // $rootScope.barangsai = barangsai;
+
+                        // if($rootScope.barangsai.length == 0)
+                        // {
+                        //     $rootScope.hasilinventory = 1;
+                        // }
+                        // else
+                        // {
+                        //     $rootScope.hasilinventory = 0;
+                        // }
+
+                        var datainventorysellin = $.ajax
                         ({
-                              url: "http://labtest3-api.int/master/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
+                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
+                              url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan + "&SO_TYPE=6",
                               type: "GET",
                               dataType:"json",
                               async: false
-                        }).responseText;
-
-                        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
-
-                        $scope.Barang = [];
-                        angular.forEach(Product, function(value, key)
-                        {
-                            // var data ={};
-                            var KD_BARANG = value.KD_BARANG;
-                            $scope.Barang.push(KD_BARANG);
-
                         });
-                        //console.log($scope.Barang);
 
-                        $scope.user3 = _.difference($scope.Barang,$scope.inventory);
-                        //console.log("User Tiga " + $scope.user3);
-
-                        var resultdiff = [];
-
-                        angular.forEach($scope.Barang, function(key) 
+                        if(datainventorysellin.status == "404")
                         {
-                          if (-1 === $scope.inventory.indexOf(key)) 
-                          {
-                            resultdiff.push(key);
-                          }
+                            $rootScope.hasilinventorysellin = 0;
+                        }
+                        if(datainventorysellin.status == "200")
+                        {
+                            $rootScope.hasilinventorysellin = 1;
+                        }
+
+                        var datainventorystock = $.ajax
+                        ({
+                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
+                              url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan + "&SO_TYPE=5",
+                              type: "GET",
+                              dataType:"json",
+                              async: false
                         });
-                        //console.log($scope.Barang);
-                        //console.log($scope.inventory);
-                        //console.log(resultdiff);
-
-                        var barangsai=[];
-                        for(var i =0; i < resultdiff.length; i++)
+                        
+                        if(datainventorystock.status == "404")
                         {
-                            var data = {}
-                            data.KD_BARANG = resultdiff[i];
-                            barangsai.push(data);
+                            $rootScope.datainventorystock = 0;
+                        }
+                        if(datainventorystock.status == "200")
+                        {
+                            $rootScope.datainventorystock = 1;
                         }
 
-                        $rootScope.barangsai = barangsai;
-
-                        if($rootScope.barangsai.length == 0)
-                        {
-                            $rootScope.hasilinventory = 1;
-                        }
-                        else
-                        {
-                            $rootScope.hasilinventory = 0;
-                        }
-
-                        $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart + $rootScope.hasilinventory;
-                        var persen = ($rootScope.jumlahstartdanend * 100)/3;
+                        $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart + $rootScope.hasilinventorysellin + $rootScope.datainventorystock;
+                        var persen = ($rootScope.jumlahstartdanend * 100)/4;
                         ab.persen = persen;
+                        if(persen == 100)
+                        {
+                            ab.wanted = true;
+                        }
     
 
                     }

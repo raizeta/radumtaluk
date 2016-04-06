@@ -4,7 +4,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var getUrl = function()
 	{
-		return "http://labtest3-api.int/master";
+		//return "http://labtest3-api.int/master";
+		return "http://api.lukisongroup.com/master";
 	}
 
 	var gettoken = function()
@@ -38,7 +39,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	{
 		var url = getUrl();
 		var deferred = $q.defer();
-		var url = url + "/groupcusts";
+		var url = "http://api.lukison.int/master/customergroups";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -124,7 +125,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		
 		var deferred = $q.defer();
 		//var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
-		var url = "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
+		var url = url + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
@@ -153,7 +154,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		
 		var deferred = $q.defer();
 		//var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
-		var url = "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman;
+		var url = url + "/jadwalkunjungans/search?USER_ID="+ idsalesman;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 

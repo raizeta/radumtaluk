@@ -6,7 +6,8 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet",function($htt
 	var userInfo;
     var geturl = function()
     {
-        return "http://labtest3-api.int/";
+        //return "http://labtest3-api.int/";
+        return "http://api.lukisongroup.com/";
     }
 
     var gettoken = function()
@@ -38,6 +39,8 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet",function($htt
 			{
 				var statuslogin = response.passwordvalidation.login;
 				var rulename	= response.passwordvalidation.rule_nm;
+                var accessid    = response.passwordvalidation.accessid;
+                console.log(accessid );
 				if(statuslogin == 'true')
 					{
 						userInfo = 
@@ -46,7 +49,7 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet",function($htt
                     		username: rusername,
                     		rulename:rulename,
                             id:rid,
-                            role:"salesman"
+                            accessid:accessid
                 		};
                 		$window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
                 		deferred.resolve(userInfo);

@@ -1,0 +1,57 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/erp/masterbarang/menukiri.html'"></div>
+<div class="content-wrapper">
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-danger" style="margin:12px;box-shadow:0 3px 25px black;">
+        <div class="panel-heading">List Distributor</div>
+        <div class="panel-body">
+            <a class="btn btn-warning" href="#/erp/masterbarang/new/distributor">
+                <i class="fa fa-plus"></i> Add Distributor 
+            </a>
+        </div>
+        <div class="panel-body table-responsive">
+           <table class="table table-hover table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <!-- <th>KD UNIT</th> -->
+                <th>NM UNIT</th>
+                <th>QUANTITY</th>
+                <th>WEIGHT</th>
+                <th>COLOR</th>
+                <th>NOTE</th>
+                <th>STATUS</th>
+                <th>DETAIL</th>
+                <th>EDIT</th>
+                <th>DELETE</th>
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="distributor in distributors">
+                <td>{{distributor.ID}}</td>
+                <!-- <td>{{unitbarang.KD_UNIT}}</td> -->
+                <td>{{distributor.KD_DISTRIBUTOR}}</td>
+                <td>{{distributor.NM_DISTRIBUTOR}}</td>
+                <td>{{distributor.ALAMAT}}</td>
+                <td>{{distributor.PIC}}</td>
+                <td>{{distributor.TLP1}}</td>
+                <td>{{distributor.TLP2}}</td>
+                <td>{{distributor.EMAIL}}</td>
+                <td>{{distributor.WEBSITE}}</td>
+                <td>{{distributor.NOTE}}</td>
+                <td ng-if='distributor.STATUS === 1' >AKTIF </td>
+                <td ng-if='distributor.STATUS === 0' >TIDAK AKTIF </td>
+              </tr>
+            </tbody>
+           </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section><!-- /.content -->
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>
+

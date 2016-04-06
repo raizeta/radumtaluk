@@ -2,6 +2,15 @@
 myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig) 
 {
+    $scope.userInfo = auth;
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+    var url = $rootScope.linkurl;
+
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
@@ -11,7 +20,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
     var idsalesman = auth.id;
     var data = $.ajax
     ({
-          url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          url: url + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
           type: "GET",
           dataType:"json",
           async: false

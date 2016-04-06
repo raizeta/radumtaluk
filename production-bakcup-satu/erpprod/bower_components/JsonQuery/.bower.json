@@ -1,0 +1,14 @@
+{
+  "name": "JsonQuery",
+  "homepage": "https://github.com/jiren/JsonQuery",
+  "_release": "10f46082b8",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "10f46082b81bf520d1c33c48f3ca9ec5d4fd9806"
+  },
+  "_source": "https://github.com/jiren/JsonQuery.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/jiren/JsonQuery.git",
+  "_direct": true
+}

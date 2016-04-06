@@ -1,0 +1,59 @@
+﻿
+<ion-view view-title="Motion Lists">
+    <ion-content>
+        <div class="bar bar-subheader bar-stable static text-center">
+            <strong class="title">SALESMAN AGENDA TODAY</strong>
+        </div>
+        <!-- <div class="im-wrapper">
+            <h4 class="no-border no-padding-bottom">List Motions</h4>
+            <strong>Tap an item</strong>
+        </div> -->
+<!--         <ion-list class="animate-ripple">
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="blinds();">
+                <img src="img/material4.jpg">
+                <h2>.animate-blinds</h2>
+                <p>ionicMaterialMotion.blinds();</p>
+                <i class="icon ion-arrow-right-a muted"></i>
+            </ion-item>
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="ripple();">
+                <img src="img/material2.jpg">
+                <h2>.animate-ripple</h2>
+                <p>ionicMaterialMotion.ripple();</p>
+                <i class="icon ion-arrow-right-a muted"></i>
+            </ion-item>
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="fadeSlideIn();">
+                <img src="img/material3.jpg">
+                <h2>.animate-fade-slide-in</h2>
+                <p>ionicMaterialMotion.fadeSlideIn();</p>
+                <i class="icon ion-arrow-right-a muted"></i>
+            </ion-item>
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-click="fadeSlideInRight();">
+                <img src="img/material1.jpg">
+                <h2>.animate-fade-slide-in-right</h2>
+                <p>ionicMaterialMotion.fadeSlideInRight();</p>
+                <i class="icon ion-arrow-right-a muted"></i>
+            </ion-item>
+        </ion-list> -->
+        <ion-list class="animate-ripple">
+            <ion-item nav-clear menu-close class="item-icon-right item-avatar" ng-repeat="customer in customers" ng-click="blinds()">
+                <img src="img/material1.jpg">
+                <h2>{{customer.CUST_NM}}</h2>
+                <i class="icon ion-arrow-right-a muted"></i>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+    <ion-footer-bar>
+        <div class="bar-assertive tabs">
+          <a class="active tab-item">
+            Home
+          </a>
+          <a class="tab-item">
+            Favorites
+          </a>
+          <a class="tab-item">
+            Settings
+          </a>
+        </div>
+    </ion-footer-bar>
+</ion-view>

@@ -1,0 +1,80 @@
+{
+	"Customers":
+	[
+		{
+			"id":1,
+			"namaparent":"Modern",
+			"child":
+				[
+					{
+						"id":1,
+						"nama":"Modern Supermarket",
+						"child":
+							[
+								{
+									"id":1,
+									"nama":"Supermarket Modern Satu"
+								},
+								{
+									"id":2,
+									"nama":"Supermarket Modern Dua"
+								}
+							]
+					},
+					{
+						"id":2,
+						"nama":"Modern Giantmarket",
+						"child":
+							[
+								{
+									"id":1,
+									"nama":"Giantmarket Satu"
+								},
+								{
+									"id":2,
+									"nama":"Giantmarket Dua"
+								}
+							]
+					}
+				]
+		},
+		{
+			"id":2,
+			"namaparent":"General Market",
+			"child":
+				[
+					{
+						"id":1,
+						"nama":"General Minimarket",
+						"child":
+							[
+								{
+									"id":1,
+									"nama":"Minimarket Satu"
+								},
+								{
+									"id":2,
+									"nama":"Minimarket Dua"
+								}
+							]
+					},
+					{
+						"id":2,
+						"nama":"General Pasar",
+						"child":
+							[
+								{
+									"id":1,
+									"nama":"Pasar Satu"
+								},
+								{
+									"id":2,
+									"nama":"Pasar Dua"
+								}
+							]
+					}
+				]
+		}
+
+	]
+}

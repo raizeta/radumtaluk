@@ -2,10 +2,14 @@
 myAppModule.controller("AgendaTodayController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig) 
 {
+    $scope.userInfo = auth;
+    var url = $rootScope.linkurl;
+    
     var idsalesman = auth.id;
     var data = $.ajax
     ({
-          url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          //url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
+          url: url + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
           type: "GET",
           dataType:"json",
           async: false
@@ -91,7 +95,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
                     var datas = $.ajax
                     ({
-                          url: "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal,
+                          //url: "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal,
+                          url: url + "/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal,
                           type: "GET",
                           dataType:"json",
                           async: false
@@ -103,7 +108,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
                         ab.ID = mts[0].ID;
                         var datasatu = $.ajax
                         ({
-                              url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar start",
+                              //url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar start",
+                              url: url + "/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM_START=gambar start",
                               type: "GET",
                               dataType:"json",
                               async: false
@@ -120,7 +126,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
                         var datadua = $.ajax
                         ({
-                              url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar end",
+                              //url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar end",
+                              url: url + "/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM_END=gambar end",
                               type: "GET",
                               dataType:"json",
                               async: false
@@ -134,8 +141,45 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
                         {
                             $rootScope.hasilend = 1;
                         }
-                        $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart;
-                        var persen = ($rootScope.jumlahstartdanend * 100)/3;
+
+                        var datainventorysellin = $.ajax
+                        ({
+                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
+                              url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggal + "&SO_TYPE=6",
+                              type: "GET",
+                              dataType:"json",
+                              async: false
+                        });
+
+                        if(datainventorysellin.status == "404")
+                        {
+                            $rootScope.hasilinventorysellin = 0;
+                        }
+                        if(datainventorysellin.status == "200")
+                        {
+                            $rootScope.hasilinventorysellin = 1;
+                        }
+
+                        var datainventorystock = $.ajax
+                        ({
+                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
+                              url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggal + "&SO_TYPE=5",
+                              type: "GET",
+                              dataType:"json",
+                              async: false
+                        });
+                        
+                        if(datainventorystock.status == "404")
+                        {
+                            $rootScope.datainventorystock = 0;
+                        }
+                        if(datainventorystock.status == "200")
+                        {
+                            $rootScope.datainventorystock = 1;
+                        }
+
+                        $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart + $rootScope.hasilinventorysellin + $rootScope.datainventorystock ;
+                        var persen = ($rootScope.jumlahstartdanend * 100)/4;
                         ab.persen = persen;
                     }
                     else
@@ -166,7 +210,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
             {
                 if (isConfirm) 
                 {
-                    window.location.href = "index.html";
+                    $location.path('/history');
+                    $scope.$apply();
                 }
             });
         }

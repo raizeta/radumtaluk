@@ -1,0 +1,23 @@
+﻿
+<ion-view view-title="Ionic Extensions">
+    <ion-content class="im-wrapper">
+        Ionic extensions get materialized, with no additional code needed. View <a href="http://ionicframework.com/docs/api/" class="link" target="_blank">Ionic's Extensions API</a> for implementation details.<br /><br />
+        <button class="button button-full" ng-click="loading()">Loading</button>
+        <button class="button button-full" ng-click="showPopup()">Pop-Up</button>
+        <button class="button button-full" ng-click="actionSheet()">Action Sheet</button>
+        <button class="button button-full" ng-click="openModal()">Modal</button>
+        <button class="button button-full" ng-click="popover()">Popover</button>
+        <script id="my-modal.html" type="text/ng-template">
+            <ion-modal-view>
+                <ion-header-bar>
+                    <h1 class="title">My Modal Title</h1>
+                </ion-header-bar>
+                <ion-content class="padding">
+                    My Modal Contents
+                    <button class="button button-full" ng-click="closeModal()">Close Modal</button>
+                </ion-content>
+
+            </ion-modal-view>
+        </script>
+    </ion-content>
+</ion-view>
