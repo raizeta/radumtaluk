@@ -15,7 +15,7 @@
                     <md-list-item class="noright" ng-repeat="customer in customers | orderBy: 'JARAK' " ng-click="goToPerson(person.name, $event)">
                         <img ng-src="asset/admin/dist/img/user2-160x160.jpg" class="md-avatar" />
                         <p>
-                          <a href="#/detailjadwalkunjungan/{{customer.ID}}">
+                          <a href="#/detailcustomer/{{customer.ID}}/{{customer.TANGGAL}}">
                             {{customer.CUST_NM}}  ( {{customer.JARAK}} meter)
                           </a>
                           <md-progress-linear md-mode="determinate"  value="{{customer.persen}}"></md-progress-linear>

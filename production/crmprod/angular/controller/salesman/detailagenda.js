@@ -1,3 +1,5 @@
+//http://localhost/radumta_folder/production/crmprod/#/agenda/2016-04-08
+//angular/partial/salesman/agenda.html
 myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","$routeParams",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,$routeParams) 
 {
@@ -10,56 +12,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
     $scope.viewtanggal = idtanggal;
     var idsalesman = auth.id;
-    var data = $.ajax
-    ({
-          //url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
-          url: url + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
-          type: "GET",
-          dataType:"json",
-          async: false
-    }).responseText;
-
-    var myData = data;
-    var mt = JSON.parse(myData)['JadwalKunjungan'];
-
-    $scope.events = [];
-
-    angular.forEach(mt, function(value, key)
-    {
-        var tanggal= value.TGL1;
-        console.log(tanggal);
-        var data ={};
-        data.title = 'Visit Group Barat';
-        data.start = new Date(tanggal);
-        data.allDay =true;
-        data.url ="#/agenda/" + tanggal;
-        $scope.events.push(data);
-    });
-
-    $scope.uiConfig = 
-    {
-      calendar:
-      {
-        height: 450,
-        editable: true,
-        header:
-        {
-          left: 'title',
-          center: '',
-          right: 'today prev,next'
-        },
-
-        eventClick: $scope.alertOnEventClick,
-        eventDrop: $scope.alertOnDrop,
-        eventResize: $scope.alertOnResize,
-        eventRender: $scope.eventRender
-      }
-    };
-
-
-
-    $scope.eventSources = [$scope.events];
-
 
     var geocoder = new google.maps.Geocoder;
     LocationService.GetLocation().then(function(data)
@@ -68,11 +20,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         $scope.long = data.longitude;
     });
     
-    //var tanggals = new Date();
     var idtanggal = idtanggal;
     $scope.loading  = true;
     var idsalesman = auth.id;
-    // var tanggal = "2016-02-02";
+
     apiService.listagenda(idsalesman,idtanggal)
     .then(function (result) 
     {
@@ -84,46 +35,46 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
               idgroupcustomer =value.SCDL_GROUP;
             });
 
-            // singleapiService.singlelistgroupcustomer(idgroupcustomer)
-            // .then(function (result) 
-            // {
-            //     $scope.customers = result.Customer;
-            //     $scope.loading  = false;
-            // });
-            singleapiService.singlelistgroupcustomer(idgroupcustomer)
-            .then(function (result) 
+            LocationService.GetLocation().then(function(data)
             {
-                //$scope.customers = result.Customer;
+                $scope.currentlat = data.latitude;
+                $scope.currentlong = data.longitude;
 
-                $scope.loading  = false;
-                $scope.customers = [];
-                angular.forEach(result.Customer, function(value, key) 
+                singleapiService.singledetailkunjungan(idsalesman,idgroupcustomer,idtanggal)
+                .then(function (result) 
                 {
-                    var ab={};
-                    ab.CUST_KD          = value.CUST_KD;
-                    ab.CUST_NM          = value.CUST_NM;
-                    ab.MAP_LAT          = value.MAP_LAT;
-                    ab.MAP_LNG          = value.MAP_LNG;
-                    ab.TANGGAL          = idtanggal;
-                    ab.ALAMAT           = value.ALAMAT;
 
-                    var idcustomer      =value.CUST_KD;
-
-                    var datas = $.ajax
-                    ({
-                          //url: "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + idtanggal,
-                          url: url + "/detailkunjungans/search?USER_ID="+ idsalesman + "&CUST_ID=" + idcustomer +"&TGL=" + idtanggal,
-                          type: "GET",
-                          dataType:"json",
-                          async: false
-                    }).responseText;
-
-                    var mts = JSON.parse(datas)['DetailKunjungan'];
-                    if(mts)
+                    $scope.loading  = false;
+                    $scope.customers = [];
+                    angular.forEach(result.DetailKunjungan, function(value, key) 
                     {
-                        var mts = JSON.parse(datas)['DetailKunjungan'];
-                        ab.ID = mts[0].ID;
-         
+                        var ab={};
+                        ab.ID               = value.ID;
+                        ab.CUST_ID          = value.CUST_ID;
+                        ab.CUST_NM          = value.CUST_NM;
+                        ab.MAP_LAT          = value.MAP_LAT;
+                        ab.MAP_LNG          = value.MAP_LNG;
+                        ab.TANGGAL          = idtanggal;
+                        //ab.ALAMAT           = value.ALAMAT;
+
+                        var idcustomer      =value.CUST_ID;
+                        var longitude1     = $scope.currentlat;
+                        
+                        var latitude1      = $scope.currentlong;
+
+                        var longitude2     = value.MAP_LAT;
+                        var latitude2      = value.MAP_LNG;
+
+                        var thetalong      = (longitude1 - longitude2)*(Math.PI / 180); 
+                        var thetalat       = (latitude1 - latitude2)*(Math.PI / 180);
+
+                        var a = 0.5 - Math.cos(thetalat)/2 + Math.cos(latitude1 * Math.PI / 180) * Math.cos(latitude2 * Math.PI / 180) * (1 - Math.cos(thetalong))/2;
+                        var jarak = 12742 * Math.asin(Math.sqrt(a));
+
+                        $scope.roundjarak = $filter('setDecimal')(jarak,2);
+ 
+                        ab.JARAK = $scope.roundjarak  * 1000;
+
                         var datasatu = $.ajax
                         ({
                               //url: "http://labtest3-api.int/master/gambarkunjungans/search?ID_DETAIL=" + ab.ID + "&IMG_NM=gambar start",
@@ -160,87 +111,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
                             $rootScope.hasilend = 1;
                         }
 
-                        // var tanggalinventory = $filter('date')(new Date(),'yyyy-MM-dd');
-                        // var datainventory = $.ajax
-                        // ({
-                        //       //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
-                        //       url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan,
-                        //       type: "GET",
-                        //       dataType:"json",
-                        //       async: false
-                        // }).responseText;
-
-                        // var Inventory = JSON.parse(datainventory)['ProductInventory'];
-
-                        // $scope.inventory = [];
-                        // angular.forEach(Inventory, function(value, key)
-                        // {
-                            
-                        //     KD_BARANG = value.KD_BARANG;
-                        //     $scope.inventory.push(KD_BARANG);
-
-                        // });
-
-                        // var dataproduct = $.ajax
-                        // ({
-                        //       //url: "http://labtest3-api.int/master/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
-                        //       url: url + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
-                        //       type: "GET",
-                        //       dataType:"json",
-                        //       async: false
-                        // }).responseText;
-
-                        // var Product = JSON.parse(dataproduct)['BarangPenjualan'];
-
-                        // $scope.Barang = [];
-                        // angular.forEach(Product, function(value, key)
-                        // {
-                        //     // var data ={};
-                        //     var KD_BARANG = value.KD_BARANG;
-                        //     $scope.Barang.push(KD_BARANG);
-
-                        // });
-                        // //console.log($scope.Barang);
-
-                        // $scope.user3 = _.difference($scope.Barang,$scope.inventory);
-                        // //console.log("User Tiga " + $scope.user3);
-
-                        // var resultdiff = [];
-
-                        // angular.forEach($scope.Barang, function(key) 
-                        // {
-                        //   if (-1 === $scope.inventory.indexOf(key)) 
-                        //   {
-                        //     resultdiff.push(key);
-                        //   }
-                        // });
-                        // //console.log($scope.Barang);
-                        // //console.log($scope.inventory);
-                        // //console.log(resultdiff);
-
-                        // var barangsai=[];
-                        // for(var i =0; i < resultdiff.length; i++)
-                        // {
-                        //     var data = {}
-                        //     data.KD_BARANG = resultdiff[i];
-                        //     barangsai.push(data);
-                        // }
-
-                        // $rootScope.barangsai = barangsai;
-
-                        // if($rootScope.barangsai.length == 0)
-                        // {
-                        //     $rootScope.hasilinventory = 1;
-                        // }
-                        // else
-                        // {
-                        //     $rootScope.hasilinventory = 0;
-                        // }
 
                         var datainventorysellin = $.ajax
                         ({
-                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
-                              url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan + "&SO_TYPE=6",
+                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_ID=" + idcustomer + "&TGL=" + tanggalinventory,
+                              url: url + "/productinventories/search?CUST_KD=" + ab.CUST_ID  + "&TGL=" + tanggalplan + "&SO_TYPE=6",
                               type: "GET",
                               dataType:"json",
                               async: false
@@ -257,8 +132,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
                         var datainventorystock = $.ajax
                         ({
-                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalinventory,
-                              url: url + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan + "&SO_TYPE=5",
+                              //url: "http://labtest3-api.int/master/productinventories/search?CUST_ID=" + idcustomer + "&TGL=" + tanggalinventory,
+                              url: url + "/productinventories/search?CUST_KD=" + ab.CUST_ID  + "&TGL=" + tanggalplan + "&SO_TYPE=5",
                               type: "GET",
                               dataType:"json",
                               async: false
@@ -280,17 +155,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
                         {
                             ab.wanted = true;
                         }
-    
 
-                    }
-                    else
-                    {
-                        ab.persen = 0;
-                    }
+                        $scope.customers.push(ab);
+                    });
 
-                    $scope.customers.push(ab);
                 });
-                // console.log($scope.customers);
             });
 
         }
@@ -317,6 +186,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         }
     });
 
+
     $scope.userInfo = auth;
     $scope.logout = function () 
     { 
@@ -325,3 +195,4 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         window.location.href = "index.html";
     }
 }]);
+

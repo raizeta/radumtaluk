@@ -248,6 +248,66 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
         return deferred.promise;
 	}
 
+	var singledetailkunjungan = function(iduser,idgroup,tanggal)
+	{
+		var url = geturl();
+		var deferred = $q.defer();
+		//var url = "http://api.lukison.int/master/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
+		//var url = "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
+		var url = "http://api.lukisongroup.com/master/detailkunjungans/search?USER_ID="+ iduser + "&SCDL_GROUP=" + idgroup +"&TGL=" + tanggal;
+		
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+
+        return deferred.promise;
+	}
+
+	var singledetailkunjunganbyiddetail = function(iddetail)
+	{
+		var url = geturl();
+		var deferred = $q.defer();
+		//var url = "http://api.lukison.int/master/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
+		//var url = "http://labtest3-api.int/master/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
+		var url = "http://api.lukisongroup.com/master/detailkunjunganbyiddetails/search?ID=" + iddetail;
+		
+		var method ="GET";
+		$http({method:method, url:url})
+        .success(function(response) 
+        {
+		  deferred.resolve(response);
+        })
+
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+
+        return deferred.promise;
+	}
+
 	return{
 			singlelistbarangumum:singlelistbarangumum,
 			singlelistkategori:singlelistkategori,
@@ -258,6 +318,8 @@ myAppModule.factory('singleapiService', ["$http","$q","$window",function($http, 
 			singlelistgroupcustomer:singlelistgroupcustomer,
 			detailkunjungan:detailkunjungan,
 			historikunjungan:historikunjungan,
-			gambarkujungan:gambarkujungan
+			gambarkujungan:gambarkujungan,
+			singledetailkunjungan:singledetailkunjungan,
+			singledetailkunjunganbyiddetail:singledetailkunjunganbyiddetail
 		}
 }]);

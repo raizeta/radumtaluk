@@ -137,10 +137,10 @@
             <md-tab id="tab2">
               <md-tab-label>MAP {{customer.CUST_KD}}</md-tab-label>
               <md-tab-body>
-                  <ng-map zoom="17" center="{{lat}},{{long}}" style="display:block; width:100%; height:400px">
-                      <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
+                  <ng-map zoom="17" center="{{googlemaplat}},{{googlemaplong}}" style="display:block; width:100%; height:400px">
+                      <marker position="{{googlemaplat}},{{googlemaplong}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
-                      <marker position="{{customerlong}}, {{customerlat}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>
+                      <marker position="{{detailcustomers.MAP_LAT}}, {{detailcustomers.MAP_LNG}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>
 
                       <shape name="circle"
                           stroke-color="#FF0000"
@@ -148,7 +148,7 @@
                           stroke-weight="2"
                           fill-color="#FF0000"
                           fill-opacity="0.35"
-                          center="{{customerlong}}, {{customerlat}}"
+                          center="{{detailcustomers.MAP_LAT}}, {{detailcustomers.MAP_LNG}}"
                           radius="100">
                       </shape>
                   </ng-map>
