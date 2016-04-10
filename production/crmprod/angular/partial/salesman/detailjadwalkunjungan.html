@@ -26,14 +26,14 @@
                               <i class="fa fa-user bg-aqua" ng-class="noticestartgambar"></i>
                               <div class="timeline-item" ng-click="starttakeapicture()" >
                                 <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                                <h3 class="timeline-header no-border" ng-class="noticestart">Take Start Picture</h3>
+                                <h3 class="timeline-header no-border bg-aqua" ng-class="noticestart">Take Start Picture</h3>
                               </div>
                             </li>
                             <li>
-                              <i class="fa fa-user bg-aqua" ng-class="noticestockqtyicon"></i>
+                              <i ng-class="statusbarangstockqty.icon"></i>
                               <div class="timeline-item" >
-                                <div class="box box-primary">
-                                    <div class="box-header with-border" ng-class="noticestockqty">
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangstockqty.bgcolor">
                                       <h3 class="box-title">Stock Quantity</h3>
 
                                       <div class="box-tools pull-right">
@@ -43,19 +43,18 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
-                                      <div class="timeline-body" ng-show="stockqtyshow">
+                                      <div class="timeline-body" ng-show="statusbarangstockqty.show">
                                           <img ng-repeat="barang in barangstockqty" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatestockqty(barang.KD_BARANG,$index)">
                                       </div>
                                     </div>
                                 </div>
                               </div>
                             </li>
-
                             <li>
-                              <i class="fa fa-user bg-aqua" ng-class="noticesellouticon"></i>
+                              <i ng-class="statusbarangsellout.icon"></i>
                               <div class="timeline-item" >
-                                <div class="box box-primary">
-                                    <div class="box-header with-border" ng-class="noticesellout">
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangsellout.bgcolor">
                                       <h3 class="box-title">Product Sell Out</h3>
 
                                       <div class="box-tools pull-right">
@@ -65,7 +64,7 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
-                                      <div class="timeline-body" ng-show="selloutshow">
+                                      <div class="timeline-body" ng-show="statusbarangsellout.show">
                                           <img ng-repeat="barang in barangsellout" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellout(barang.KD_BARANG,$index)">
                                       </div>
                                     </div>
@@ -73,18 +72,10 @@
                               </div>
                             </li>
                             <li>
-                              <i class="fa fa-user bg-aqua" ng-class="noticesellinicon"></i>
+                              <i ng-class="statusbarangsellin.icon"></i>
                               <div class="timeline-item" >
-<!--                                 <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                                <h3 class="timeline-header no-border" ng-click="productinventory()" ng-class="noticesellin" id="headers">
-                                  Product Sell In
-                                </h3>
-                                <div class="timeline-body" ng-show="sellinshow">
-                                  <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellin(barang.KD_BARANG,$index)">
-
-                                </div> -->
-                                <div class="box box-primary">
-                                    <div class="box-header with-border" ng-class="noticesellin">
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangsellin.bgcolor">
                                       <h3 class="box-title">Product Sell In</h3>
 
                                       <div class="box-tools pull-right">
@@ -94,28 +85,38 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
-                                      <div class="timeline-body" ng-show="sellinshow">
+                                      <div class="timeline-body" ng-show="statusbarangsellin.show">
                                         <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellin(barang.KD_BARANG,$index)">
                                       </div>
                                     </div>
                                 </div>
                               </div>
                             </li>
-
+                            <li>
+                              <i ng-class="statusbarangexpired.icon"></i>
+                              <div class="timeline-item" >
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangexpired.bgcolor">
+                                      <h3 class="box-title">Product Expired</h3>
+                                      <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="display: block;">
+                                      <div class="timeline-body" ng-show="statusbarangexpired.show">
+                                        <img ng-repeat="barang in barangexpired" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="showmodal(barang.KD_BARANG,$index)">
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </li>
                             <li>
                               <i class="fa fa-user bg-aqua" ng-class="noticeendgambar"></i>
                               <div class="timeline-item" ng-click="endtakeapicture()">
                                 <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                                <h3 class="timeline-header no-border" ng-class="noticeend">Take End Picture</h3>
-                              </div>
-                            </li>
-                            <li>
-                              <i class="fa fa-user bg-aqua" ng-class="noticesellinicon"></i>
-                              <div class="timeline-item" >
-                                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                                <h3 class="timeline-header no-border">
-                                  Product Expired
-                                </h3>
+                                <h3 class="timeline-header no-border bg-aqua" ng-class="noticeend">Take End Picture</h3>
                               </div>
                             </li>
                             <li class="time-label">
@@ -140,7 +141,7 @@
                   <ng-map zoom="17" center="{{googlemaplat}},{{googlemaplong}}" style="display:block; width:100%; height:400px">
                       <marker position="{{googlemaplat}},{{googlemaplong}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
-                      <marker position="{{detailcustomers.MAP_LAT}}, {{detailcustomers.MAP_LNG}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>
+                      <marker position="{{CUST_MAP_LAT}}, {{CUST_MAP_LNG}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>
 
                       <shape name="circle"
                           stroke-color="#FF0000"
@@ -148,7 +149,7 @@
                           stroke-weight="2"
                           fill-color="#FF0000"
                           fill-opacity="0.35"
-                          center="{{detailcustomers.MAP_LAT}}, {{detailcustomers.MAP_LNG}}"
+                          center="{{CUST_MAP_LAT}}, {{CUST_MAP_LNG}}"
                           radius="100">
                       </shape>
                   </ng-map>

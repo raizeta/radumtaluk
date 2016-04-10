@@ -39,7 +39,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	{
 		var url = getUrl();
 		var deferred = $q.defer();
-		var url = "http://api.lukison.int/master/customergroups";
+		var url = url + "/customergroups";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
