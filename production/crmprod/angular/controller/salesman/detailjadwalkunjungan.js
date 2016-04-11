@@ -142,6 +142,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
         $rootScope.barangexpired            = $rootScope.diffbarang(databarangall,barangsellin);
         $rootScope.statusbarangexpired      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangexpired);
+
         // ####################################################################################################
         $scope.updatestockqty = function(idproduct,index)
         {
@@ -380,17 +381,18 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
               $cordovaCamera.getPicture(options).then(function(imageData) 
               {
-                var imagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                 var gambarkunjungan={};
 
-                gambarkunjungan.ID_DETAIL=ID_DETAIL;
-                gambarkunjungan.IMG_NM_START="gambar start";
-                gambarkunjungan.IMG_DECODE_START=imageData;
-                gambarkunjungan.TIME_START=imagestart;
-                gambarkunjungan.STATUS=1;
-                gambarkunjungan.CREATE_BY=idsalesman;
+                gambarkunjungan.ID_DETAIL           = ID_DETAIL;
+                gambarkunjungan.IMG_NM_START        = "gambar start";
+                gambarkunjungan.IMG_DECODE_START    = imageData;
+                gambarkunjungan.TIME_START          = timeimagestart;
+                gambarkunjungan.STATUS              = 1;
+                gambarkunjungan.CREATE_BY           = idsalesman;
 
-                var result = $rootScope.seriliazeobject(detail);
+
+                var result      = $rootScope.seriliazeobject(gambarkunjungan);
                 var serialized  = result.serialized;
                 var config      = result.config; 
 
@@ -410,7 +412,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     .success(function(data,status, headers, config) 
                     {
                         ngToast.create('Gambar Telah Berhasil Di Update');
-                        $scope.noticestart="bg-green";
+                        $scope.noticestart          = "bg-green";
+                        $scope.noticestartgambar    = "fa fa-check bg-green";
                     })
 
                     .finally(function()
@@ -438,6 +441,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             document.addEventListener("deviceready", function () 
             {
 
+
               var options = {
                 quality: 100,
                 destinationType: Camera.DestinationType.DATA_URL,
@@ -453,25 +457,22 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
               $cordovaCamera.getPicture(options).then(function(imageData) 
               {
-                var imageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                 var gambarkunjungan={};
 
-                gambarkunjungan.ID_DETAIL=idjadwalkunjungan;
-                gambarkunjungan.IMG_NM_END="gambar end";
-                gambarkunjungan.IMG_DECODE_END=imageData;
-                gambarkunjungan.TIME_END=imageend;
-                gambarkunjungan.STATUS=1;
-                gambarkunjungan.CREATE_BY=idsalesman;
-                gambarkunjungan.ID_DETAIL=ID_DETAIL;
+                gambarkunjungan.IMG_NM_END      = "gambar end";
+                gambarkunjungan.IMG_DECODE_END  = imageData;
+                gambarkunjungan.TIME_END        = timeimageend;
+                gambarkunjungan.ID_DETAIL       = ID_DETAIL;
+                gambarkunjungan.UPDATE_BY       =idsalesman;
 
-                var result = $rootScope.seriliazeobject(detail);
+                var result      = $rootScope.seriliazeobject(gambarkunjungan);
                 var serialized  = result.serialized;
                 var config      = result.config; 
 
 
                 var datagambar = $.ajax
                 ({
-                      //url: "http://labtest3-api.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
                       url: url + "/gambars/search?ID_DETAIL="+ ID_DETAIL,
                       type: "GET",
                       dataType:"json",
@@ -485,17 +486,29 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 
                 else
                 {
-                    $http.post(url + "/gambars",serialized,config)
+                    var datagambar = $.ajax
+                    ({
+                          url: url + "/gambars/search?ID_DETAIL="+ ID_DETAIL,
+                          type: "GET",
+                          dataType:"json",
+                          async: false
+                    }).responseText;
+
+                    var myData = datagambar;
+                    var mt = JSON.parse(myData)['Gambar'];
+                    var idgambar = mt[0].ID;
+
+                    $http.put(url + "/gambars/" + idgambar,serialized,config)
                     .success(function(data,status, headers, config) 
                     {
                         ngToast.create('Gambar Telah Berhasil Di Update');
-                        $scope.noticestart="bg-green";
+                        $scope.noticeend          = "bg-green";
+                        $scope.noticeendgambar    = "fa fa-check bg-green";
                     })
 
                     .finally(function()
                     {
-                        $scope.loading = false;
-                          
+                        $scope.loading = false;   
                     });
                 }
               }, 
@@ -539,102 +552,116 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             });
         };
 
-        //######################################
+        //#####################################################################################################
+        //Data Summari With Stored Procedure
         var dataproductsummary = $.ajax
         ({
-              url: url + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
+              url: url + "/inventorysummaries/search?TGL=" + PLAN_TGL_KUNJUNGAN + "&CUST_KD=" + CUST_ID + "&USER_ID=" + idsalesman,
               type: "GET",
               dataType:"json",
               async: false
         }).responseText;
+        var InventorySummary = JSON.parse(dataproductsummary)['InventorySummary'];
+        $scope.BarangSummary = InventorySummary;
 
-        var ProductSummary = JSON.parse(dataproductsummary)['BarangPenjualan'];
+        //#####################################################################################################
+        //Native Data Summary
+        // var dataproductsummary = $.ajax
+        // ({
+        //       url: url + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
+        //       type: "GET",
+        //       dataType:"json",
+        //       async: false
+        // }).responseText;
 
-        $scope.BarangSummary = [];
-        angular.forEach(ProductSummary, function(value, key)
-        {
-            var bsm = {};
-            summarikdbarang = value.KD_BARANG;
-            bsm.KD_BARANG = value.KD_BARANG;
+        // var ProductSummary = JSON.parse(dataproductsummary)['BarangPenjualan'];
+
+        // $scope.BarangSummary = [];
+        // angular.forEach(ProductSummary, function(value, key)
+        // {
+        //     var bsm = {};
+        //     summarikdbarang = value.KD_BARANG;
+        //     bsm.KD_BARANG = value.KD_BARANG;
             
-            var summarysellin = $.ajax
-            ({
-                  url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=6&KD_BARANG="+ summarikdbarang,
-                  type: "GET",
-                  dataType:"json",
-                  async: false
-            }).responseText;
+        //     var summarysellin = $.ajax
+        //     ({
+        //           url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=6&KD_BARANG="+ summarikdbarang,
+        //           type: "GET",
+        //           dataType:"json",
+        //           async: false
+        //     }).responseText;
 
-            var SELL_IN = JSON.parse(summarysellin)['ProductInventory'];
-            if(SELL_IN != undefined)
-            {
+        //     var SELL_IN = JSON.parse(summarysellin)['ProductInventory'];
+        //     if(SELL_IN != undefined)
+        //     {
 
-                bsm.SELL_IN = parseInt(SELL_IN[0].SO_QTY);
-            }
-            else
-            {
-                bsm.SELL_IN = 0
-            }
+        //         bsm.SELL_IN = parseInt(SELL_IN[0].SO_QTY);
+        //     }
+        //     else
+        //     {
+        //         bsm.SELL_IN = 0
+        //     }
 
 
-            var summarysellout = $.ajax
-            ({
-                  url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=7&KD_BARANG="+ summarikdbarang,
-                  type: "GET",
-                  dataType:"json",
-                  async: false
-            }).responseText;
+        //     var summarysellout = $.ajax
+        //     ({
+        //           url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=7&KD_BARANG="+ summarikdbarang,
+        //           type: "GET",
+        //           dataType:"json",
+        //           async: false
+        //     }).responseText;
 
-            var SELL_OUT = JSON.parse(summarysellout)['ProductInventory'];
-            if(SELL_OUT != undefined)
-            {
+        //     var SELL_OUT = JSON.parse(summarysellout)['ProductInventory'];
+        //     if(SELL_OUT != undefined)
+        //     {
                 
-                bsm.SELL_OUT = parseInt(SELL_OUT[0].SO_QTY);
-            }
-            else
-            {
-                bsm.SELL_OUT = 0;
-            }
+        //         bsm.SELL_OUT = parseInt(SELL_OUT[0].SO_QTY);
+        //     }
+        //     else
+        //     {
+        //         bsm.SELL_OUT = 0;
+        //     }
             
 
-            var summarystock= $.ajax
-            ({
-                  url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=5&KD_BARANG="+ summarikdbarang,
-                  type: "GET",
-                  dataType:"json",
-                  async: false
-            }).responseText;
-            var STOCK = JSON.parse(summarystock)['ProductInventory'];
-            if(STOCK != undefined)
-            {
+        //     var summarystock= $.ajax
+        //     ({
+        //           url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=5&KD_BARANG="+ summarikdbarang,
+        //           type: "GET",
+        //           dataType:"json",
+        //           async: false
+        //     }).responseText;
+        //     var STOCK = JSON.parse(summarystock)['ProductInventory'];
+        //     if(STOCK != undefined)
+        //     {
                 
-                bsm.STOCK = parseInt(STOCK[0].SO_QTY);
-            }
-            else
-            {
-                bsm.STOCK = 0
-            }
+        //         bsm.STOCK = parseInt(STOCK[0].SO_QTY);
+        //     }
+        //     else
+        //     {
+        //         bsm.STOCK = 0
+        //     }
 
-            $scope.BarangSummary.push(bsm);
-        });
+        //     $scope.BarangSummary.push(bsm);
+        // });
         
-        var totalsellin = 0;
-        var totalsellout = 0;
-        var totalstockqty = 0;
-        angular.forEach($scope.BarangSummary, function(value, key)
-        {
-            var sellin      = parseInt(value.SELL_IN);
-            var sellout     = parseInt(value.SELL_OUT);
-            var stockqty    = parseInt(value.STOCK);
+        // var totalsellin = 0;
+        // var totalsellout = 0;
+        // var totalstockqty = 0;
+        // angular.forEach($scope.BarangSummary, function(value, key)
+        // {
+        //     var sellin      = parseInt(value.SELL_IN);
+        //     var sellout     = parseInt(value.SELL_OUT);
+        //     var stockqty    = parseInt(value.STOCK);
 
-            totalsellin         = totalsellin + sellin;
-            totalsellout        = totalsellout + sellout;
-            totalstockqty       = totalstockqty + stockqty;
+        //     totalsellin         = totalsellin + sellin;
+        //     totalsellout        = totalsellout + sellout;
+        //     totalstockqty       = totalstockqty + stockqty;
 
-        });
-        $scope.totalsellin          = totalsellin;
-        $scope.totalsellout         = totalsellout;
-        $scope.totalstockqty        = totalstockqty;
+        // });
+        // $scope.totalsellin          = totalsellin;
+        // $scope.totalsellout         = totalsellout;
+        // $scope.totalstockqty        = totalstockqty;
+        //#######################################################################################################
     });  
 }]);
 

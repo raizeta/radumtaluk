@@ -27,6 +27,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         }
     });
 
+    $rootScope.tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd')
 
     var options = {timeout: 10000, enableHighAccuracy: false};
 

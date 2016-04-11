@@ -16,8 +16,13 @@
                       <legend class="scheduler-border">Set Customer Position</legend>
                       <div class="form-group" ng-class="{'has-error':customerForm.ID.$invalid && !customerForm.ID.$pritine,'has-success':customerForm.ID.$valid}">
                           <label>Customer Group</label>
-                          <select class="form-control" ui-select2="select2Options" name="ID" style="width: 100%;" data-allow-clear="true" ng-model="customergroup.ID" ng-change="customergroupchange(customergroup)" ng-required="true">
+                          <!-- <select class="form-control" ui-select2="select2Options" name="ID" style="width: 100%;" data-allow-clear="true" ng-model="customergroup.ID" ng-change="customergroupchange(customergroup)" ng-required="true">
                             <option value=""></option>
+                            <option ng-repeat="customergroup in customergroups" value="{{customergroup.ID}}">
+                              {{customergroup.SCDL_GROUP_NM}}
+                            </option>
+                          </select> -->
+                          <select class="form-control"  name="ID" style="width: 100%;" data-allow-clear="true" ng-model="customergroup.ID" ng-change="customergroupchange(customergroup)" ng-required="true">
                             <option ng-repeat="customergroup in customergroups" value="{{customergroup.ID}}">
                               {{customergroup.SCDL_GROUP_NM}}
                             </option>
@@ -26,8 +31,13 @@
                         </div>
                         <div class="form-group" ng-class="{'has-error':customerForm.CUST_KD.$invalid && !customerForm.CUST_KD.$pritine,'has-success':customerForm.CUST_KD.$valid}" ng-show="showcustomer">
                           <label>List Customer</label>
-                          <select class="form-control" ui-select2="select2Options" name="CUST_KD" style="width: 100%;" data-allow-clear="true" ng-model="customer.CUST_KD" ng-change="customerchange(customer)" ng-required="true">
+                          <!-- <select class="form-control" ui-select2="select2Options" name="CUST_KD" style="width: 100%;" data-allow-clear="true" ng-model="customer.CUST_KD" ng-change="customerchange(customer)" ng-required="true">
                             <option value=""></option>
+                            <option ng-repeat="customer in customers" value="{{customer.CUST_KD}}">
+                              {{customer.CUST_NM}}
+                            </option>
+                          </select> -->
+                          <select class="form-control"  name="CUST_KD" style="width: 100%;" data-allow-clear="true" ng-model="customer.CUST_KD" ng-change="customerchange(customer)" ng-required="true">
                             <option ng-repeat="customer in customers" value="{{customer.CUST_KD}}">
                               {{customer.CUST_NM}}
                             </option>
