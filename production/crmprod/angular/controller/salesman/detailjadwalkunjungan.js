@@ -3,6 +3,21 @@
 myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService) 
 {
+    $scope.noticestart="bg-aqua";
+    $scope.noticestartgambar="fa fa-close bg-aqua";
+    $scope.noticeend="bg-aqua";
+    $scope.noticeendgambar="fa fa-close bg-aqua";
+
+    var status={};
+    status.bgcolor="bg-aqua";
+    status.icon="fa fa-close bg-aqua";
+    status.show = false;
+    $rootScope.statusbarangstockqty = status;
+    $rootScope.statusbarangsellout = status;
+    $rootScope.statusbarangsellin   = status;
+    $rootScope.statusbarangexpired = status;
+
+
     var iddetail = $routeParams.iddetailkunjungan;
     $scope.userInfo = auth;
     $scope.logout = function () 
@@ -59,10 +74,12 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         detail.CHECKIN_TIME     = checkintime;
         detail.CREATE_BY        = idsalesman;
         detail.CREATE_AT        = checkintime;
+        detail.STATUS           = 1;
 
         var result              = $rootScope.seriliazeobject(detail);
         var serialized          = result.serialized;
         var config              = result.config;
+
 
         // CHECK-IN FUNCTION
         //###########################################################################################
@@ -78,6 +95,41 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             {
                 $scope.loading = false;  
             });
+
+            $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL,serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                // ngToast.create('Status Checkin Berhasil Disimpan');
+            })
+            .error(function(data,status,header,config)
+            {
+                var statuskunjungan = {};
+                statuskunjungan.ID_DETAIL               = ID_DETAIL;
+                statuskunjungan.TGL                     = PLAN_TGL_KUNJUNGAN;
+                statuskunjungan.USER_ID                 = idsalesman;
+                statuskunjungan.CUST_ID                 = CUST_ID;
+                statuskunjungan.CHECK_IN                = 1;
+
+                var result              = $rootScope.seriliazeobject(statuskunjungan);
+                var serialized          = result.serialized;
+                var config              = result.config;
+
+                $http.post(url + "/statuskunjungans",serialized,config)
+                .success(function(data,status, headers, config) 
+                {
+                    // ngToast.create('Status Checkin Berhasil Disimpan');
+                })
+
+                .finally(function()
+                {
+                    $scope.loading = false;  
+                });
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });   
         }
         $scope.checkin();
 
@@ -105,6 +157,26 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             {
                 $scope.loading = false;  
             });
+
+            var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
+            var statuskunjungan = {};
+            statuskunjungan.CHECK_OUT = 1;
+
+            var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+            var serialized              = resultstatus.serialized;
+            var config                  = resultstatus.config;
+
+            $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
+            .success(function(data,status, headers, config) 
+            {
+                // ngToast.create('Anda Telah Berhasil Check In');
+            })
+
+            .finally(function()
+            {
+                $scope.loading = false;  
+            });
+            
         }
         //#############################################################################################
 
@@ -196,7 +268,13 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     $http.post(url + "/productinventories",serialized,config)
                     .success(function(data,status, headers, config) 
                     {
-                        sweet.show('Nice!', 'Saved');
+                        sweet.show({
+                                        title: 'Saved',
+                                        type: 'success',
+                                        timer: 20,
+                                        showConfirmButton: false
+                                    });
+
                         $rootScope.barangstockqty.splice(index,1);
                         if($rootScope.barangstockqty.length == 0)
                         {
@@ -204,7 +282,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                             status.bgcolor="bg-green";
                             status.icon="fa fa-check bg-green";
                             status.show = false;
-                            $rootScope.statusbarangstockqty = status; 
+                            $rootScope.statusbarangstockqty = status;
+
                         }
                     })
 
@@ -227,13 +306,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: false,
-                inputPlaceholder: 'Write something'
+                inputPlaceholder: 'Write something',
+                allowEscapeKey: false,
+                allowOutsideClick: false
             }, 
             function(inputValue) 
             {
                 if(/^\d+$/.test(inputValue))
                 {
-                    
+
                 }
                 else
                 {
@@ -269,7 +350,14 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     $http.post(url + "/productinventories",serialized,config)
                     .success(function(data,status, headers, config) 
                     {
-                        sweet.show('Nice!', 'Saved');
+
+                        sweet.show({
+                                        title: 'Saved',
+                                        type: 'success',
+                                        timer: 20,
+                                        showConfirmButton: false
+                                    });
+
                         $rootScope.barangsellout.splice(index,1);
                         if($rootScope.barangsellout == 0)
                         {
@@ -299,7 +387,9 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: false,
-                inputPlaceholder: 'Write something'
+                inputPlaceholder: 'Write something',
+                allowEscapeKey: false,
+                allowOutsideClick: false
             }, 
             function(inputValue) 
             {
@@ -341,7 +431,14 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     $http.post(url + "/productinventories",serialized,config)
                     .success(function(data,status, headers, config) 
                     {
-                        sweet.show('Nice!', 'Saved');
+
+                        sweet.show({
+                                        title: 'Saved',
+                                        type: 'success',
+                                        timer: 20,
+                                        showConfirmButton: false
+                                    });
+
                         $rootScope.barangsellin.splice(index,1);
                         if($rootScope.barangsellin.length == 0)
                         {
@@ -420,6 +517,25 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     {
                         $scope.loading = false;
                           
+                    });
+
+                    var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
+                    var statuskunjungan = {};
+                    statuskunjungan.START_PIC = 1;
+
+                    var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+                    var serialized              = resultstatus.serialized;
+                    var config                  = resultstatus.config;
+
+                    $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        // ngToast.create('Anda Telah Berhasil Check In');
+                    })
+
+                    .finally(function()
+                    {
+                        $scope.loading = false;  
                     });
                 }
                 
@@ -509,6 +625,25 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     .finally(function()
                     {
                         $scope.loading = false;   
+                    });
+
+                    var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
+                    var statuskunjungan = {};
+                    statuskunjungan.END_PIC = 1;
+
+                    var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+                    var serialized              = resultstatus.serialized;
+                    var config                  = resultstatus.config;
+
+                    $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        // ngToast.create('Anda Telah Berhasil Check In');
+                    })
+
+                    .finally(function()
+                    {
+                        $scope.loading = false;  
                     });
                 }
               }, 

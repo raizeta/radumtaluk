@@ -13,13 +13,14 @@
               <md-tab-body>
                   <md-list>
                     <md-list-item class="noright" ng-repeat="customer in customers | orderBy: 'JARAK' " ng-click="goToPerson(person.name, $event)">
-                        <img ng-src="asset/admin/dist/img/user2-160x160.jpg" class="md-avatar" />
+                        <img  ng-if="customer.persen == 100" ng-src="asset/admin/dist/img/customer.jpg" class="md-avatar" />
+                        <img  ng-if="customer.persen != 100" ng-src="asset/admin/dist/img/customerlogo.jpg" class="md-avatar" />
                         <p>
                           <a href="#/detailjadwalkunjungan/{{customer.ID}}">
                             {{customer.CUST_NM}}  ( {{customer.JARAK}} meter)
                           </a>
                           <md-progress-linear md-mode="determinate"  value="{{customer.persen}}"></md-progress-linear>
-                          <md-checkbox class="md-secondary" ng-model="customer.wanted"></md-checkbox>
+                          <!-- <md-checkbox class="md-secondary" ng-model="customer.wanted"></md-checkbox> -->
                         </p>
                     </md-list-item>
 
@@ -47,7 +48,7 @@
               </md-tab-body>
             </md-tab> -->
 
-            <md-tab id="tab4">
+            <!-- <md-tab id="tab4">
               <md-tab-label>SUMMARY</md-tab-label>
               <md-tab-body>
                   <section class="content">
@@ -174,6 +175,117 @@
                                       </tr>
                                     </table>
                                   </td>
+                                </tr>
+                              </tbody>
+                             </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section> 
+              </md-tab-body>
+            </md-tab> -->
+
+            <!-- <md-tab id="tab5">
+              <md-tab-label>SUMMARY All</md-tab-label>
+              <md-tab-body>
+                  <section class="content">
+                    <div class="row" >
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                                <th>Customer</th>
+                                <th>Nama Product</th>
+                                <th>Stock Qty</th>
+                                <th>Sell Out</th>
+                                <th>Sell Ini</th>
+                                <th>ED Qty</th>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="barang in BarangSummaryAll">
+                                  <td>{{barang.CUST_NM}}</td>
+                                  <td>{{barang.NM_BARANG}}</td>
+                                  <td>{{barang.STOCK}}</td>
+                                  <td>{{barang.SELL_IN}}</td>
+                                  <td>{{barang.SELL_OUT}}</td>
+                                  <td>{{barang.ED}}</td>
+                                </tr>
+                                <tr>
+                                  <td colspan="2">TOTAL</td>
+                                  <td>{{totalstock}}</td>
+                                  <td>{{totalsellin}}</td>
+                                  <td>{{totalsellout}}</td>
+                                </tr>
+                              </tbody>
+                             </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>   
+              </md-tab-body>
+            </md-tab> -->
+
+            <md-tab id="tab6">
+              <md-tab-label>SUMMARY All</md-tab-label>
+              <md-tab-body>
+                  <section class="content">
+                    <div class="row" >
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                                <tr align="center">
+                                  <th rowspan="2" style="text-align:center;vertical-align:middle">Customer</th>
+                                  <th colspan="3" style="text-align:center">MAXI CASSAVA CRAKERS</th>
+                                  <th colspan="3" style="text-align:center">MAXI MIXED ROOTS</th>
+                                  <th colspan="3" style="text-align:center">MAXI CASSAVA CHIPS</th>
+                                  <th colspan="3" style="text-align:center">MAXI TALOS CHIPS</th>
+                                  <th colspan="3" style="text-align:center">TALOS MAXI CHIPS</th>
+                                </tr>
+                                <tr>
+                                  <th>Sell In</th>
+                                  <th>Sell Out</th>
+                                  <th>Stock </th>
+                                  <th>Sell In</th>
+                                  <th>Sell Out</th>
+                                  <th>Stock </th>
+                                  <th>Sell In</th>
+                                  <th>Sell Out</th>
+                                  <th>Stock </th>
+                                  <th>Sell In</th>
+                                  <th>Sell Out</th>
+                                  <th>Stock </th>
+                                  <th>Sell In</th>
+                                  <th>Sell Out</th>
+                                  <th>Stock </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="barang in datajson">
+                                  <td>{{barang.namacustomer}}</td>
+                                  <td>{{barang.productsatu.sellin}}</td>
+                                  <td>{{barang.productsatu.sellout}}</td>
+                                  <td>{{barang.productsatu.stock}}</td>
+
+                                  <td>{{barang.productdua.sellin}}</td>
+                                  <td>{{barang.productdua.sellout}}</td>
+                                  <td>{{barang.productdua.stock}}</td>
+
+                                  <td>{{barang.producttiga.sellin}}</td>
+                                  <td>{{barang.producttiga.sellout}}</td>
+                                  <td>{{barang.producttiga.stock}}</td>
+
+                                  <td>{{barang.productempat.sellin}}</td>
+                                  <td>{{barang.productempat.sellout}}</td>
+                                  <td>{{barang.productempat.stock}}</td>
+
+                                  <td>{{barang.productlima.sellin}}</td>
+                                  <td>{{barang.productlima.sellout}}</td>
+                                  <td>{{barang.productlima.stock}}</td>
                                 </tr>
                               </tbody>
                              </table>

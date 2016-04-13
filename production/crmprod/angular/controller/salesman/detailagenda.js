@@ -7,6 +7,18 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
     var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     var tanggalplan     = $routeParams.idtanggal;
+
+    if(tanggalsekarang == tanggalplan)
+    {
+        $scope.activeagendatoday = "active";
+    }
+    else
+    {
+        $scope.activehistory = "active";
+    }
+
+
+    
     
     var idtanggal = $routeParams.idtanggal;
 
@@ -158,7 +170,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
                         $scope.customers.push(ab);
                     });
-
                 });
             });
 
@@ -180,12 +191,102 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
             {
                 if (isConfirm) 
                 {
-                    window.location.href = "index.html";
+                    $location.path('/history');
+                    $scope.$apply();
                 }
             });
         }
     });
 
+    // var dataproductsummaryall = $.ajax
+    // ({
+    //       url: url + "/inventorysummaryalls/search?TGL=" + idtanggal + "&USER_ID=" + idsalesman,
+    //       type: "GET",
+    //       dataType:"json",
+    //       async: false
+    // }).responseText;
+    // var InventorySummaryAll = JSON.parse(dataproductsummaryall)['InventorySummaryAll'];
+    // $scope.BarangSummaryAll = InventorySummaryAll;
+
+    // $scope.totalstock       = $scope.BarangSummaryAll[0].TTL_STCK;
+    // $scope.totalsellin      = $scope.BarangSummaryAll[0].TTL_SELL_IN;
+    // $scope.totalsellout     = $scope.BarangSummaryAll[0].TTL_SELL_OUT;
+
+    var datajson = 
+    {
+        "Summary":
+            [
+                {
+                    "namacustomer" : "HARI SWALAYAN CIBINONG",
+                    "productsatu"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "productdua"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "producttiga"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "productempat"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "productlima"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    }
+                },
+                {
+                    "namacustomer" : "HARI SWALAYAN CIREBON",
+                    "productsatu"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "productdua"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "producttiga"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "productempat"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    },
+                    "productlima"  :
+                    {
+                        "sellin"    :30,
+                        "sellout"   :40,
+                        "stock"     :50,
+                    }
+                }
+            ]
+    }
+
+    $scope.datajson = datajson.Summary;
+    console.log($scope.datajson);
 
     $scope.userInfo = auth;
     $scope.logout = function () 

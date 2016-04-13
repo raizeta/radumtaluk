@@ -1,7 +1,15 @@
 'use strict';
-myAppModule.controller("HomeController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","$filter", 
+myAppModule.controller("HomeController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","$filter","$cordovaDevice", 
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,$filter) 
 {
+
+    $scope.activehome = "active";
+
+    alert($rootScope.devicemodel);
+    alert($rootScope.deviceplatform);
+    alert($rootScope.deviceuuid);
+    alert($rootScope.deviceversion);
+
     $scope.userInfo = auth;
     console.log($scope.userInfo);
     $scope.logout = function () 
@@ -145,6 +153,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
 myAppModule.controller("SetPositionController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,singleapiService) 
 {
+    $scope.activesetposition = "active";
     var url = $rootScope.linkurl;
 
     $scope.userInfo = auth;

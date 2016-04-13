@@ -57,9 +57,7 @@ function ($scope, $location, $http, authService, auth,$window,NgMap,LocationServ
 
             ngToast.create(
             {
-                
                 content: 'Data Berhasi Di Ubah',
-                
             });
 
         })

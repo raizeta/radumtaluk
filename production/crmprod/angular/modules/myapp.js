@@ -4,9 +4,17 @@ var myAppModule 	= angular.module('myAppModule',
                                     'ui.select2','naif.base64','monospaced.qrcode','angular-ladda','angularModalService',
                                  'ngCordova','ngMap','mm.acl','ng-mfb','ngMaterial','ngMessages','hSweetAlert','ui.calendar']);
 
-myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q","$filter",
-function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q,$filter) 
+myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice",
+function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice) 
 {
+    document.addEventListener("deviceready", function () 
+      {
+        $rootScope.devicemodel = $cordovaDevice.getModel();
+        $rootScope.deviceplatform = $cordovaDevice.getPlatform();
+        $rootScope.deviceuuid = $cordovaDevice.getUUID();
+        $rootScope.deviceversion = $cordovaDevice.getVersion();
+      }, false);
+
     uiSelect2Config.placeholder = "Placeholder text";
     $rootScope.loading= true;
     $rootScope.$on("$routeChangeStart", function (userInfo) 
@@ -200,7 +208,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         {
             status.bgcolor="bg-aqua";
             status.show= true;
-            status.icon = "fa fa-user bg-aqua";
+            status.icon = "fa fa-close bg-aqua";
         }
 
         return status;
@@ -231,6 +239,18 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         return result;
     }
 
+    $rootScope.findidstatuskunjunganbyiddetail = function(iddetail)
+    {
+        var findidstatuskunjunganbyiddetail = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/statuskunjungans/search?ID_DETAIL=" + iddetail,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+        var result = JSON.parse(findidstatuskunjunganbyiddetail)['StatusKunjungan'][0].ID;
+        return result;
+    }
 
 
 }]);
