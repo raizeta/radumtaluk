@@ -47,6 +47,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
         $scope.CUST_MAP_LAT      = y.MAP_LAT;
         $scope.CUST_MAP_LNG      = y.MAP_LNG;
+        $scope.blabla            = y.CUST_NM;
 
         var ID_DETAIL           = y.ID;
         var DEFAULT_CUST_LONG   = y.MAP_LNG;
@@ -196,11 +197,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         });
 
         var databarangall       = $rootScope.databarangs();
-        
+        $rootScope.arraydatabarangall = [];
+        angular.forEach(databarangall, function(element) 
+        {
+          $rootScope.arraydatabarangall.push(element);
+        });
 
         var barangstockqty      = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,5);
         var barangsellin        = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6);
         var barangsellout       = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,7);
+        var barangexpired       = $rootScope.databarangexpired(ID_DETAIL);
+
 
         $rootScope.barangstockqty           = $rootScope.diffbarang(databarangall,barangstockqty);
         $rootScope.statusbarangstockqty     = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangstockqty);
@@ -208,20 +215,21 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         $rootScope.barangsellout            = $rootScope.diffbarang(databarangall,barangsellout);
         $rootScope.statusbarangsellout      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangsellout);
 
-
         $rootScope.barangsellin             = $rootScope.diffbarang(databarangall,barangsellin);
         $rootScope.statusbarangsellin       = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangsellin);
 
-        $rootScope.barangexpired            = $rootScope.diffbarang(databarangall,barangsellin);
+        // var xxx  = [];
+        $rootScope.barangexpired            = $rootScope.diffbarang(databarangall,barangexpired);
         $rootScope.statusbarangexpired      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangexpired);
 
         // ####################################################################################################
         $scope.updatestockqty = function(idproduct,index)
         {
+            var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
                 title: 'Stock Quantity',
-                text: 'Masukkan Jumlah Product: ' + idproduct,
+                text: namaproduct,
                 type: 'input',
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -297,11 +305,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         // ####################################################################################################
         $scope.updatesellout = function(idproduct,index)
         {
-            
+            var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
                 title: 'Product Sell Out',
-                text: 'Masukkan Jumlah Product: ' + idproduct,
+                text: namaproduct,
                 type: 'input',
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -378,11 +386,12 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         }
         // ####################################################################################################
         $scope.updatesellin = function(idproduct,index)
-        {
+        { 
+            var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
                 title: 'Sell In',
-                text: 'Masukkan Jumlah Product: ' + idproduct,
+                text: namaproduct,
                 type: 'input',
                 showCancelButton: true,
                 closeOnConfirm: false,
@@ -655,7 +664,18 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             }, false);
         }
         //#####################################################################################################
+        //Data Summari With Stored Procedure
+        var dataproductsummary = $.ajax
+        ({
+              url: url + "/inventorysummaries/search?TGL=" + PLAN_TGL_KUNJUNGAN + "&CUST_KD=" + CUST_ID + "&USER_ID=" + idsalesman,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+        var InventorySummary = JSON.parse(dataproductsummary)['InventorySummary'];
+        $scope.BarangSummary = InventorySummary;
         
+        //#####################################################################################################
         $scope.showmodal = function(kodebarang,index) 
         {
             ModalService
@@ -670,10 +690,56 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             })
             .then(function(modal) 
             {
-              modal.element.modal();
+              modal.element.modal(function ()
+                {
+                    alert("Button OK Klick");
+                });
               modal.close.then(function(result) 
               {
-                $scope.complexResult  = "Name: " + result.name + ", age: " + result.age;
+                var kodebarang     = result.title;
+
+                for(var i = 0; i < result.list.length; i ++)
+                {
+                    var tanggalexpired = result.list[i].tanggaled;
+                    var expiredqty     = result.list[i].expiredqty;
+                    var prioritas      = result.list[i].prioritas;
+
+                    if(tanggalexpired != null && expiredqty != null)
+                    {
+                        var tglexpd = $filter('date')(tanggalexpired,'yyyy-MM-dd'); 
+
+                        var detailexpired = {};
+                        detailexpired.ID_PRIORITASED    = prioritas;
+                        detailexpired.ID_DETAIL         = ID_DETAIL;
+                        detailexpired.CUST_ID           = CUST_ID;
+                        detailexpired.BRG_ID            = kodebarang;
+                        detailexpired.USER_ID           = idsalesman;
+                        detailexpired.TGL_KJG           = PLAN_TGL_KUNJUNGAN;
+                        detailexpired.QTY               = expiredqty;
+                        detailexpired.DATE_EXPIRED      = tanggalexpired;
+                        detailexpired.CREATE_BY         = idsalesman;
+
+                        var expiredproduct              = $rootScope.seriliazeobject(detailexpired);
+                        var serialized                  = expiredproduct.serialized;
+                        var config                      = expiredproduct.config;
+
+                        $http.post(url + "/expiredproducts",serialized,config)
+                        .success(function(data,status, headers, config) 
+                        {
+                            ngToast.create('Expired Prioritas' + i + "Telah Diupdate");
+                        })
+
+                        .finally(function()
+                        {
+                            $scope.loading = false;  
+                        }); 
+                    }
+                    else
+                    {
+                        alert("Tidak Sukses");
+                    }
+                }
+
                 $rootScope.barangexpired.splice(index,1);
                 if($rootScope.barangexpired.length == 0)
                 {
@@ -686,134 +752,31 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
               });
             });
         };
-
-        //#####################################################################################################
-        //Data Summari With Stored Procedure
-        var dataproductsummary = $.ajax
-        ({
-              url: url + "/inventorysummaries/search?TGL=" + PLAN_TGL_KUNJUNGAN + "&CUST_KD=" + CUST_ID + "&USER_ID=" + idsalesman,
-              type: "GET",
-              dataType:"json",
-              async: false
-        }).responseText;
-        var InventorySummary = JSON.parse(dataproductsummary)['InventorySummary'];
-        $scope.BarangSummary = InventorySummary;
-
-        //#####################################################################################################
-        //Native Data Summary
-        // var dataproductsummary = $.ajax
-        // ({
-        //       url: url + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
-        //       type: "GET",
-        //       dataType:"json",
-        //       async: false
-        // }).responseText;
-
-        // var ProductSummary = JSON.parse(dataproductsummary)['BarangPenjualan'];
-
-        // $scope.BarangSummary = [];
-        // angular.forEach(ProductSummary, function(value, key)
-        // {
-        //     var bsm = {};
-        //     summarikdbarang = value.KD_BARANG;
-        //     bsm.KD_BARANG = value.KD_BARANG;
-            
-        //     var summarysellin = $.ajax
-        //     ({
-        //           url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=6&KD_BARANG="+ summarikdbarang,
-        //           type: "GET",
-        //           dataType:"json",
-        //           async: false
-        //     }).responseText;
-
-        //     var SELL_IN = JSON.parse(summarysellin)['ProductInventory'];
-        //     if(SELL_IN != undefined)
-        //     {
-
-        //         bsm.SELL_IN = parseInt(SELL_IN[0].SO_QTY);
-        //     }
-        //     else
-        //     {
-        //         bsm.SELL_IN = 0
-        //     }
-
-
-        //     var summarysellout = $.ajax
-        //     ({
-        //           url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=7&KD_BARANG="+ summarikdbarang,
-        //           type: "GET",
-        //           dataType:"json",
-        //           async: false
-        //     }).responseText;
-
-        //     var SELL_OUT = JSON.parse(summarysellout)['ProductInventory'];
-        //     if(SELL_OUT != undefined)
-        //     {
-                
-        //         bsm.SELL_OUT = parseInt(SELL_OUT[0].SO_QTY);
-        //     }
-        //     else
-        //     {
-        //         bsm.SELL_OUT = 0;
-        //     }
-            
-
-        //     var summarystock= $.ajax
-        //     ({
-        //           url: url + "/productinventories/search?CUST_KD=" + CUST_ID + "&TGL=" + PLAN_TGL_KUNJUNGAN + "&SO_TYPE=5&KD_BARANG="+ summarikdbarang,
-        //           type: "GET",
-        //           dataType:"json",
-        //           async: false
-        //     }).responseText;
-        //     var STOCK = JSON.parse(summarystock)['ProductInventory'];
-        //     if(STOCK != undefined)
-        //     {
-                
-        //         bsm.STOCK = parseInt(STOCK[0].SO_QTY);
-        //     }
-        //     else
-        //     {
-        //         bsm.STOCK = 0
-        //     }
-
-        //     $scope.BarangSummary.push(bsm);
-        // });
-        
-        // var totalsellin = 0;
-        // var totalsellout = 0;
-        // var totalstockqty = 0;
-        // angular.forEach($scope.BarangSummary, function(value, key)
-        // {
-        //     var sellin      = parseInt(value.SELL_IN);
-        //     var sellout     = parseInt(value.SELL_OUT);
-        //     var stockqty    = parseInt(value.STOCK);
-
-        //     totalsellin         = totalsellin + sellin;
-        //     totalsellout        = totalsellout + sellout;
-        //     totalstockqty       = totalstockqty + stockqty;
-
-        // });
-        // $scope.totalsellin          = totalsellin;
-        // $scope.totalsellout         = totalsellout;
-        // $scope.totalstockqty        = totalstockqty;
-        //#######################################################################################################
     });  
 }]);
 
-myAppModule.controller('ComplexController', ['$scope', '$element', 'title', 'close', 
-function($scope, $element, title, close) 
+myAppModule.controller('ComplexController', ['$scope', '$element', 'title', 'close',"$filter",
+function($scope, $element, title, close,$filter) 
 {
 
-  $scope.name = null;
-  $scope.age = null;
   $scope.title = title;
+    var myDate = new Date();
+    var previousMonth = new Date(myDate);
+    previousMonth.setMonth(myDate.getMonth()-1);
+
+    var nextMonth1 = new Date(myDate);
+    nextMonth1.setMonth(myDate.getMonth()+1);
+    var nextMonth2 = new Date(myDate);
+    nextMonth2.setMonth(myDate.getMonth()+2);
+    var nextMonth3 = new Date(myDate);
+    nextMonth3.setMonth(myDate.getMonth()+3);
+
+  // var tanggaled = $filter('date')(nextMonth,'yyyy-MM-dd');
+  $scope.list = [ {tanggaled:nextMonth1, expiredqty:null, prioritas:1},{tanggaled:nextMonth2, expiredqty:null,prioritas:2},{tanggaled:nextMonth3, expiredqty:null,prioritas:3} ];
   
   $scope.close = function() 
   {
-      close({
-      name: $scope.name,
-      age: $scope.age
-    }, 500); // close, but give 500ms for bootstrap to animate
+        close({list:$scope.list,title:$scope.title}, 500); // close, but give 500ms for bootstrap to animate
   };
 
   $scope.cancel = function() 

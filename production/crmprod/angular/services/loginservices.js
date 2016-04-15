@@ -27,7 +27,7 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet",function($htt
 		$http({method:method, url:url})
         .success(function(response) 
         {
-            console.log(response);
+            //console.log(response);
             var rusername 	= response.uservalidation.username;
             var rid			= response.uservalidation.id;
             var rtoken		= response.uservalidation.token;
@@ -41,7 +41,7 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet",function($htt
 				var statuslogin = response.passwordvalidation.login;
 				var rulename	= response.passwordvalidation.rule_nm;
                 var accessid    = response.passwordvalidation.accessid;
-                console.log(accessid );
+                //console.log(accessid );
 				if(statuslogin == 'true')
 					{
 						userInfo = 

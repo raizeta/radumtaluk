@@ -1,5 +1,6 @@
 {
-    "InventorySummaryAll": [
+    "InventorySummaryAll": 
+    [
         {
             "CUST_ID": "CUS.2016.000009",
             "CUST_NM": "HARI-HARI SWALAYAN (CILEDUG)",

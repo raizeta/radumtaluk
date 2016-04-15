@@ -120,6 +120,19 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
     
     $rootScope.linkurl = getUrl();
 
+    // https://jsfiddle.net/Guffa/Askwb/
+    // Remove Duplicate Array
+    $rootScope.unique = function(list) 
+    {
+        var result = [];
+        $.each(list, function(i, e) 
+        {
+            if ($.inArray(e, result) == -1) result.push(e);
+        });
+        
+        return result;
+    }
+
     $rootScope.databarangs = function(x)
     {
         var dataproduct = $.ajax
@@ -140,6 +153,46 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         return result;
     }
 
+    $rootScope.jadwalkunjungans = function(tglkunjungan,userid)
+    {
+        var datajadwalkunjungan = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/jadwalkunjungans/search?TGL1=" + tglkunjungan + "&USER_ID=" + userid,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var jadwalkunjungan = JSON.parse(datajadwalkunjungan)['JadwalKunjungan'];
+        var result = [];
+        angular.forEach(jadwalkunjungan, function(value, key)
+        {
+            var SCDL_GROUP = value.SCDL_GROUP;
+            result.push(SCDL_GROUP);
+        });
+        return result;
+    }
+
+    $rootScope.searchdatabarangs = function(kodebarang)
+    {
+        var dataproduct = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&KD_BARANG=" + kodebarang,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
+        var result = [];
+        angular.forEach(Product, function(value, key)
+        {
+            var NM_BARANG = value.NM_BARANG;
+            result.push(NM_BARANG);
+        });
+        return result;
+    }
+
     $rootScope.databaranginventory = function(idcustomer,tanggalplan,sotype)
     {
         var inventorysellin = $.ajax
@@ -155,6 +208,26 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         angular.forEach(sellin, function(value, key)
         {
             var KD_BARANG = value.KD_BARANG;
+            result.push(KD_BARANG);
+        });
+        return result;
+    }
+
+    $rootScope.databarangexpired = function(iddetail)
+    {
+        var barangexpired = $.ajax
+        ({
+              url: $rootScope.linkurl + "/expiredproducts/search?ID_DETAIL=" + iddetail,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var expired = JSON.parse(barangexpired)['ExpiredProduct'];
+        var result = [];
+        angular.forEach(expired, function(value, key)
+        {
+            var KD_BARANG = value.BRG_ID;
             result.push(KD_BARANG);
         });
         return result;

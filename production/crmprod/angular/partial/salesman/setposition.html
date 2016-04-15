@@ -23,7 +23,9 @@
                             </option>
                           </select> -->
                           <select class="form-control"  name="ID" style="width: 100%;" data-allow-clear="true" ng-model="customergroup.ID" ng-change="customergroupchange(customergroup)" ng-required="true">
+                            <option value='' selected disabled>Choose Group</option>
                             <option ng-repeat="customergroup in customergroups" value="{{customergroup.ID}}">
+
                               {{customergroup.SCDL_GROUP_NM}}
                             </option>
                           </select>
@@ -38,6 +40,7 @@
                             </option>
                           </select> -->
                           <select class="form-control"  name="CUST_KD" style="width: 100%;" data-allow-clear="true" ng-model="customer.CUST_KD" ng-change="customerchange(customer)" ng-required="true">
+                            <option value='' selected disabled>Choose Customer</option>
                             <option ng-repeat="customer in customers" value="{{customer.CUST_KD}}">
                               {{customer.CUST_NM}}
                             </option>

@@ -4,22 +4,184 @@
 <div class="content-wrapper">
     <section class="content">
         <div class="row">
-          <div class="col-md-12 col-sm-6 col-xs-12" ng-if="(userInfo.accessid == 5)">
-            <ng-map zoom="19" center="{{lat}},{{long}}" style="display:block; width:100%;">
-                <marker position="{{lat}}, {{long}}"  draggable="false"></marker>
+            <div class="col-md-6">
+              <!-- Box Comment -->
+              <div class="box box-widget">
+                <div class="box-header with-border">
+                  <div class="user-block">
+                    <img class="img-circle" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+                    <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
+                    <span class="description">Shared publicly - 7:30 PM Today</span>
+                  </div>
+                  <!-- /.user-block -->
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-original-title="Mark as read">
+                      <i class="fa fa-circle-o"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                  <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="display: block;">
+                  <img class="img-responsive pad" src="asset/admin/dist/img/user2-160x160.jpg" alt="Photo">
 
-                <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
-                on-dragend="doSth(customer)"></marker>
-            </ng-map>
-          </div>
-          <div class="col-md-12 col-sm-6 col-xs-12" ng-if="(userInfo.accessid == 1)">
-            <ng-map zoom="19" center="{{lat}},{{long}}" style="display:block; width:100%;">
-                <marker position="{{lat}}, {{long}}"  draggable="false"></marker>
+                  <p>I took this photo this morning. What do you guys think?</p>
+                  <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                  <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                  <span class="pull-right text-muted">127 likes - 3 comments</span>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer box-comments" style="display: block;">
+                  <div class="box-comment">
+                    <!-- User image -->
+                    <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
 
-                <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}"  draggable="true" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
-                on-dragend="doSth(customer)"></marker>
-            </ng-map>
-          </div>
+                    <div class="comment-text">
+                          <span class="username">
+                            Maria Gonzales
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                          </span><!-- /.username -->
+                      It is a long established fact that a reader will be distracted
+                      by the readable content of a page when looking at its layout.
+                    </div>
+                    <!-- /.comment-text -->
+                  </div>
+                  <!-- /.box-comment -->
+                  <div class="box-comment">
+                    <!-- User image -->
+                    <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+
+                    <div class="comment-text">
+                          <span class="username">
+                            Luna Stark
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                          </span><!-- /.username -->
+                      It is a long established fact that a reader will be distracted
+                      by the readable content of a page when looking at its layout.
+                    </div>
+                    <!-- /.comment-text -->
+                  </div>
+                  <!-- /.box-comment -->
+                </div>
+                <!-- /.box-footer -->
+                <div class="box-footer" style="display: block;">
+                  <form action="#" method="post">
+                    <img class="img-responsive img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="Alt Text">
+                    <!-- .img-push is used to add margin to elements next to floating images -->
+                    <div class="img-push">
+                      <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                    </div>
+                  </form>
+                </div>
+                <!-- /.box-footer -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-6">
+              <!-- Box Comment -->
+              <div class="box box-widget">
+                <div class="box-header with-border">
+                  <div class="user-block">
+                    <img class="img-circle" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+                    <span class="username"><a href="#">Jonathan Burke Jr.</a></span>
+                    <span class="description">Shared publicly - 7:30 PM Today</span>
+                  </div>
+                  <!-- /.user-block -->
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
+                      <i class="fa fa-circle-o"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                  <!-- /.box-tools -->
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <!-- post text -->
+                  <p>Far far away, behind the word mountains, far from the
+                    countries Vokalia and Consonantia, there live the blind
+                    texts. Separated they live in Bookmarksgrove right at</p>
+
+                  <p>the coast of the Semantics, a large language ocean.
+                    A small river named Duden flows by their place and supplies
+                    it with the necessary regelialia. It is a paradisematic
+                    country, in which roasted parts of sentences fly into
+                    your mouth.</p>
+
+                  <!-- Attachment -->
+                  <div class="attachment-block clearfix">
+                    <img class="attachment-img" src="asset/admin/dist/img/user2-160x160.jpg" alt="Attachment Image">
+
+                    <div class="attachment-pushed">
+                      <h4 class="attachment-heading"><a href="http://www.lipsum.com/">Lorem ipsum text generator</a></h4>
+
+                      <div class="attachment-text">
+                        Description about the attachment can be placed here.
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry... <a href="#">more</a>
+                      </div>
+                      <!-- /.attachment-text -->
+                    </div>
+                    <!-- /.attachment-pushed -->
+                  </div>
+                  <!-- /.attachment-block -->
+
+                  <!-- Social sharing buttons -->
+                  <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                  <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                  <span class="pull-right text-muted">45 likes - 2 comments</span>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer box-comments">
+                  <div class="box-comment">
+                    <!-- User image -->
+                    <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+
+                    <div class="comment-text">
+                          <span class="username">
+                            Maria Gonzales
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                          </span><!-- /.username -->
+                      It is a long established fact that a reader will be distracted
+                      by the readable content of a page when looking at its layout.
+                    </div>
+                    <!-- /.comment-text -->
+                  </div>
+                  <!-- /.box-comment -->
+                  <div class="box-comment">
+                    <!-- User image -->
+                    <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+
+                    <div class="comment-text">
+                          <span class="username">
+                            Nora Havisham
+                            <span class="text-muted pull-right">8:03 PM Today</span>
+                          </span><!-- /.username -->
+                      The point of using Lorem Ipsum is that it has a more-or-less
+                      normal distribution of letters, as opposed to using
+                      'Content here, content here', making it look like readable English.
+                    </div>
+                    <!-- /.comment-text -->
+                  </div>
+                  <!-- /.box-comment -->
+                </div>
+                <!-- /.box-footer -->
+                <div class="box-footer">
+                  <form action="#" method="post">
+                    <img class="img-responsive img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="Alt Text">
+                    <!-- .img-push is used to add margin to elements next to floating images -->
+                    <div class="img-push">
+                      <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                    </div>
+                  </form>
+                </div>
+                <!-- /.box-footer -->
+              </div>
+              <!-- /.box -->
+            </div>
         </div>
     </section>
     <nav mfb-menu position="br" effect="zoomin" active-icon="ion-navicon-round" resting-icon="ion-plus-round" toggling-method="hover">

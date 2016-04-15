@@ -36,6 +36,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
     $scope.loading  = true;
     var idsalesman = auth.id;
 
+    var getscdlgroupbyjadwalkunjungan = $rootScope.jadwalkunjungans(tanggalplan,idsalesman).toString();
+
     apiService.listagenda(idsalesman,idtanggal)
     .then(function (result) 
     {
@@ -198,95 +200,94 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         }
     });
 
-    // var dataproductsummaryall = $.ajax
-    // ({
-    //       url: url + "/inventorysummaryalls/search?TGL=" + idtanggal + "&USER_ID=" + idsalesman,
-    //       type: "GET",
-    //       dataType:"json",
-    //       async: false
-    // }).responseText;
-    // var InventorySummaryAll = JSON.parse(dataproductsummaryall)['InventorySummaryAll'];
-    // $scope.BarangSummaryAll = InventorySummaryAll;
+    var dataproductsummaryall = $.ajax
+    ({
+          url: url + "/inventorysummaryalls/search?TGL=" + idtanggal + "&USER_ID=" + idsalesman + "&SCDL_GROUP=" + getscdlgroupbyjadwalkunjungan,
+          type: "GET",
+          dataType:"json",
+          async: false
+    }).responseText;
+    var InventorySummaryAll = JSON.parse(dataproductsummaryall)['InventorySummaryAll'];
+    $scope.BarangSummaryAll = InventorySummaryAll;
 
-    // $scope.totalstock       = $scope.BarangSummaryAll[0].TTL_STCK;
-    // $scope.totalsellin      = $scope.BarangSummaryAll[0].TTL_SELL_IN;
-    // $scope.totalsellout     = $scope.BarangSummaryAll[0].TTL_SELL_OUT;
 
-    var datajson = 
+    var filters         = [];
+    _.each($scope.BarangSummaryAll, function(execute) 
     {
-        "Summary":
-            [
-                {
-                    "namacustomer" : "HARI SWALAYAN CIBINONG",
-                    "productsatu"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "productdua"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "producttiga"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "productempat"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "productlima"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    }
-                },
-                {
-                    "namacustomer" : "HARI SWALAYAN CIREBON",
-                    "productsatu"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "productdua"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "producttiga"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "productempat"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    },
-                    "productlima"  :
-                    {
-                        "sellin"    :30,
-                        "sellout"   :40,
-                        "stock"     :50,
-                    }
-                }
-            ]
-    }
+        var existingFilter = _.findWhere(filters, { CUST_ID: execute.CUST_ID });
+        if (existingFilter) 
+        {
+            var index = filters.indexOf(existingFilter);
+            var product     = {};
+            product.KD_BARANG       = execute.KD_BARANG;
+            product.NM_BARANG       = execute.NM_BARANG;
+            product.STOCK           = execute.STOCK;
+            product.SELL_IN         = execute.SELL_IN;
+            product.SELL_OUT        = execute.SELL_OUT;
+            filters[index].products.push(product);
+        }
+        else
+        {
+            var filter      = {};
+            var product     = {};
+            filter.CUST_ID      = execute.CUST_ID;
+            filter.CUST_NM      = execute.CUST_NM;
 
-    $scope.datajson = datajson.Summary;
-    console.log($scope.datajson);
+            product.KD_BARANG       = execute.KD_BARANG;
+            product.NM_BARANG       = execute.NM_BARANG;
+            product.STOCK           = execute.STOCK;
+            product.SELL_IN         = execute.SELL_IN;
+            product.SELL_OUT        = execute.SELL_OUT;
+
+            filter.products=[];
+            filter.products.push(product);
+            filters.push(filter);
+        }
+
+    });
+    $scope.siteres = filters;
+
+    var filters= [];
+    angular.forEach($scope.siteres, function(value, key)
+    {
+        angular.forEach(value.products, function(value, key)
+        {
+            var existingFilter = _.findWhere(filters, { NM_BARANG: value.NM_BARANG });
+            if (existingFilter) 
+            {
+                var index = filters.indexOf(existingFilter);
+
+                var xsellin = parseInt(filters[index].TOTSELL_IN);
+                var ysellin = parseInt(value.SELL_IN);
+                var zsellin = xsellin + ysellin;
+
+                var xsellout = parseInt(filters[index].TOTSELL_OUT);
+                var ysellout = parseInt(value.SELL_OUT);
+                var zsellout = xsellout + ysellout;
+
+                var xstock = parseInt(filters[index].TOTSTOCK);
+                var ystock = parseInt(value.STOCK);
+                var zstock = xstock + ystock;
+
+                filters[index].TOTSELL_IN  = zsellin;
+                filters[index].TOTSELL_OUT = zsellout;
+                filters[index].TOTSTOCK    = zstock;
+            }
+            else
+            {
+                var filter      = {};
+                filter.KD_BARANG            = value.KD_BARANG;
+                filter.NM_BARANG            = value.NM_BARANG;
+                filter.TOTSELL_IN           = value.SELL_IN;
+                filter.TOTSELL_OUT          = value.SELL_OUT;
+                filter.TOTSTOCK             = value.STOCK;
+                filters.push(filter);
+            }
+        });
+
+    });
+    
+    $scope.totalalls = filters;
 
     $scope.userInfo = auth;
     $scope.logout = function () 
