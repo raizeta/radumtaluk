@@ -56,9 +56,6 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
             detail.LAT=$rootScope.lat;
             detail.LAG=$rootScope.long;
 
-            
-
-
             function serializeObj(obj) 
             {
               var result = [];
@@ -94,18 +91,19 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         });
     }
 
+
     var tanggal = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
     var tanggalmulai = $filter('date')(new Date(),'yyyy-MM-dd 05:00:00');
     var tanggalakhir = $filter('date')(new Date(),'yyyy-MM-dd 23:59:59');
 
 
-    if( (tanggal > tanggalmulai) && (tanggal < tanggalakhir))
-    {
-        setInterval(function() 
-        {
-            $rootScope.starttrack();
-        }, 30000);
-    }
+    // if( (tanggal > tanggalmulai) && (tanggal < tanggalakhir))
+    // {
+    //     setInterval(function() 
+    //     {
+    //         $rootScope.starttrack();
+    //     }, 30000);
+    // }
 
     var getUrl = function()
     {
@@ -127,7 +125,10 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         var result = [];
         $.each(list, function(i, e) 
         {
-            if ($.inArray(e, result) == -1) result.push(e);
+            if ($.inArray(e, result) == -1) 
+            {
+                result.push(e);
+            }
         });
         
         return result;
@@ -137,7 +138,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
     {
         var dataproduct = $.ajax
         ({
-              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01",
+              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&STATUS=1",
               type: "GET",
               dataType:"json",
               async: false
@@ -149,6 +150,28 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         {
             var KD_BARANG = value.KD_BARANG;
             result.push(KD_BARANG);
+        });
+        return result;
+    }
+    
+    $rootScope.objectdatabarangs = function()
+    {
+        var dataproduct = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&STATUS=1",
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
+        var result = [];
+        angular.forEach(Product, function(value, key)
+        {
+            var product = {};
+            product.KD_BARANG = value.KD_BARANG;
+            product.NM_BARANG = value.NM_BARANG;
+            result.push(product);
         });
         return result;
     }
@@ -212,7 +235,6 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         });
         return result;
     }
-
     $rootScope.databarangexpired = function(iddetail)
     {
         var barangexpired = $.ajax
@@ -230,7 +252,8 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
             var KD_BARANG = value.BRG_ID;
             result.push(KD_BARANG);
         });
-        return result;
+        var x = $rootScope.unique(result);
+        return x;
     }
 
     $rootScope.diffbarang = function(x,y)
@@ -254,6 +277,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
 
         return result;
     }
+
 
     $rootScope.singledetailkunjunganbyiddetail = function(iddetail)
     {
@@ -325,6 +349,16 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         return result;
     }
 
+    $rootScope.jaraklokasi = function(longitude1,latitude1,longitude2,latitude2)
+    {
+        var thetalong      = (longitude1 - longitude2)*(Math.PI / 180); 
+        var thetalat       = (latitude1 - latitude2)*(Math.PI / 180);
+
+        var a = 0.5 - Math.cos(thetalat)/2 + Math.cos(latitude1 * Math.PI / 180) * Math.cos(latitude2 * Math.PI / 180) * (1 - Math.cos(thetalong))/2;
+        var jarak = 12742 * Math.asin(Math.sqrt(a)) * 1000;
+
+        return jarak;
+    }
 
 }]);
 

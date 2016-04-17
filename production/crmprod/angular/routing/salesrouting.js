@@ -329,8 +329,21 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
-            }
-        }
+            },
+            resolvegpslocation: function (LocationService) 
+            {
+                var gpslocation = LocationService.GetLocation();
+                return gpslocation;
+            },
+            resolvelistagenda: function (authService,apiService,$route) 
+            {
+                var tanggalplan             = $route.current.params.idtanggal;
+                var userInfo                = authService.getUserInfo();
+                return apiService.listagenda(userInfo,tanggalplan);
+            },
+            
+        },
+
     });
 
     $routeProvider.when('/mapagenda',
@@ -385,6 +398,12 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
+            },
+
+            historyresolve: function(apiService,authService)
+            {
+                var userInfo = authService.getUserInfo();
+                return apiService.listhistory(userInfo);
             }
         }
     });
@@ -413,10 +432,20 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
+            },
+            resolvegpslocation: function (LocationService) 
+            {
+                var gpslocation = LocationService.GetLocation();
+                return gpslocation;
+            },
+            resolvesingledetailkunjunganbyiddetail: function (singleapiService,$route) 
+            {
+                var iddetailkunjungan             = $route.current.params.iddetailkunjungan;
+                var resolvesingledetailkunjunganbyiddetail = singleapiService.singledetailkunjunganbyiddetail(iddetailkunjungan);
+                return resolvesingledetailkunjunganbyiddetail;
             }
         }
     });
-
     $routeProvider.otherwise({redirectTo:'/error/404'});
 
 }]);

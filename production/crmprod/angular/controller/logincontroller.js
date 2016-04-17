@@ -15,7 +15,6 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
 	    	authService.login(username, password)
             .then(function (result) 
             {
-                console.log(result);
                 $scope.userInfo = result;
                 var rulename = result.rulename;
                 if(rulename == 'SALESMAN')

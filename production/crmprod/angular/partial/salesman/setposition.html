@@ -7,9 +7,6 @@
         <div class="row">
               <div class="col-md-12">
                 <div class="box box-danger">
-                  <div class="box-header">
-                    <h3 class="box-title">Create New Customer</h3>
-                  </div>
                   <form name="customerForm" ng-submit="submitForm(customer)" method="post" novalidate>
                   <div class="box-body" >
                     <fieldset class="scheduler-border">
@@ -50,7 +47,7 @@
                   </div>
                   <!-- /.box-body -->
                   <div class="box-footer clearfix">
-                    <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a>
+                    <!-- <a href="javascript::;" class="btn btn-sm btn-danger btn-flat pull-left">Cancel</a> -->
                     <button type="submit" ng-disabled="customerForm.$invalid" class="btn btn-sm btn-success btn-flat pull-right">Set Customer Position</button>
                   </div>
                 </div>
@@ -62,8 +59,8 @@
 
         <div class="row">
           <div class="col-md-12 col-sm-6 col-xs-12" >
-            <ng-map zoom="22" center="{{currentlat}},{{currentlong}}" style="display:block; width:100%;">
-                <marker position="{{currentlat}}, {{currentlong}}"  draggable="false"></marker>
+            <ng-map zoom="11" center="{{gpslat}},{{gpslong}}" style="display:block; width:100%;">
+                <marker position="{{gpslat}}, {{gpslong}}"  draggable="false"></marker>
                 <marker  position="{{currentcustlat}}, {{currentcustlng}}" draggable="true" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
                 on-dragend="doSth()"></marker>
             </ng-map>

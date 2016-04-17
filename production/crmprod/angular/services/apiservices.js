@@ -4,32 +4,34 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var getUrl = function()
 	{
-		//return "http://labtest3-api.int/master";
 		return "http://api.lukisongroup.com/master";
 	}
-
 	var gettoken = function()
 	{
 		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 	}
 	
-
-
 	var listcustomer = function()
 	{
-		var url = getUrl();
+		var globalurl = getUrl();
 		var deferred = $q.defer();
-		var url = url + "/customers";
+		var url = globalurl + "/customers";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
         {
-		  deferred.resolve(response);
+		  	deferred.resolve(response);
         })
-
-        .error(function()
+        .error(function(err,status)
         {
-            deferred.reject(error);
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
         });
 
         return deferred.promise;
@@ -37,102 +39,42 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var listgroupcustomer = function()
 	{
-		var url = getUrl();
+		var globalurl = getUrl();
 		var deferred = $q.defer();
-		var url = url + "/customergroups";
+		var url = globalurl + "/customergroups";
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
         {
-		  deferred.resolve(response);
+		  	deferred.resolve(response);
         })
-
-        .error(function()
+        .error(function(err,status)
         {
-            deferred.reject(error);
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
         });
 
         return deferred.promise;
 	}
 
-	var listdistributor = function()
-	{
-		var url = getUrl();
-		var deferred = $q.defer();
-		var url = url + "/distributors";
+	var listagenda = function(userInfo,tanggalplan)
+	{ 
+		var idsalesman		= userInfo.id;
+		var globalurl 		= getUrl();
+		var deferred 		= $q.defer();
+		var url = globalurl + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggalplan;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
         {
-		  deferred.resolve(response);
+    		deferred.resolve(response);
         })
-
-        .error(function()
-        {
-            deferred.reject(error);
-        });
-
-        return deferred.promise;
-	}
-	var listparentcustomerkategoris = function()
-	{
-		var url = getUrl();
-		
-		var deferred = $q.defer();
-		var url = url + "/customkategoris/search?CUST_KTG_PARENT=0";
-		var method ="GET";
-		
-		$http({method:method, url:url})
-        .success(function(response) 
-        {
-		  deferred.resolve(response);
-        })
-
-        .error(function()
-        {
-            deferred.reject(error);
-            console.log('List Customers Error');
-        });
-
-        return deferred.promise;
-	}
-
-	var listchildcustomerkategoris = function(idparent)
-	{
-		var url = getUrl();
-		
-		var deferred = $q.defer();
-		var url = url + "/customkategoris/search?CUST_KTG_PARENT="+ idparent;
-		var method ="GET";
-		$http({method:method, url:url})
-        .success(function(response) 
-        {
-		  deferred.resolve(response);
-        })
-
-        .error(function()
-        {
-            deferred.reject(error);
-            console.log('List Customers Error');
-        });
-
-        return deferred.promise;
-	}
-
-	var listagenda = function(idsalesman,tanggal)
-	{
-		var url = getUrl();
-		
-		var deferred = $q.defer();
-		//var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
-		var url = url + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
-		var method ="GET";
-		$http({method:method, url:url})
-        .success(function(response) 
-        {
-		  deferred.resolve(response);
-        })
-
         .error(function(err,status)
         {
 			if (status === 404)
@@ -150,18 +92,15 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var alllistagenda = function(idsalesman)
 	{
-		var url = getUrl();
-		
+		var globalurl = getUrl();
 		var deferred = $q.defer();
-		//var url = "http://api.lukison.int/master" + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggal;
-		var url = url + "/jadwalkunjungans/search?USER_ID="+ idsalesman;
+		var url = globalurl + "/jadwalkunjungans/search?USER_ID="+ idsalesman;
 		var method ="GET";
 		$http({method:method, url:url})
         .success(function(response) 
         {
-		  deferred.resolve(response);
+		  	deferred.resolve(response);
         })
-
         .error(function(err,status)
         {
 			if (status === 404)
@@ -176,14 +115,192 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
         return deferred.promise;
 	}
+	
+	var listhistory = function(userinfo)
+	{
+		var iduser = userinfo.id;
+		var globalurl = getUrl();
+		var deferred = $q.defer();
+		var url = globalurl + "/jadwalkunjungans/search?USER_ID=" + iduser;
+		var method ="GET";
+		$http({method:method, url:url})
+		.success(function(response) 
+		{
+			deferred.resolve(response);
+		})
+		.error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+		return deferred.promise;
+	}
+	var scdlgroupbyjadwalkunjungan = function(userInfo,tanggalplan)
+	{
+		var userid = userInfo.id;
+		var globalurl = getUrl();
+		var deferred = $q.defer();
+		var url = globalurl + "/jadwalkunjungans/search?TGL1=" + tanggalplan + "&USER_ID=" + userid;
+		var method ="GET";
+		$http({method:method, url:url})
+		.success(function(response) 
+		{
+			deferred.resolve(response);
+		})
+		.error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+		return deferred.promise;
+	}
+
+	var datasummaryall = function(idsalesman,tanggalplan,idgroupcustomer)
+	{
+		var globalurl = getUrl();
+		var deferred = $q.defer();
+		var url = globalurl + "/inventorysummaryalls/search?TGL=" + tanggalplan + "&USER_ID=" + idsalesman + "&SCDL_GROUP=" + idgroupcustomer;
+		var method ="GET";
+        $http({method:method, url:url})
+		.success(function(response) 
+		{
+			var result = {};
+			var BarangSummaryAll = response.InventorySummaryAll;
+	        var filtersproduct   = [];
+	        _.each(BarangSummaryAll, function(execute) 
+	        {
+	            var existingFilter = _.findWhere(filtersproduct, { CUST_ID: execute.CUST_ID });
+	            if (existingFilter) 
+	            {
+	                var index = filtersproduct.indexOf(existingFilter);
+	                var product     = {};
+	                product.KD_BARANG       = execute.KD_BARANG;
+	                product.NM_BARANG       = execute.NM_BARANG;
+	                product.STOCK           = execute.STOCK;
+	                product.SELL_IN         = execute.SELL_IN;
+	                product.SELL_OUT        = execute.SELL_OUT;
+	                filtersproduct[index].products.push(product);
+	            }
+	            else
+	            {
+	                var filter      = {};
+	                var product     = {};
+	                filter.CUST_ID      = execute.CUST_ID;
+	                filter.CUST_NM      = execute.CUST_NM;
+
+	                product.KD_BARANG       = execute.KD_BARANG;
+	                product.NM_BARANG       = execute.NM_BARANG;
+	                product.STOCK           = execute.STOCK;
+	                product.SELL_IN         = execute.SELL_IN;
+	                product.SELL_OUT        = execute.SELL_OUT;
+
+	                filter.products=[];
+	                filter.products.push(product);
+	                filtersproduct.push(filter);
+	            }
+	        });
+	        result.siteres = filtersproduct;
+
+	        var filtersquantity= [];
+	        angular.forEach(filtersproduct, function(value, key)
+	        {
+	            angular.forEach(value.products, function(value, key)
+	            {
+	                var existingFilter = _.findWhere(filtersquantity, { NM_BARANG: value.NM_BARANG });
+	                if (existingFilter) 
+	                {
+	                    var index = filtersquantity.indexOf(existingFilter);
+
+	                    var xsellin = parseInt(filtersquantity[index].TOTSELL_IN);
+	                    var ysellin = parseInt(value.SELL_IN);
+	                    var zsellin = xsellin + ysellin;
+
+	                    var xsellout = parseInt(filtersquantity[index].TOTSELL_OUT);
+	                    var ysellout = parseInt(value.SELL_OUT);
+	                    var zsellout = xsellout + ysellout;
+
+	                    var xstock = parseInt(filtersquantity[index].TOTSTOCK);
+	                    var ystock = parseInt(value.STOCK);
+	                    var zstock = xstock + ystock;
+
+	                    filtersquantity[index].TOTSELL_IN  = zsellin;
+	                    filtersquantity[index].TOTSELL_OUT = zsellout;
+	                    filtersquantity[index].TOTSTOCK    = zstock;
+	                }
+	                else
+	                {
+	                    var filter      = {};
+	                    filter.KD_BARANG            = value.KD_BARANG;
+	                    filter.NM_BARANG            = value.NM_BARANG;
+	                    filter.TOTSELL_IN           = value.SELL_IN;
+	                    filter.TOTSELL_OUT          = value.SELL_OUT;
+	                    filter.TOTSTOCK             = value.STOCK;
+	                    filtersquantity.push(filter);
+	                }
+	            });
+	        });
+	        result.totalalls = filtersquantity;
+	        deferred.resolve(result); 
+		})
+		.error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+        return deferred.promise;		  
+	}
+
+	var datasummarypercustomer = function(tanggalplan,idcustomer,idsalesman)
+	{
+		var url = getUrl();
+		var deferred = $q.defer();
+		var url = url + "/inventorysummaries/search?TGL=" + tanggalplan + "&CUST_KD=" + idcustomer + "&USER_ID=" + idsalesman;
+		var method ="GET";
+		$http({method:method, url:url})
+		.success(function(response) 
+		{
+			deferred.resolve(response);
+		})
+		.error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+		return deferred.promise;
+	}
 
 	return{
 			listcustomer:listcustomer,
-			listdistributor:listdistributor,
-			listparentcustomerkategoris:listparentcustomerkategoris,
-			listchildcustomerkategoris:listchildcustomerkategoris,
 			listgroupcustomer:listgroupcustomer,
 			listagenda:listagenda,
-			alllistagenda:alllistagenda
+			alllistagenda:alllistagenda,
+			listhistory:listhistory,
+			scdlgroupbyjadwalkunjungan:scdlgroupbyjadwalkunjungan,
+			datasummaryall:datasummaryall,
+			datasummarypercustomer:datasummarypercustomer
 		}
 }]);

@@ -9,6 +9,7 @@ document.write('<script src="angular/vendor/angular-spinner.js"></script>');
 document.write('<script src="angular/vendor/angular-strap.js"></script>');
 document.write('<script src="angular/vendor/qrcode.js"></script>');
 document.write('<script src="angular/vendor/angular-qrcode.js"></script>');
+
 document.write('<script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>');
 document.write('<script src="bower_components/angular-acl/angular-acl.js"></script>');
 document.write('<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>');

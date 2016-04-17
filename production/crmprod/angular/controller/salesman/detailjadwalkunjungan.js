@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvegpslocation","resolvesingledetailkunjunganbyiddetail",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvegpslocation,resolvesingledetailkunjunganbyiddetail) 
 {
     $scope.noticestart="bg-aqua";
     $scope.noticestartgambar="fa fa-close bg-aqua";
@@ -34,197 +34,199 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     var tanggalinventory = $filter('date')(new Date(),'yyyy-MM-dd');
 
-    $scope.loading = true;
     $scope.zoomvalue = 17;
     var geocoder = new google.maps.Geocoder;
-    LocationService.GetLocation().then(function(data)
+    $scope.googlemaplat = resolvegpslocation.latitude;    //get from gps
+    $scope.googlemaplong = resolvegpslocation.longitude;  //get from gps
+    
+    var y  = resolvesingledetailkunjunganbyiddetail.DetailKunjungan[0];
+
+    $scope.CUST_MAP_LAT      = y.MAP_LAT;
+    $scope.CUST_MAP_LNG      = y.MAP_LNG;
+    $scope.blabla            = y.CUST_NM;
+
+    var ID_DETAIL           = y.ID;
+    var DEFAULT_CUST_LONG   = y.MAP_LNG;
+    var DEFAULT_CUST_LAT    = y.MAP_LAT;
+    var PLAN_TGL_KUNJUNGAN  = y.TGL;
+    var CUST_ID             = y.CUST_ID;
+
+    var longitude1     = $scope.googlemaplat;
+    var latitude1      = $scope.googlemaplong;
+
+    var longitude2     = DEFAULT_CUST_LAT;
+    var latitude2      = DEFAULT_CUST_LONG;
+
+    var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
+
+    var detail = {};
+    var checkintime         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+    detail.LAT              = $scope.googlemaplat;
+    detail.LAG              = $scope.googlemaplong;
+    detail.RADIUS           = jarak;
+    detail.CHECKIN_TIME     = checkintime;
+    detail.CREATE_BY        = idsalesman;
+    detail.CREATE_AT        = checkintime;
+    detail.STATUS           = 1;
+
+    var result              = $rootScope.seriliazeobject(detail);
+    var serialized          = result.serialized;
+    var config              = result.config;
+
+
+    // CHECK-IN FUNCTION
+    //###########################################################################################
+    $scope.checkin = function()
     {
-        $scope.loading = false;
-        var y = $rootScope.singledetailkunjunganbyiddetail(iddetail);
-
-        $scope.googlemaplat = data.latitude;    //get from gps
-        $scope.googlemaplong = data.longitude;  //get from gps
-
-        $scope.CUST_MAP_LAT      = y.MAP_LAT;
-        $scope.CUST_MAP_LNG      = y.MAP_LNG;
-        $scope.blabla            = y.CUST_NM;
-
-        var ID_DETAIL           = y.ID;
-        var DEFAULT_CUST_LONG   = y.MAP_LNG;
-        var DEFAULT_CUST_LAT    = y.MAP_LAT;
-        var PLAN_TGL_KUNJUNGAN  = y.TGL;
-        var CUST_ID             = y.CUST_ID;
-
-        var longitude1     = $scope.googlemaplat;
-        var latitude1      = $scope.googlemaplong;
-
-        var longitude2     = DEFAULT_CUST_LAT;
-        var latitude2      = DEFAULT_CUST_LONG;
-
-        var thetalong      = (longitude1 - longitude2)*(Math.PI / 180); 
-        var thetalat       = (latitude1 - latitude2)*(Math.PI / 180);
-
-        var a = 0.5 - Math.cos(thetalat)/2 + Math.cos(latitude1 * Math.PI / 180) * Math.cos(latitude2 * Math.PI / 180) * (1 - Math.cos(thetalong))/2;
-        var jarak = 12742 * Math.asin(Math.sqrt(a)) * 1000;
-        
-        var detail = {};
-        var checkintime         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-        detail.LAT              = $scope.googlemaplat;
-        detail.LAG              = $scope.googlemaplong;
-        detail.RADIUS           = jarak;
-        detail.CHECKIN_TIME     = checkintime;
-        detail.CREATE_BY        = idsalesman;
-        detail.CREATE_AT        = checkintime;
-        detail.STATUS           = 1;
-
-        var result              = $rootScope.seriliazeobject(detail);
-        var serialized          = result.serialized;
-        var config              = result.config;
-
-
-        // CHECK-IN FUNCTION
-        //###########################################################################################
-        $scope.checkin = function()
+        $http.put(url + "/detailkunjungans/"+ ID_DETAIL,serialized,config)
+        .success(function(data,status, headers, config) 
         {
-            $http.put(url + "/detailkunjungans/"+ ID_DETAIL,serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                ngToast.create('Anda Telah Berhasil Check In');
-            })
+            ngToast.create('Anda Telah Berhasil Check In');
+        })
+        .finally(function()
+        {
+            $scope.loading = false;  
+        });
 
-            .finally(function()
-            {
-                $scope.loading = false;  
-            });
+        $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL,serialized,config)
+        .success(function(data,status, headers, config) 
+        {
+            // ngToast.create('Status Checkin Berhasil Disimpan');
+        })
+        .error(function(data,status,header,config)
+        {
+            var statuskunjungan = {};
+            statuskunjungan.ID_DETAIL               = ID_DETAIL;
+            statuskunjungan.TGL                     = PLAN_TGL_KUNJUNGAN;
+            statuskunjungan.USER_ID                 = idsalesman;
+            statuskunjungan.CUST_ID                 = CUST_ID;
+            statuskunjungan.CHECK_IN                = 1;
 
-            $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL,serialized,config)
+            var result              = $rootScope.seriliazeobject(statuskunjungan);
+            var serialized          = result.serialized;
+            var config              = result.config;
+
+            $http.post(url + "/statuskunjungans",serialized,config)
             .success(function(data,status, headers, config) 
             {
                 // ngToast.create('Status Checkin Berhasil Disimpan');
             })
-            .error(function(data,status,header,config)
-            {
-                var statuskunjungan = {};
-                statuskunjungan.ID_DETAIL               = ID_DETAIL;
-                statuskunjungan.TGL                     = PLAN_TGL_KUNJUNGAN;
-                statuskunjungan.USER_ID                 = idsalesman;
-                statuskunjungan.CUST_ID                 = CUST_ID;
-                statuskunjungan.CHECK_IN                = 1;
-
-                var result              = $rootScope.seriliazeobject(statuskunjungan);
-                var serialized          = result.serialized;
-                var config              = result.config;
-
-                $http.post(url + "/statuskunjungans",serialized,config)
-                .success(function(data,status, headers, config) 
-                {
-                    // ngToast.create('Status Checkin Berhasil Disimpan');
-                })
-
-                .finally(function()
-                {
-                    $scope.loading = false;  
-                });
-            })
 
             .finally(function()
             {
                 $scope.loading = false;  
-            });   
-        }
-        $scope.checkin();
-
-        //############################################################################################
-        $scope.checkout = function()
+            });
+        })
+        .finally(function()
         {
-            var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            var detail={};
-            detail.CHECKOUT_LAT              = $scope.googlemaplat;
-            detail.CHECKOUT_LAG              = $scope.googlemaplong;
-            detail.CHECKOUT_TIME             = checkouttime;
-            detail.UPDATE_BY                 = idsalesman;
+            $scope.loading = false;  
+        });   
+    }
+    $scope.checkin();
+    //############################################################################################
+    $scope.checkout = function()
+    {
+        var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        var detail={};
+        detail.CHECKOUT_LAT              = $scope.googlemaplat;
+        detail.CHECKOUT_LAG              = $scope.googlemaplong;
+        detail.CHECKOUT_TIME             = checkouttime;
+        detail.UPDATE_BY                 = idsalesman;
 
-            var result              = $rootScope.seriliazeobject(detail);
-            var serialized          = result.serialized;
-            var config              = result.config; 
+        var result              = $rootScope.seriliazeobject(detail);
+        var serialized          = result.serialized;
+        var config              = result.config; 
 
-            $http.put(url + "/detailkunjungans/" + ID_DETAIL,serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                ngToast.create('Anda Telah Berhasil Check Out');
-                $location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN);
-            })
-            .finally(function()
-            {
-                $scope.loading = false;  
-            });
-
-            var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
-            var statuskunjungan = {};
-            statuskunjungan.CHECK_OUT = 1;
-
-            var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
-            var serialized              = resultstatus.serialized;
-            var config                  = resultstatus.config;
-
-            $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                // ngToast.create('Anda Telah Berhasil Check In');
-            })
-
-            .finally(function()
-            {
-                $scope.loading = false;  
-            });
-            
-        }
-        //#############################################################################################
-
-        $http.get(url + "/gambarkunjungans/search?ID_DETAIL=" + ID_DETAIL + "&IMG_NM_START=gambar start")
+        $http.put(url + "/detailkunjungans/" + ID_DETAIL,serialized,config)
         .success(function(data,status, headers, config) 
+        {
+            ngToast.create('Anda Telah Berhasil Check Out');
+            $location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN);
+        })
+        .finally(function()
+        {
+            $scope.loading = false;  
+        });
+
+        var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
+        var statuskunjungan = {};
+        statuskunjungan.CHECK_OUT = 1;
+
+        var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+        var serialized              = resultstatus.serialized;
+        var config                  = resultstatus.config;
+
+        $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
+        .success(function(data,status, headers, config) 
+        {
+            // ngToast.create('Anda Telah Berhasil Check In');
+        })
+
+        .finally(function()
+        {
+            $scope.loading = false;  
+        });     
+    }
+    //#############################################################################################
+    var x = $.ajax
+    ({
+        url: url + "/statuskunjungans/search?ID_DETAIL="+ ID_DETAIL,
+        type: "GET",
+        dataType:"json",
+        async: false
+    }).responseJSON;
+    
+    if(x.code != 0)
+    {
+        var x = x.StatusKunjungan[0];
+        if(x.START_PIC == 1)
         {
             $scope.noticestart="bg-green";
             $scope.noticestartgambar="fa fa-check bg-green";
-        });
-
-        $http.get(url + "/gambarkunjungans/search?ID_DETAIL=" + ID_DETAIL + "&IMG_NM_END=gambar end")
-        .success(function(data,status, headers, config) 
+        }
+        if(x.END_PIC == 1)
         {
             $scope.noticeend="bg-green";
             $scope.noticeendgambar="fa fa-check bg-green";
+        }
+    }
+    
+    //#############################################################################################
+    var databarangall       = $rootScope.databarangs();
+    $rootScope.arraydatabarangall = [];
+    angular.forEach(databarangall, function(element) 
+    {
+      $rootScope.arraydatabarangall.push(element);
+    });
 
-        });
+    var barangstockqty      = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,5);
+    var barangsellin        = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6);
+    var barangsellout       = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,7);
+    var barangexpired       = $rootScope.databarangexpired(ID_DETAIL);
 
-        var databarangall       = $rootScope.databarangs();
-        $rootScope.arraydatabarangall = [];
-        angular.forEach(databarangall, function(element) 
-        {
-          $rootScope.arraydatabarangall.push(element);
-        });
+    $rootScope.barangstockqty           = $rootScope.diffbarang(databarangall,barangstockqty);
+    $rootScope.statusbarangstockqty     = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangstockqty);
 
-        var barangstockqty      = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,5);
-        var barangsellin        = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6);
-        var barangsellout       = $rootScope.databaranginventory(CUST_ID,PLAN_TGL_KUNJUNGAN,7);
-        var barangexpired       = $rootScope.databarangexpired(ID_DETAIL);
+    $rootScope.barangsellout            = $rootScope.diffbarang(databarangall,barangsellout);
+    $rootScope.statusbarangsellout      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangsellout);
 
+    $rootScope.barangsellin             = $rootScope.diffbarang(databarangall,barangsellin);
+    $rootScope.statusbarangsellin       = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangsellin);
 
-        $rootScope.barangstockqty           = $rootScope.diffbarang(databarangall,barangstockqty);
-        $rootScope.statusbarangstockqty     = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangstockqty);
-
-        $rootScope.barangsellout            = $rootScope.diffbarang(databarangall,barangsellout);
-        $rootScope.statusbarangsellout      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangsellout);
-
-        $rootScope.barangsellin             = $rootScope.diffbarang(databarangall,barangsellin);
-        $rootScope.statusbarangsellin       = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangsellin);
-
-        // var xxx  = [];
-        $rootScope.barangexpired            = $rootScope.diffbarang(databarangall,barangexpired);
-        $rootScope.statusbarangexpired      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangexpired);
-
-        // ####################################################################################################
-        $scope.updatestockqty = function(idproduct,index)
-        {
+    var x           = $rootScope.diffbarang(databarangall,barangexpired);
+    $rootScope.barangexpired   = [];
+    var objectdatabarangall = $rootScope.objectdatabarangs();
+    angular.forEach(x, function(value, key)
+    {
+        var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
+        $rootScope.barangexpired.push(existingFilter);
+    });
+    $rootScope.statusbarangexpired      = $rootScope.cekstatuspanjangdiffbarang($rootScope.barangexpired);
+    // ####################################################################################################
+    $scope.updatestockqty = function(idproduct,index)
+    {
+        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        // {
             var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
@@ -301,9 +303,20 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     });
                 }
             });
-        }
-        // ####################################################################################################
-        $scope.updatesellout = function(idproduct,index)
+        // }
+        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        // {
+        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Stock");
+        // }
+        // else
+        // {
+        //     alert("Kamu Belum Bisa Melakukan Update Stock");
+        // }
+    }
+    // ####################################################################################################
+    $scope.updatesellout = function(idproduct,index)
+    {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
         {
             var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
@@ -382,11 +395,22 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $scope.loading = false;  
                     });
                 }
-            });  
+            });
         }
-        // ####################################################################################################
-        $scope.updatesellin = function(idproduct,index)
-        { 
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Update Sell Out");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Update Sell Out");
+        }     
+    }
+    // ####################################################################################################
+    $scope.updatesellin = function(idproduct,index)
+    { 
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
@@ -464,14 +488,24 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $scope.loading = false;  
                     });
                 }
-            });  
+            });
         }
-        //#####################################################################################################
-        $scope.starttakeapicture = function()
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Update Sell In");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Update Sell In");
+        }      
+    }
+    //#####################################################################################################
+    $scope.starttakeapicture = function()
+    {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
         {
             document.addEventListener("deviceready", function () 
             {
-
               var options = {
                 quality: 100,
                 destinationType: Camera.DestinationType.DATA_URL,
@@ -560,124 +594,139 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
             }, false);
         }
-        //#####################################################################################################
-        $scope.endtakeapicture = function()
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Take Start Picture");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Take Start Picture");
+        } 
+    }
+    //#####################################################################################################
+    $scope.endtakeapicture = function()
+    {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
         {
             document.addEventListener("deviceready", function () 
             {
-
-
-              var options = {
-                quality: 100,
-                destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: Camera.PictureSourceType.CAMERA,
-                allowEdit: false,
-                encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 100,
-                targetHeight: 100,
-                popoverOptions: CameraPopoverOptions,
-                saveToPhotoAlbum: false,
-                correctOrientation:true
-              };
-
-              $cordovaCamera.getPicture(options).then(function(imageData) 
-              {
-                var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                var gambarkunjungan={};
-
-                gambarkunjungan.IMG_NM_END      = "gambar end";
-                gambarkunjungan.IMG_DECODE_END  = imageData;
-                gambarkunjungan.TIME_END        = timeimageend;
-                gambarkunjungan.ID_DETAIL       = ID_DETAIL;
-                gambarkunjungan.UPDATE_BY       =idsalesman;
-
-                var result      = $rootScope.seriliazeobject(gambarkunjungan);
-                var serialized  = result.serialized;
-                var config      = result.config; 
-
-
-                var datagambar = $.ajax
-                ({
-                      url: url + "/gambars/search?ID_DETAIL="+ ID_DETAIL,
-                      type: "GET",
-                      dataType:"json",
-                      async: false
-                });
-
-                if(datagambar.status == "404")
+                var options = 
                 {
-                    alert("Ambil Start Gambar Terlebih Dahulu");
-                }
-                
-                else
+                    quality: 100,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.CAMERA,
+                    allowEdit: false,
+                    encodingType: Camera.EncodingType.JPEG,
+                    targetWidth: 100,
+                    targetHeight: 100,
+                    popoverOptions: CameraPopoverOptions,
+                    saveToPhotoAlbum: false,
+                    correctOrientation:true
+                };
+
+                $cordovaCamera.getPicture(options).then(function(imageData) 
                 {
+                    var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                    var gambarkunjungan={};
+
+                    gambarkunjungan.IMG_NM_END      = "gambar end";
+                    gambarkunjungan.IMG_DECODE_END  = imageData;
+                    gambarkunjungan.TIME_END        = timeimageend;
+                    gambarkunjungan.ID_DETAIL       = ID_DETAIL;
+                    gambarkunjungan.UPDATE_BY       = idsalesman;
+
+                    var result      = $rootScope.seriliazeobject(gambarkunjungan);
+                    var serialized  = result.serialized;
+                    var config      = result.config; 
+
+
                     var datagambar = $.ajax
                     ({
                           url: url + "/gambars/search?ID_DETAIL="+ ID_DETAIL,
                           type: "GET",
                           dataType:"json",
                           async: false
-                    }).responseText;
-
-                    var myData = datagambar;
-                    var mt = JSON.parse(myData)['Gambar'];
-                    var idgambar = mt[0].ID;
-
-                    $http.put(url + "/gambars/" + idgambar,serialized,config)
-                    .success(function(data,status, headers, config) 
-                    {
-                        ngToast.create('Gambar Telah Berhasil Di Update');
-                        $scope.noticeend          = "bg-green";
-                        $scope.noticeendgambar    = "fa fa-check bg-green";
-                    })
-
-                    .finally(function()
-                    {
-                        $scope.loading = false;   
                     });
 
-                    var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
-                    var statuskunjungan = {};
-                    statuskunjungan.END_PIC = 1;
-
-                    var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
-                    var serialized              = resultstatus.serialized;
-                    var config                  = resultstatus.config;
-
-                    $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
-                    .success(function(data,status, headers, config) 
+                    if(datagambar.status == "404")
                     {
-                        // ngToast.create('Anda Telah Berhasil Check In');
-                    })
+                        alert("Ambil Start Gambar Terlebih Dahulu");
+                    }
 
-                    .finally(function()
+                    else
                     {
-                        $scope.loading = false;  
-                    });
-                }
-              }, 
-              function(err) 
-              {
+                        var datagambar = $.ajax
+                        ({
+                              url: url + "/gambars/search?ID_DETAIL="+ ID_DETAIL,
+                              type: "GET",
+                              dataType:"json",
+                              async: false
+                        }).responseText;
 
-              });
+                        var myData = datagambar;
+                        var mt = JSON.parse(myData)['Gambar'];
+                        var idgambar = mt[0].ID;
+
+                        $http.put(url + "/gambars/" + idgambar,serialized,config)
+                        .success(function(data,status, headers, config) 
+                        {
+                            ngToast.create('Gambar Telah Berhasil Di Update');
+                            $scope.noticeend          = "bg-green";
+                            $scope.noticeendgambar    = "fa fa-check bg-green";
+                        })
+
+                        .finally(function()
+                        {
+                            $scope.loading = false;   
+                        });
+
+                        var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
+                        var statuskunjungan = {};
+                        statuskunjungan.END_PIC = 1;
+
+                        var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+                        var serialized              = resultstatus.serialized;
+                        var config                  = resultstatus.config;
+
+                        $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
+                        .success(function(data,status, headers, config) 
+                        {
+                            // ngToast.create('Anda Telah Berhasil Check In');
+                        })
+
+                        .finally(function()
+                        {
+                            $scope.loading = false;  
+                        });
+                    }
+                }, 
+                function(err) 
+                {
+
+                });
 
             }, false);
         }
-        //#####################################################################################################
-        //Data Summari With Stored Procedure
-        var dataproductsummary = $.ajax
-        ({
-              url: url + "/inventorysummaries/search?TGL=" + PLAN_TGL_KUNJUNGAN + "&CUST_KD=" + CUST_ID + "&USER_ID=" + idsalesman,
-              type: "GET",
-              dataType:"json",
-              async: false
-        }).responseText;
-        var InventorySummary = JSON.parse(dataproductsummary)['InventorySummary'];
-        $scope.BarangSummary = InventorySummary;
-        
-        //#####################################################################################################
-        $scope.showmodal = function(kodebarang,index) 
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
         {
+            alert("Kamu Tidak Bisa Lagi Melakukan Take End Picture");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Take End Picture");
+        }  
+    }
+    //#####################################################################################################
+    apiService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,idsalesman)
+    .then(function(data)
+    {
+        $scope.BarangSummary = data.InventorySummary;
+    }); 
+    //#####################################################################################################
+    $scope.showmodal = function(barang,index) 
+    {
+        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        // {
             ModalService
             .showModal(
             {
@@ -685,7 +734,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
               controller: "ComplexController",
               inputs: 
               {
-                title: kodebarang
+                title: barang.NM_BARANG
               }
             })
             .then(function(modal) 
@@ -696,7 +745,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 });
               modal.close.then(function(result) 
               {
-                var kodebarang     = result.title;
+                var kodebarang     = barang.KD_BARANG;
 
                 for(var i = 0; i < result.list.length; i ++)
                 {
@@ -751,8 +800,16 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 }
               });
             });
-        };
-    });  
+        //}
+        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        // {
+        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Product Expired");
+        // }
+        // else
+        // {
+        //     alert("Kamu Belum Bisa Melakukan Update Product Expired");
+        // }  
+    };
 }]);
 
 myAppModule.controller('ComplexController', ['$scope', '$element', 'title', 'close',"$filter",
@@ -783,5 +840,4 @@ function($scope, $element, title, close,$filter)
   {
     $element.modal('hide');
   };
-
 }]);

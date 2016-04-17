@@ -1,10 +1,8 @@
 'use strict';
-myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig) 
-{
-        
-    $scope.activehistory = "active";
-
+myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","historyresolve",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,historyresolve) 
+{  
+    
     $scope.userInfo = auth;
     $scope.logout = function () 
     { 
@@ -12,26 +10,16 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-    var url = $rootScope.linkurl;
 
+    $scope.activehistory    = "active";
+    $scope.loading          = true;
+    
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
     
-
-    var idsalesman = auth.id;
-    var data = $.ajax
-    ({
-          url: url + "/jadwalkunjungans/search?USER_ID="+ idsalesman,
-          type: "GET",
-          dataType:"json",
-          async: false
-    }).responseText;
-
-    var myData = data;
-    var mt = JSON.parse(myData)['JadwalKunjungan'];
-
+    var mt = historyresolve.JadwalKunjungan;
     $scope.events = [];
 
     angular.forEach(mt, function(value, key)
@@ -52,6 +40,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         {
             var title = "GU";
         }
+        else
+        {
+            var title = "G " + value.SCDL_GROUP;
+        }
 
         var tanggal= value.TGL1;
         var data ={};
@@ -61,8 +53,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         data.url ="#/agenda/" + tanggal;
         $scope.events.push(data);
     });
-
-
 
     $scope.uiConfig = 
     {

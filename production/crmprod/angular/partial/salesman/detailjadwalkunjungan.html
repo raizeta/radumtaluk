@@ -106,7 +106,7 @@
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
                                       <div class="timeline-body" ng-show="statusbarangexpired.show">
-                                        <img ng-repeat="barang in barangexpired" src="asset/graph/{{barang.KD_BARANG}}.png"  class="img-circle" id="{{$index}}" ng-click="showmodal(barang.KD_BARANG,$index)">
+                                        <img ng-repeat="barang in barangexpired" src="asset/graph/{{barang.KD_BARANG}}.png"  class="img-circle" id="{{$index}}" ng-click="showmodal(barang,$index)">
                                       </div>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
             <md-tab id="tab2">
               <md-tab-label>MAP {{customer.CUST_KD}}</md-tab-label>
               <md-tab-body>
-                  <ng-map zoom="17" center="{{googlemaplat}},{{googlemaplong}}" style="display:block; width:100%; height:400px">
+                  <ng-map zoom="15" center="{{googlemaplat}},{{googlemaplong}}" style="display:block; width:100%; height:400px">
                       <marker position="{{googlemaplat}},{{googlemaplong}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
                       <marker position="{{CUST_MAP_LAT}}, {{CUST_MAP_LNG}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>

@@ -84,6 +84,7 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet",function($htt
         if ($window.sessionStorage["userInfo"]) 
         {
             userInfo = JSON.parse($window.sessionStorage["userInfo"]);
+
         }
     }
     init();

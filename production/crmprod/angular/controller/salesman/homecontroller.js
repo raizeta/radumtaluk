@@ -38,15 +38,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
 
 
     $scope.loading  = true;
-    $scope.zoomvalue = 17;
+    $scope.zoomvalue = 11;
     $scope.loading  = true;
 
     var geocoder = new google.maps.Geocoder;
     LocationService.GetLocation()
     .then(function(data)
     {
-        $scope.currentlat = data.latitude;
-        $scope.currentlong = data.longitude;
+        $scope.gpslat = data.latitude;
+        $scope.gpslong = data.longitude;
     });
 
     $scope.customergroup = function()
@@ -80,7 +80,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         .then(function (result) 
         {
             $rootScope.currentcustlat  = result.MAP_LAT;
-            $rootScope.currentcustlng = result.MAP_LNG;
+            $rootScope.currentcustlng  = result.MAP_LNG;
         });
     }
 
@@ -95,16 +95,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         var idcustomer = customer.CUST_KD;
 
         var posisicust = {};
-        console.log($rootScope.actuallng);
-        if(($rootScope.lat != undefined)|| ($rootScope.lat != undefined))
+        if(($rootScope.actuallng == undefined)|| ($rootScope.actuallat == undefined))
         {
-            posisicust.MAP_LAT = $rootScope.actuallat;
-            posisicust.MAP_LNG = $rootScope.actuallng;
+            posisicust.MAP_LAT = $rootScope.currentcustlat;
+            posisicust.MAP_LNG = $rootScope.currentcustlng; 
         }
         else
         {
-            posisicust.MAP_LAT = $rootScope.currentcustlat;
-            posisicust.MAP_LNG = $rootScope.currentcustlng;
+            posisicust.MAP_LAT = $rootScope.actuallat;
+            posisicust.MAP_LNG = $rootScope.actuallng;
         }
 
         function serializeObj(obj) 
