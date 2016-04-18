@@ -225,8 +225,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     // ####################################################################################################
     $scope.updatestockqty = function(idproduct,index)
     {
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
@@ -236,7 +236,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: false,
-                inputPlaceholder: 'Quantity/PCS'
+                inputPlaceholder: 'Write something'
             }, 
             function(inputValue) 
             {
@@ -321,21 +321,21 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     });
                 }
             });
-        // }
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Stock");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Update Stock");
-        // }
+        }
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Update Stock");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Update Stock");
+        }
     }
     // ####################################################################################################
     $scope.updatesellout = function(idproduct,index)
     {
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
@@ -345,7 +345,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: false,
-                inputPlaceholder: 'Quantity/PCS',
+                inputPlaceholder: 'Write something',
                 allowEscapeKey: false,
                 allowOutsideClick: false
             }, 
@@ -432,21 +432,21 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     });
                 }
             });
-        // }
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Sell Out");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Update Sell Out");
-        // }     
+        }
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Update Sell Out");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Update Sell Out");
+        }     
     }
     // ####################################################################################################
     $scope.updatesellin = function(idproduct,index)
     { 
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             var namaproduct = $rootScope.searchdatabarangs(idproduct);
             sweet.show(
             {
@@ -456,7 +456,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 showCancelButton: true,
                 closeOnConfirm: false,
                 animation: false,
-                inputPlaceholder: 'Quantity/PCS',
+                inputPlaceholder: 'Write something',
                 allowEscapeKey: false,
                 allowOutsideClick: false
             }, 
@@ -543,21 +543,21 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     });
                 }
             });
-        // }
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Sell In");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Update Sell In");
-        // }      
+        }
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Update Sell In");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Update Sell In");
+        }      
     }
     //#####################################################################################################
     $scope.starttakeapicture = function()
     {
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             document.addEventListener("deviceready", function () 
             {
               var options = {
@@ -629,6 +629,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     {
                         // ngToast.create('Anda Telah Berhasil Check In');
                     })
+
                     .finally(function()
                     {
                         $scope.loading = false;  
@@ -637,23 +638,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 
                 else
                 {
-                    var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
-                    var statuskunjungan = {};
-                    statuskunjungan.START_PIC = 1;
 
-                    var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
-                    var serialized              = resultstatus.serialized;
-                    var config                  = resultstatus.config;
-
-                    $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
-                    .success(function(data,status, headers, config) 
-                    {
-                        // ngToast.create('Anda Telah Berhasil Check In');
-                    })
-                    .finally(function()
-                    {
-                        $scope.loading = false;  
-                    });
                 }
               }, 
               function(err) 
@@ -662,21 +647,21 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
               });
 
             }, false);
-        // }
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Take Start Picture");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Take Start Picture");
-        // } 
+        }
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Take Start Picture");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Take Start Picture");
+        } 
     }
     //#####################################################################################################
     $scope.endtakeapicture = function()
     {
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             document.addEventListener("deviceready", function () 
             {
                 var options = 
@@ -743,6 +728,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                             $scope.noticeend          = "bg-green";
                             $scope.noticeendgambar    = "fa fa-check bg-green";
                         })
+
                         .finally(function()
                         {
                             $scope.loading = false;   
@@ -774,15 +760,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 });
 
             }, false);
-        // }
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Take End Picture");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Take End Picture");
-        // }  
+        }
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Take End Picture");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Take End Picture");
+        }  
     }
     //#####################################################################################################
     apiService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,idsalesman)
@@ -793,8 +779,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     //#####################################################################################################
     $scope.showmodal = function(barang,index) 
     {
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
+        if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
+        {
             ModalService
             .showModal(
             {
@@ -886,15 +872,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 }
               });
             });
-        //}
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Product Expired");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Update Product Expired");
-        // }  
+        }
+        else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+        {
+            alert("Kamu Tidak Bisa Lagi Melakukan Update Product Expired");
+        }
+        else
+        {
+            alert("Kamu Belum Bisa Melakukan Update Product Expired");
+        }  
     };
 }]);
 

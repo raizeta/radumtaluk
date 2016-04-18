@@ -15,3 +15,12 @@ myAppModule.filter('setDecimal', function ($filter) {
         return Math.round(input * factor) / factor;
     };
 });
+
+myAppModule.filter('htmlToPlaintext', function() 
+{
+    return function(text) 
+    {
+      return angular.element(text).text();
+    }
+  }
+);

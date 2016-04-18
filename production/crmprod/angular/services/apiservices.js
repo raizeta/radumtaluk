@@ -176,7 +176,8 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         $http({method:method, url:url})
 		.success(function(response) 
 		{
-			var result = {};
+			console.log(response.InventorySummaryAll.length);
+			alert(response.InventorySummaryAll.length);
 			var BarangSummaryAll = response.InventorySummaryAll;
 	        var filtersproduct   = [];
 	        _.each(BarangSummaryAll, function(execute) 
@@ -211,8 +212,6 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	                filtersproduct.push(filter);
 	            }
 	        });
-	        result.siteres = filtersproduct;
-
 	        var filtersquantity= [];
 	        angular.forEach(filtersproduct, function(value, key)
 	        {
@@ -251,6 +250,9 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	                }
 	            });
 	        });
+
+			var result = {};
+			result.siteres = filtersproduct;
 	        result.totalalls = filtersquantity;
 	        deferred.resolve(result); 
 		})
@@ -258,10 +260,12 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         {
 			if (status === 404)
 			{
+	        	alert("error" + 404);
 	        	deferred.resolve([]);
 	      	}
 	      	else	
       		{
+	        	alert("Error. Unknown Error");
 	        	deferred.reject(err);
 	      	}
         });
@@ -293,6 +297,31 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		return deferred.promise;
 	}
 
+	var datasalesmanmemo = function()
+	{
+		var url = getUrl();
+		var deferred = $q.defer();
+		var url = url + "/salesmanmemos";
+		var method ="GET";
+		$http({method:method, url:url})
+		.success(function(response) 
+		{
+			deferred.resolve(response);
+		})
+		.error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });
+		return deferred.promise;
+	}
+
 	return{
 			listcustomer:listcustomer,
 			listgroupcustomer:listgroupcustomer,
@@ -301,6 +330,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 			listhistory:listhistory,
 			scdlgroupbyjadwalkunjungan:scdlgroupbyjadwalkunjungan,
 			datasummaryall:datasummaryall,
-			datasummarypercustomer:datasummarypercustomer
+			datasummarypercustomer:datasummarypercustomer,
+			datasalesmanmemo:datasalesmanmemo
 		}
 }]);

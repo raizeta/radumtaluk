@@ -7,7 +7,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     // alert($rootScope.deviceplatform);
     // alert($rootScope.deviceuuid);
     // alert($rootScope.deviceversion);
-
+    $scope.loading  = true;
     $scope.userInfo = auth;
 	$scope.logout = function () 
     { 
@@ -16,6 +16,13 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         window.location.href = "index.html";
     }
 
+    apiService.datasalesmanmemo()
+    .then(function(data)
+    {
+        $scope.salesmanmemo = data.Salesmanmemo;
+        console.log($scope.salesmanmemo);
+        $scope.loading = false;
+    });
 
 
 

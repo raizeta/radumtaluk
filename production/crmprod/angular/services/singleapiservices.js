@@ -175,51 +175,25 @@ function($rootScope,$http, $q, $window,$filter)
                 if(x.code != 0)
                 {
                     var x = x.StatusKunjungan[0];
-                    $rootScope.hasilstart   = parseInt(x.START_PIC);
-                    $rootScope.hasilend     = parseInt(x.END_PIC);
+                    $rootScope.hasilstart           = parseInt(x.START_PIC);
+                    $rootScope.hasilend             = parseInt(x.END_PIC);
+                    $rootScope.datainventorystock   = parseInt(x.INVENTORY_STOCK);
+                    $rootScope.datainventorysellin  = parseInt(x.INVENTORY_SELLIN);
+                    $rootScope.datainventorysellout = parseInt(x.INVENTORY_SELLOUT);
+                    $rootScope.datainventoryexpired = parseInt(x.INVENTORY_EXPIRED);
                 }
                 else
                 {
-                    $rootScope.hasilstart   = 0;
-                    $rootScope.hasilend     = 0;
+                    $rootScope.hasilstart           = 0;
+                    $rootScope.hasilend             = 0;
+                    $rootScope.datainventorystock   = 0;
+                    $rootScope.datainventorysellin  = 0;
+                    $rootScope.datainventorysellout = 0;
+                    $rootScope.datainventoryexpired = 0;
                 }
 
-                var datainventorysellin = $.ajax
-                ({
-                      url: globalurl + "/productinventories/search?CUST_KD=" + ab.CUST_ID  + "&TGL=" + tanggalplan + "&SO_TYPE=6",
-                      type: "GET",
-                      dataType:"json",
-                      async: false
-                });
-
-                if(datainventorysellin.status == "404")
-                {
-                    $rootScope.hasilinventorysellin = 0;
-                }
-                if(datainventorysellin.status == "200")
-                {
-                    $rootScope.hasilinventorysellin = 1;
-                }
-
-                var datainventorystock = $.ajax
-                ({
-                      url: globalurl + "/productinventories/search?CUST_KD=" + ab.CUST_ID  + "&TGL=" + tanggalplan + "&SO_TYPE=5",
-                      type: "GET",
-                      dataType:"json",
-                      async: false
-                });
-                
-                if(datainventorystock.status == "404")
-                {
-                    $rootScope.datainventorystock = 0;
-                }
-                if(datainventorystock.status == "200")
-                {
-                    $rootScope.datainventorystock = 1;
-                }
-
-                $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart + $rootScope.hasilinventorysellin + $rootScope.datainventorystock;
-                var persen = ($rootScope.jumlahstartdanend * 100)/4;
+                $rootScope.jumlahstartdanend = $rootScope.hasilend + $rootScope.hasilstart + $rootScope.datainventorystock + $rootScope.datainventorysellin + $rootScope.datainventorysellout + $rootScope.datainventoryexpired;
+                var persen = ($rootScope.jumlahstartdanend * 100)/6;
                 ab.persen = persen;
                 if(persen == 100)
                 {
