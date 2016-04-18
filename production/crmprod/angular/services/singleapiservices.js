@@ -2,7 +2,8 @@
 myAppModule.factory('singleapiService', ["$rootScope","$http","$q","$window","$filter",
 function($rootScope,$http, $q, $window,$filter)
 {
-	var geturl = function()
+	$http.defaults.useXDomain = true;
+    var geturl = function()
 	{
 		return "http://api.lukisongroup.com/master";
 	}

@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/agenda/2016-04-08
 //angular/partial/salesman/agenda.html
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","$routeParams","resolvegpslocation","resolvelistagenda",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,$routeParams,resolvegpslocation,resolvelistagenda) 
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","$routeParams","resolvegpslocation","resolvelistagenda","$timeout",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,$routeParams,resolvegpslocation,resolvelistagenda,$timeout) 
 {
     $scope.userInfo = auth;
     $scope.logout = function () 
@@ -42,16 +42,27 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         singleapiService.singledetailkunjungan(idsalesman,idgroupcustomer,idtanggal,resolvegpslocation)
         .then(function (result) 
         {
-            $scope.loading  = false;
             $scope.customers = result;
         });
-
-        apiService.datasummaryall(idsalesman,idtanggal,idgroupcustomer)
-        .then(function (result) 
+        
+        var panggildatasummary = function()
         {
-            $scope.siteres      = result.siteres;
-            $scope.totalalls    = result.totalalls;
-        });
+            apiService.datasummaryall(idsalesman,idtanggal,idgroupcustomer)
+            .then(function (result) 
+            {
+                console.log(result);
+                $scope.siteres      = result.siteres;
+                $scope.totalalls    = result.totalalls;
+                $scope.loading  = false;
+            }, 
+            function (err) 
+            {          
+                $timeout(panggildatasummary, 10000);
+                console.log(err);
+            }); 
+        }
+        $timeout(panggildatasummary, 1000);
+        
     }
     else
     {

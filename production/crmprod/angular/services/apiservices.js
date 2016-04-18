@@ -2,6 +2,7 @@
 myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $window)
 {
 
+	$http.defaults.useXDomain = true;
 	var getUrl = function()
 	{
 		return "http://api.lukisongroup.com/master";
@@ -169,15 +170,14 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var datasummaryall = function(idsalesman,tanggalplan,idgroupcustomer)
 	{
+		
 		var globalurl = getUrl();
 		var deferred = $q.defer();
 		var url = globalurl + "/inventorysummaryalls/search?TGL=" + tanggalplan + "&USER_ID=" + idsalesman + "&SCDL_GROUP=" + idgroupcustomer;
 		var method ="GET";
-        $http({method:method, url:url})
+        $http({method:method, url:url, withCredentials : true})
 		.success(function(response) 
 		{
-			console.log(response.InventorySummaryAll.length);
-			alert(response.InventorySummaryAll.length);
 			var BarangSummaryAll = response.InventorySummaryAll;
 	        var filtersproduct   = [];
 	        _.each(BarangSummaryAll, function(execute) 
@@ -265,7 +265,6 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	      	}
 	      	else	
       		{
-	        	alert("Error. Unknown Error");
 	        	deferred.reject(err);
 	      	}
         });

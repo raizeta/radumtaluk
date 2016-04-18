@@ -21,7 +21,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     {
         $scope.salesmanmemo = data.Salesmanmemo;
         console.log($scope.salesmanmemo);
-        $scope.loading = false;
+        // $scope.loading = false;
     });
 
 
@@ -58,6 +58,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
 
     $scope.customergroup = function()
     {
+        $scope.loading  = true;
         apiService.listgroupcustomer()
         .then(function (result) 
         {
@@ -82,12 +83,14 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
 
     $scope.customerchange = function(customer)
     {
+        $scope.loading  = true;
         var idcustomer = customer.CUST_KD;
         singleapiService.singlelistcustomer(idcustomer)
         .then(function (result) 
         {
             $rootScope.currentcustlat  = result.MAP_LAT;
             $rootScope.currentcustlng  = result.MAP_LNG;
+            $scope.loading  = false;
         });
     }
 

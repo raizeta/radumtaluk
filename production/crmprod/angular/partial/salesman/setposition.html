@@ -5,6 +5,7 @@
     <section class="content">
 
         <div class="row">
+          <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
               <div class="col-md-12">
                 <div class="box box-danger">
                   <form name="customerForm" ng-submit="submitForm(customer)" method="post" novalidate>
@@ -26,7 +27,7 @@
                               {{customergroup.SCDL_GROUP_NM}}
                             </option>
                           </select>
-                          <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
+                          
                         </div>
                         <div class="form-group" ng-class="{'has-error':customerForm.CUST_KD.$invalid && !customerForm.CUST_KD.$pritine,'has-success':customerForm.CUST_KD.$valid}" ng-show="showcustomer">
                           <label>List Customer</label>
