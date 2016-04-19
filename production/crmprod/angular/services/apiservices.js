@@ -2,6 +2,7 @@
 myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $window)
 {
 
+	//http://api.lukisongroup.com/master/statuskunjunganprosedurs/search?ID=147
 	$http.defaults.useXDomain = true;
 	var getUrl = function()
 	{
@@ -175,86 +176,94 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = globalurl + "/inventorysummaryalls/search?TGL=" + tanggalplan + "&USER_ID=" + idsalesman + "&SCDL_GROUP=" + idgroupcustomer;
 		var method ="GET";
-        $http({method:method, url:url, withCredentials : true})
-		.success(function(response) 
+        $http({method:method, url:url,async:false})
+		.success(function(response,status) 
 		{
-			var BarangSummaryAll = response.InventorySummaryAll;
-	        var filtersproduct   = [];
-	        _.each(BarangSummaryAll, function(execute) 
+			if(status === 200)
+			{
+
+				var BarangSummaryAll = response.InventorySummaryAll;
+		        var filtersproduct   = [];
+		        _.each(BarangSummaryAll, function(execute) 
+		        {
+		            var existingFilter = _.findWhere(filtersproduct, { CUST_ID: execute.CUST_ID });
+		            if (existingFilter) 
+		            {
+		                var index = filtersproduct.indexOf(existingFilter);
+		                var product     = {};
+		                product.KD_BARANG       = execute.KD_BARANG;
+		                product.NM_BARANG       = execute.NM_BARANG;
+		                product.STOCK           = execute.STOCK;
+		                product.SELL_IN         = execute.SELL_IN;
+		                product.SELL_OUT        = execute.SELL_OUT;
+		                filtersproduct[index].products.push(product);
+		            }
+		            else
+		            {
+		                var filter      = {};
+		                var product     = {};
+		                filter.CUST_ID      = execute.CUST_ID;
+		                filter.CUST_NM      = execute.CUST_NM;
+
+		                product.KD_BARANG       = execute.KD_BARANG;
+		                product.NM_BARANG       = execute.NM_BARANG;
+		                product.STOCK           = execute.STOCK;
+		                product.SELL_IN         = execute.SELL_IN;
+		                product.SELL_OUT        = execute.SELL_OUT;
+
+		                filter.products=[];
+		                filter.products.push(product);
+		                filtersproduct.push(filter);
+		            }
+		        });
+		        var filtersquantity= [];
+		        angular.forEach(filtersproduct, function(value, key)
+		        {
+		            angular.forEach(value.products, function(value, key)
+		            {
+		                var existingFilter = _.findWhere(filtersquantity, { NM_BARANG: value.NM_BARANG });
+		                if (existingFilter) 
+		                {
+		                    var index = filtersquantity.indexOf(existingFilter);
+
+		                    var xsellin = parseInt(filtersquantity[index].TOTSELL_IN);
+		                    var ysellin = parseInt(value.SELL_IN);
+		                    var zsellin = xsellin + ysellin;
+
+		                    var xsellout = parseInt(filtersquantity[index].TOTSELL_OUT);
+		                    var ysellout = parseInt(value.SELL_OUT);
+		                    var zsellout = xsellout + ysellout;
+
+		                    var xstock = parseInt(filtersquantity[index].TOTSTOCK);
+		                    var ystock = parseInt(value.STOCK);
+		                    var zstock = xstock + ystock;
+
+		                    filtersquantity[index].TOTSELL_IN  = zsellin;
+		                    filtersquantity[index].TOTSELL_OUT = zsellout;
+		                    filtersquantity[index].TOTSTOCK    = zstock;
+		                }
+		                else
+		                {
+		                    var filter      = {};
+		                    filter.KD_BARANG            = value.KD_BARANG;
+		                    filter.NM_BARANG            = value.NM_BARANG;
+		                    filter.TOTSELL_IN           = value.SELL_IN;
+		                    filter.TOTSELL_OUT          = value.SELL_OUT;
+		                    filter.TOTSTOCK             = value.STOCK;
+		                    filtersquantity.push(filter);
+		                }
+		            });
+		        });
+
+				var result = {};
+				result.siteres = filtersproduct;
+		        result.totalalls = filtersquantity;
+		        deferred.resolve(result); 
+	        }
+	        else if(status === 304)
 	        {
-	            var existingFilter = _.findWhere(filtersproduct, { CUST_ID: execute.CUST_ID });
-	            if (existingFilter) 
-	            {
-	                var index = filtersproduct.indexOf(existingFilter);
-	                var product     = {};
-	                product.KD_BARANG       = execute.KD_BARANG;
-	                product.NM_BARANG       = execute.NM_BARANG;
-	                product.STOCK           = execute.STOCK;
-	                product.SELL_IN         = execute.SELL_IN;
-	                product.SELL_OUT        = execute.SELL_OUT;
-	                filtersproduct[index].products.push(product);
-	            }
-	            else
-	            {
-	                var filter      = {};
-	                var product     = {};
-	                filter.CUST_ID      = execute.CUST_ID;
-	                filter.CUST_NM      = execute.CUST_NM;
-
-	                product.KD_BARANG       = execute.KD_BARANG;
-	                product.NM_BARANG       = execute.NM_BARANG;
-	                product.STOCK           = execute.STOCK;
-	                product.SELL_IN         = execute.SELL_IN;
-	                product.SELL_OUT        = execute.SELL_OUT;
-
-	                filter.products=[];
-	                filter.products.push(product);
-	                filtersproduct.push(filter);
-	            }
-	        });
-	        var filtersquantity= [];
-	        angular.forEach(filtersproduct, function(value, key)
-	        {
-	            angular.forEach(value.products, function(value, key)
-	            {
-	                var existingFilter = _.findWhere(filtersquantity, { NM_BARANG: value.NM_BARANG });
-	                if (existingFilter) 
-	                {
-	                    var index = filtersquantity.indexOf(existingFilter);
-
-	                    var xsellin = parseInt(filtersquantity[index].TOTSELL_IN);
-	                    var ysellin = parseInt(value.SELL_IN);
-	                    var zsellin = xsellin + ysellin;
-
-	                    var xsellout = parseInt(filtersquantity[index].TOTSELL_OUT);
-	                    var ysellout = parseInt(value.SELL_OUT);
-	                    var zsellout = xsellout + ysellout;
-
-	                    var xstock = parseInt(filtersquantity[index].TOTSTOCK);
-	                    var ystock = parseInt(value.STOCK);
-	                    var zstock = xstock + ystock;
-
-	                    filtersquantity[index].TOTSELL_IN  = zsellin;
-	                    filtersquantity[index].TOTSELL_OUT = zsellout;
-	                    filtersquantity[index].TOTSTOCK    = zstock;
-	                }
-	                else
-	                {
-	                    var filter      = {};
-	                    filter.KD_BARANG            = value.KD_BARANG;
-	                    filter.NM_BARANG            = value.NM_BARANG;
-	                    filter.TOTSELL_IN           = value.SELL_IN;
-	                    filter.TOTSELL_OUT          = value.SELL_OUT;
-	                    filter.TOTSTOCK             = value.STOCK;
-	                    filtersquantity.push(filter);
-	                }
-	            });
-	        });
-
-			var result = {};
-			result.siteres = filtersproduct;
-	        result.totalalls = filtersquantity;
-	        deferred.resolve(result); 
+	        	alert("Status Sukses Dengan Kode 304");
+	        }
 		})
 		.error(function(err,status)
         {
@@ -262,6 +271,10 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 			{
 	        	alert("error" + 404);
 	        	deferred.resolve([]);
+	      	}
+	      	if (status === 304)
+			{
+	        	alert("Status Error Dengan Status Kode 304");
 	      	}
 	      	else	
       		{

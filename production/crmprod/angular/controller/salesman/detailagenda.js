@@ -57,7 +57,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
             }, 
             function (err) 
             {          
-                $timeout(panggildatasummary, 10000);
+                // $timeout(panggildatasummary, 10000);
                 console.log(err);
             }); 
         }
