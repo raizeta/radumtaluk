@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HomeController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","$filter","$cordovaDevice", 
-function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,$filter) 
+myAppModule.controller("HomeController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","$filter","$cordovaDevice","$timeout", 
+function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,$filter,$timeout) 
 {
     $scope.activehome = "active";
     // alert($rootScope.devicemodel);
@@ -19,9 +19,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     apiService.datasalesmanmemo()
     .then(function(data)
     {
+        $scope.loading = true;
         $scope.salesmanmemo = data.Salesmanmemo;
-        console.log($scope.salesmanmemo);
-        // $scope.loading = false;
+    })
+    .finally(function()
+    {
+        var hideloading = function()
+        {
+            $scope.loading= false;
+        }
+
+        $timeout(hideloading,1000);
     });
 
 
@@ -78,6 +86,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
             $scope.showcustomer = true;
             $scope.customers = result.Customer;
             $scope.loading  = false;
+            $rootScope.currentcustlat  = '';
+            $rootScope.currentcustlng  = '';
         });
     }
 

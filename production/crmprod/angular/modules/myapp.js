@@ -28,7 +28,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         {
             $rootScope.loading= false;
         }
-        $timeout(hideloading, 1000);
+        $timeout(hideloading, 2000);
     });
 
     $rootScope.$on("$routeChangeError", function (event, current, previous, eventObj) 
