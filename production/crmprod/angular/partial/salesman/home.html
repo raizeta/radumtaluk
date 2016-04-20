@@ -14,15 +14,13 @@
                   </div>
                   <!-- /.user-block -->
                   <div class="box-tools">
-                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Mark as read">
-                      <i class="fa fa-circle-o"></i></button>
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                   </div>
                 </div>
-                <div class="box-body">
-                  {{ memo.ISI_MESSAGES | htmlToPlaintext }}
+                <div class="box-body" compile="memo.ISI_MESSAGES ">
+                  {{ memo.ISI_MESSAGES }}
 
                   <!-- <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
                   <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>

@@ -172,11 +172,22 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 	var datasummaryall = function(idsalesman,tanggalplan,idgroupcustomer)
 	{
 		
+		var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Cache-Control': 'no-cache',
+                'Pragma': 'no-cache',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                
+            }
+        };
 		var globalurl = getUrl();
 		var deferred = $q.defer();
 		var url = globalurl + "/inventorysummaryalls/search?TGL=" + tanggalplan + "&USER_ID=" + idsalesman + "&SCDL_GROUP=" + idgroupcustomer;
 		var method ="GET";
-        $http({method:method, url:url,async:false})
+        $http({method:method, url:url,async:false,config:config})
 		.success(function(response,status) 
 		{
 			if(status === 200)
@@ -286,11 +297,21 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var datasummarypercustomer = function(tanggalplan,idcustomer,idsalesman)
 	{
+		var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                
+            }
+        };
 		var url = getUrl();
 		var deferred = $q.defer();
 		var url = url + "/inventorysummaries/search?TGL=" + tanggalplan + "&CUST_KD=" + idcustomer + "&USER_ID=" + idsalesman;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,config:config})
 		.success(function(response) 
 		{
 			deferred.resolve(response);
@@ -311,11 +332,21 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 
 	var datasalesmanmemo = function()
 	{
+		var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Cache-Control': 'no-cache',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                
+            }
+        };
 		var url = getUrl();
 		var deferred = $q.defer();
 		var url = url + "/salesmanmemos";
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,config:config})
 		.success(function(response) 
 		{
 			deferred.resolve(response);

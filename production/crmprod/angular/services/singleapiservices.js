@@ -217,6 +217,67 @@ function($rootScope,$http, $q, $window,$filter)
         });
         return deferred.promise; 
     }
+    var singledetailkunjunganprosedur = function(userInfo,groupcustomer,tanggalplan,resolvegpslocation)
+    {
+        var globalurl = geturl();
+        var deferred = $q.defer();
+        var url = globalurl + "/statuskunjunganprosedurs/search?USER_ID="+ userInfo +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + groupcustomer;
+        var method ="GET";
+        $http({method:method, url:url})
+        .success(function(response) 
+        {
+            var customers = [];
+            angular.forEach(response.StatusKunjunganProsedur, function(value, key) 
+            {
+                var ab={};
+                ab.ID               = value.ID;
+                ab.CUST_ID          = value.CUST_ID;
+                ab.CUST_NM          = value.CUST_NM;
+                ab.MAP_LAT          = value.MAP_LAT;
+                ab.MAP_LNG          = value.MAP_LNG;
+                ab.TANGGAL          = tanggalplan;
+                var idcustomer      = value.CUST_ID;
+
+                var longitude1      = resolvegpslocation.latitude;
+                var latitude1       = resolvegpslocation.longitude;
+                var longitude2      = value.MAP_LAT;
+                var latitude2       = value.MAP_LNG;
+                var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
+                var roundjarak      = $filter('setDecimal')(jarak,0);
+                ab.JARAK            = roundjarak;
+
+                var statusstartpic              = ((value.START_PIC == null         || value.START_PIC == 0) ? 0 : 1);
+                var statusendpic                = ((value.END_PIC == null           || value.END_PIC == 0) ? 0 : 1);
+                var statusinventorystock        = ((value.INVENTORY_STOCK == null   || value.INVENTORY_STOCK == 0) ? 0 : 1);
+                var statusinventorysellin       = ((value.INVENTORY_SELLIN == null  || value.INVENTORY_SELLIN == 0) ? 0 : 1);
+                var statusinventorysellout      = ((value.INVENTORY_SELLOUT == null || value.INVENTORY_SELLOUT == 0) ? 0 : 1);
+                var statusinventoryexpired      = ((value.INVENTORY_EXPIRED == null || value.INVENTORY_EXPIRED == 0) ? 0 : 1);
+
+
+                var totalstatus = statusstartpic + statusendpic + statusinventorystock + statusinventorysellin + statusinventorysellout + statusinventoryexpired;
+                var persen = (totalstatus * 100)/6;
+                ab.persen = persen;
+                if(persen == 100)
+                {
+                    ab.wanted = true;
+                }
+                customers.push(ab);
+            });
+            deferred.resolve(customers);   
+        })
+        .error(function(err,status)
+        {
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+        });
+        return deferred.promise; 
+    }
 
 	var singledetailkunjunganbyiddetail = function(iddetail)
 	{
@@ -251,6 +312,7 @@ function($rootScope,$http, $q, $window,$filter)
 			historikunjungan:historikunjungan,
 			gambarkujungan:gambarkujungan,
 			singledetailkunjungan:singledetailkunjungan,
-			singledetailkunjunganbyiddetail:singledetailkunjunganbyiddetail
+			singledetailkunjunganbyiddetail:singledetailkunjunganbyiddetail,
+            singledetailkunjunganprosedur:singledetailkunjunganprosedur
 		}
 }]);

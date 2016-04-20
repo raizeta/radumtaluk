@@ -86,8 +86,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
             $scope.showcustomer = true;
             $scope.customers = result.Customer;
             $scope.loading  = false;
-            $rootScope.currentcustlat  = '';
-            $rootScope.currentcustlng  = '';
         });
     }
 
