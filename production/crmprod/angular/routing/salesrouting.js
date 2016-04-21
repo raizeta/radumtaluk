@@ -309,6 +309,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     {
         templateUrl : 'angular/partial/salesman/agenda.html',
         controller  : 'DetailAgendaController',
+        reloadOnSearch: true,
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -378,6 +379,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     {
         templateUrl : 'angular/partial/salesman/history.html',
         controller  : 'HistoryController',
+        reloadOnSearch: true,
         resolve: 
         {
             auth: function ($q, authService,$location) 

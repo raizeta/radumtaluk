@@ -4,8 +4,8 @@ var myAppModule 	= angular.module('myAppModule',
                                     'ui.select2','naif.base64','monospaced.qrcode','angular-ladda','angularModalService',
                                  'ngCordova','ngMap','mm.acl','ng-mfb','ngMaterial','ngMessages','hSweetAlert','ui.calendar']);
 
-myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout",
-function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout) 
+myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache",
+function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache) 
 {
     document.addEventListener("deviceready", function () 
       {
@@ -20,6 +20,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
     $rootScope.$on("$routeChangeStart", function (userInfo) 
     {
         $rootScope.loading= true;
+        $rootScope.isMenuOpen = false;
     });
    
     $rootScope.$on("$routeChangeSuccess", function (userInfo) 
@@ -29,6 +30,7 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
             $rootScope.loading= false;
         }
         $timeout(hideloading, 2000);
+        
     });
 
     $rootScope.$on("$routeChangeError", function (event, current, previous, eventObj) 
@@ -39,7 +41,12 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
         }
     });
 
-    $rootScope.tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd')
+    $rootScope.$on('$viewContentLoaded', function() 
+    {
+      //$templateCache.removeAll();
+   });
+
+    $rootScope.tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
 
     var options = {timeout: 10000, enableHighAccuracy: false};
 
@@ -369,7 +376,9 @@ function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngT
 myAppModule.config(['$httpProvider','$locationProvider','ngToastProvider','$mdThemingProvider', 
 function($httpProvider,$locationProvider, ngToastProvider,$mdThemingProvider) 
 {
+    $httpProvider.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
     $httpProvider.defaults.withCredentials = true;
+    $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
     $mdThemingProvider.theme('altTheme')

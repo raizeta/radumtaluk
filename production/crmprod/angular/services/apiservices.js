@@ -19,7 +19,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = globalurl + "/customers";
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  	deferred.resolve(response);
@@ -45,7 +45,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = globalurl + "/customergroups";
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  	deferred.resolve(response);
@@ -72,7 +72,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred 		= $q.defer();
 		var url = globalurl + "/jadwalkunjungans/search?USER_ID="+ idsalesman + "&TGL1=" + tanggalplan;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
     		deferred.resolve(response);
@@ -98,7 +98,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = globalurl + "/jadwalkunjungans/search?USER_ID="+ idsalesman;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  	deferred.resolve(response);
@@ -125,7 +125,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = globalurl + "/jadwalkunjungans/search?USER_ID=" + iduser;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
 		.success(function(response) 
 		{
 			deferred.resolve(response);
@@ -150,7 +150,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = globalurl + "/jadwalkunjungans/search?TGL1=" + tanggalplan + "&USER_ID=" + userid;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
 		.success(function(response) 
 		{
 			deferred.resolve(response);
@@ -176,18 +176,20 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         {
             headers : 
             {
+                'Origin':'*',
                 'Accept': 'application/json',
-                'Cache-Control': 'no-cache',
+                'Cache-Control': 'no-cache;no-store',
+                'Max-Age' : 0,
                 'Pragma': 'no-cache',
-                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
-                
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'     
             }
         };
 		var globalurl = getUrl();
 		var deferred = $q.defer();
 		var url = globalurl + "/inventorysummaryalls/search?TGL=" + tanggalplan + "&USER_ID=" + idsalesman + "&SCDL_GROUP=" + idgroupcustomer;
 		var method ="GET";
-        $http({method:method, url:url,async:false,config:config})
+        $http({method:method, url:url,config:config})
 		.success(function(response,status) 
 		{
 			if(status === 200)
@@ -311,7 +313,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = url + "/inventorysummaries/search?TGL=" + tanggalplan + "&CUST_KD=" + idcustomer + "&USER_ID=" + idsalesman;
 		var method ="GET";
-		$http({method:method, url:url,config:config})
+		$http({method:method, url:url,config:config,cache:false})
 		.success(function(response) 
 		{
 			deferred.resolve(response);
@@ -336,9 +338,9 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         {
             headers : 
             {
-                'Accept': 'application/json',
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                // 'Accept': 'application/json',
+                // 'Pragma': 'no-cache',
+                // 'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
                 
             }
         };
@@ -346,7 +348,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
 		var deferred = $q.defer();
 		var url = url + "/salesmanmemos";
 		var method ="GET";
-		$http({method:method, url:url,config:config})
+		$http({method:method, url:url,config:config,cache:false})
 		.success(function(response) 
 		{
 			deferred.resolve(response);

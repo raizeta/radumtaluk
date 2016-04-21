@@ -2,6 +2,7 @@
 myAppModule.controller("HomeController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","$filter","$cordovaDevice","$timeout", 
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,$filter,$timeout) 
 {
+    
     $scope.activehome = "active";
     // alert($rootScope.devicemodel);
     // alert($rootScope.deviceplatform);
@@ -9,6 +10,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     // alert($rootScope.deviceversion);
     $scope.loading  = true;
     $scope.userInfo = auth;
+    console.log(auth);
 	$scope.logout = function () 
     { 
         $scope.userInfo = null;
@@ -31,6 +33,66 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
 
         $timeout(hideloading,1000);
     });
+
+    var url = $rootScope.linkurl;
+    $scope.submitForm = function(formsalesmanmemo)
+    {
+
+        $scope.loading = true;
+        var memodibuatpada         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        var salesmanmemo = {};
+        salesmanmemo.ISI_MESSAGES       = formsalesmanmemo.ISI_MESSAGES
+        salesmanmemo.ID_USER            = auth.id;
+        salesmanmemo.NM_USER            = auth.username;
+        salesmanmemo.STATUS_MESSAGES    = "URGENT";
+        salesmanmemo.CREATE_AT          = memodibuatpada;
+        salesmanmemo.CREATE_BY          = auth.id;
+        console.log(salesmanmemo);
+
+        function serializeObj(obj) 
+        {
+          var result = [];
+          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+          return result.join("&");
+        }
+        var memo = serializeObj(salesmanmemo);
+        var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                
+            }
+        };
+
+        $http.post(url + "/salesmanmemos",memo,config)
+        .success(function(data,status, headers, config) 
+        {
+            ngToast.create('Memo Berhasil Di Save');
+            apiService.datasalesmanmemo()
+            .then(function(data)
+            {
+                
+                $scope.salesmanmemo = data.Salesmanmemo;
+            })
+            .finally(function()
+            {
+                var hideloading = function()
+                {
+                    $scope.loading= false;
+                }
+
+                $timeout(hideloading,1000);
+            });
+
+        })
+
+        .finally(function()
+        {
+            $scope.loading = false;  
+        });
+    }
 
 
 

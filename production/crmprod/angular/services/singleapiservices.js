@@ -19,7 +19,7 @@ function($rootScope,$http, $q, $window,$filter)
 		var deferred = $q.defer();
 		var url = globalurl + "/customers/"+ idcustomer;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  deferred.resolve(response);
@@ -39,7 +39,7 @@ function($rootScope,$http, $q, $window,$filter)
 		var deferred = $q.defer();
 		var url = globalurl + "/customers/search?SCDL_GROUP="+ groupcustomer;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
             deferred.resolve(response);
@@ -65,7 +65,7 @@ function($rootScope,$http, $q, $window,$filter)
 		var url = globalurl + "/detailkunjungans/search?USER_ID="+ iduser + "&CUST_ID=" + idcustomer +"&TGL=" + tanggal;
 		
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
             deferred.resolve(response);
@@ -90,7 +90,7 @@ function($rootScope,$http, $q, $window,$filter)
 		var deferred = $q.defer();
 		var url = url + "/detailkunjungans/search?USER_ID="+ iduser ;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  deferred.resolve(response);
@@ -116,7 +116,7 @@ function($rootScope,$http, $q, $window,$filter)
 		var deferred = $q.defer();
 		var url = url + "/gambars/search?ID_DETAIL="+ iddetail ;
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  deferred.resolve(response);
@@ -142,7 +142,7 @@ function($rootScope,$http, $q, $window,$filter)
         var deferred = $q.defer();
         var url = globalurl + "/detailkunjungans/search?USER_ID="+ userInfo + "&SCDL_GROUP=" + groupcustomer +"&TGL=" + tanggalplan;
         var method ="GET";
-        $http({method:method, url:url})
+        $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
             var customers = [];
@@ -223,7 +223,7 @@ function($rootScope,$http, $q, $window,$filter)
         var deferred = $q.defer();
         var url = globalurl + "/statuskunjunganprosedurs/search?USER_ID="+ userInfo +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + groupcustomer;
         var method ="GET";
-        $http({method:method, url:url})
+        $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
             var customers = [];
@@ -286,7 +286,7 @@ function($rootScope,$http, $q, $window,$filter)
 		var url = globalurl + "/detailkunjunganbyiddetails/search?ID=" + iddetail;
 		
 		var method ="GET";
-		$http({method:method, url:url})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 		  deferred.resolve(response);
