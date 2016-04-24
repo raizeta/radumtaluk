@@ -14,11 +14,16 @@ function($http, $rootScope, $interval)
 
   var updatedData;
 
-    $interval(function() {
-      return $http.get(apiUrl).then(function successCallback(response) {
+    $interval(function() 
+    {
+      return $http.get(apiUrl)
+      .then(function successCallback(response) 
+      {
         updatedData = response.data.data;
         $rootScope.$broadcast('got new data!', { data: updatedData });
-      }, function failureCallback(reason) {
+      }, 
+      function failureCallback(reason) 
+      {
         console.log(reason);
       })
     }, 5000);
@@ -62,3 +67,21 @@ myAppModule.factory("greetingService", function($q, $http,$timeout)
        getGreeting: getGreeting
      }
 });
+
+myAppModule.factory('timestampMarker', [function() 
+{  
+    var timestampMarker = 
+    {
+        request: function(config) 
+        {
+            config.requestTimestamp = new Date().getTime();
+            return config;
+        },
+        response: function(response) 
+        {
+            response.config.responseTimestamp = new Date().getTime();
+            return response;
+        }
+    };
+    return timestampMarker;
+}]);

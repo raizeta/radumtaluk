@@ -1,15 +1,26 @@
 //http://localhost/radumta_folder/production/crmprod/#/agenda/2016-04-08
 //angular/partial/salesman/agenda.html
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","$routeParams","resolvegpslocation","resolvelistagenda","$timeout",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,$routeParams,resolvegpslocation,resolvelistagenda,$timeout) 
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService) 
 {
     $scope.userInfo = auth;
+    var idtanggal = idtanggal;
+    $scope.loading  = true;
     $scope.logout = function () 
     { 
         $scope.userInfo = null;
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+    $scope.data = 
+    {
+      selectedIndex: 0,
+      secondLocked:  true,
+      secondLabel:   "Item Two",
+      bottom:        false
+    };
+    
+    
 
     var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     var tanggalplan     = $routeParams.idtanggal;
@@ -29,55 +40,32 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
     var idsalesman = auth.id;
 
     var geocoder = new google.maps.Geocoder;
-    $scope.lat  = resolvegpslocation.latitude;
-    $scope.long = resolvegpslocation.longitude;
-
-    var idtanggal = idtanggal;
-    $scope.loading  = true;
-
-    var resultresolvelistagenda = resolvelistagenda.JadwalKunjungan;
-    // if(resultresolvelistagenda)
-    // {
-    //     var idgroupcustomer         = resultresolvelistagenda[0].SCDL_GROUP;
-    //     singleapiService.singledetailkunjungan(idsalesman,idgroupcustomer,idtanggal,resolvegpslocation)
-    //     .then(function (result) 
-    //     {
-    //         $scope.customers = result;
-    //     });
-        
-    //     var panggildatasummary = function()
-    //     {
-    //         apiService.datasummaryall(idsalesman,idtanggal,idgroupcustomer)
-    //         .then(function (result) 
-    //         {
-    //             console.log(result);
-    //             $scope.siteres      = result.siteres;
-    //             $scope.totalalls    = result.totalalls;
-    //             $scope.loading  = false;
-    //         }, 
-    //         function (err) 
-    //         {          
-    //             // $timeout(panggildatasummary, 10000);
-    //             console.log(err);
-    //         }); 
-    //     }
-    //     $timeout(panggildatasummary, 1000);
-        
-    // }
-
-    //##########################Stored Procedure Function ####################################################
-    if(resultresolvelistagenda)
+    LocationService.GetGpsLocation()
+    .then(function(data)
     {
-        var idgroupcustomer         = resultresolvelistagenda[0].SCDL_GROUP;
-        singleapiService.singledetailkunjunganprosedur(idsalesman,idgroupcustomer,idtanggal,resolvegpslocation)
+        $scope.gpslat   = data.latitude;
+        $scope.gpslong  = data.longitude;
+    });
+
+    JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+    .then(function(data)
+    {
+        var idgroupcustomer         = data.JadwalKunjungan[0].SCDL_GROUP;
+        JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,idtanggal)
         .then(function (result) 
         {
             $scope.customers = result;
-        });
-        
-        var panggildatasummary = function()
+            $scope.loading   = false;
+        });  
+    });
+    $scope.summaryall = function()
+    {
+        $scope.loading = true;
+        JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+        .then(function(data)
         {
-            apiService.datasummaryall(idsalesman,idtanggal,idgroupcustomer)
+            var idgroupcustomer         = data.JadwalKunjungan[0].SCDL_GROUP;
+            SummaryService.datasummaryall(idsalesman,idtanggal,idgroupcustomer)
             .then(function (result) 
             {
                 $scope.siteres      = result.siteres;
@@ -86,33 +74,9 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
             }, 
             function (err) 
             {          
-                // $timeout(panggildatasummary, 10000);
                 console.log(err);
-            }); 
-        }
-        $timeout(panggildatasummary, 1000);    
-    }
-    else
-    {
-        $scope.loading  = false;
-        sweet.show({
-            title: 'Confirm',
-            text: 'Cheers...Kamu Belum Memiliki Agenda Untuk Saat Ini',
-            type: 'warning',
-            showCancelButton: false,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yeah. I Like This!',
-            closeOnConfirm: true,
-            closeOnCancel: true
-        }, 
-        function(isConfirm) 
-        {
-            if (isConfirm) 
-            {
-                $location.path('/history');
-                $scope.$apply();
-            }
+            });
         });
-    }
+    };    
 }]);
 

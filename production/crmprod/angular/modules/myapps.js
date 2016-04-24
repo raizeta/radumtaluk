@@ -1,11 +1,11 @@
 'use strict';
-var myAppModule     = angular.module('myAppModule',
-['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','ngAnimate','naif.base64',
-'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial',
-'ngMessages','hSweetAlert','ui.calendar']);
+var myAppModule 	= angular.module('myAppModule',
+['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','ngAnimate',
+    'ui.select2','naif.base64','monospaced.qrcode','angular-ladda','angularModalService',
+    'ngCordova','ngMap','mm.acl','ng-mfb','ngMaterial','ngMessages','hSweetAlert','ui.calendar']);
 
-myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache",
-function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache) 
+myAppModule.run(["$rootScope","$http","$location","uiSelect2Config","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache",
+function ($rootScope,$http,$location,uiSelect2Config,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache) 
 {
     document.addEventListener("deviceready", function () 
       {
@@ -15,6 +15,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         $rootScope.deviceversion = $cordovaDevice.getVersion();
       }, false);
 
+    uiSelect2Config.placeholder = "Placeholder text";
     $rootScope.loading= true;
     $rootScope.$on("$routeChangeStart", function (userInfo) 
     {
@@ -42,30 +43,6 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
     var options = {timeout: 10000, enableHighAccuracy: false};
 
-    $rootScope.seriliazeobject = function(objecttoserialize)
-    {
-        var result={};
-        function serializeObj(obj) 
-        {
-          var result = [];
-          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
-          return result.join("&");
-        }
-        
-        var serialized = serializeObj(objecttoserialize); 
-        var config = 
-        {
-            headers : 
-            {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'   
-            }
-        };
-        result.serialized   = serialized;
-        result.config       = config;
-
-        return result;
-    }
     $rootScope.starttrack = function()
     {
         navigator.geolocation.getCurrentPosition(
@@ -83,9 +60,23 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
             detail.LAT=$rootScope.lat;
             detail.LAG=$rootScope.long;
 
-            var result  = $rootScope.seriliazeobject(detail);
-            var serialized  = result.serialized;
-            var config      = result.config;
+            function serializeObj(obj) 
+            {
+              var result = [];
+              for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+              return result.join("&");
+            }
+
+            var serialized = serializeObj(detail); 
+            var config = 
+            {
+                headers : 
+                {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
+                    
+                }
+            };
                 
             $http.post("http://api.lukisongroup.com/master/trackers",serialized,config)
             .success(function(data,status, headers, config) 
@@ -115,7 +106,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         setInterval(function() 
         {
             $rootScope.starttrack();
-        }, 300000);
+        }, 30000);
     }
 
     var getUrl = function()
@@ -145,24 +136,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         
         return result;
     }
-    $rootScope.cekstatusbarang = function(statusvalue)
-    {
-        var status={};
-        if(statusvalue == 1)
-        {
-            status.bgcolor="bg-green";
-            status.icon="fa fa-check bg-green";
-            status.show = false;
-        }
-        else if(statusvalue == 0)
-        {
-            status.bgcolor="bg-aqua";
-            status.show= true;
-            status.icon = "fa fa-close bg-aqua";
-        }
-
-        return status;
-    }
+    
     $rootScope.diffbarang = function(x,y)
     {
         var resultdiffsellin = [];
@@ -184,6 +158,129 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
         return result;
     }
+
+    $rootScope.databarangs = function(x)
+    {
+        var dataproduct = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&STATUS=1",
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
+        var result = [];
+        angular.forEach(Product, function(value, key)
+        {
+            var KD_BARANG = value.KD_BARANG;
+            result.push(KD_BARANG);
+        });
+        return result;
+    }
+    
+    $rootScope.objectdatabarangs = function()
+    {
+        var dataproduct = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&STATUS=1",
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
+        var result = [];
+        angular.forEach(Product, function(value, key)
+        {
+            var product = {};
+            product.KD_BARANG = value.KD_BARANG;
+            product.NM_BARANG = value.NM_BARANG;
+            result.push(product);
+        });
+        return result;
+    }
+
+    $rootScope.jadwalkunjungans = function(tglkunjungan,userid)
+    {
+        var datajadwalkunjungan = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/jadwalkunjungans/search?TGL1=" + tglkunjungan + "&USER_ID=" + userid,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var jadwalkunjungan = JSON.parse(datajadwalkunjungan)['JadwalKunjungan'];
+        var result = [];
+        angular.forEach(jadwalkunjungan, function(value, key)
+        {
+            var SCDL_GROUP = value.SCDL_GROUP;
+            result.push(SCDL_GROUP);
+        });
+        return result;
+    }
+
+    $rootScope.searchdatabarangs = function(kodebarang)
+    {
+        var dataproduct = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&KD_BARANG=" + kodebarang,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
+        var result = [];
+        angular.forEach(Product, function(value, key)
+        {
+            var NM_BARANG = value.NM_BARANG;
+            result.push(NM_BARANG);
+        });
+        return result;
+    }
+
+    $rootScope.databaranginventory = function(idcustomer,tanggalplan,sotype)
+    {
+        var inventorysellin = $.ajax
+        ({
+              url: $rootScope.linkurl + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan + "&SO_TYPE=" + sotype,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var sellin = JSON.parse(inventorysellin)['ProductInventory'];
+        var result = [];
+        angular.forEach(sellin, function(value, key)
+        {
+            var KD_BARANG = value.KD_BARANG;
+            result.push(KD_BARANG);
+        });
+        return result;
+    }
+
+    $rootScope.databarangexpired = function(iddetail)
+    {
+        var barangexpired = $.ajax
+        ({
+              url: $rootScope.linkurl + "/expiredproducts/search?ID_DETAIL=" + iddetail,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+        var expired = JSON.parse(barangexpired)['ExpiredProduct'];
+        var result = [];
+        angular.forEach(expired, function(value, key)
+        {
+            var KD_BARANG = value.BRG_ID;
+            result.push(KD_BARANG);
+        });
+        var x = $rootScope.unique(result);
+        return x;
+    }
+
     $rootScope.updateinventoryquantity = function(idinventory)
     {
         var result = {}
@@ -211,6 +308,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         }
         return result;
     }
+
     $rootScope.updatestatusinventoryquantity = function(idinventory)
     {
         var result = {}
@@ -228,6 +326,96 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         }
         return result;
     }
+
+    $rootScope.singledetailkunjunganbyiddetail = function(iddetail)
+    {
+        var resultsingledetailkunjunganbyiddetail = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/detailkunjunganbyiddetails/search?ID=" + iddetail,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+        var result = JSON.parse(resultsingledetailkunjunganbyiddetail)['DetailKunjungan'][0];
+        return result;
+    }
+
+    $rootScope.cekstatuspanjangdiffbarang = function(diffbarang)
+    {
+        var status={};
+        if(diffbarang.length == 0)
+        {
+            status.bgcolor="bg-green";
+            status.icon="fa fa-check bg-green";
+            status.show = false;
+        }
+        else
+        {
+            status.bgcolor="bg-aqua";
+            status.show= true;
+            status.icon = "fa fa-close bg-aqua";
+        }
+
+        return status;
+    }
+
+    $rootScope.cekstatusbarang = function(statusvalue)
+    {
+        var status={};
+        if(statusvalue == 1)
+        {
+            status.bgcolor="bg-green";
+            status.icon="fa fa-check bg-green";
+            status.show = false;
+        }
+        else if(statusvalue == 0)
+        {
+            status.bgcolor="bg-aqua";
+            status.show= true;
+            status.icon = "fa fa-close bg-aqua";
+        }
+
+        return status;
+    }
+
+    $rootScope.seriliazeobject = function(objecttoserialize)
+    {
+        var result={};
+        function serializeObj(obj) 
+        {
+          var result = [];
+          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+          return result.join("&");
+        }
+        
+        var serialized = serializeObj(objecttoserialize); 
+        var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'   
+            }
+        };
+        result.serialized   = serialized;
+        result.config       = config;
+
+        return result;
+    }
+
+    $rootScope.findidstatuskunjunganbyiddetail = function(iddetail)
+    {
+        var findidstatuskunjunganbyiddetail = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/statuskunjungans/search?ID_DETAIL=" + iddetail,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+        var result = JSON.parse(findidstatuskunjunganbyiddetail)['StatusKunjungan'][0].ID;
+        return result;
+    }
+
     $rootScope.getCameraOptions = function()
     {
         
@@ -245,39 +433,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
               };
         return options;
     }
-    $rootScope.findidstatuskunjunganbyiddetail = function(iddetail)
-    {
-        var findidstatuskunjunganbyiddetail = $.ajax
-        ({
-              url: $rootScope.linkurl  + "/statuskunjungans/search?ID_DETAIL=" + iddetail,
-              type: "GET",
-              dataType:"json",
-              async: false
-        }).responseText;
-        var result = JSON.parse(findidstatuskunjunganbyiddetail)['StatusKunjungan'][0].ID;
-        return result;
-    } 
-    $rootScope.objectdatabarangs = function()
-    {
-        var dataproduct = $.ajax
-        ({
-              url: $rootScope.linkurl  + "/barangpenjualans/search?KD_CORP=ESM&KD_KATEGORI=01&STATUS=1",
-              type: "GET",
-              dataType:"json",
-              async: false
-        }).responseText;
 
-        var Product = JSON.parse(dataproduct)['BarangPenjualan'];
-        var result = [];
-        angular.forEach(Product, function(value, key)
-        {
-            var product = {};
-            product.KD_BARANG = value.KD_BARANG;
-            product.NM_BARANG = value.NM_BARANG;
-            result.push(product);
-        });
-        return result;
-    }
     $rootScope.jaraklokasi = function(longitude1,latitude1,longitude2,latitude2)
     {
         var thetalong      = (longitude1 - longitude2)*(Math.PI / 180); 

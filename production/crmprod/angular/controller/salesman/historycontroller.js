@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","apiService","regionalService","singleapiService","NgMap","LocationService","$filter","sweet","$compile","uiCalendarConfig","historyresolve",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,apiService,regionalService,singleapiService,NgMap,LocationService,$filter,sweet,$compile,uiCalendarConfig,historyresolve) 
+myAppModule.controller("HistoryController", ["$scope", "$location","auth","$window","uiCalendarConfig","historyresolve",
+function ($scope,$location,auth,$window,uiCalendarConfig,historyresolve) 
 {  
     
     $scope.userInfo = auth;
@@ -24,30 +24,9 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
 
     angular.forEach(mt, function(value, key)
     {
-        if(value.SCDL_GROUP == 1)
-        {
-            var title = "GB";
-        }
-        else if(value.SCDL_GROUP == 2)
-        {
-            var title = "GT";
-        }
-        else if(value.SCDL_GROUP == 3)
-        {
-            var title = "GS";
-        }
-        else if(value.SCDL_GROUP == 4)
-        {
-            var title = "GU";
-        }
-        else
-        {
-            var title = "G " + value.SCDL_GROUP;
-        }
-
         var tanggal= value.TGL1;
         var data ={};
-        data.title = title;
+        data.title = value.NOTE;
         data.start = new Date(tanggal);
         data.allDay =true;
         data.url ="#/agenda/" + tanggal;
@@ -73,7 +52,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,apiServ
         eventRender: $scope.eventRender
       }
     };
-    
     $scope.eventSources = [$scope.events];
 }]);
 

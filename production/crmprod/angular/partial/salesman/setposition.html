@@ -62,7 +62,7 @@
           <div class="col-md-12 col-sm-6 col-xs-12" >
             <ng-map zoom="11" center="{{gpslat}},{{gpslong}}" style="display:block; width:100%;">
                 <marker position="{{gpslat}}, {{gpslong}}"  draggable="false"></marker>
-                <marker  position="{{currentcustlat}}, {{currentcustlng}}" draggable="true" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
+                <marker position="{{currentcustlat}}, {{currentcustlng}}" draggable="true" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
                 on-dragend="doSth()"></marker>
             </ng-map>
           </div>

@@ -1,8 +1,7 @@
 'use strict';
-myAppModule.controller("HomeController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","$filter","$cordovaDevice","$timeout", 
-function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,$filter,$timeout) 
-{
-    
+myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout", 
+function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout) 
+{   
     $scope.activehome = "active";
     // alert($rootScope.devicemodel);
     // alert($rootScope.deviceplatform);
@@ -10,7 +9,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     // alert($rootScope.deviceversion);
     $scope.loading  = true;
     $scope.userInfo = auth;
-    console.log(auth);
 	$scope.logout = function () 
     { 
         $scope.userInfo = null;
@@ -92,15 +90,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         {
             $scope.loading = false;  
         });
-    }
-
-
-
-    
+    } 
 }]);
 
-myAppModule.controller("SetPositionController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,singleapiService) 
+myAppModule.controller("SetPositionController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService","CustomerService",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,singleapiService,CustomerService) 
 {
     $scope.activesetposition = "active";
     var url = $rootScope.linkurl;
@@ -119,17 +113,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     $scope.loading  = true;
 
     var geocoder = new google.maps.Geocoder;
-    LocationService.GetLocation()
+    LocationService.GetGpsLocation()
     .then(function(data)
     {
-        $scope.gpslat = data.latitude;
-        $scope.gpslong = data.longitude;
+        $scope.gpslat   = data.latitude;
+        $scope.gpslong  = data.longitude;
     });
 
     $scope.customergroup = function()
     {
         $scope.loading  = true;
-        apiService.listgroupcustomer()
+        CustomerService.GetGroupCustomers()
         .then(function (result) 
         {
             $scope.customergroups = result.Customergroup;
@@ -142,7 +136,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     {
         $scope.loading  = true;
         var id = customergroup.ID;
-        singleapiService.singlelistgroupcustomer(id)
+        CustomerService.GetSingleGroupCustomer(id)
         .then(function (result) 
         {
             $scope.showcustomer = true;
@@ -155,7 +149,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     {
         $scope.loading  = true;
         var idcustomer = customer.CUST_KD;
-        singleapiService.singlelistcustomer(idcustomer)
+        CustomerService.GetSingleCustomer(idcustomer)
         .then(function (result) 
         {
             $rootScope.currentcustlat  = result.MAP_LAT;
