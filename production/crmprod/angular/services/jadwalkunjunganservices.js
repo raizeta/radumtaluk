@@ -46,6 +46,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
+            console.log(response);
             deferred.resolve(response);
         })
         .error(function(err,status)
@@ -72,6 +73,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
+            console.log(response);
             LocationService.GetGpsLocation()
             .then(function(responsegps)
             {

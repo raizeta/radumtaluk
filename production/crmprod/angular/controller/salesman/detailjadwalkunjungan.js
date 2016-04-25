@@ -13,6 +13,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     $rootScope.statusbarangexpired = status;
     $rootScope.statusstartpicture = status;
     $rootScope.statusendpicture = status;
+    $rootScope.statusmessageskunjungan = status;
 
     var iddetail = $routeParams.iddetailkunjungan;
     $scope.userInfo = auth;
@@ -406,6 +407,67 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 alert("Error While Take A Picture");
             });
         }, false);
+    }
+    //#####################################################################################################
+    $scope.messageskunjungandisabled = false;
+    $http.get(url + "/messageskunjungans/search?ID_DETAIL=" + ID_DETAIL)
+    .success(function(data,status, headers, config) 
+    {
+        $scope.salesmanmemo = data.Messageskunjungan[0];
+        console.log(data);
+        var status = {};
+        status.bgcolor="bg-green";
+        status.icon="fa fa-check bg-green";
+        $rootScope.statusmessageskunjungan = status;
+        $scope.messageskunjungandisabled = true;
+    })
+    .error(function(err,status)
+    {
+        $scope.messageskunjungandisabled = false;
+    })
+    .finally(function()
+    {
+        $scope.loading = false;  
+    });
+
+    $scope.submitForm = function(formsalesmanmemo)
+    {
+
+        $scope.loading = true;
+        var memodibuatpada         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        var salesmanmemo = {};
+        salesmanmemo.ID_DETAIL          = y.ID;
+        salesmanmemo.KD_CUSTOMER        = y.CUST_ID;
+        salesmanmemo.NM_CUSTOMER        = y.CUST_NM;
+        salesmanmemo.TGL                = $filter('date')(new Date(),'yyyy-MM-dd');
+
+
+        salesmanmemo.ISI_MESSAGES       = formsalesmanmemo.ISI_MESSAGES
+        salesmanmemo.ID_USER            = auth.id;
+        salesmanmemo.NM_USER            = auth.username;
+        salesmanmemo.STATUS_MESSAGES    = "URGENT";
+        salesmanmemo.CREATE_AT          = memodibuatpada;
+        salesmanmemo.CREATE_BY          = auth.id;
+
+        var result              = $rootScope.seriliazeobject(salesmanmemo);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        console.log(salesmanmemo);
+        $http.post(url + "/messageskunjungans",serialized,config)
+        .success(function(data,status, headers, config) 
+        {
+            ngToast.create('Memo Kunjungan Berhasil Di Save');
+            $scope.messageskunjungandisabled = true;
+            var status = {};
+            status.bgcolor="bg-green";
+            status.icon="fa fa-check bg-green";
+            $rootScope.statusmessageskunjungan = status;
+        })
+        .finally(function()
+        {
+            $scope.loading = false;  
+        });
     }
     //#####################################################################################################
     $scope.showmodal = function(barang,index) 

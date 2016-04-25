@@ -55,6 +55,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         .then(function (result) 
         {
             $scope.customers = result;
+            console.log($scope.customers);
             $scope.loading   = false;
         });  
     });
