@@ -126,7 +126,7 @@
                               <div class="timeline-item" >
                                 <div class="box">
                                     <div class="box-header" ng-class="statusmessageskunjungan.bgcolor">
-                                      <h3 class="box-title">NOTE KUNJUNGAN</h3>
+                                      <h3 class="box-title">Note Kunjungan</h3>
                                       <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
@@ -136,7 +136,7 @@
                                     <form name="customerForm" ng-submit="submitForm(salesmanmemo)" method="post" novalidate>
                                     <div class="box-body" ng-disabled="messageskunjungandisabled">
                                       <div class="form-group" ng-class="{ 'has-error' : customerForm.ISI_MESSAGES.$invalid && !customerForm.ISI_MESSAGES.$pristine,'has-success':customerForm.ISI_MESSAGES.$valid  }">
-                                        <textarea class="form-control" name="ISI_MESSAGES" class="form-control" ng-model="salesmanmemo.ISI_MESSAGES"  rows="3" placeholder="Broadcast a Messages To Salesman ..." ng-disabled="messageskunjungandisabled" required></textarea>
+                                        <textarea class="form-control" name="ISI_MESSAGES" class="form-control" ng-model="salesmanmemo.ISI_MESSAGES"  rows="3" placeholder="Memo Kunjungan ..." ng-disabled="messageskunjungandisabled" required></textarea>
                                       </div>
                                     </div>
                                     <div class="box-footer clearfix">

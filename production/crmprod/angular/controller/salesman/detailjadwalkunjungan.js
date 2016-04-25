@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout) 
 {
     var status={};
     status.bgcolor="bg-aqua";
@@ -104,28 +104,48 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     //############################################################################################
     $scope.checkout = function()
     {
-        var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-        var detail={};
-        detail.CHECKOUT_LAT              = $scope.googlemaplat;
-        detail.CHECKOUT_LAG              = $scope.googlemaplong;
-        detail.CHECKOUT_TIME             = checkouttime;
-        detail.UPDATE_BY                 = idsalesman;
-
-        CheckOutService.setCheckoutAction(ID_DETAIL,detail)
-        .then(function(data)
+        sweet.show({
+            title: 'Checkout',
+            text: 'Apakah Kamu Yakin Untuk Checkout?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes',
+            closeOnConfirm: true
+        }, 
+        function() 
         {
-            ngToast.create('Anda Telah Berhasil Check Out');
-            $location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN);
-        });
+            var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+            var detail={};
+            detail.CHECKOUT_LAT              = $scope.googlemaplat;
+            detail.CHECKOUT_LAG              = $scope.googlemaplong;
+            detail.CHECKOUT_TIME             = checkouttime;
+            detail.UPDATE_BY                 = idsalesman;
 
-        var statuskunjungan = {};
-        statuskunjungan.CHECK_OUT = 1;
+            CheckOutService.setCheckoutAction(ID_DETAIL,detail)
+            .then(function(data)
+            {
+                var statuskunjungan = {};
+                statuskunjungan.CHECK_OUT = 1;
 
-        CheckOutService.updateCheckoutStatus(ID_DETAIL,statuskunjungan)
-        .then(function(data,status)
-        {
-            console.log("Checkout Status Sukses");
+                CheckOutService.updateCheckoutStatus(ID_DETAIL,statuskunjungan)
+                .then(function(data,status)
+                {
+                    sweet.show({
+                                    title: 'Success!',
+                                    text: 'Kamu Berhasil Checkout',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                    $scope.loading = true;
+                    $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),2000);
+                });
+                
+            });
+
+            
         });
+        
     };
     //#############################################################################################
     JadwalKunjunganService.GetJustStatusKunjungan(ID_DETAIL)
@@ -494,7 +514,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
               {
                 var kodebarang     = barang.KD_BARANG;
 
-                for(var i = 0; i < result.list.length; i ++)
+                for(var i = 0; i < result.list.length ; i ++)
                 {
                     var tanggalexpired = result.list[i].tanggaled;
                     var expiredqty     = result.list[i].expiredqty;
@@ -522,7 +542,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $http.post(url + "/expiredproducts",serialized,config)
                         .success(function(data,status, headers, config) 
                         {
-                            ngToast.create('Expired Prioritas' + i + "Telah Diupdate");
+                            
                         })
 
                         .finally(function()
@@ -535,6 +555,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         alert("Tidak Sukses");
                     }
                 }
+                ngToast.create("Expired Product Telah Diupdate");
 
                 $rootScope.barangexpired.splice(index,1);
                 if($rootScope.barangexpired.length == 0)
