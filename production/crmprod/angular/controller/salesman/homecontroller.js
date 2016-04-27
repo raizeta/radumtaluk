@@ -96,6 +96,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
 myAppModule.controller("SetPositionController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService","CustomerService",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,singleapiService,CustomerService) 
 {
+    console.log($rootScope.onlineangular);
     $scope.activesetposition = "active";
     var url = $rootScope.linkurl;
 
@@ -107,10 +108,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         window.location.href = "index.html";
     }
 
-
     $scope.loading  = true;
     $scope.zoomvalue = 11;
     $scope.loading  = true;
+    $scope.visible = false;
 
     var geocoder = new google.maps.Geocoder;
     LocationService.GetGpsLocation()
@@ -127,35 +128,43 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         .then(function (result) 
         {
             $scope.customergroups = result.Customergroup;
-            $scope.loading  = false;  
+            $scope.loading  = false;
+            $scope.visible = false;  
         });
     };
     $scope.customergroup();
 
-    $scope.customergroupchange = function(customergroup)
+    $scope.customergroupchange = function()
     {
         $scope.loading  = true;
-        var id = customergroup.ID;
-        CustomerService.GetSingleGroupCustomer(id)
+        CustomerService.GetSingleGroupCustomer($scope.customergroup)
         .then(function (result) 
         {
             $scope.showcustomer = true;
             $scope.customers = result.Customer;
             $scope.loading  = false;
+            $scope.visible = false;
         });
     }
 
-    $scope.customerchange = function(customer)
+    $scope.customerchange = function()
     {
-        $scope.loading  = true;
-        var idcustomer = customer.CUST_KD;
-        CustomerService.GetSingleCustomer(idcustomer)
-        .then(function (result) 
+        if($scope.customer == undefined)
         {
-            $rootScope.currentcustlat  = result.MAP_LAT;
-            $rootScope.currentcustlng  = result.MAP_LNG;
-            $scope.loading  = false;
-        });
+            console.log();
+        }
+        else
+        {
+           $scope.loading  = true;
+            CustomerService.GetSingleCustomer($scope.customer)
+            .then(function (result) 
+            {
+                $rootScope.currentcustlat  = result.MAP_LAT;
+                $rootScope.currentcustlng  = result.MAP_LNG;
+                $scope.loading  = false;
+                $scope.visible = true;
+            }); 
+        } 
     }
 
     $scope.doSth = function(event)
@@ -197,7 +206,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
             }
         };
 
-        $http.put(url + "/customers/"+ idcustomer ,dataposisi,config)
+        $http.put(url + "/customers/"+ customer ,dataposisi,config)
         .success(function(data,status, headers, config) 
         {
             ngToast.create('Posisi Customer Berhasil Di Update');

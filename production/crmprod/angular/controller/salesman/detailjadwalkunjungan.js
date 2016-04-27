@@ -159,7 +159,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var statusinventoryexpired      = ((data.INVENTORY_EXPIRED == null || data.INVENTORY_EXPIRED == 0) ? 0 : 1);
 
         $rootScope.statusstartpicture   = $rootScope.cekstatusbarang(statusstartpic);
-        console.log($rootScope.statusstartpicture);
         $rootScope.statusendpicture     = $rootScope.cekstatusbarang(statusendpic);
         $rootScope.statusbarangstockqty = $rootScope.cekstatusbarang(statusinventorystock);
         $rootScope.statusbarangsellin   = $rootScope.cekstatusbarang(statusinventorysellin);
@@ -434,7 +433,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     .success(function(data,status, headers, config) 
     {
         $scope.salesmanmemo = data.Messageskunjungan[0];
-        console.log(data);
         var status = {};
         status.bgcolor="bg-green";
         status.icon="fa fa-check bg-green";
@@ -473,7 +471,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var serialized          = result.serialized;
         var config              = result.config;
 
-        console.log(salesmanmemo);
         $http.post(url + "/messageskunjungans",serialized,config)
         .success(function(data,status, headers, config) 
         {

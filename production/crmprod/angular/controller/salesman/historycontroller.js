@@ -38,7 +38,7 @@ function ($scope,$location,auth,$window,uiCalendarConfig,historyresolve)
       calendar:
       {
         height: 450,
-        editable: true,
+        editable: false,
         header:
         {
           left: 'title',

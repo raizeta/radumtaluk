@@ -50,14 +50,40 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
     .then(function(data)
     {
-        var idgroupcustomer         = data.JadwalKunjungan[0].SCDL_GROUP;
-        JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,idtanggal)
-        .then(function (result) 
+        if(data.length == 0)
         {
-            $scope.customers = result;
-            console.log($scope.customers);
-            $scope.loading   = false;
-        });  
+            $scope.loading  = false;
+            sweet.show({
+                title: 'Confirm',
+                text: 'Cheers...Kamu Belum Memiliki Agenda Untuk Saat Ini',
+                type: 'warning',
+                showCancelButton: false,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yeah. I Like This!',
+                closeOnConfirm: true,
+                closeOnCancel: true
+            }, 
+            function(isConfirm) 
+            {
+                if (isConfirm) 
+                {
+                    $location.path('/history');
+                    $scope.$apply();
+                }
+            });
+        }
+        else
+        {
+            var idgroupcustomer         = data.JadwalKunjungan[0].SCDL_GROUP;
+            JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,idtanggal)
+            .then(function (result) 
+            {
+                $scope.customers = result;
+                console.log($scope.customers);
+                $scope.loading   = false;
+            });  
+        }
+          
     });
     $scope.summaryall = function()
     {

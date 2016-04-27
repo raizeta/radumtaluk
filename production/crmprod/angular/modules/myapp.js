@@ -4,8 +4,8 @@ var myAppModule     = angular.module('myAppModule',
 'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial',
 'ngMessages','hSweetAlert','ui.calendar']);
 
-myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache",
-function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache) 
+myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache","$cordovaNetwork",
+function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork) 
 {
     document.addEventListener("deviceready", function () 
       {
@@ -14,6 +14,44 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         $rootScope.deviceuuid = $cordovaDevice.getUUID();
         $rootScope.deviceversion = $cordovaDevice.getVersion();
       }, false);
+
+      document.addEventListener("deviceready", function () 
+      {
+
+        var type = $cordovaNetwork.getNetwork();
+
+        $rootScope.isOnline = $cordovaNetwork.isOnline();
+
+        var isOffline = $cordovaNetwork.isOffline();
+
+        // listen for Online event
+        $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
+          var onlineState = networkState;
+        })
+
+        // listen for Offline event
+        $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
+          var offlineState = networkState;
+        })
+
+      }, false);
+
+    $rootScope.onlineangular = navigator.onLine;
+    $window.addEventListener("offline", function() 
+    {
+        $rootScope.$apply(function() 
+        {
+            $rootScope.onlineangular = false;
+        });
+    }, false);
+
+    $window.addEventListener("online", function() 
+    {
+        $rootScope.$apply(function() 
+        {
+            $rootScope.onlineangular = true;
+        });
+    }, false);
 
     $rootScope.loading= true;
     $rootScope.$on("$routeChangeStart", function (userInfo) 

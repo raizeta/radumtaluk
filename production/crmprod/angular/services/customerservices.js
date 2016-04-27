@@ -69,10 +69,16 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
         {
 		  deferred.resolve(response);
         })
-
         .error(function()
         {
-            deferred.reject(error);
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
         });
 
         return deferred.promise;

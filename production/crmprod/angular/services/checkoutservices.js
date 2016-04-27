@@ -10,7 +10,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
 	{
 		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 	}
-
     var setCheckoutAction = function(ID_DETAIL,detail)
     {
         var url = getUrl();
@@ -36,7 +35,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             }
 
         });
-
         return deferred.promise;
     }
     var updateCheckoutStatus = function(ID_DETAIL,statuskunjungan)
@@ -63,7 +61,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             deferred.reject(err);
         });
         return deferred.promise;
-
     }
 	return{
             setCheckoutAction:setCheckoutAction,

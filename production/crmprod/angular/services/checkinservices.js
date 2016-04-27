@@ -15,14 +15,26 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
     {
         var url = getUrl();
         var deferred = $q.defer();
-        var result              = $rootScope.seriliazeobject(detail);
-        var serialized          = result.serialized;
-        var config              = result.config;
 
-        $http.put(url + "/detailkunjungans/"+ ID_DETAIL,serialized,config)
+        $http.get(url + "/detailkunjungans/"+ ID_DETAIL)
         .success(function(data,status,headers,config) 
         {
-            deferred.resolve(data);
+            if(data.CHECKIN_TIME == null || data.CHECKIN_TIME == '')
+            {
+                var result              = $rootScope.seriliazeobject(detail);
+                var serialized          = result.serialized;
+                var config              = result.config;
+
+                $http.put(url + "/detailkunjungans/"+ ID_DETAIL,serialized,config)
+                .success(function(data,status,headers,config) 
+                {
+                    deferred.resolve(data);
+                });
+            }
+            else
+            {
+                deferred.resolve(data);
+            }    
         })
         .error(function(err,status)
         {
@@ -37,6 +49,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+    
     var updateCheckinStatus = function(ID_DETAIL,statuskunjungan)
     {
         var url = getUrl();
@@ -67,7 +80,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
 
         });
         return deferred.promise;
-
     }
 	return{
             setCheckinAction:setCheckinAction,

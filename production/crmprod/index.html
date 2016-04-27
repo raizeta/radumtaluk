@@ -34,6 +34,7 @@
     <link href="asset/css/animation.css" rel="stylesheet" >
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPsPlFJaiVqR7u2Xr8OncTBpkZq6zJ-Ik" type="text/javascript"></script>
 
 </head>
 
@@ -41,6 +42,7 @@
         <div class="wrapper skin-blue">
             <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
             <toast></toast>
+            
             <div ng-view></div>
         </div>
         <script src="bower_components/sweetalert/dist/sweetalert.min.js"></script>

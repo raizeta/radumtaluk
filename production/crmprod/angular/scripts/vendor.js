@@ -12,7 +12,7 @@ document.write('<script src="bower_components/ngmap/build/scripts/ng-map.min.js"
 
 document.write('<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>');
 
-document.write('<script src="https://maps.googleapis.com/maps/api/js"></script>');
+// document.write('<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPsPlFJaiVqR7u2Xr8OncTBpkZq6zJ-Ik" type="text/javascript"></script>');
 
 document.write('<script src="bower_components/angular-messages/angular-messages.js"></script>');
 document.write('<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>');
