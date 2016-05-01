@@ -1,17 +1,28 @@
 //http://localhost/radumta_folder/production/crmprod/#/agenda/2016-04-08
 //angular/partial/salesman/agenda.html
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService) 
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","resolvegpslocation","configurationService","AbsensiService",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,resolvegpslocation,configurationService,AbsensiService)
 {
     $scope.userInfo = auth;
     var idtanggal = idtanggal;
     $scope.loading  = true;
+
     $scope.logout = function () 
     { 
         $scope.userInfo = null;
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+    var tanggalplanx = $rootScope.tanggalharini;
+    AbsensiService.getAbsensi(auth,tanggalplanx)
+    .then (function (response)
+    {
+        if(response.length == 0)
+        {
+            alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            $location.path('/absensi');
+        }
+    });
     $scope.data = 
     {
       selectedIndex: 0,
@@ -19,12 +30,74 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
       secondLabel:   "Item Two",
       bottom:        false
     };
-    
-    
 
     var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     var tanggalplan     = $routeParams.idtanggal;
+    $scope.detailjadwalkunjungan = function(customer)
+    {
+        if(tanggalplan < tanggalsekarang)
+        {
+            alert("Telah Melewati Batas Tanggal Yang Telah Ditentukan Untuk Check In Di Tempat Ini");
+        }
+        else if(tanggalplan > tanggalsekarang)
+        {
+            alert("Belum Waktunya Untuk Melakukan Check In di Customer Ini");
+        }
+        else
+        {
+            if($window.localStorage.getItem('my-absen'))
+            {
+                var xxx = JSON.parse($window.localStorage.getItem('my-absen'));
+                var absensimasuk = xxx.absensimasuk;
+                if(absensimasuk == 1)
+                {
+                    if(customer.CHECKOUT == 1)
+                    {
+                        alert("Kamu Tidak Boleh Lagi Check In Di Customer Ini. Kamu Sudah Pernah Check Out Dari Customer Ini");
+                    }
+                    else
+                    {
+                        var detailkunjunganid = customer.ID;
+                        singleapiService.singledetailkunjunganbyiddetail(detailkunjunganid)
+                        .then (function (response)
+                        {
+                            var custlat  = response.DetailKunjungan[0].MAP_LAT;
+                            var custlong = response.DetailKunjungan[0].MAP_LNG;
 
+                            $scope.googlemaplat     = resolvegpslocation.latitude;    //get from gps
+                            $scope.googlemaplong    = resolvegpslocation.longitude;
+
+                            var longitude1     = $scope.googlemaplat;
+                            var latitude1      = $scope.googlemaplong;
+
+                            var longitude2     = custlat;
+                            var latitude2      = custlong;
+                            var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
+                            configurationService.getConfigRadius()
+                            .then(function (response) 
+                            {
+                                var configjarak = response.Configuration[3].value;
+                                if(jarak > configjarak)
+                                {
+                                    alert("Kamu Sedang Tidak Di Dalam Radius");
+                                }
+                                else
+                                {
+                                    $location.path('/detailjadwalkunjungan/'+ detailkunjunganid);
+                                }
+                            });  
+                        });  
+                    }
+                }
+                else if(absensimasuk == 0)
+                {
+                    alert("Kamu Tidak Boleh Lagi Check In Di Customer Ini,Kamu Sudah Absen Keluar.");
+                }
+            }   
+        }
+    } 
+
+    
     if(tanggalsekarang == tanggalplan)
     {
         $scope.activeagendatoday = "active";
@@ -79,11 +152,14 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             .then(function (result) 
             {
                 $scope.customers = result;
-                console.log($scope.customers);
+                if($window.localStorage.getItem('my-storage'))
+                {
+                    var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
+                    $scope.storageiddetailkunjungan = xxx.iddetailkunjungan;
+                }
                 $scope.loading   = false;
             });  
-        }
-          
+        }      
     });
     $scope.summaryall = function()
     {

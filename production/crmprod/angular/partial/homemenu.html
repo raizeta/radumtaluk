@@ -30,20 +30,18 @@
           <!-- <small class="label pull-right bg-green">new</small> -->
         </a>
       </li>
-
+      <li ng-class="activeabsensi">
+        <a href="#/absensi">
+          <i class="fa fa-th"></i> <span>ABSENSI</span>
+          <!-- <small class="label pull-right bg-green">new</small> -->
+        </a>
+      </li>
       <li ng-class="activesetposition" ng-if="(userInfo.accessid == 1)">
         <a href="#/setposition">
           <i class="fa fa-th"></i> <span>SET POSITION</span>
           <!-- <small class="label pull-right bg-green">new</small> -->
         </a>
       </li>
-
-<!--       <li class="active">
-        <a href="#/setposition">
-          <i class="fa fa-th"></i> SET POSITION<span></span>
-          <small class="label pull-right bg-green">new</small>
-        </a>
-      </li> -->
 
       <li ng-class="activeagendatoday">
         <a href="#/agenda/{{tanggalharini}}">

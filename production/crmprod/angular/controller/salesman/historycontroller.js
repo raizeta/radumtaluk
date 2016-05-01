@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HistoryController", ["$scope", "$location","auth","$window","uiCalendarConfig","historyresolve",
-function ($scope,$location,auth,$window,uiCalendarConfig,historyresolve) 
+myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","auth","$window","uiCalendarConfig","historyresolve","AbsensiService",
+function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresolve,AbsensiService) 
 {  
     
     $scope.userInfo = auth;
@@ -11,6 +11,16 @@ function ($scope,$location,auth,$window,uiCalendarConfig,historyresolve)
         window.location.href = "index.html";
     }
 
+    var tanggalplan = $rootScope.tanggalharini;
+    AbsensiService.getAbsensi(auth,tanggalplan)
+    .then (function (response)
+    {
+        if(response.length == 0)
+        {
+            alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            $location.path('/absensi');
+        }
+    });
     $scope.activehistory    = "active";
     $scope.loading          = true;
     

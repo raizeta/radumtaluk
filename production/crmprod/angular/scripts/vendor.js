@@ -28,3 +28,4 @@ document.write('<script src="bower_components/ladda/dist/ladda.min.js"></script>
 document.write('<script src="bower_components/angular-ladda/dist/angular-ladda.min.js"></script>');
 document.write('<script src="bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>');
 document.write('<script src="bower_components/underscore/underscore.js"></script>');
+document.write('<script src="bower_components/angular-ui-clock/dist/angular-clock.js"></script>');

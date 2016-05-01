@@ -46,7 +46,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-            console.log(response);
             deferred.resolve(response);
         })
         .error(function(err,status)
@@ -73,7 +72,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-            console.log(response);
             LocationService.GetGpsLocation()
             .then(function(responsegps)
             {
@@ -87,16 +85,45 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
                     ab.MAP_LAT          = value.MAP_LAT;
                     ab.MAP_LNG          = value.MAP_LNG;
                     ab.TANGGAL          = tanggalplan;
+                    ab.CHECKOUT         = value.CHECK_OUT;
+                    if($window.localStorage.getItem('my-storage'))
+                    {
+                        var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
+                        var iddetailkunjungan = xxx.iddetailkunjungan;
+                    }
+                    if(value.CHECK_OUT == 1)
+                    {
+                        ab.imagecheckout = "asset/admin/dist/img/customer.jpg";
+                    }
+                    if(parseInt(value.ID) == iddetailkunjungan && value.CHECK_IN == 1)
+                    {
+                        ab.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
+                    }
+                    if(value.CHECK_IN == 0 || value.CHECK_IN == null)
+                    {
+                        ab.imagecheckout = "asset/admin/dist/img/normal.jpg";
+                    }
                     var idcustomer      = value.CUST_ID;
                     
-                    var longitude1      = responsegps.latitude;
-                    var latitude1       = responsegps.longitude;
-
-                    var longitude2      = value.MAP_LAT;
-                    var latitude2       = value.MAP_LNG;
+                    var longitude1      = responsegps.longitude;
+                    var latitude1       = responsegps.latitude;
+                    
+                    var longitude2      = value.MAP_LNG;
+                    var latitude2       = value.MAP_LAT;
+                    
+                    
                     var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
-                    var roundjarak      = $filter('setDecimal')(jarak,0);
-                    ab.JARAK            = roundjarak;
+                    //var roundjarak      = $filter('setDecimal')(jarak,0);
+                    if(jarak < 1000)
+                    {
+                        ab.JARAKMETER = $filter('setDecimal')(jarak,0) + " meter";
+                    }
+                    else
+                    {
+                        ab.JARAKMETER = $filter('setDecimal')(jarak/1000,1) + " km";
+                    }
+                    ab.JARAK            = $filter('setDecimal')(jarak/1000,0);
+
 
                     var statusstartpic              = ((value.START_PIC == null         || value.START_PIC == 0) ? 0 : 1);
                     var statusendpic                = ((value.END_PIC == null           || value.END_PIC == 0) ? 0 : 1);

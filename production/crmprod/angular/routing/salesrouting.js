@@ -29,6 +29,39 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
 	});
 
+    $routeProvider.when('/absensi',
+    {
+        templateUrl : 'angular/partial/salesman/absensi.html',
+        controller  : 'AbsensiController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            },
+            resolvegpslocation: function (LocationService) 
+            {
+                var resolvegpslocation = LocationService.GetGpsLocation();
+                return resolvegpslocation;
+            }
+        }
+    });
+
     $routeProvider.when('/setposition',
     {
         templateUrl : 'angular/partial/salesman/setposition.html',
@@ -115,7 +148,12 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var tanggalplan             = $route.current.params.idtanggal;
                 var userInfo                = authService.getUserInfo();
                 return JadwalKunjunganService.GetGroupCustomerByTanggalPlan(userInfo,tanggalplan);
-            }   
+            },
+            resolvegpslocation: function (LocationService) 
+            {
+                var resolvegpslocation = LocationService.GetGpsLocation();
+                return resolvegpslocation;
+            }  
         }
 
     });
@@ -177,6 +215,23 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
+            },
+            paksachekin: function ($q,$location,$route,$window,$filter) 
+            {
+                var iddetailkunjungan  = $route.current.params.iddetailkunjungan;
+                if($window.localStorage.getItem('my-storage'))
+                {
+                    var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
+                    if(iddetailkunjungan != xxx.iddetailkunjungan)
+                    {
+                        var tanggalkunjungan = $filter('date')(xxx.tanggalkunjungan,'dd-MM-yyyy');
+                        alert("Check Out Terlebih Dahulu Dari Customer " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan);
+                        
+                        $location.path('/agenda/' + $filter('date')(xxx.tanggalkunjungan,'yyyy-MM-dd'));
+                    }
+                }
+                 
+
             },
             resolvegpslocation: function (LocationService) 
             {

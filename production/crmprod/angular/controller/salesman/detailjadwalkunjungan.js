@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","configurationService",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,configurationService) 
 {
     var status={};
     status.bgcolor="bg-aqua";
@@ -53,10 +53,12 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
     var longitude2     = DEFAULT_CUST_LAT;
     var latitude2      = DEFAULT_CUST_LONG;
+
     var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
 
+
     // SUMMARY FUNCTION
-    //###############################################################################
+    //#####################################################################################################
     $scope.summary = function()
     {
         $scope.loading = true;
@@ -68,9 +70,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         });
     };
     // CHECK-IN FUNCTION
-    //###########################################################################################
+    //#####################################################################################################
     $scope.checkin = function()
     {
+        var checkindata = {};
+        checkindata.iddetailkunjungan   = $routeParams.iddetailkunjungan;
+        checkindata.namakustomer        = $scope.blabla;
+        checkindata.tanggalkunjungan    = PLAN_TGL_KUNJUNGAN;
+
+        var val = JSON.stringify(checkindata)
+        $window.localStorage.setItem('my-storage', val);
+
         var detail = {};
         var checkintime         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
         detail.LAT              = $scope.googlemaplat;
@@ -101,53 +111,65 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         });           
     };
     $scope.checkin();
-    //############################################################################################
+    //#####################################################################################################
     $scope.checkout = function()
     {
-        sweet.show({
-            title: 'Checkout',
-            text: 'Apakah Kamu Yakin Untuk Checkout?',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yes',
-            closeOnConfirm: true
-        }, 
-        function() 
+        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+        configurationService.getConfigRadius()
+        .then(function (response) 
         {
-            var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            var detail={};
-            detail.CHECKOUT_LAT              = $scope.googlemaplat;
-            detail.CHECKOUT_LAG              = $scope.googlemaplong;
-            detail.CHECKOUT_TIME             = checkouttime;
-            detail.UPDATE_BY                 = idsalesman;
-
-            CheckOutService.setCheckoutAction(ID_DETAIL,detail)
-            .then(function(data)
+            var configjarak = response.Configuration[3].value;
+            if(jarak > configjarak)
             {
-                var statuskunjungan = {};
-                statuskunjungan.CHECK_OUT = 1;
-
-                CheckOutService.updateCheckoutStatus(ID_DETAIL,statuskunjungan)
-                .then(function(data,status)
+                alert("Kamu Sedang Tidak Di Dalam Radius");
+            }
+            else
+            {
+                $window.localStorage.removeItem('my-storage');
+                sweet.show({
+                    title: 'Checkout',
+                    text: 'Apakah Kamu Yakin Untuk Checkout?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#DD6B55',
+                    confirmButtonText: 'Yes',
+                    closeOnConfirm: true
+                }, 
+                function() 
                 {
-                    sweet.show({
-                                    title: 'Success!',
-                                    text: 'Kamu Berhasil Checkout',
-                                    timer: 2000,
-                                    showConfirmButton: false
-                                });
-                    $scope.loading = true;
-                    $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),2000);
-                });
-                
-            });
+                    var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                    var detail={};
+                    detail.CHECKOUT_LAT              = $scope.googlemaplat;
+                    detail.CHECKOUT_LAG              = $scope.googlemaplong;
+                    detail.CHECKOUT_TIME             = checkouttime;
+                    detail.UPDATE_BY                 = idsalesman;
 
-            
+                    CheckOutService.setCheckoutAction(ID_DETAIL,detail)
+                    .then(function(data)
+                    {
+                        var statuskunjungan = {};
+                        statuskunjungan.CHECK_OUT = 1;
+
+                        CheckOutService.updateCheckoutStatus(ID_DETAIL,statuskunjungan)
+                        .then(function(data,status)
+                        {
+                            sweet.show({
+                                            title: 'Success!',
+                                            text: 'Kamu Berhasil Checkout',
+                                            timer: 2000,
+                                            showConfirmButton: false
+                                        });
+                            $scope.loading = true;
+                            $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),2000);
+                        });
+                        
+                    });    
+                }); 
+            }
         });
-        
+          
     };
-    //#############################################################################################
+    //#####################################################################################################
     JadwalKunjunganService.GetJustStatusKunjungan(ID_DETAIL)
     .then(function (data)
     {
@@ -165,7 +187,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         $rootScope.statusbarangsellout  = $rootScope.cekstatusbarang(statusinventorysellout);
         $rootScope.statusbarangexpired  = $rootScope.cekstatusbarang(statusinventoryexpired);
     });
-    //#############################################################################################
+    //#####################################################################################################
     ProductService.GetDataBarangs()
     .then(function (result) 
     {
@@ -183,7 +205,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             });
         });
     });
-
     ProductService.GetDataBarangs()
     .then(function (result) 
     {
@@ -228,204 +249,270 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     // ####################################################################################################
     $scope.updateinventoryqty = function(barang,index,idinventory)
     {
-        var resultupdateinventoryqty = $rootScope.updateinventoryquantity(idinventory);
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
-            namaproduct = barang.NM_BARANG;
-            sweet.show(
+        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+        configurationService.getConfigRadius()
+        .then(function (response) 
+        {
+            var configjarak = response.Configuration[3].value;
+            if(jarak > configjarak)
             {
-                title: resultupdateinventoryqty.titledialog,
-                text: namaproduct,
-                type: 'input',
-                showCancelButton: true,
-                closeOnConfirm: false,
-                animation: false,
-                inputPlaceholder: 'Quantity/PCS'
-            }, 
-            function(inputValue) 
+                alert("Kamu Sedang Tidak Di Dalam Radius");
+            }
+            else
             {
-                if(/^\d+$/.test(inputValue))
+                var resultupdateinventoryqty = $rootScope.updateinventoryquantity(idinventory);
+                if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
                 {
-                    
-                }
-                else
-                {
-                    var bukannumber = false;
-                }
-
-                if (inputValue === false)
-                {
-                    return false;
-                }
-
-                if ( (inputValue === '') || (bukannumber === false ) )
-                {
-                    sweet.showInputError('Ini Harus Diisi Dan Harus Angka!');
-                    return false;
-                }
-                
-                else
-                {
-                    var detail={};
-                    detail.SO_TYPE      = resultupdateinventoryqty.sotype;
-                    detail.TGL          = PLAN_TGL_KUNJUNGAN;
-                    detail.CUST_KD      = CUST_ID;
-                    detail.KD_BARANG    = barang.KD_BARANG;
-                    detail.POS          = 'ANDROID';
-                    detail.USER_ID      = idsalesman;
-                    detail.SO_QTY       = inputValue;
-
-                    InventoryService.setInventoryAction(detail)
-                    .then(function (result) 
+                    namaproduct = barang.NM_BARANG;
+                    sweet.show(
                     {
-                        sweet.show({
-                                        title: 'Saved',
-                                        type: 'success',
-                                        timer: 20,
-                                        showConfirmButton: false
-                                    });
-
-                        resultupdateinventoryqty.arraybarang.splice(index,1);
-                        if(resultupdateinventoryqty.arraybarang.length == 0)
+                        title: resultupdateinventoryqty.titledialog,
+                        text: namaproduct,
+                        type: 'input',
+                        showCancelButton: true,
+                        closeOnConfirm: false,
+                        animation: false,
+                        inputPlaceholder: 'Quantity/PCS'
+                    }, 
+                    function(inputValue) 
+                    {
+                        if(/^\d+$/.test(inputValue))
                         {
-                            var status={};
-                            status.bgcolor="bg-green";
-                            status.icon="fa fa-check bg-green";
-                            status.show = false;
+                            
+                        }
+                        else
+                        {
+                            var bukannumber = false;
+                        }
 
-                            if(idinventory == 1)
-                            {
-                                $rootScope.statusbarangstockqty = status
-                            }
-                            else if(idinventory == 2)
-                            {
-                                $rootScope.statusbarangsellout = status
-                            }
-                            else if(idinventory == 3)
-                            {
-                                $rootScope.statusbarangsellin = status
-                            }
+                        if (inputValue === false)
+                        {
+                            return false;
+                        }
 
-                            var statuskunjungan = $rootScope.updatestatusinventoryquantity(idinventory);
-                            InventoryService.updateInventoryStatus(ID_DETAIL,statuskunjungan)
-                            .then(function(data)
+                        if ( (inputValue === '') || (bukannumber === false ) )
+                        {
+                            sweet.showInputError('Ini Harus Diisi Dan Harus Angka!');
+                            return false;
+                        }
+                        
+                        else
+                        {
+                            var detail={};
+                            detail.SO_TYPE                  = resultupdateinventoryqty.sotype;
+                            detail.TGL                      = PLAN_TGL_KUNJUNGAN;
+                            detail.CUST_KD                  = CUST_ID;
+                            detail.KD_BARANG                = barang.KD_BARANG;
+                            detail.POS                      = 'ANDROID';
+                            detail.USER_ID                  = idsalesman;
+                            detail.SO_QTY                   = inputValue;
+                            detail.WAKTU_INPUT_INVENTORY    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+
+                            InventoryService.setInventoryAction(detail)
+                            .then(function (result) 
                             {
-                                ngToast.create('Status Inventory Berhasil Di Update');
+                                sweet.show({
+                                                title: 'Saved',
+                                                type: 'success',
+                                                timer: 20,
+                                                showConfirmButton: false
+                                            });
+
+                                resultupdateinventoryqty.arraybarang.splice(index,1);
+                                if(resultupdateinventoryqty.arraybarang.length == 0)
+                                {
+                                    var status={};
+                                    status.bgcolor="bg-green";
+                                    status.icon="fa fa-check bg-green";
+                                    status.show = false;
+
+                                    if(idinventory == 1)
+                                    {
+                                        $rootScope.statusbarangstockqty = status
+                                    }
+                                    else if(idinventory == 2)
+                                    {
+                                        $rootScope.statusbarangsellout = status
+                                    }
+                                    else if(idinventory == 3)
+                                    {
+                                        $rootScope.statusbarangsellin = status
+                                    }
+
+                                    var statuskunjungan = $rootScope.updatestatusinventoryquantity(idinventory);
+                                    InventoryService.updateInventoryStatus(ID_DETAIL,statuskunjungan)
+                                    .then(function(data)
+                                    {
+                                        ngToast.create('Status Inventory Berhasil Di Update');
+                                    });
+                                }
                             });
+                            
                         }
                     });
-                    
                 }
-            });
-        // }
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Stock");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Update Stock");
-        // }
+                else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+                {
+                    alert("Kamu Tidak Bisa Lagi Melakukan Update Stock");
+                }
+                else
+                {
+                    alert("Kamu Belum Bisa Melakukan Update Stock");
+                } 
+            }
+        });
+
     }
     //#####################################################################################################
     $scope.starttakeapicture = function()
     {
-        document.addEventListener("deviceready", function () 
+        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+        configurationService.getConfigRadius()
+        .then(function (response) 
         {
-          var options = $rootScope.getCameraOptions();
-          $cordovaCamera.getPicture(options).then(function (imageData) 
-          {
-            var status = {};
-            status.bgcolor          = "bg-green";
-            status.icon             = "fa fa-check bg-green";
-            $rootScope.statusstartpicture = status;
-
-            var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            
-            var gambarkunjungan={};
-            gambarkunjungan.ID_DETAIL           = ID_DETAIL;
-            gambarkunjungan.IMG_NM_START        = "gambar start";
-            gambarkunjungan.IMG_DECODE_START    = imageData;
-            gambarkunjungan.TIME_START          = timeimagestart;
-            gambarkunjungan.STATUS              = 1;
-            gambarkunjungan.CREATE_BY           = idsalesman;
-
-            GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
-            .then(function (data)
+            var configjarak = response.Configuration[3].value;
+            if(jarak > configjarak)
             {
-                ngToast.create('Gambar Telah Berhasil Di Update');
-                var statuskunjungan = {};
-                statuskunjungan.START_PIC = 1;
-
-                GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
-                .then(function (data)
+                alert("Kamu Sedang Tidak Di Dalam Radius");
+            }
+            else
+            {
+                if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
                 {
-                    console.log(data);
-                });
-            });
+                    document.addEventListener("deviceready", function () 
+                    {
+                      var options = $rootScope.getCameraOptions();
+                      $cordovaCamera.getPicture(options).then(function (imageData) 
+                      {
+                        var status = {};
+                        status.bgcolor          = "bg-green";
+                        status.icon             = "fa fa-check bg-green";
+                        $rootScope.statusstartpicture = status;
 
-          }, 
-          function(err) 
-          {
-                alert("Error While Take A Picture");
-          });
+                        var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                        
+                        var gambarkunjungan={};
+                        gambarkunjungan.ID_DETAIL           = ID_DETAIL;
+                        gambarkunjungan.IMG_NM_START        = "gambar start";
+                        gambarkunjungan.IMG_DECODE_START    = imageData;
+                        gambarkunjungan.TIME_START          = timeimagestart;
+                        gambarkunjungan.STATUS              = 1;
+                        gambarkunjungan.CREATE_BY           = idsalesman;
 
-        }, false);
+                        GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
+                        .then(function (data)
+                        {
+                            ngToast.create('Gambar Telah Berhasil Di Update');
+                            var statuskunjungan = {};
+                            statuskunjungan.START_PIC = 1;
+
+                            GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
+                            .then(function (data)
+                            {
+                                console.log(data);
+                            });
+                        });
+
+                      }, 
+                      function(err) 
+                      {
+                            alert("Error While Take A Picture");
+                      });
+
+                    }, false);
+                }
+                else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+                {
+                    alert("Kamu Tidak Bisa Lagi Melakukan Action Ini");
+                }
+                else
+                {
+                    alert("Kamu Belum Bisa Melakukan Action Ini");
+                }
+            }
+        });
+
     }
     //#####################################################################################################
     $scope.endtakeapicture = function()
     {
-        document.addEventListener("deviceready", function () 
+        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+        configurationService.getConfigRadius()
+        .then(function (response) 
         {
-            var options = {
-                quality: 100,
-                destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: Camera.PictureSourceType.CAMERA,
-                allowEdit: false,
-                encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 100,
-                targetHeight: 100,
-                popoverOptions: CameraPopoverOptions,
-                saveToPhotoAlbum: false,
-                correctOrientation:true
-              };
-              
-            $cordovaCamera.getPicture(options).then(function(imageData) 
+            var configjarak = response.Configuration[3].value;
+            if(jarak > configjarak)
             {
-                var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                var gambarkunjungan={};
-
-                gambarkunjungan.IMG_NM_END      = "gambar end";
-                gambarkunjungan.IMG_DECODE_END  = imageData;
-                gambarkunjungan.TIME_END        = timeimageend;
-                gambarkunjungan.ID_DETAIL       = ID_DETAIL;
-                gambarkunjungan.UPDATE_BY       = idsalesman;
-
-
-                GambarService.setEndGambarAction(ID_DETAIL,gambarkunjungan)
-                .then(function (data)
+                alert("Kamu Sedang Tidak Di Dalam Radius");
+            }
+            else
+            {
+                if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
                 {
-                    ngToast.create('Gambar Telah Berhasil Di Update');
-                    var status = {};
-                    status.bgcolor          = "bg-green";
-                    status.icon             = "fa fa-check bg-green";
-                    $rootScope.statusendpicture = status;
-
-                    var statuskunjungan = {};
-                    statuskunjungan.END_PIC = 1;
-
-                    GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
-                    .then(function (data)
+                    document.addEventListener("deviceready", function () 
                     {
-                        console.log(data);
-                    });
-                }); 
-            }, 
-            function(err) 
-            {
-                alert("Error While Take A Picture");
-            });
-        }, false);
+                        var options = {
+                            quality: 100,
+                            destinationType: Camera.DestinationType.DATA_URL,
+                            sourceType: Camera.PictureSourceType.CAMERA,
+                            allowEdit: false,
+                            encodingType: Camera.EncodingType.JPEG,
+                            targetWidth: 100,
+                            targetHeight: 100,
+                            popoverOptions: CameraPopoverOptions,
+                            saveToPhotoAlbum: false,
+                            correctOrientation:true
+                          };
+                          
+                        $cordovaCamera.getPicture(options).then(function(imageData) 
+                        {
+                            var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                            var gambarkunjungan={};
+
+                            gambarkunjungan.IMG_NM_END      = "gambar end";
+                            gambarkunjungan.IMG_DECODE_END  = imageData;
+                            gambarkunjungan.TIME_END        = timeimageend;
+                            gambarkunjungan.ID_DETAIL       = ID_DETAIL;
+                            gambarkunjungan.UPDATE_BY       = idsalesman;
+
+
+                            GambarService.setEndGambarAction(ID_DETAIL,gambarkunjungan)
+                            .then(function (data)
+                            {
+                                ngToast.create('Gambar Telah Berhasil Di Update');
+                                var status = {};
+                                status.bgcolor          = "bg-green";
+                                status.icon             = "fa fa-check bg-green";
+                                $rootScope.statusendpicture = status;
+
+                                var statuskunjungan = {};
+                                statuskunjungan.END_PIC = 1;
+
+                                GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
+                                .then(function (data)
+                                {
+                                    console.log(data);
+                                });
+                            }); 
+                        }, 
+                        function(err) 
+                        {
+                            alert("Error While Take A Picture");
+                        });
+                    }, false);
+                }
+                else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+                {
+                    alert("Kamu Tidak Bisa Lagi Melakukan Action Ini");
+                }
+                else
+                {
+                    alert("Kamu Belum Bisa Melakukan Action Ini");
+                }
+            }
+        });
+
+        
     }
     //#####################################################################################################
     $scope.messageskunjungandisabled = false;
@@ -489,109 +576,122 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     //#####################################################################################################
     $scope.showmodal = function(barang,index) 
     {
-        // if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
-        // {
-            ModalService
-            .showModal(
+        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+        configurationService.getConfigRadius()
+        .then(function (response) 
+        {
+            var configjarak = response.Configuration[3].value;
+            if(jarak > configjarak)
             {
-              templateUrl: "angular/partial/salesman/complexmodal.html",
-              controller: "ComplexController",
-              inputs: 
-              {
-                title: barang.NM_BARANG
-              }
-            })
-            .then(function(modal) 
+                alert("Kamu Sedang Tidak Di Dalam Radius");
+            }
+            else
             {
-              modal.element.modal(function ()
+                if(tanggalsekarang == PLAN_TGL_KUNJUNGAN)
                 {
-                    alert("Button OK Klick");
-                });
-              modal.close.then(function(result) 
-              {
-                var kodebarang     = barang.KD_BARANG;
-
-                for(var i = 0; i < result.list.length ; i ++)
-                {
-                    var tanggalexpired = result.list[i].tanggaled;
-                    var expiredqty     = result.list[i].expiredqty;
-                    var prioritas      = result.list[i].prioritas;
-
-                    if(tanggalexpired != null && expiredqty != null)
+                    ModalService
+                    .showModal(
                     {
-                        var tglexpd = $filter('date')(tanggalexpired,'yyyy-MM-dd'); 
-
-                        var detailexpired = {};
-                        detailexpired.ID_PRIORITASED    = prioritas;
-                        detailexpired.ID_DETAIL         = ID_DETAIL;
-                        detailexpired.CUST_ID           = CUST_ID;
-                        detailexpired.BRG_ID            = kodebarang;
-                        detailexpired.USER_ID           = idsalesman;
-                        detailexpired.TGL_KJG           = PLAN_TGL_KUNJUNGAN;
-                        detailexpired.QTY               = expiredqty;
-                        detailexpired.DATE_EXPIRED      = tanggalexpired;
-                        detailexpired.CREATE_BY         = idsalesman;
-
-                        var expiredproduct              = $rootScope.seriliazeobject(detailexpired);
-                        var serialized                  = expiredproduct.serialized;
-                        var config                      = expiredproduct.config;
-
-                        $http.post(url + "/expiredproducts",serialized,config)
-                        .success(function(data,status, headers, config) 
-                        {
-                            
-                        })
-
-                        .finally(function()
-                        {
-                            $scope.loading = false;  
-                        }); 
-                    }
-                    else
-                    {
-                        alert("Tidak Sukses");
-                    }
-                }
-                ngToast.create("Expired Product Telah Diupdate");
-
-                $rootScope.barangexpired.splice(index,1);
-                if($rootScope.barangexpired.length == 0)
-                {
-                    var status={};
-                    status.bgcolor="bg-green";
-                    status.icon="fa fa-check bg-green";
-                    status.show = false;
-                    $rootScope.statusbarangexpired = status;
-
-                    var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
-                    var statuskunjungan = {};
-                    statuskunjungan.INVENTORY_EXPIRED = 1;
-
-                    var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
-                    var serialized              = resultstatus.serialized;
-                    var config                  = resultstatus.config;
-
-                    $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
-                    .success(function(data,status, headers, config) 
-                    {
-                        // ngToast.create('Anda Telah Berhasil Check In');
+                      templateUrl: "angular/partial/salesman/complexmodal.html",
+                      controller: "ComplexController",
+                      inputs: 
+                      {
+                        title: barang.NM_BARANG
+                      }
                     })
-                    .finally(function()
+                    .then(function(modal) 
                     {
-                        $scope.loading = false;  
-                    }); 
+                      modal.element.modal(function ()
+                        {
+                            alert("Button OK Klick");
+                        });
+                      modal.close.then(function(result) 
+                      {
+                        var kodebarang     = barang.KD_BARANG;
+
+                        for(var i = 0; i < result.list.length ; i ++)
+                        {
+                            var tanggalexpired = result.list[i].tanggaled;
+                            var expiredqty     = result.list[i].expiredqty;
+                            var prioritas      = result.list[i].prioritas;
+
+                            if(tanggalexpired != null && expiredqty != null)
+                            {
+                                var tglexpd = $filter('date')(tanggalexpired,'yyyy-MM-dd'); 
+
+                                var detailexpired = {};
+                                detailexpired.ID_PRIORITASED    = prioritas;
+                                detailexpired.ID_DETAIL         = ID_DETAIL;
+                                detailexpired.CUST_ID           = CUST_ID;
+                                detailexpired.BRG_ID            = kodebarang;
+                                detailexpired.USER_ID           = idsalesman;
+                                detailexpired.TGL_KJG           = PLAN_TGL_KUNJUNGAN;
+                                detailexpired.QTY               = expiredqty;
+                                detailexpired.DATE_EXPIRED      = tanggalexpired;
+                                detailexpired.CREATE_BY         = idsalesman;
+
+                                var expiredproduct              = $rootScope.seriliazeobject(detailexpired);
+                                var serialized                  = expiredproduct.serialized;
+                                var config                      = expiredproduct.config;
+
+                                $http.post(url + "/expiredproducts",serialized,config)
+                                .success(function(data,status, headers, config) 
+                                {
+                                    
+                                })
+
+                                .finally(function()
+                                {
+                                    $scope.loading = false;  
+                                }); 
+                            }
+                            else
+                            {
+                                alert("Tidak Sukses");
+                            }
+                        }
+                        ngToast.create("Expired Product Telah Diupdate");
+
+                        $rootScope.barangexpired.splice(index,1);
+                        if($rootScope.barangexpired.length == 0)
+                        {
+                            var status={};
+                            status.bgcolor="bg-green";
+                            status.icon="fa fa-check bg-green";
+                            status.show = false;
+                            $rootScope.statusbarangexpired = status;
+
+                            var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
+                            var statuskunjungan = {};
+                            statuskunjungan.INVENTORY_EXPIRED = 1;
+
+                            var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+                            var serialized              = resultstatus.serialized;
+                            var config                  = resultstatus.config;
+
+                            $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
+                            .success(function(data,status, headers, config) 
+                            {
+                                // ngToast.create('Anda Telah Berhasil Check In');
+                            })
+                            .finally(function()
+                            {
+                                $scope.loading = false;  
+                            }); 
+                        }
+                      });
+                    });
                 }
-              });
-            });
-        //}
-        // else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
-        // {
-        //     alert("Kamu Tidak Bisa Lagi Melakukan Update Product Expired");
-        // }
-        // else
-        // {
-        //     alert("Kamu Belum Bisa Melakukan Update Product Expired");
-        // }  
+                else if(tanggalsekarang > PLAN_TGL_KUNJUNGAN)
+                {
+                    alert("Kamu Tidak Bisa Lagi Melakukan Update Product Expired");
+                }
+                else
+                {
+                    alert("Kamu Belum Bisa Melakukan Update Product Expired");
+                }
+            }
+        });    
     };
 }]);
 
@@ -599,7 +699,7 @@ myAppModule.controller('ComplexController', ['$scope', '$element', 'title', 'clo
 function($scope, $element, title, close,$filter) 
 {
 
-  $scope.title = title;
+   $scope.title = title;
     var myDate = new Date();
     var previousMonth = new Date(myDate);
     previousMonth.setMonth(myDate.getMonth()-1);

@@ -96,7 +96,6 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
 myAppModule.controller("SetPositionController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService","CustomerService",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,apiService,ngToast,sweet,singleapiService,CustomerService) 
 {
-    console.log($rootScope.onlineangular);
     $scope.activesetposition = "active";
     var url = $rootScope.linkurl;
 
@@ -161,6 +160,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
             {
                 $rootScope.currentcustlat  = result.MAP_LAT;
                 $rootScope.currentcustlng  = result.MAP_LNG;
+                var jarak = $rootScope.jaraklokasi($scope.gpslong,$scope.gpslat,$rootScope.currentcustlng,$rootScope.currentcustlat);
+                console.log(jarak);
                 $scope.loading  = false;
                 $scope.visible = true;
             }); 

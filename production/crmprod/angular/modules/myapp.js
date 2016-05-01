@@ -1,7 +1,7 @@
 'use strict';
 var myAppModule     = angular.module('myAppModule',
 ['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','ngAnimate','naif.base64',
-'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial',
+'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial','ds.clock',
 'ngMessages','hSweetAlert','ui.calendar']);
 
 myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache","$cordovaNetwork",
@@ -318,6 +318,8 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     }
     $rootScope.jaraklokasi = function(longitude1,latitude1,longitude2,latitude2)
     {
+        // var d2r            = (Math.PI/180);
+
         var thetalong      = (longitude1 - longitude2)*(Math.PI / 180); 
         var thetalat       = (latitude1 - latitude2)*(Math.PI / 180);
         var a = 0.5 - Math.cos(thetalat)/2 + Math.cos(latitude1 * Math.PI / 180) * Math.cos(latitude2 * Math.PI / 180) * (1 - Math.cos(thetalong))/2;

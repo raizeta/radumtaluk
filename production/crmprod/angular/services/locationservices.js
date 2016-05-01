@@ -1,7 +1,7 @@
 myAppModule.factory('LocationService', function ($q) {
 
   var currentLocation = {latitude: "",longitude: ""};
-  var options = {timeout: 10000, enableHighAccuracy: true};
+  var options = {enableHighAccuracy: true};
 
   var GetGpsLocation = function () 
   {

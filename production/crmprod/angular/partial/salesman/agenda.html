@@ -12,12 +12,11 @@
               <md-tab-label>LIST {{viewtanggal| date:'dd-MM-yyyy' }} </md-tab-label>
               <md-tab-body>
                   <md-list>
-                    <md-list-item class="noright" ng-repeat="customer in customers | orderBy: 'JARAK' " ng-click="goToPerson(person.name, $event)">
-                        <img  ng-if="customer.persen == 100" ng-src="asset/admin/dist/img/customer.jpg" class="md-avatar" />
-                        <img  ng-if="customer.persen != 100" ng-src="asset/admin/dist/img/customerlogo.jpg" class="md-avatar" />
+                    <md-list-item class="noright" ng-repeat="customer in customers | orderBy: 'JARAK' " ng-click="detailjadwalkunjungan(customer)">
+                        <img  ng-src="{{customer.imagecheckout}}" class="md-avatar" />
                         <p>
-                          <a href="#/detailjadwalkunjungan/{{customer.ID}}">
-                            {{customer.CUST_NM}}  ( {{customer.JARAK}} meter)
+                          <a>
+                            {{customer.CUST_NM}}  ({{customer.JARAKMETER }})
                           </a>
                           <md-progress-linear md-mode="determinate"  value="{{customer.persen}}"></md-progress-linear>
                           <!-- <md-checkbox class="md-secondary" ng-model="customer.wanted"></md-checkbox> -->
