@@ -627,7 +627,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                                 detailexpired.USER_ID           = idsalesman;
                                 detailexpired.TGL_KJG           = PLAN_TGL_KUNJUNGAN;
                                 detailexpired.QTY               = expiredqty;
-                                detailexpired.DATE_EXPIRED      = tanggalexpired;
+                                detailexpired.DATE_EXPIRED      = tglexpd;
                                 detailexpired.CREATE_BY         = idsalesman;
 
                                 var expiredproduct              = $rootScope.seriliazeobject(detailexpired);
