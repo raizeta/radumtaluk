@@ -40,10 +40,8 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
                 $scope.buttonabsensikeluar      = false;
                 $scope.buttonabsensimasuk       = true;
                 $scope.showbuttonabsensimasuk   = false;
-                $scope.showbuttonabsensikeluar  = true;
-                
-            }
-            
+                $scope.showbuttonabsensikeluar  = true;  
+            }  
         }
     });
 
@@ -85,7 +83,6 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         });
     }
 
-
     $scope.absensikeluar = function () 
     { 
         sweet.show({
@@ -123,11 +120,8 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
                     $window.localStorage.setItem('my-absen', absensimasuk);
                     
                 });
-            });
-            
-        });
-
-        
+            }); 
+        });   
     }
 }]);
 

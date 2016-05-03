@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","auth","$window","uiCalendarConfig","historyresolve","AbsensiService",
-function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresolve,AbsensiService) 
+myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","auth","$window","uiCalendarConfig","historyresolve","AbsensiService","$filter",
+function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresolve,AbsensiService,$filter) 
 {  
     
     $scope.userInfo = auth;
@@ -32,6 +32,7 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
     var mt = historyresolve.JadwalKunjungan;
     $scope.events = [];
 
+    var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     angular.forEach(mt, function(value, key)
     {
         var tanggal= value.TGL1;
@@ -40,6 +41,31 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
         data.start = new Date(tanggal);
         data.allDay =true;
         data.url ="#/agenda/" + tanggal;
+        if(tanggal > tanggalsekarang)
+        {
+          data.color = '#378006';  
+        }
+        else if(tanggal < tanggalsekarang)
+        {
+            data.color = '#dd4b39';
+        }
+        else if(tanggal == tanggalsekarang)     
+        {
+            if($window.localStorage.getItem('my-absen'))
+            {
+                var xxx = JSON.parse($window.localStorage.getItem('my-absen'));
+                var absensimasuk = xxx.absensimasuk;
+                if(absensimasuk == 0)
+                {
+                    data.color = '#dd4b39';
+                } 
+            }
+            else 
+            {
+                data.color = '#dd4b39';
+            }  
+        }
+
         $scope.events.push(data);
     });
 

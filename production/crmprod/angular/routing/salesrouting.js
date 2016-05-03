@@ -225,7 +225,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     if(iddetailkunjungan != xxx.iddetailkunjungan)
                     {
                         var tanggalkunjungan = $filter('date')(xxx.tanggalkunjungan,'dd-MM-yyyy');
-                        alert("Check Out Terlebih Dahulu Dari Customer " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan);
+                        alert("Double Check In Not Allowed. Please, Check Out First From  " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan);
                         
                         $location.path('/agenda/' + $filter('date')(xxx.tanggalkunjungan,'yyyy-MM-dd'));
                     }

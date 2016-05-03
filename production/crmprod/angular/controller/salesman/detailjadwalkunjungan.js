@@ -121,7 +121,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             var configjarak = response.Configuration[3].value;
             if(jarak > configjarak)
             {
-                alert("Kamu Sedang Tidak Di Dalam Radius");
+                alert("Out Of Ranges");
             }
             else
             {
@@ -205,6 +205,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             });
         });
     });
+
     ProductService.GetDataBarangs()
     .then(function (result) 
     {
@@ -361,7 +362,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 } 
             }
         });
-
     }
     //#####################################################################################################
     $scope.starttakeapicture = function()
@@ -431,7 +431,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 }
             }
         });
-
     }
     //#####################################################################################################
     $scope.endtakeapicture = function()
@@ -510,9 +509,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     alert("Kamu Belum Bisa Melakukan Action Ini");
                 }
             }
-        });
-
-        
+        });    
     }
     //#####################################################################################################
     $scope.messageskunjungandisabled = false;

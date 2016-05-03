@@ -81,6 +81,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+    
 	return{
             setCheckinAction:setCheckinAction,
             updateCheckinStatus:updateCheckinStatus

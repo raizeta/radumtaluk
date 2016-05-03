@@ -37,11 +37,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     {
         if(tanggalplan < tanggalsekarang)
         {
-            alert("Telah Melewati Batas Tanggal Yang Telah Ditentukan Untuk Check In Di Tempat Ini");
+            alert("Wrong Time To Check In This Customer");
         }
         else if(tanggalplan > tanggalsekarang)
         {
-            alert("Belum Waktunya Untuk Melakukan Check In di Customer Ini");
+            alert("Wait For The Right Time To Check In This Customer");
         }
         else
         {
@@ -53,7 +53,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 {
                     if(customer.CHECKOUT == 1)
                     {
-                        alert("Kamu Tidak Boleh Lagi Check In Di Customer Ini. Kamu Sudah Pernah Check Out Dari Customer Ini");
+                        alert("You Have Check Out From This Customer.");
                     }
                     else
                     {
@@ -79,7 +79,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var configjarak = response.Configuration[3].value;
                                 if(jarak > configjarak)
                                 {
-                                    alert("Kamu Sedang Tidak Di Dalam Radius");
+                                    alert("Di Luar Radius");
                                 }
                                 else
                                 {
@@ -93,11 +93,14 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 {
                     alert("Kamu Tidak Boleh Lagi Check In Di Customer Ini,Kamu Sudah Absen Keluar.");
                 }
+            }
+            else
+            {
+                alert("Anda Melakukan Tindakan Yang Melanggar Hukum");
             }   
         }
     } 
 
-    
     if(tanggalsekarang == tanggalplan)
     {
         $scope.activeagendatoday = "active";
@@ -161,6 +164,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             });  
         }      
     });
+
     $scope.summaryall = function()
     {
         $scope.loading = true;
