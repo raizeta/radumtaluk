@@ -35,6 +35,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     var tanggalplan     = $routeParams.idtanggal;
     $scope.detailjadwalkunjungan = function(customer)
     {
+        console.log(customer);
         if(tanggalplan < tanggalsekarang)
         {
             alert("Wrong Time To Check In This Customer");
@@ -43,7 +44,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         {
             alert("Wait For The Right Time To Check In This Customer");
         }
-        else
+        else if(tanggalplan == tanggalsekarang)
         {
             if($window.localStorage.getItem('my-absen'))
             {
@@ -91,7 +92,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 }
                 else if(absensimasuk == 0)
                 {
-                    alert("Kamu Tidak Boleh Lagi Check In Di Customer Ini,Kamu Sudah Absen Keluar.");
+                    alert("Kamu Sudah Absen Keluar.");
                 }
             }
             else
@@ -155,11 +156,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             .then(function (result) 
             {
                 $scope.customers = result;
-                if($window.localStorage.getItem('my-storage'))
-                {
-                    var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
-                    $scope.storageiddetailkunjungan = xxx.iddetailkunjungan;
-                }
+                // if($window.localStorage.getItem('my-storage'))
+                // {
+                //     var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
+                //     $scope.storageiddetailkunjungan = xxx.iddetailkunjungan;
+                // }
                 $scope.loading   = false;
             });  
         }      

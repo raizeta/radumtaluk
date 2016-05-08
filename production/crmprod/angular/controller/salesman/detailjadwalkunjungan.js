@@ -720,4 +720,9 @@ function($scope, $element, title, close,$filter)
   {
     $element.modal('hide');
   };
+
+  $scope.qtychange = function()
+  {
+    alert("radumta");
+  }
 }]);

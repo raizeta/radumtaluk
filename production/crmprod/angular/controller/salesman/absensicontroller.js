@@ -3,14 +3,8 @@ myAppModule.controller("AbsensiController", ["$q","$rootScope","$scope", "$locat
 function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,AbsensiService,resolvegpslocation) 
 {   
     $scope.activeabsensi = "active";
-    // alert($rootScope.devicemodel);
-    // alert($rootScope.deviceplatform);
-    // alert($rootScope.deviceuuid);
-    // alert($rootScope.deviceversion);
-    $scope.buttonabsensimasuk = true;
-    $scope.buttonabsensikeluar = true;
-
-    $scope.loading  = true;
+    $scope.showbuttonabsensikeluar  = false;
+    $scope.showbuttonabsensimasuk   = false;
     $scope.userInfo = auth;
     var tanggalplan = $rootScope.tanggalharini;
 	$scope.logout = function () 
@@ -27,8 +21,6 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
     {
         if(response.length == 0)
         {
-            $scope.buttonabsensikeluar      = true;
-            $scope.buttonabsensimasuk       = false;
             $scope.showbuttonabsensikeluar  = false;
             $scope.showbuttonabsensimasuk   = true;
         }
@@ -37,8 +29,6 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
             var idsalesmanabsensikeluar = response.Salesmanabsensi[0].WAKTU_KELUAR;
             if(idsalesmanabsensikeluar == null)
             {
-                $scope.buttonabsensikeluar      = false;
-                $scope.buttonabsensimasuk       = true;
                 $scope.showbuttonabsensimasuk   = false;
                 $scope.showbuttonabsensikeluar  = true;  
             }  
@@ -46,40 +36,30 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
     });
 
     $scope.absensimasuk = function () 
-    { 
-        AbsensiService.getAbsensi(auth,tanggalplan)
+    {     
+        var detail = {};
+        detail.TGL              = tanggalplan;
+        detail.USER_ID          = auth.id;
+        detail.USER_NM          = auth.username;
+        detail.WAKTU_MASUK      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        detail.LATITUDE_MASUK   = $scope.googlemaplat;
+        detail.LONG_MASUK       = $scope.googlemaplong;
+        detail.CREATE_BY        = auth.id;
+        detail.CREATE_AT        = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+
+        AbsensiService.setAbsensi(detail)
         .then (function (response)
         {
-            if(response.length == 0)
-            {
-                $scope.buttonabsensikeluar = true;
-                $scope.showbuttonabsensikeluar   = true;
-                $scope.showbuttonabsensimasuk    = false;
+            $scope.showbuttonabsensikeluar   = true;
+            $scope.showbuttonabsensimasuk    = false;
 
-                var detail = {};
-                detail.TGL              = tanggalplan;
-                detail.USER_ID          = auth.id;
-                detail.USER_NM          = auth.username;
-                detail.WAKTU_MASUK      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                detail.LATITUDE_MASUK   = $scope.googlemaplat;
-                detail.LONG_MASUK       = $scope.googlemaplong;
-                detail.CREATE_BY        = auth.id;
-                detail.CREATE_AT        = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+            sweetAlert("Terimakasih", "Kamu Telah Berhasil Melakukan Absensi Masuk", "success");
+            $location.path("/agenda/" + tanggalplan);
 
-                AbsensiService.setAbsensi(detail)
-                .then (function (response)
-                {
-                    $scope.buttonabsensimasuk   = true;
-                    $scope.buttonabsensikeluar  = false;
-                    sweetAlert("Terimakasih", "Kamu Telah Berhasil Melakukan Absensi Masuk", "success");
-                    $location.path("/agenda/" + tanggalplan);
-
-                    var absensimasuk = {};
-                    absensimasuk.absensimasuk   = 1;
-                    var absensimasuk = JSON.stringify(absensimasuk);
-                    $window.localStorage.setItem('my-absen', absensimasuk);
-                });
-            }
+            var absensimasuk = {};
+            absensimasuk.absensimasuk   = 1;
+            var absensimasuk = JSON.stringify(absensimasuk);
+            $window.localStorage.setItem('my-absen', absensimasuk);
         });
     }
 

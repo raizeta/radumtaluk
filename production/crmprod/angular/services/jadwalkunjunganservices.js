@@ -95,7 +95,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
                     {
                         ab.imagecheckout = "asset/admin/dist/img/customer.jpg";
                     }
-                    if(parseInt(value.ID) == iddetailkunjungan && value.CHECK_IN == 1)
+                    if((value.CHECK_OUT == 0 || value.CHECK_OUT == null) && value.CHECK_IN == 1)
                     {
                         ab.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
                     }
