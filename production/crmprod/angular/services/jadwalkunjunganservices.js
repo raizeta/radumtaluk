@@ -86,6 +86,9 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
                     ab.MAP_LNG          = value.MAP_LNG;
                     ab.TANGGAL          = tanggalplan;
                     ab.CHECKOUT         = value.CHECK_OUT;
+                    ab.CHECKIN_TIME     = $filter('date')(value.CHECKIN_TIME,'dd-MM-yyyy HH:mm:ss');
+                    ab.CHECKOUT_TIME    = $filter('date')(value.CHECKOUT_TIME,'dd-MM-yyyy HH:mm:ss');
+
                     if($window.localStorage.getItem('my-storage'))
                     {
                         var xxx = JSON.parse($window.localStorage.getItem('my-storage'));

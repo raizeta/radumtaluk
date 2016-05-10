@@ -48,13 +48,14 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var PLAN_TGL_KUNJUNGAN  = y.TGL;
     var CUST_ID             = y.CUST_ID;
 
-    var longitude1     = $scope.googlemaplat;
-    var latitude1      = $scope.googlemaplong;
+    var longitude1     = $scope.googlemaplong;
+    var latitude1      = $scope.googlemaplat;
 
-    var longitude2     = DEFAULT_CUST_LAT;
-    var latitude2      = DEFAULT_CUST_LONG;
+    var longitude2     = DEFAULT_CUST_LONG;
+    var latitude2      = DEFAULT_CUST_LAT;
 
     var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
+    console.log(jarak);
 
 
     // SUMMARY FUNCTION
@@ -398,6 +399,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         gambarkunjungan.TIME_START          = timeimagestart;
                         gambarkunjungan.STATUS              = 1;
                         gambarkunjungan.CREATE_BY           = idsalesman;
+                        gambarkunjungan.CUSTOMER_ID         = y.CUST_ID;
 
                         GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
                         .then(function (data)

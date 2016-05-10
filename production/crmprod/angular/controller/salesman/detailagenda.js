@@ -127,6 +127,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
     .then(function(data)
     {
+        console.log(data);
         if(data.length == 0)
         {
             $scope.loading  = false;

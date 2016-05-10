@@ -90,7 +90,8 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         {
             $scope.loading = false;  
         });
-    } 
+    }
+
 }]);
 
 myAppModule.controller("SetPositionController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","apiService","ngToast","sweet","singleapiService","CustomerService",

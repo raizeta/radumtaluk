@@ -4,9 +4,17 @@ var myAppModule     = angular.module('myAppModule',
 'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial','ds.clock',
 'ngMessages','hSweetAlert','ui.calendar']);
 
-myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache","$cordovaNetwork",
-function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork) 
+myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache","$cordovaNetwork","$cordovaSQLite",
+function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork,$cordovaSQLite) 
 {
+
+    document.addEventListener("deviceready", function () 
+    {
+        $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default'});
+        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT)');
+    });
+
+
     document.addEventListener("deviceready", function () 
       {
         $rootScope.devicemodel = $cordovaDevice.getModel();
