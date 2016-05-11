@@ -57,7 +57,16 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
     console.log(jarak);
 
-
+    // ####################################################################################################
+    // MENU ACTION
+    // ####################################################################################################
+    var url = $rootScope.linkurl;
+    $http.get(url + "/tipesalesaktivitas/search?UNTUK_DEVICE=ANDROID&&STATUS=1")
+    .success(function(data,status, headers, config) 
+    {
+        $scope.salesaktivitas = data.Tipesalesaktivitas;
+    });
+    // ####################################################################################################
     // SUMMARY FUNCTION
     //#####################################################################################################
     $scope.summary = function()
@@ -167,8 +176,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     });    
                 }); 
             }
-        });
-          
+        });       
     };
     //#####################################################################################################
     JadwalKunjunganService.GetJustStatusKunjungan(ID_DETAIL)
@@ -223,6 +231,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 $rootScope.barangstockqty.push(existingFilter);
             });
         });
+
         ProductService.GetDataBarangsInventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6)
         .then(function (result) 
         {
@@ -249,8 +258,12 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         });
     });
     // ####################################################################################################
-    $scope.updateinventoryqty = function(barang,index,idinventory)
+    $scope.updateinventoryqty = function(barang,index,idinventorys)
     {
+        var idinventory = idinventorys.SO_ID;
+        var titledialog = idinventorys.DIALOG_TITLE;
+        var sotype      = idinventorys.ID;
+
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         configurationService.getConfigRadius()
         .then(function (response) 
@@ -268,7 +281,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     namaproduct = barang.NM_BARANG;
                     sweet.show(
                     {
-                        title: resultupdateinventoryqty.titledialog,
+                        title: titledialog,
                         text: namaproduct,
                         type: 'input',
                         showCancelButton: true,
@@ -301,7 +314,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         else
                         {
                             var detail={};
-                            detail.SO_TYPE                  = resultupdateinventoryqty.sotype;
+                            detail.SO_TYPE                  = sotype;
                             detail.TGL                      = PLAN_TGL_KUNJUNGAN;
                             detail.CUST_KD                  = CUST_ID;
                             detail.KD_BARANG                = barang.KD_BARANG;
@@ -339,6 +352,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                                     else if(idinventory == 3)
                                     {
                                         $rootScope.statusbarangsellin = status
+                                    }
+                                    else if(idinventory == 4)
+                                    {
+                                        $rootScope.statusbarangreturn = status
                                     }
 
                                     var statuskunjungan = $rootScope.updatestatusinventoryquantity(idinventory);
@@ -694,8 +711,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     };
 }]);
 
-myAppModule.controller('ComplexController', ['$scope', '$element', 'title', 'close',"$filter",
-function($scope, $element, title, close,$filter) 
+myAppModule.controller('ComplexController', ['$rootScope','$scope', '$http','$element', 'title', 'close',"$filter",
+function($rootScope,$scope, $http,$element, title, close,$filter) 
 {
 
    $scope.title = title;
@@ -705,13 +722,34 @@ function($scope, $element, title, close,$filter)
 
     var nextMonth1 = new Date(myDate);
     nextMonth1.setMonth(myDate.getMonth()+1);
+
     var nextMonth2 = new Date(myDate);
     nextMonth2.setMonth(myDate.getMonth()+2);
     var nextMonth3 = new Date(myDate);
     nextMonth3.setMonth(myDate.getMonth()+3);
 
+    var url = $rootScope.linkurl;
+    $http.get(url + "/expiredpriorities/search?STATUS=1")
+    .success(function(data,status, headers, config) 
+    {
+        $scope.list = [];
+        angular.forEach(data.ExpiredPrioritas, function(value, key) 
+        {
+            var jangkawaktu = value.JANGKA_WAKTU;
+            var nextMonth = new Date(myDate);
+            nextMonth.setMonth(myDate.getMonth()+ jangkawaktu);
+            var result = {};
+            result.tanggaled = nextMonth;
+            result.expiredqty = null;
+            result.prioritas  = jangkawaktu;
+
+            $scope.list.push(result);
+             // {tanggaled:nextMonth1, expiredqty:null, prioritas:1},{tanggaled:nextMonth2, expiredqty:null,prioritas:2},{tanggaled:nextMonth3, expiredqty:null,prioritas:3} ];
+        });
+    });
+
   // var tanggaled = $filter('date')(nextMonth,'yyyy-MM-dd');
-  $scope.list = [ {tanggaled:nextMonth1, expiredqty:null, prioritas:1},{tanggaled:nextMonth2, expiredqty:null,prioritas:2},{tanggaled:nextMonth3, expiredqty:null,prioritas:3} ];
+  // $scope.list = [ {tanggaled:nextMonth1, expiredqty:null, prioritas:1},{tanggaled:nextMonth2, expiredqty:null,prioritas:2},{tanggaled:nextMonth3, expiredqty:null,prioritas:3} ];
   
   $scope.close = function() 
   {
@@ -727,4 +765,5 @@ function($scope, $element, title, close,$filter)
   {
     alert("radumta");
   }
+
 }]);

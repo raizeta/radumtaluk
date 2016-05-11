@@ -30,12 +30,54 @@
                                 </h3>
                               </div>
                             </li>
-                            <li ng-repeat="salesactivity in salesaktivitas">
+                            <li>
+                              <i ng-class="statusbarangstockqty.icon"></i>
+                              <div class="timeline-item" >
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangstockqty.bgcolor">
+                                      <h3 class="box-title">Stock Quantity</h3>
+
+                                      <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="display: block;">
+                                      <div class="timeline-body" ng-show="statusbarangstockqty.show">
+                                          <img ng-repeat="barang in barangstockqty" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty(barang,$index,1)">
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
+                              <i ng-class="statusbarangsellout.icon"></i>
+                              <div class="timeline-item" >
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangsellout.bgcolor">
+                                      <h3 class="box-title">Sell Out</h3>
+
+                                      <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="display: block;">
+                                      <div class="timeline-body" ng-show="statusbarangsellout.show">
+                                          <img ng-repeat="barang in barangsellout" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty(barang,$index,2)">
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </li>
+                            <li>
                               <i ng-class="statusbarangsellin.icon"></i>
                               <div class="timeline-item" >
                                 <div class="box">
                                     <div class="box-header" ng-class="statusbarangsellin.bgcolor">
-                                      <h3 class="box-title">{{salesactivity.DIALOG_TITLE}}</h3>
+                                      <h3 class="box-title">Sell In</h3>
 
                                       <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -45,13 +87,33 @@
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
                                       <div class="timeline-body" ng-show="statusbarangsellin.show">
-                                        <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty(barang,$index,salesactivity)">
+                                        <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty(barang,$index,3)">
                                       </div>
                                     </div>
                                 </div>
                               </div>
                             </li>
+                            <li>
+                              <i ng-class="statusbarangsellin.icon"></i>
+                              <div class="timeline-item" >
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusbarangsellin.bgcolor">
+                                      <h3 class="box-title">Return Product</h3>
 
+                                      <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                        </button>
+                                      </div>
+                                    </div>
+                                    <!-- /.box-header -->
+                                    <div class="box-body" style="display: block;">
+                                      <div class="timeline-body" ng-show="statusbarangsellin.show">
+                                        <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty(barang,$index,4)">
+                                      </div>
+                                    </div>
+                                </div>
+                              </div>
+                            </li>
                             <li>
                               <i ng-class="statusbarangexpired.icon"></i>
                               <div class="timeline-item" >

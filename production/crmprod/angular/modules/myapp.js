@@ -230,6 +230,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
         return result;
     }
+
     $rootScope.updateinventoryquantity = function(idinventory)
     {
         var result = {}
@@ -255,8 +256,17 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
             result.arraybarang                     = $rootScope.barangsellin;
             result.INVENTORY_STOCK = 3;
         }
+
+        else if(idinventory == 4)
+        {
+            result.titledialog                     = 'Return Product';
+            result.sotype                          = 8;
+            result.arraybarang                     = $rootScope.barangreturn;
+            result.RETURN_STOCK = 4;
+        }
         return result;
     }
+
     $rootScope.updatestatusinventoryquantity = function(idinventory)
     {
         var result = {}
@@ -272,8 +282,13 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         {
             result.INVENTORY_SELLIN    = 1;
         }
+        else if(idinventory == 4)
+        {
+            result.RETURN_PRODUCT    = 1;
+        }
         return result;
     }
+
     $rootScope.getCameraOptions = function()
     {
         
@@ -291,6 +306,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
               };
         return options;
     }
+
     $rootScope.findidstatuskunjunganbyiddetail = function(iddetail)
     {
         var findidstatuskunjunganbyiddetail = $.ajax
@@ -303,6 +319,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         var result = JSON.parse(findidstatuskunjunganbyiddetail)['StatusKunjungan'][0].ID;
         return result;
     } 
+
     $rootScope.objectdatabarangs = function()
     {
         var dataproduct = $.ajax
@@ -324,6 +341,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         });
         return result;
     }
+    
     $rootScope.jaraklokasi = function(longitude1,latitude1,longitude2,latitude2)
     {
         // var d2r            = (Math.PI/180);
