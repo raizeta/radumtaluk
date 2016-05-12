@@ -62,19 +62,22 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     }, false);
 
     $rootScope.loading= true;
-    $rootScope.$on("$routeChangeStart", function (userInfo) 
+    $rootScope.$on("$routeChangeStart", function (e, curr, prev,userInfo) 
     {
-        $rootScope.loading= true;
-        $rootScope.isMenuOpen = false;
+        if (curr.$$route && curr.$$route.resolve) 
+        {
+            $rootScope.loading= true;
+            $rootScope.isMenuOpen = false;
+        }
     });
    
-    $rootScope.$on("$routeChangeSuccess", function (userInfo) 
+    $rootScope.$on("$routeChangeSuccess", function (e, curr, prev,userInfo) 
     {
         var hideloading = function()
         {
             $rootScope.loading= false;
         }
-        $timeout(hideloading, 5000);
+        $timeout(hideloading, 100);
         
     });
 

@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","configurationService",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,configurationService) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","configurationService","resolvedatabarangall",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,configurationService,resolvedatabarangall) 
 {
     var status={};
     status.bgcolor="bg-aqua";
@@ -55,7 +55,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var latitude2      = DEFAULT_CUST_LAT;
 
     var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
-    console.log(jarak);
 
     // ####################################################################################################
     // MENU ACTION
@@ -64,7 +63,22 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     $http.get(url + "/tipesalesaktivitas/search?UNTUK_DEVICE=ANDROID&&STATUS=1")
     .success(function(data,status, headers, config) 
     {
-        $scope.salesaktivitas = data.Tipesalesaktivitas;
+        var x = data.Tipesalesaktivitas;
+        $scope.salesaktivitas = [];
+        var i = 0;
+        angular.forEach(data.Tipesalesaktivitas, function(value, key)
+        {
+            var status={};
+            status.bgcolor="bg-aqua";
+            status.icon="fa fa-close bg-aqua";
+            status.show = true;
+
+            x[i].products = $rootScope.objectdatabarangs();
+            x[i].status = status;
+            $scope.salesaktivitas.push(x[i]);
+            i = i + 1;
+        });
+        console.log($scope.salesaktivitas);
     });
     // ####################################################################################################
     // SUMMARY FUNCTION
@@ -79,6 +93,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             $scope.loading = false;
         });
     };
+    //#####################################################################################################
     // CHECK-IN FUNCTION
     //#####################################################################################################
     $scope.checkin = function()
@@ -197,69 +212,37 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         $rootScope.statusbarangexpired  = $rootScope.cekstatusbarang(statusinventoryexpired);
     });
     //#####################################################################################################
-    ProductService.GetDataBarangs()
+    var databarangall = resolvedatabarangall;
+    ProductService.GetDataBarangsInventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6)
     .then(function (result) 
     {
-        var databarangall = result;
-        ExpiredService.setExpiredAction(ID_DETAIL)
-        .then (function (data)
+        var x      = $rootScope.diffbarang(databarangall,result);
+        var objectdatabarangall = $rootScope.objectdatabarangs();
+        $rootScope.barangsellin = [];
+        angular.forEach(x, function(value, key)
         {
-            var x           = $rootScope.diffbarang(databarangall,data);
-            $rootScope.barangexpired   = [];
-            var objectdatabarangall = $rootScope.objectdatabarangs();
-            angular.forEach(x, function(value, key)
-            {
-                var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
-                $rootScope.barangexpired.push(existingFilter);
-            });
+            var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
+            $rootScope.barangsellin.push(existingFilter);
         });
     });
 
-    ProductService.GetDataBarangs()
-    .then(function (result) 
+    ExpiredService.setExpiredAction(ID_DETAIL)
+    .then (function (data)
     {
-        var databarangall = result;
-        ProductService.GetDataBarangsInventory(CUST_ID,PLAN_TGL_KUNJUNGAN,5)
-        .then(function (result) 
+        var x           = $rootScope.diffbarang(databarangall,data);
+        $rootScope.barangexpired   = [];
+        var objectdatabarangall = $rootScope.objectdatabarangs();
+        angular.forEach(x, function(value, key)
         {
-            var x      = $rootScope.diffbarang(databarangall,result);
-            var objectdatabarangall = $rootScope.objectdatabarangs();
-            $rootScope.barangstockqty = [];
-            angular.forEach(x, function(value, key)
-            {
-                var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
-                $rootScope.barangstockqty.push(existingFilter);
-            });
-        });
-
-        ProductService.GetDataBarangsInventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6)
-        .then(function (result) 
-        {
-            var x      = $rootScope.diffbarang(databarangall,result);
-            var objectdatabarangall = $rootScope.objectdatabarangs();
-            $rootScope.barangsellin = [];
-            angular.forEach(x, function(value, key)
-            {
-                var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
-                $rootScope.barangsellin.push(existingFilter);
-            });
-        });
-        ProductService.GetDataBarangsInventory(CUST_ID,PLAN_TGL_KUNJUNGAN,7)
-        .then(function (result) 
-        {
-            var x      = $rootScope.diffbarang(databarangall,result);
-            var objectdatabarangall = $rootScope.objectdatabarangs();
-            $rootScope.barangsellout = [];
-            angular.forEach(x, function(value, key)
-            {
-                var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
-                $rootScope.barangsellout.push(existingFilter);
-            });
+            var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
+            $rootScope.barangexpired.push(existingFilter);
         });
     });
+
     // ####################################################################################################
-    $scope.updateinventoryqty = function(barang,index,idinventorys)
+    $scope.updateinventoryqty = function(parentindex,barang,index,idinventorys)
     {
+        
         var idinventory = idinventorys.SO_ID;
         var titledialog = idinventorys.DIALOG_TITLE;
         var sotype      = idinventorys.ID;
@@ -333,30 +316,16 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                                                 showConfirmButton: false
                                             });
 
-                                resultupdateinventoryqty.arraybarang.splice(index,1);
-                                if(resultupdateinventoryqty.arraybarang.length == 0)
+                                $scope.salesaktivitas[parentindex].products.splice(index, 1);
+                                if($scope.salesaktivitas[parentindex].products.length == 0)
                                 {
                                     var status={};
                                     status.bgcolor="bg-green";
                                     status.icon="fa fa-check bg-green";
                                     status.show = false;
 
-                                    if(idinventory == 1)
-                                    {
-                                        $rootScope.statusbarangstockqty = status
-                                    }
-                                    else if(idinventory == 2)
-                                    {
-                                        $rootScope.statusbarangsellout = status
-                                    }
-                                    else if(idinventory == 3)
-                                    {
-                                        $rootScope.statusbarangsellin = status
-                                    }
-                                    else if(idinventory == 4)
-                                    {
-                                        $rootScope.statusbarangreturn = status
-                                    }
+                                    $scope.salesaktivitas[parentindex].status = status
+
 
                                     var statuskunjungan = $rootScope.updatestatusinventoryquantity(idinventory);
                                     InventoryService.updateInventoryStatus(ID_DETAIL,statuskunjungan)

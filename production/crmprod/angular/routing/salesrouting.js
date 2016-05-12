@@ -230,8 +230,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                         $location.path('/agenda/' + $filter('date')(xxx.tanggalkunjungan,'yyyy-MM-dd'));
                     }
                 }
-                 
-
             },
             resolvegpslocation: function (LocationService) 
             {
@@ -243,6 +241,11 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var iddetailkunjungan             = $route.current.params.iddetailkunjungan;
                 var resolvesingledetailkunjunganbyiddetail = singleapiService.singledetailkunjunganbyiddetail(iddetailkunjungan);
                 return resolvesingledetailkunjunganbyiddetail;
+            },
+            resolvedatabarangall: function(ProductService)
+            {
+                var resolvedatabarang = ProductService.GetDataBarangs();
+                return resolvedatabarang;
             }
         }
     });

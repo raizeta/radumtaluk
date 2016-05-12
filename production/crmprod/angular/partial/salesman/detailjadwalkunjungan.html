@@ -31,10 +31,10 @@
                               </div>
                             </li>
                             <li ng-repeat="salesactivity in salesaktivitas">
-                              <i ng-class="statusbarangsellin.icon"></i>
+                              <i ng-class="salesactivity.status.icon"></i>
                               <div class="timeline-item" >
                                 <div class="box">
-                                    <div class="box-header" ng-class="statusbarangsellin.bgcolor">
+                                    <div class="box-header" ng-class="salesactivity.status.bgcolor">
                                       <h3 class="box-title">{{salesactivity.DIALOG_TITLE}}</h3>
 
                                       <div class="box-tools pull-right">
@@ -44,8 +44,8 @@
                                     </div>
                                     <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
-                                      <div class="timeline-body" ng-show="statusbarangsellin.show">
-                                        <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty(barang,$index,salesactivity)">
+                                      <div class="timeline-body" ng-show="salesactivity.status.show">
+                                        <img ng-repeat="barang in salesactivity.products" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty($parent.$index,barang,$index,salesactivity)">
                                       </div>
                                     </div>
                                 </div>
