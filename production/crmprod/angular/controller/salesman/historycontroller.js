@@ -17,7 +17,8 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
     {
         if(response.length == 0)
         {
-            alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            //alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            sweetAlert("Oops...", "Tolong Lakukan Absensi Terlebih Dahulu!", "error");
             $location.path('/absensi');
         }
     });

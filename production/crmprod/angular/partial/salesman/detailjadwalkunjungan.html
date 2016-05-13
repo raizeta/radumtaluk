@@ -22,14 +22,17 @@
                                   Start Action
                               </span>
                             </li>
-                            <li >
+                            <li>
                               <i ng-class="statusstartpicture.icon"></i>
-                              <div class="timeline-item" ng-click="starttakeapicture()" >
-                                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                                <h3 class="timeline-header" ng-class="statusstartpicture.bgcolor">    Start Picture
-                                </h3>
+                              <div class="timeline-item" ng-click="starttakeapicture()">
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusstartpicture.bgcolor">
+                                      <h3 class="box-title">START PICTURE</h3>
+                                    </div>
+                                </div>
                               </div>
                             </li>
+
                             <li ng-repeat="salesactivity in salesaktivitas">
                               <i ng-class="salesactivity.status.icon"></i>
                               <div class="timeline-item" >
@@ -57,7 +60,7 @@
                               <div class="timeline-item" >
                                 <div class="box">
                                     <div class="box-header" ng-class="statusbarangexpired.bgcolor">
-                                      <h3 class="box-title">Expired</h3>
+                                      <h3 class="box-title">EXPIRED</h3>
                                       <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                                         </button>
@@ -72,12 +75,14 @@
                                 </div>
                               </div>
                             </li>
-                            <li >
+                            <li>
                               <i ng-class="statusendpicture.icon"></i>
-                              <div class="timeline-item" ng-click="endtakeapicture()" >
-                                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
-                                <h3 class="timeline-header" ng-class="statusendpicture.bgcolor">    End Picture
-                                </h3>
+                              <div class="timeline-item" ng-click="starttakeapicture()">
+                                <div class="box">
+                                    <div class="box-header" ng-class="statusendpicture.bgcolor">
+                                      <h3 class="box-title">END PICTURE</h3>
+                                    </div>
+                                </div>
                               </div>
                             </li>
                             <li>
@@ -143,6 +148,45 @@
 
             <md-tab id="tab3" ng-click="summary()">
               <md-tab-label>SUMMARY</md-tab-label>
+              <md-tab-body>
+                  <section class="content">
+                    <div class="row" >
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                                <th>Product</th>
+                                <th>Nama Product</td>
+                                <th>Stock Qty</th>
+                                <th>Sell Out</th>
+                                <th>Sell In</th>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="barangsummary in BarangSummary">
+                                  <td>{{barangsummary.KD_BARANG}}</td>
+                                  <td>{{barangsummary.NAME_ITEM}}</td>
+                                  <td>{{barangsummary.STOCK}}</td>
+                                  <td>{{barangsummary.SELL_OUT}}</td>
+                                  <td>{{barangsummary.SELL_IN}}</td>
+                                </tr>
+                                <!-- <tr>
+                                  <td>Total</td>
+                                  <td>{{totalstockqty}}</td>
+                                  <td>{{totalsellout}}</td>
+                                  <td>{{totalsellin}}</td>
+                                </tr> -->
+                              </tbody>
+                             </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section><!-- /.content -->
+              </md-tab-body>
+            </md-tab>
+            <md-tab id="tab4" ng-click="summary()">
+              <md-tab-label>LV SUMMARY</md-tab-label>
               <md-tab-body>
                   <section class="content">
                     <div class="row" >

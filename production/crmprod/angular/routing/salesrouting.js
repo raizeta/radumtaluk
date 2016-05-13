@@ -225,8 +225,8 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     if(iddetailkunjungan != xxx.iddetailkunjungan)
                     {
                         var tanggalkunjungan = $filter('date')(xxx.tanggalkunjungan,'dd-MM-yyyy');
-                        alert("Double Check In Not Allowed. Please, Check Out First From  " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan);
-                        
+                        //alert("Double Check In Not Allowed. Please, Check Out First From  " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan);
+                        sweetAlert("Oops...", "Double Check In Not Allowed. Please, Check Out First From  " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan + "!", "error");
                         $location.path('/agenda/' + $filter('date')(xxx.tanggalkunjungan,'yyyy-MM-dd'));
                     }
                 }
@@ -246,7 +246,12 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             {
                 var resolvedatabarang = ProductService.GetDataBarangs();
                 return resolvedatabarang;
-            }
+            },
+            resolveconfigradius: function($q,configurationService)
+            {
+                var resolveconfigradius = configurationService.getConfigRadius();
+                return resolveconfigradius;
+            },
         }
     });
 

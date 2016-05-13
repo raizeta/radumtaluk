@@ -75,6 +75,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
 
         return deferred.promise;    
     }
+    
     var GetDataBarangsInventory = function(idcustomer,tanggalplan,sotype)
     {
 		

@@ -19,7 +19,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     {
         if(response.length == 0)
         {
-            alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            //alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            sweetAlert("Oops...", "Tolong Lakukan Absensi Terlebih Dahulu!", "error");
+
             $location.path('/absensi');
         }
     });
@@ -38,11 +40,13 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         console.log(customer);
         if(tanggalplan < tanggalsekarang)
         {
-            alert("Wrong Time To Check In This Customer");
+            //alert("Wrong Time To Check In This Customer");
+            sweetAlert("Oops...", "Wrong Time To Check In This Customer!", "error");
         }
         else if(tanggalplan > tanggalsekarang)
         {
-            alert("Wait For The Right Time To Check In This Customer");
+            //alert("Wait For The Right Time To Check In This Customer");
+            sweetAlert("Oops...", "Wait For The Right Time To Check In This Customer!", "error");
         }
         else if(tanggalplan == tanggalsekarang)
         {
@@ -54,7 +58,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 {
                     if(customer.CHECKOUT == 1)
                     {
-                        alert("You Have Check Out From This Customer.");
+                        //alert("You Have Check Out From This Customer.");
+                        sweetAlert("Oops...", "You Have Check Out From This Customer!", "error");
                     }
                     else
                     {
@@ -80,7 +85,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var configjarak = response.Configuration[3].value;
                                 if(jarak > configjarak)
                                 {
-                                    alert("Di Luar Radius");
+                                    //alert("Di Luar Radius");
+                                    sweetAlert("Oops...", "Out Of Ranges!", "error");
                                 }
                                 else
                                 {
@@ -92,7 +98,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 }
                 else if(absensimasuk == 0)
                 {
-                    alert("Kamu Sudah Absen Keluar.");
+                    //alert("Kamu Sudah Absen Keluar.");
+                    sweetAlert("Oops...", "Kamu Sudah Absen Keluar!", "error");
                 }
             }
             else

@@ -16,6 +16,8 @@ document.write('<script src="bower_components/angular-bootstrap/ui-bootstrap-tpl
 
 document.write('<script src="bower_components/angular-messages/angular-messages.js"></script>');
 document.write('<script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>');
+document.write('<script src="bower_components/ngstorage/ngStorage.js"></script>');
+
 document.write('<script src="bower_components/ngToast/dist/ngToast.min.js"></script>');
 
 document.write('<script src="bower_components/angular-aria/angular-aria.js"></script>');
