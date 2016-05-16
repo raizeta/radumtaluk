@@ -55,7 +55,6 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         });
     }
     $scope.load();
-
 }]);
 
 

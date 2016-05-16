@@ -29,6 +29,34 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
 	});
 
+    $routeProvider.when('/help',
+    {
+        templateUrl : 'angular/partial/salesman/help.html',
+        controller  : 'HelpController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
     $routeProvider.when('/absensi',
     {
         templateUrl : 'angular/partial/salesman/absensi.html',

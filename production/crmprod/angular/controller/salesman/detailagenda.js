@@ -37,7 +37,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     var tanggalplan     = $routeParams.idtanggal;
     $scope.detailjadwalkunjungan = function(customer)
     {
-        console.log(customer);
         if(tanggalplan < tanggalsekarang)
         {
             //alert("Wrong Time To Check In This Customer");
@@ -134,7 +133,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
     .then(function(data)
     {
-        console.log(data);
         if(data.length == 0)
         {
             $scope.loading  = false;
