@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/agenda/2016-04-08
 //angular/partial/salesman/agenda.html
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","resolvegpslocation","configurationService","AbsensiService",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,resolvegpslocation,configurationService,AbsensiService)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","resolvegpslocation","configurationService","AbsensiService","LastVisitService",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,resolvegpslocation,configurationService,AbsensiService,LastVisitService)
 {
     $scope.userInfo = auth;
     var idtanggal = idtanggal;
@@ -191,6 +191,26 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 console.log(err);
             });
         });
-    };    
+    };
+
+    $scope.lastvisitsummary = function()
+    {
+        $scope.loading = true;
+        JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+        .then(function(data)
+        {
+            var idgroupcustomer         = data.JadwalKunjungan[0].SCDL_GROUP;
+            LastVisitService.LastVisitSummaryAll(idtanggal,idgroupcustomer)
+            .then(function (result) 
+            {
+                console.log(result);
+            }, 
+            function (err) 
+            {          
+                console.log(err);
+            });
+        });
+    };
+    $scope.lastvisitsummary();    
 }]);
 

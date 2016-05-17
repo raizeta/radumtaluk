@@ -1,6 +1,6 @@
 'use strict';
 var myAppModule     = angular.module('myAppModule',
-['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','ngAnimate','naif.base64',
+['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','vAccordion','ngAnimate','naif.base64',
 'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial','ds.clock','ngStorage',
 'ngMessages','hSweetAlert','ui.calendar']);
 
@@ -120,6 +120,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
         return result;
     }
+    
     $rootScope.starttrack = function()
     {
         navigator.geolocation.getCurrentPosition(

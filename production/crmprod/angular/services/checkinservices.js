@@ -6,6 +6,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
 	{
 		return "http://api.lukisongroup.com/master";
 	}
+    
 	var gettoken = function()
 	{
 		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
