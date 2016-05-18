@@ -129,7 +129,7 @@ myAppModule.factory('apiService', ["$http","$q","$window",function($http, $q, $w
         };
 		var url = getUrl();
 		var deferred = $q.defer();
-		var url = url + "/salesmanmemos";
+		var url = url + "/salesmanmemos/search";
 		var method ="GET";
 		$http({method:method, url:url,config:config,cache:false})
 		.success(function(response) 

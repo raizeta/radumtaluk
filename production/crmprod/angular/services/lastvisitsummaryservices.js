@@ -33,8 +33,57 @@ myAppModule.factory('LastVisitService', ["$http","$q","$window",function($http, 
         $http({method:method, url:url,config:config})
 		.success(function(response,status,headers) 
 		{
-			console.log(response);
-			deferred.resolve(response);
+			if(status === 200)
+			{
+
+				var BarangSummaryAll = response.Jadwalkunjungan;
+		        var customers   = [];
+		        _.each(BarangSummaryAll, function(executes) 
+		        {
+		            var existingCustomer = _.findWhere(customers, { CUST_KD: executes.CUST_KD });
+		            if (existingCustomer) 
+		            {
+		            	var products = existingCustomer.products;
+
+		            	var existproducts = _.findWhere(products, { KD_BARANG: executes.KD_BARANG });
+		            	if(existproducts)
+		            	{
+		            		existproducts['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
+		            	}
+		            	else
+		            	{
+		            		var product = {};
+		            		product.KD_BARANG = executes.KD_BARANG;
+		            		product.NM_BARANG = executes.NM_BARANG;
+		            		product['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
+		            		products.push(product);
+		            	}
+
+		            }
+		            else
+		            {
+		            	var customer = {};
+		            	customer.CUST_KD = executes.CUST_KD;
+		            	customer.CUST_NM = executes.CUST_NM;
+
+		            	var products = [];
+		            	var product = {};
+		            	product.KD_BARANG = executes.KD_BARANG;
+		            	product.NM_BARANG = executes.NM_BARANG;
+		            	product['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
+
+		            	products.push(product);
+		            	customer.products = products;
+		            	customers.push(customer);
+		            }
+		        });
+
+		        deferred.resolve(customers); 
+	        }
+	        else if(status === 304)
+	        {
+	        	alert("Status Sukses Dengan Kode 304");
+	        }
 		})
 		.error(function(err,status)
         {
