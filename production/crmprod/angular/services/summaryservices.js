@@ -38,6 +38,7 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 			{
 
 				var BarangSummaryAll = response.InventorySummaryAll;
+				console.log(BarangSummaryAll);
 		        var filtersproduct   = [];
 		        _.each(BarangSummaryAll, function(execute) 
 		        {
@@ -51,6 +52,7 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 		                product.STOCK           = execute.STOCK;
 		                product.SELL_IN         = execute.SELL_IN;
 		                product.SELL_OUT        = execute.SELL_OUT;
+		                product.RETURN_INV      = execute.RETURN_INV;
 		                filtersproduct[index].products.push(product);
 		            }
 		            else
@@ -65,6 +67,7 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 		                product.STOCK           = execute.STOCK;
 		                product.SELL_IN         = execute.SELL_IN;
 		                product.SELL_OUT        = execute.SELL_OUT;
+		                product.RETURN_INV      = execute.RETURN_INV;
 
 		                filter.products=[];
 		                filter.products.push(product);
@@ -93,9 +96,14 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 		                    var ystock = parseInt(value.STOCK);
 		                    var zstock = xstock + ystock;
 
-		                    filtersquantity[index].TOTSELL_IN  = zsellin;
-		                    filtersquantity[index].TOTSELL_OUT = zsellout;
-		                    filtersquantity[index].TOTSTOCK    = zstock;
+		                    var xreturn = parseInt(filtersquantity[index].TTL_RETURN_INV);
+		                    var yreturn = parseInt(value.RETURN_INV);
+		                    var zreturn = xreturn + yreturn;
+
+		                    filtersquantity[index].TOTSELL_IN  		= zsellin;
+		                    filtersquantity[index].TOTSELL_OUT 		= zsellout;
+		                    filtersquantity[index].TOTSTOCK    		= zstock;
+		                    filtersquantity[index].TTL_RETURN_INV   = zreturn;
 		                }
 		                else
 		                {
@@ -105,6 +113,7 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 		                    filter.TOTSELL_IN           = value.SELL_IN;
 		                    filter.TOTSELL_OUT          = value.SELL_OUT;
 		                    filter.TOTSTOCK             = value.STOCK;
+		                    filter.TTL_RETURN_INV       = value.RETURN_INV;
 		                    filtersquantity.push(filter);
 		                }
 		            });

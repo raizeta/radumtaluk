@@ -51,13 +51,14 @@
                                   <th class="success"  rowspan="2" style="text-align:center;vertical-align:middle">
                                     Customer
                                   </th>
-                                  <th class="success" style="text-align:center;vertical-align:middle" colspan="3"ng-repeat="xxx in siteres[0].products">    {{xxx.NM_BARANG}}
+                                  <th class="success" style="text-align:center;vertical-align:middle" colspan="4"ng-repeat="xxx in siteres[0].products">    {{xxx.NM_BARANG}}
                                   </th>
                                 </tr>
                                 <tr class="warning" >
                                   <td align="right" ng-repeat-start="xxx in totalalls">STOCK</td>
                                   <td align="right">SELL OUT</td>
-                                  <td align="right" ng-repeat-end="xxx in totalalls">SELL IN</td>
+                                  <td align="right">SELL IN</td>
+                                  <td align="right" ng-repeat-end="xxx in totalalls">RETURN</td>
                                 </tr>
                               </thead>
                               <tbody>
@@ -65,13 +66,15 @@
                                   <td>{{barang.CUST_NM}}</td>
                                   <td align="right" ng-repeat-start="xxx in barang.products">{{xxx.STOCK|number}}</td>
                                   <td align="right">{{xxx.SELL_OUT|number}}</td>
-                                  <td align="right" ng-repeat-end="xxx in barang.products">{{xxx.SELL_IN|number}}</td>
+                                  <td align="right">{{xxx.SELL_IN|number}}</td>
+                                  <td align="right" ng-repeat-end="xxx in barang.products">{{xxx.RETURN_INV|number}}</td>
                                 </tr>
                                 <tr class="success">
                                   <td style="text-align:center;vertical-align:middle">TOTAL</td>
                                   <td align="right" ng-repeat-start="xxx in totalalls">{{xxx.TOTSTOCK|number}}</td>
                                   <td align="right">{{xxx.TOTSELL_OUT|number}}</td>
-                                  <td align="right" ng-repeat-end="xxx in totalalls">{{xxx.TOTSELL_IN|number}}</td>
+                                  <td align="right">{{xxx.TOTSELL_IN|number}}</td>
+                                  <td align="right" ng-repeat-end="xxx in totalalls">{{xxx.TTL_RETURN_INV|number}}</td>
                                 </tr>
                               </tbody>
                              </table>
@@ -94,21 +97,47 @@
                              <table class="table table-hover table-striped table-bordered">
                               <thead>
                                 <tr align="center">
+                                  <th class="success">
+                                    Nama Pengunjung
+                                  </th>
+                                  <th class="success">
+                                    {{datapengunjung.nama}}
+                                  </th>
+                                </tr>
+                                <tr align="center">
+                                  <th class="success">
+                                    Tanggal Kunjungan
+                                  </th>
+                                  <th class="success">
+                                    {{datapengunjung.tanggal}}
+                                  </th>
+                                </tr>
+                              </thead>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                                <tr align="center">
                                   <th class="success"  rowspan="2" style="text-align:center;vertical-align:middle">
                                     Customer
                                   </th>
-                                  <th class="success" style="text-align:center;vertical-align:middle" colspan="4" ng-repeat="xxx in siteres[0].products">    {{xxx.NM_BARANG}}
+                                  <th class="success" style="text-align:center;vertical-align:middle" colspan="4" ng-repeat="xxx in sitereslv[0].products">    {{xxx.NM_BARANG}}
                                   </th>
                                 </tr>
                                 <tr class="warning" >
-                                  <td align="right" ng-repeat-start="xxx in totalalls">STOCK</td>
+                                  <td align="right" ng-repeat-start="xxx in sitereslv[0].products">STOCK</td>
                                   <td align="right">SELL OUT</td>
                                   <td align="right">SELL IN</td>
-                                  <td align="right" ng-repeat-end="xxx in totalalls">RETURN </td>
+                                  <td align="right" ng-repeat-end="xxx in sitereslv[0].products">RETURN </td>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr ng-repeat="barang in siteres">
+                                <tr ng-repeat="barang in sitereslv">
                                   <td>{{barang.CUST_NM}}</td>
                                   <td align="right" ng-repeat-start="xxx in barang.products">{{xxx.TYPE5|number}}</td>
                                   <td align="right">{{xxx.TYPE6|number}}</td>
@@ -117,9 +146,10 @@
                                 </tr>
                                 <tr class="success">
                                   <td style="text-align:center;vertical-align:middle">TOTAL</td>
-                                  <td align="right" ng-repeat-start="xxx in totalalls">{{xxx.TOTSTOCK|number}}</td>
+                                  <td align="right" ng-repeat-start="xxx in totalallslv">{{xxx.TOTSTOCK|number}}</td>
                                   <td align="right">{{xxx.TOTSELL_OUT|number}}</td>
-                                  <td align="right" ng-repeat-end="xxx in totalalls">{{xxx.TOTSELL_IN|number}}</td>
+                                  <td align="right">{{xxx.TOTRETURN|number}}</td>
+                                  <td align="right" ng-repeat-end="xxx in totalallslv">{{xxx.TOTSELL_IN|number}}</td>
                                 </tr>
                               </tbody>
                              </table>

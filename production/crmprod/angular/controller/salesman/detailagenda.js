@@ -183,6 +183,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             .then(function (result) 
             {
                 $scope.siteres      = result.siteres;
+
                 console.log($scope.siteres);
                 $scope.totalalls    = result.totalalls;
                 $scope.loading  = false;
@@ -204,14 +205,18 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             LastVisitService.LastVisitSummaryAll(idtanggal,idgroupcustomer)
             .then(function (result) 
             {
-                $scope.siteres = result;
+                $scope.sitereslv          = result.siteres;
+                $scope.totalallslv        = result.totalalls;
+                $scope.datapengunjung   = result.pengunjung;
+                console.log($scope.datapengunjung);
                 $scope.loading  = false;
-                console.log($scope.siteres);
             }, 
             function (err) 
             {          
                 console.log(err);
+                $scope.loading  = false;
             });
+            $scope.loading  = false;
         });
     };
   

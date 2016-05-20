@@ -36,49 +36,104 @@ myAppModule.factory('LastVisitService', ["$http","$q","$window",function($http, 
 			if(status === 200)
 			{
 
-				var BarangSummaryAll = response.Jadwalkunjungan;
-		        var customers   = [];
-		        _.each(BarangSummaryAll, function(executes) 
-		        {
-		            var existingCustomer = _.findWhere(customers, { CUST_KD: executes.CUST_KD });
-		            if (existingCustomer) 
-		            {
-		            	var products = existingCustomer.products;
+				if(response.Jadwalkunjungan.length != 0)
+				{
+					var BarangSummaryAll = response.Jadwalkunjungan;
+					var pengunjung = {};
+					pengunjung.nama = response.Jadwalkunjungan[0].NM_FIRST;
+					pengunjung.tanggal = response.Jadwalkunjungan[0].TGL;
+					
+			        var customers   = [];
+			        _.each(BarangSummaryAll, function(executes) 
+			        {
+			            var existingCustomer = _.findWhere(customers, { CUST_KD: executes.CUST_KD });
+			            if (existingCustomer) 
+			            {
+			            	var products = existingCustomer.products;
 
-		            	var existproducts = _.findWhere(products, { KD_BARANG: executes.KD_BARANG });
-		            	if(existproducts)
-		            	{
-		            		existproducts['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
-		            	}
-		            	else
-		            	{
-		            		var product = {};
-		            		product.KD_BARANG = executes.KD_BARANG;
-		            		product.NM_BARANG = executes.NM_BARANG;
-		            		product['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
-		            		products.push(product);
-		            	}
+			            	var existproducts = _.findWhere(products, { KD_BARANG: executes.KD_BARANG });
+			            	if(existproducts)
+			            	{
+			            		existproducts['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
+			            	}
+			            	else
+			            	{
+			            		var product = {};
+			            		product.KD_BARANG = executes.KD_BARANG;
+			            		product.NM_BARANG = executes.NM_BARANG;
+			            		product['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
+			            		products.push(product);
+			            	}
 
-		            }
-		            else
-		            {
-		            	var customer = {};
-		            	customer.CUST_KD = executes.CUST_KD;
-		            	customer.CUST_NM = executes.CUST_NM;
+			            }
+			            else
+			            {
+			            	var customer = {};
+			            	customer.CUST_KD = executes.CUST_KD;
+			            	customer.CUST_NM = executes.CUST_NM;
 
-		            	var products = [];
-		            	var product = {};
-		            	product.KD_BARANG = executes.KD_BARANG;
-		            	product.NM_BARANG = executes.NM_BARANG;
-		            	product['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
+			            	var products = [];
+			            	var product = {};
+			            	product.KD_BARANG = executes.KD_BARANG;
+			            	product.NM_BARANG = executes.NM_BARANG;
+			            	product['TYPE' + executes.SO_TYPE]  = executes.SO_QTY;
 
-		            	products.push(product);
-		            	customer.products = products;
-		            	customers.push(customer);
-		            }
-		        });
+			            	products.push(product);
+			            	customer.products = products;
+			            	customers.push(customer);
+			            }
+			        });
+					var filtersquantity= [];
+			        angular.forEach(customers, function(value, key)
+			        {
+			            angular.forEach(value.products, function(value, key)
+			            {
+			                var existingFilter = _.findWhere(filtersquantity, { NM_BARANG: value.NM_BARANG });
+			                if (existingFilter) 
+			                {
+			                    var index = filtersquantity.indexOf(existingFilter);
 
-		        deferred.resolve(customers); 
+			                    var xsellin = parseInt(filtersquantity[index].TOTSELL_IN);
+			                    var ysellin = parseInt(value.SELL_IN);
+			                    var zsellin = xsellin + ysellin;
+
+			                    var xsellout = parseInt(filtersquantity[index].TOTSELL_OUT);
+			                    var ysellout = parseInt(value.SELL_OUT);
+			                    var zsellout = xsellout + ysellout;
+
+			                    var xstock = parseInt(filtersquantity[index].TOTSTOCK);
+			                    var ystock = parseInt(value.STOCK);
+			                    var zstock = xstock + ystock;
+
+			                    filtersquantity[index].TOTSELL_IN  = zsellin;
+			                    filtersquantity[index].TOTSELL_OUT = zsellout;
+			                    filtersquantity[index].TOTSTOCK    = zstock;
+			                }
+			                else
+			                {
+			                    var filter      = {};
+			                    filter.KD_BARANG            = value.KD_BARANG;
+			                    filter.NM_BARANG            = value.NM_BARANG;
+			                    filter.TOTSELL_IN           = value.TYPE5;
+			                    filter.TOTSELL_OUT          = value.TYPE6;
+			                    filter.TOTSTOCK             = value.TYPE7;
+			                    filter.TOTRETURN            = value.TYPE8;
+			                    filtersquantity.push(filter);
+			                    console.log(filter);
+			                }
+			            });
+			        });
+					var result = {};
+					result.siteres = customers;
+					result.totalalls = filtersquantity;
+					result.pengunjung = pengunjung;
+
+			        deferred.resolve(result);
+				}
+				{
+					deferred.reject(err);
+				}
+				 
 	        }
 	        else if(status === 304)
 	        {
