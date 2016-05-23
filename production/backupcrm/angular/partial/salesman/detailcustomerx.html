@@ -1,0 +1,120 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper">
+    <section class="content">
+<!--       <div class="row">
+        <ul class="list-group">
+
+          <li class="list-group-item list-group-item-heading active" >
+            Salesman Actions
+          </li>
+          <li class="list-group-item list-group-item-heading" ng-click="starttakeapicture()">
+            <span class="badge danger">Do It!</span>Take Start Picture
+          </li>
+          <li class="list-group-item list-group-item-heading" ng-show="gambar">
+            <img id="myImage" >
+          </li>
+          <li class="list-group-item list-group-item-heading" style="cursor:pointer" ng-click="scanbarcode()">
+            <span class="badge danger">Do It!</span>Scan Barcode
+          </li>
+          <li class="list-group-item list-group-item-heading" style="cursor:pointer" ng-click="scanbarcode()">
+            <span class="badge danger">Do It!</span>Product Inventory
+          </li>
+          <li class="list-group-item list-group-item-heading" ng-click="endtakeapicture()">
+            <span class="badge danger">Do It!</span>Take End Picture
+          </li>
+          <li class="list-group-item list-group-item-heading" ng-show="gambar">
+            <img id="myImage" >
+          </li>
+        </ul>
+      </div> -->
+      <div class="row">
+        <div class="col-md-12">
+          <!-- The time line -->
+          <ul class="timeline">
+            <li class="time-label">
+              <span class="bg-green">
+                  Start Action
+              </span>
+            </li>
+<!--             <li >
+              <i class="fa fa-user bg-aqua"></i>
+              <div class="timeline-item" ng-click="cekstartgambar()" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border">Cek Start Picture</h3>
+              </div>
+            </li>
+
+            <li >
+              <i class="fa fa-user bg-aqua"></i>
+              <div class="timeline-item" ng-click="cekendgambar()" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border">Cek End Picture</h3>
+              </div>
+            </li> -->
+            <li >
+              <i class="fa fa-user bg-aqua" ng-class="noticestartgambar"></i>
+              <div class="timeline-item" ng-click="starttakeapicture()" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-class="noticestart">Take Start Picture</h3>
+              </div>
+            </li>
+            <li>
+              <i class="fa fa-user bg-aqua" ng-class="noticesellinicon"></i>
+              <div class="timeline-item" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-click="productinventory()" ng-class="noticesellin" id="headers">
+                  Product Sell In
+                </h3>
+                <div class="timeline-body" ng-show="sellinshow">
+<!--                   <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="KD_BARANG" data-placeholder="Pick a number" style="width: 100%;" ng-model="barang.KD_BARANG" ng-required="true" ng-change="updateinventory(barang.KD_BARANG,$index)">
+                    <option ng-repeat="barang in barangsai" id="{{$index}}" value="{{barang.KD_BARANG}}">
+                      {{barang.KD_BARANG}}
+                    </option>
+                  </select> -->
+
+                    <img ng-repeat="barang in barangsellin" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellin(barang.KD_BARANG,$index)">
+
+                </div>
+              </div>
+            </li>
+            
+            <li>
+              <i class="fa fa-user bg-aqua" ng-class="noticesellouticon"></i>
+              <div class="timeline-item" >
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-click="productinventory()" ng-class="noticesellout" id="headers">
+                  Stock Quantity
+                </h3>
+                <div class="timeline-body" ng-show="selloutshow">
+<!--                   <select class="form-control" data-allow-clear="true" ui-select2="select2Options" name="KD_BARANG" data-placeholder="Pick a number" style="width: 100%;" ng-model="barang.KD_BARANG" ng-required="true" ng-change="updateinventory(barang.KD_BARANG,$index)">
+                    <option ng-repeat="barang in barangsai" id="{{$index}}" value="{{barang.KD_BARANG}}">
+                      {{barang.KD_BARANG}}
+                    </option>
+                  </select> -->
+
+                    <img ng-repeat="barang in barangsellout" src="asset/graph/{{barang.KD_BARANG}}.png"  class="margin" id="{{$index}}" ng-click="updatesellout(barang.KD_BARANG,$index)">
+
+                </div>
+              </div>
+            </li>
+            <li>
+              <i class="fa fa-user bg-aqua" ng-class="noticeendgambar"></i>
+              <div class="timeline-item" ng-click="endtakeapicture()">
+                <span class="time"><i class="fa fa-clock-o"></i> Do It!</span>
+                <h3 class="timeline-header no-border" ng-class="noticeend">Take End Picture</h3>
+              </div>
+            </li>
+
+            <li class="time-label">
+              <span class="bg-red">
+                  <a href="" ng-click="checkout(checkouttanggal,checkoutcustomer)">CheckOut Action</a>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <!-- /.col -->
+      </div>
+    </section>
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>

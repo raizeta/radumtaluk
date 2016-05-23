@@ -1,0 +1,60 @@
+
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper" >
+    <section class="content">
+      <div class="row" ng-if="(userInfo.accessid == 1)">
+            <div class="col-md-12">
+              <div class="box box-widget">
+                <div class="box-header with-border">
+                  <div class="user-block">
+                    <img class="img-circle" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+                    <span class="username"><a href="#">{{userInfo.username}}</a></span>
+                    <span class="description"> 7:30 PM Today</span>
+                  </div>
+                  <!-- /.user-block -->
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <form name="customerForm" ng-submit="submitForm(salesmanmemo)" method="post" novalidate>
+                  <div class="box-body">
+                    <div class="form-group" ng-class="{ 'has-error' : customerForm.ISI_MESSAGES.$invalid && !customerForm.ISI_MESSAGES.$pristine,'has-success':customerForm.ISI_MESSAGES.$valid  }">
+                      <textarea class="form-control" name="ISI_MESSAGES" class="form-control" ng-model="salesmanmemo.ISI_MESSAGES"  rows="3" placeholder="Broadcast a Messages To Salesman ..." required></textarea>
+                    </div>
+                  </div>
+                  <div class="box-footer clearfix">
+                    <button type="submit" ng-disabled="customerForm.$invalid" class="pull-right btn btn-default" id="sendEmail">Send
+                      <i class="fa fa-arrow-circle-right"></i></button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6" ng-repeat="memo in salesmanmemos | orderBy: 'id':true ">
+              <div class="box box-widget">
+                <div class="box-header with-border">
+                  <!-- /.user-block -->
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body" compile="memo.messages ">
+                  {{ memo.messages }}
+                </div>
+              </div>
+
+            </div>
+
+        </div>
+    </section>
+
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>
