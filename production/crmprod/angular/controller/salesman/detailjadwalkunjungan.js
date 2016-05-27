@@ -71,15 +71,37 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var i = 0;
         angular.forEach(data.Tipesalesaktivitas, function(value, key)
         {
-            var status={};
-            status.bgcolor="bg-aqua";
-            status.icon="fa fa-close bg-aqua";
-            status.show = true;
-
-            x[i].products = $rootScope.objectdatabarangs();
+            
+            var databarang = $rootScope.objectdatabarangs();
+            var barangaksi = $rootScope.barangaksi(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID);
+            var diffbarangresult = [];
+            angular.forEach(barangaksi, function(value, key)
+            {
+                var existingFilter = _.findWhere(databarang, { KD_BARANG: value });
+                diffbarangresult.push(existingFilter);
+            });
+            var diffbarang = _.difference(databarang,diffbarangresult);
+            if(diffbarang.length == 0)
+            {
+                var status={};
+                status.bgcolor="bg-green";
+                status.icon="fa fa-check bg-green";
+                status.show = true;
+            }
+            else
+            {
+                var status={};
+                status.bgcolor="bg-aqua";
+                status.icon="fa fa-close bg-aqua";
+                status.show = true;
+            }
+            
+            x[i].products = diffbarang;  
+            
             x[i].status = status;
             $scope.salesaktivitas.push(x[i]);
             i = i + 1;
+
         });
     });
     // ####################################################################################################

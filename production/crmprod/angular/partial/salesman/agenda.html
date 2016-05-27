@@ -147,9 +147,9 @@
                                 <tr class="success">
                                   <td style="text-align:center;vertical-align:middle">TOTAL</td>
                                   <td align="right" ng-repeat-start="xxx in totalallslv">{{xxx.TOTSTOCK|number}}</td>
+                                  <td align="right">{{xxx.TOTSELL_IN|number}}</td>
                                   <td align="right">{{xxx.TOTSELL_OUT|number}}</td>
-                                  <td align="right">{{xxx.TOTRETURN|number}}</td>
-                                  <td align="right" ng-repeat-end="xxx in totalallslv">{{xxx.TOTSELL_IN|number}}</td>
+                                  <td align="right" ng-repeat-end="xxx in totalallslv">{{xxx.TOTRETURN|number}}</td>
                                 </tr>
                               </tbody>
                              </table>

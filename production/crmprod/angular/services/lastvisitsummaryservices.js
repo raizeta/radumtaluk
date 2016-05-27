@@ -93,30 +93,35 @@ myAppModule.factory('LastVisitService', ["$http","$q","$window",function($http, 
 			                {
 			                    var index = filtersquantity.indexOf(existingFilter);
 
+			                    var xstock = parseInt(filtersquantity[index].TOTSTOCK);
+			                    var ystock = parseInt(value.TYPE5);
+			                    var zstock = xstock + ystock;
+
 			                    var xsellin = parseInt(filtersquantity[index].TOTSELL_IN);
-			                    var ysellin = parseInt(value.SELL_IN);
+			                    var ysellin = parseInt(value.TYPE6);
 			                    var zsellin = xsellin + ysellin;
 
 			                    var xsellout = parseInt(filtersquantity[index].TOTSELL_OUT);
-			                    var ysellout = parseInt(value.SELL_OUT);
+			                    var ysellout = parseInt(value.TYPE7);
 			                    var zsellout = xsellout + ysellout;
 
-			                    var xstock = parseInt(filtersquantity[index].TOTSTOCK);
-			                    var ystock = parseInt(value.STOCK);
-			                    var zstock = xstock + ystock;
+			                    var xreturn = parseInt(filtersquantity[index].TOTRETURN);
+			                    var yreturn = parseInt(value.TYPE8);
+			                    var zretrun = xreturn + yreturn;
 
 			                    filtersquantity[index].TOTSELL_IN  = zsellin;
 			                    filtersquantity[index].TOTSELL_OUT = zsellout;
 			                    filtersquantity[index].TOTSTOCK    = zstock;
+			                    filtersquantity[index].TOTRETURN   = zretrun;
 			                }
 			                else
 			                {
 			                    var filter      = {};
 			                    filter.KD_BARANG            = value.KD_BARANG;
 			                    filter.NM_BARANG            = value.NM_BARANG;
-			                    filter.TOTSELL_IN           = value.TYPE5;
-			                    filter.TOTSELL_OUT          = value.TYPE6;
-			                    filter.TOTSTOCK             = value.TYPE7;
+			                    filter.TOTSTOCK             = value.TYPE5;
+			                    filter.TOTSELL_IN           = value.TYPE6;
+			                    filter.TOTSELL_OUT          = value.TYPE7;
 			                    filter.TOTRETURN            = value.TYPE8;
 			                    filtersquantity.push(filter);
 			                    console.log(filter);
@@ -126,6 +131,7 @@ myAppModule.factory('LastVisitService', ["$http","$q","$window",function($http, 
 					var result = {};
 					result.siteres = customers;
 					result.totalalls = filtersquantity;
+					console.log(filtersquantity);
 					result.pengunjung = pengunjung;
 
 			        deferred.resolve(result);

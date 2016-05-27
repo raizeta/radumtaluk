@@ -103,7 +103,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             }
             else
             {
-                alert("Anda Melakukan Tindakan Yang Melanggar Hukum");
+                alert("Not Allowed For Unknown Reason");
             }   
         }
     } 

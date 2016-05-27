@@ -8,6 +8,32 @@ myAppModule.directive("offCanvasMenu", function () {
             scope.toggleMenu = function () {
                 scope.isMenuOpen = !scope.isMenuOpen;
             };
+            scope.isMenuKananOpen = false;
+            scope.toggleMenuKanan = function () {
+                if(scope.isMenuKananOpen == false)
+                {
+                  scope.isMenuKananOpen = true;  
+                }
+                else
+                {
+                    scope.isMenuKananOpen = !scope.isMenuKananOpen;
+                }
+                
+            };
+        }
+    };
+});
+
+myAppModule.directive("offCanvasMenuKanan", function () {
+    return {
+        restrict: 'A',
+        replace: false,
+        link: function (scope, element) {
+            scope.isMenuKananOpen = false;
+            scope.toggleMenuKanan = function () {
+                    scope.isMenuKananOpen = !scope.isMenuKananOpen;
+ 
+            };
         }
     };
 });

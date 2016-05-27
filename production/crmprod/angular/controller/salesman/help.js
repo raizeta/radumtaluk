@@ -150,57 +150,57 @@ function ($rootScope,$scope, $location, $http,auth,$window)
 		    },
 		    {
 		      image: 'asset/help/20.Menu Detail Kunjungan-12.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Isi nilai/jumlah product expired untuk setiap prioritas expired.',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/21.Menu Detail Kunjungan-13.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Lakukan langkah ini untuk setiap product yang ada di list sampai action ini complete',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/22.Menu Detail Kunjungan-14.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Jika Action Product Expired Telah Complete, Maka Action Background Akan Berganti Menjadi Hijau',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/23.Menu Detail Kunjungan-15.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Next Step. Masukkan Nota Kunjungan. Nota Ini Berisi Keluhan, Pesan, Catatan Penting Dari Customer',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/24.Menu Detail Kunjungan-16.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Isikan Catatan Tersebut Pada Media Yang Telah Disediakan. Jika Anda Sudah Merasa Complete Klik Tombol Submit, Tunggu Sampai Ada Notifikasi Bahwa Nota Telah Disimpan',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/25.Menu Detail Kunjungan-17.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Ini Adalah Notifikasi Yang Memberitahukan Bahwa Nota Telah Berhasi di Simpan',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/26.Menu Detail Kunjungan-18.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Next Step.Sebelum Anda Melakukan Checkout Pastikan Bahwa Semua Action Telah Complete, Klik Menu Summary Untuk Memastikan Bahwa Semua Data Telah Masuk',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/27.Menu Detail Kunjungan-19.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Lanjutan Dari Langkah Sebelumnya',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/28.Menu Detail Kunjungan-20.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Next Step.Jika Semua Berjalan Dengan Baik, Kembali Ke Menu Customer Dan Tekan Tomblok Check Out, Anda Diminta Untuk Memastikan Bahwa Anda Akan Melakukan Check Out. Jika Anda Yakin Tekan Tombol Yes',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/29.Berhasil Check Out.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Next Step. Tunggu Konfirmasi Bahwa Anda Telah Berhasil Melakukan Check Out, Seperti Gambar Di Atas',
 		      id: currIndex++
 		    },
 		    {
 		      image: 'asset/help/30.Menu Detail Kunjungan-21.png',
-		      text: 'Next Step. Lakukan Action Expired Inventory. Click Pada Salah Satu Gambar Product Yang Terdapat Pada Menu Ini Untuk Menampilkan Form Isian Expired Inventory',
+		      text: 'Next Step. Anda Akan Kembali Ke Menu List Customer Visit Pada Hari Ini, Perhatikan Garis Berwarna Biru, Itu Adalah Persentasi Dari Action Yang Telah Anda Lakukan',
 		      id: currIndex++
 		    }
 		);

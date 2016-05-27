@@ -73,6 +73,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         {
             $rootScope.loading= true;
             $rootScope.isMenuOpen = false;
+            $rootScope.isMenuKananOpen = false;
         }
     });
    
@@ -328,7 +329,6 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         var result = JSON.parse(findidstatuskunjunganbyiddetail)['StatusKunjungan'][0].ID;
         return result;
     } 
-
     $rootScope.objectdatabarangs = function()
     {
         var dataproduct = $.ajax
@@ -348,6 +348,27 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
             product.NM_BARANG = value.NM_BARANG;
             result.push(product);
         });
+        return result;
+    }
+    $rootScope.barangaksi = function(idcustomer,tanggalplan,sotype)
+    {
+        var dataproduct = $.ajax
+        ({
+              url: $rootScope.linkurl  + "/productinventories/search?CUST_KD=" + idcustomer + "&TGL=" + tanggalplan + "&SO_TYPE=" + sotype,
+              type: "GET",
+              dataType:"json",
+              async: false
+        }).responseText;
+
+        var Product = JSON.parse(dataproduct)['ProductInventory'];
+        var result = [];
+        if(Product != undefined )
+        {
+           angular.forEach(Product, function(value, key)
+            {
+                result.push(value.KD_BARANG);
+            }); 
+        }
         return result;
     }
     
