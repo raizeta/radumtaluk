@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.controller("CategorysController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","CategoryService" 
+myAppModule.controller("CategorysController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","CategoryService", 
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,CategoryService) 
 {   
     $scope.userInfo = auth;
@@ -10,8 +10,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Catego
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("CategoryController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","CategoryService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,CategoryService) 
+myAppModule.controller("CategoryController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","CategoryService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,CategoryService) 
 {   
     var idCategory = $routeParams.id;
     $scope.userInfo = auth;
@@ -22,8 +22,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Catego
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("CategoryNewController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","CategoryService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,CategoryService) 
+myAppModule.controller("CategoryNewController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","CategoryService",
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,CategoryService) 
 {   
     $scope.userInfo = auth;
     $scope.logout = function () 
@@ -33,8 +33,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Catego
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("CategoryEditController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","CategoryService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,CategoryService) 
+myAppModule.controller("CategoryEditController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","CategoryService",
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,CategoryService) 
 {   
     var idCategory = $routeParams.id;
     $scope.userInfo = auth;
@@ -45,8 +45,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Catego
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("CategoryDeleteController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","CategoryService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,CategoryService) 
+myAppModule.controller("CategoryDeleteController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","CategoryService",
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,CategoryService) 
 {   
     var idCategory = $routeParams.id;
     $scope.userInfo = auth;

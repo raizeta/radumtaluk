@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.controller("TipeBarangsController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService" 
+myAppModule.controller("TipeBarangsController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService", 
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBarangService) 
 {   
     $scope.userInfo = auth;
@@ -10,7 +10,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBa
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("TipeBarangController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService" 
+myAppModule.controller("TipeBarangController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService",
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBarangService) 
 {   
     var idTipeBarang = $routeParams.id;
@@ -22,7 +22,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBa
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("TipeBarangNewController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService" 
+myAppModule.controller("TipeBarangNewController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService", 
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBarangService) 
 {   
     $scope.userInfo = auth;
@@ -33,7 +33,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBa
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("TipeBarangEditController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService" 
+myAppModule.controller("TipeBarangEditController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService", 
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBarangService) 
 {   
     var idTipeBarang = $routeParams.id;
@@ -45,7 +45,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBa
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("TipeBarangDeleteController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService" 
+myAppModule.controller("TipeBarangDeleteController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService", 
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBarangService) 
 {   
     var idTipeBarang = $routeParams.id;

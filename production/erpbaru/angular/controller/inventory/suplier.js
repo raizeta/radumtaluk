@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("SupliersController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","SuplierService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,SuplierService) 
+myAppModule.controller("SupliersController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","SuplierService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,SuplierService) 
 {   
     $scope.userInfo = auth;
 	$scope.logout = function () 
@@ -10,8 +10,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Suplie
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("SuplierController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","SuplierService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,SuplierService) 
+myAppModule.controller("SuplierController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","SuplierService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,SuplierService) 
 {   
     var idSuplier = $routeParams.id;
     $scope.userInfo = auth;
@@ -22,8 +22,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Suplie
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("SuplierNewController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","SuplierService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,SuplierService) 
+myAppModule.controller("SuplierNewController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","SuplierService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,SuplierService) 
 {   
     $scope.userInfo = auth;
     $scope.logout = function () 
@@ -33,8 +33,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Suplie
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("SuplierEditController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","SuplierService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,SuplierService) 
+myAppModule.controller("SuplierEditController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","SuplierService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,SuplierService) 
 {   
     var idSuplier = $routeParams.id;
     $scope.userInfo = auth;
@@ -45,8 +45,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Suplie
         window.location.href = "index.html";
     }
 }]);
-myAppModule.controller("SuplierDeleteController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","SuplierService" 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,SuplierService) 
+myAppModule.controller("SuplierDeleteController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","SuplierService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,SuplierService) 
 {   
     var idSuplier = $routeParams.id;
     $scope.userInfo = auth;

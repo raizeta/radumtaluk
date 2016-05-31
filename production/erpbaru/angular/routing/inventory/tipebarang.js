@@ -3,7 +3,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
     $routeProvider.when('/tipebarangs',
     {
-        templateUrl : 'angular/partial/inventory/tipebarangs.html',
+        templateUrl : 'angular/partial/inventory/tipebarang/tipebarangs.html',
         controller  : 'TipeBarangsController',
         resolve: 
         {
@@ -30,7 +30,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/tipebarang/:id',
     {
-        templateUrl : 'angular/partial/inventory/tipebarang.html',
+        templateUrl : 'angular/partial/inventory/tipebarang/tipebarang.html',
         controller  : 'TipeBarangController',
         resolve: 
         {
@@ -57,7 +57,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/tipebarang/new',
     {
-        templateUrl : 'angular/partial/inventory/tipebarangnew.html',
+        templateUrl : 'angular/partial/inventory/tipebarang/tipebarangnew.html',
         controller  : 'TipeBarangNewController',
         resolve: 
         {
@@ -84,7 +84,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/tipebarang/:id/edit',
     {
-        templateUrl : 'angular/partial/inventory/tipebarangedit.html',
+        templateUrl : 'angular/partial/inventory/tipebarang/tipebarangedit.html',
         controller  : 'TipeBarangEditController',
         resolve: 
         {
@@ -111,7 +111,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/tipebarang/:id/delete',
     {
-        templateUrl : 'angular/partial/inventory/tipebarangdelete.html',
+        templateUrl : 'angular/partial/inventory/tipebarang/tipebarangdelete.html',
         controller  : 'TipeBarangDeleteController',
         resolve: 
         {

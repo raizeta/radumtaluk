@@ -3,7 +3,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
     $routeProvider.when('/supliers',
     {
-        templateUrl : 'angular/partial/inventory/supliers.html',
+        templateUrl : 'angular/partial/inventory/suplier/supliers.html',
         controller  : 'SupliersController',
         resolve: 
         {
@@ -30,7 +30,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/suplier/:id',
     {
-        templateUrl : 'angular/partial/inventory/suplier.html',
+        templateUrl : 'angular/partial/inventory/suplier/suplier.html',
         controller  : 'SuplierController',
         resolve: 
         {
@@ -57,7 +57,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/suplier/new',
     {
-        templateUrl : 'angular/partial/inventory/supliernew.html',
+        templateUrl : 'angular/partial/inventory/suplier/supliernew.html',
         controller  : 'SuplierNewController',
         resolve: 
         {
@@ -84,7 +84,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/suplier/:id/edit',
     {
-        templateUrl : 'angular/partial/inventory/suplieredit.html',
+        templateUrl : 'angular/partial/inventory/suplier/suplieredit.html',
         controller  : 'SuplierEditController',
         resolve: 
         {
@@ -111,7 +111,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/suplier/:id/delete',
     {
-        templateUrl : 'angular/partial/inventory/suplierdelete.html',
+        templateUrl : 'angular/partial/inventory/suplier/suplierdelete.html',
         controller  : 'SuplierDeleteController',
         resolve: 
         {

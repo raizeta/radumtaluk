@@ -3,7 +3,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
     $routeProvider.when('/categorys',
     {
-        templateUrl : 'angular/partial/inventory/categorys.html',
+        templateUrl : 'angular/partial/inventory/category/categorys.html',
         controller  : 'CategorysController',
         resolve: 
         {
@@ -30,7 +30,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/category/:id',
     {
-        templateUrl : 'angular/partial/inventory/category.html',
+        templateUrl : 'angular/partial/inventory/category/category.html',
         controller  : 'CategoryController',
         resolve: 
         {
@@ -57,7 +57,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/category/new',
     {
-        templateUrl : 'angular/partial/inventory/categorynew.html',
+        templateUrl : 'angular/partial/inventory/category/categorynew.html',
         controller  : 'CategoryNewController',
         resolve: 
         {
@@ -84,7 +84,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/category/:id/edit',
     {
-        templateUrl : 'angular/partial/inventory/categoryedit.html',
+        templateUrl : 'angular/partial/inventory/category/categoryedit.html',
         controller  : 'CategoryEditController',
         resolve: 
         {
@@ -111,7 +111,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     });
     $routeProvider.when('/category/:id/delete',
     {
-        templateUrl : 'angular/partial/inventory/categorydelete.html',
+        templateUrl : 'angular/partial/inventory/category/categorydelete.html',
         controller  : 'CategoryDeleteController',
         resolve: 
         {
