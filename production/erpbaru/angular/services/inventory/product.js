@@ -14,7 +14,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "";
+		var url = globalurl + "/barangumums?expand=type,kategori,unit";
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -39,7 +39,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "/" + $id;
+		var url = globalurl + "/barangumums/" + $id;
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -64,7 +64,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "";
+		var url = globalurl + "/barangumums";
 		var method ="POST";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -89,7 +89,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "" + $id;
+		var url = globalurl + "/barangumums/" + $id;
 		var method ="PUT";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -114,7 +114,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "" + $id;
+		var url = globalurl + "/barangumums/" + $id;
 		var method ="DELETE";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 

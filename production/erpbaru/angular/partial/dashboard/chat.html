@@ -1,0 +1,56 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper" >
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+              <!-- DIRECT CHAT -->
+              <div class="box box-warning direct-chat direct-chat-warning">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Direct Chat</h3>
+
+                  <div class="box-tools pull-right">
+                    <span data-toggle="tooltip" title="" class="badge bg-yellow" data-original-title="3 New Messages">3</span>
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Contacts">
+                      <i class="fa fa-comments"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body" style="display: block;">
+                  <!-- Conversations are loaded here -->
+                  <div class="direct-chat-messages" scroll-glue="!glued">
+                    <div ng-repeat="chat in chats track by $index" >
+                      <div class="direct-chat-msg" ng-class="chat.kelassatu">
+                        <div class="direct-chat-info clearfix">
+                          <span class="direct-chat-name {{chat.kelasdua}}">{{chat.username}}</span>
+                          <span class="direct-chat-timestamp" ng-class="chat.kelastiga">{{chat.createat}}</span>
+                        </div>
+                        <img data-ng-src="data:image/jpeg;base64,{{userInfo.gambar}}" class="direct-chat-img" alt="User Image">
+                        <div class="direct-chat-text">
+                          {{chat.isichat}}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="box-footer" style="display: block;">
+                  <form ng-submit="submitForm(chat)" method="post">
+                    <div class="input-group">
+                      <input type="text" name="message" ng-model="chat.isichatingan"placeholder="Type Message ..." class="form-control">
+                          <span class="input-group-btn">
+                            <button type="submit" class="btn btn-warning btn-flat">Send</button>
+                          </span>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

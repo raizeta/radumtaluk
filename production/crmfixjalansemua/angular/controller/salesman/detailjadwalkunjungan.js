@@ -37,6 +37,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     $scope.zoomvalue = 17;
     var geocoder = new google.maps.Geocoder;    
     var y  = resolvesingledetailkunjunganbyiddetail.DetailKunjungan[0];
+    console.log(y);
 
     $scope.googlemaplat     = resolvegpslocation.latitude;    //get from gps
     $scope.googlemaplong    = resolvegpslocation.longitude;  //get from gps
@@ -50,6 +51,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var DEFAULT_CUST_LAT    = y.MAP_LAT;
     var PLAN_TGL_KUNJUNGAN  = y.TGL;
     var CUST_ID             = y.CUST_ID;
+    var ID_GROUP            = y.SCDL_GROUP;
 
     var longitude1     = $scope.googlemaplong;
     var latitude1      = $scope.googlemaplat;
@@ -118,6 +120,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             console.log($scope.BarangSummary);
         });
     };
+    
     $scope.lastvisitsummary = function()
     {
         $scope.loading = true;
@@ -335,6 +338,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     detail.POS                      = 'ANDROID';
                     detail.USER_ID                  = idsalesman;
                     detail.SO_QTY                   = inputValue;
+                    detail.ID_GROUP                 = ID_GROUP;
                     detail.WAKTU_INPUT_INVENTORY    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
 
                     InventoryService.setInventoryAction(detail)
@@ -623,10 +627,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         {
                             $scope.loading = false;  
                         }); 
-                    }
-                    else
-                    {
-                        alert("Tidak Sukses");
                     }
                 }
                 ngToast.create("Expired Product Telah Diupdate");

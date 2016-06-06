@@ -28,7 +28,7 @@ myAppModule.factory('LastVisitService', ["$http","$q","$window",function($http, 
         };
 		var globalurl = getUrl();
 		var deferred = $q.defer();
-		var url = globalurl + "/lastvisitallsummaries/search?TGL1=" + tanggalplan + "&SCDL_GROUP=" + idgroupcustomer;
+		var url = globalurl + "/lastvisitallsummaries/search?TGL=" + tanggalplan + "&SCDL_GROUP=" + idgroupcustomer;
 		var method ="GET";
         $http({method:method, url:url,config:config})
 		.success(function(response,status,headers) 

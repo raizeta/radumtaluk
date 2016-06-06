@@ -162,11 +162,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             .then(function (result) 
             {
                 $scope.customers = result;
-                // if($window.localStorage.getItem('my-storage'))
-                // {
-                //     var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
-                //     $scope.storageiddetailkunjungan = xxx.iddetailkunjungan;
-                // }
                 $scope.loading   = false;
             });  
         }      

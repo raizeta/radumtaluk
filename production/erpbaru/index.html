@@ -31,6 +31,9 @@
     <link rel="stylesheet" href="bower_components/v-accordion/dist/v-accordion.css">
     <link rel="stylesheet" href="bower_components/ihover/src/ihovermodif.css">
     <link rel="stylesheet" href="bower_components/ihover/src/ihovermobile.css">
+    <link rel="stylesheet" href="asset/custom/css/notables.css">
+    <link rel="stylesheet" href="asset/custom/css/transition.css">
+    <link rel="stylesheet" href="asset/custom/css/scrollbar.css">
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCPsPlFJaiVqR7u2Xr8OncTBpkZq6zJ-Ik" type="text/javascript"></script>
@@ -50,7 +53,7 @@
 
 </head>
 
-<body class="login-page sidebar-mini" off-canvas-menu ng-class="{'sidebar-open':isMenuOpen}">
+<body class="login-page sidebar-mini fixed" off-canvas-menu ng-class="{'sidebar-open':isMenuOpen}">
         <div class="wrapper skin-blue">
             <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
             <toast></toast>
@@ -69,6 +72,9 @@
         </script>
         <script type="text/javascript" src="bower_components/fullcalendar/dist/gcal.js">
         </script>
+        <script type="text/javascript" src="bower_components/checklist-model/checklist-model.js">
+        </script>
+        <script src="https://cdn.rawgit.com/Luegg/angularjs-scroll-glue/master/src/scrollglue.js"></script>
 
         <script src="angular/modules/myapp.js"></script>
 
