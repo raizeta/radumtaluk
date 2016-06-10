@@ -21,28 +21,38 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Produc
     $scope.deleteproduct = function(barangumum)
     {
         $scope.loading  = false;
-        sweet.show({
-            title: 'Confirm',
-            text: 'Are You Sure To Delete This Product ' + barangumum.NM_BARANG,
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#DD6B55',
-            confirmButtonText: 'Yeah. I Like This!',
-            closeOnConfirm: true,
-            closeOnCancel: true
-        }, 
-        function(isConfirm) 
-        {
-            if (isConfirm) 
-            {
-                // $location.path('/product/' + barangumum.ID);
-                // $scope.$apply();
-                $scope.shownoticealert = true;
-                $scope.products = _.without($scope.products,barangumum);
-                $scope.$apply();
+        // sweet.show({
+        //     title: 'Confirm',
+        //     text: 'Are You Sure To Delete This Product ' + barangumum.NM_BARANG,
+        //     type: 'warning',
+        //     showCancelButton: true,
+        //     confirmButtonColor: '#DD6B55',
+        //     confirmButtonText: 'Yeah. I Like This!',
+        //     closeOnConfirm: true,
+        //     closeOnCancel: true
+        // }, 
+        // function(isConfirm) 
+        // {
+        //     if (isConfirm) 
+        //     {
+        //         // $location.path('/product/' + barangumum.ID);
+        //         // $scope.$apply();
+        //         alert("Product Berhasil Di Delete");
+        //         $scope.products = _.without($scope.products,barangumum);
+        //         $scope.$apply();
 
-            }
-        });
+
+        //     }
+        // });
+        var r = confirm("Are You Sure?");
+        if(r == true)
+        {
+            
+            $scope.products = _.without($scope.products,barangumum);
+
+            $scope.$apply();
+            alert("delete");
+        }
     }
 }]);
 

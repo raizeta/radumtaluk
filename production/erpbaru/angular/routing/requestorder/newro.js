@@ -1,37 +1,10 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-	$routeProvider.when('/menu',
-	{
-		templateUrl	: 'angular/partial/dashboard/menu.html',
-		controller 	: 'MenuController',
-		resolve: 
-		{
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-	});
-    $routeProvider.when('/inventory',
+    $routeProvider.when('/newro',
     {
-        templateUrl : 'angular/partial/dashboard/inventory.html',
-        controller  : 'InventoryController',
+        templateUrl : 'angular/partial/requestorder/newro.html',
+        controller  : 'NewROController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -55,10 +28,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/chart',
+    $routeProvider.when('/newro/:id',
     {
-        templateUrl : 'angular/partial/dashboard/chart.html',
-        controller  : 'ChartController',
+        templateUrl : 'angular/partial/requestorder/ro.html',
+        controller  : 'ROSingleController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -82,10 +55,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/requestorder',
+    $routeProvider.when('/newro/:id/edit',
     {
-        templateUrl : 'angular/partial/dashboard/requestorder.html',
-        controller  : 'RequestOrderController',
+        templateUrl : 'angular/partial/requestorder/editro.html',
+        controller  : 'ROEditController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -109,10 +82,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    $routeProvider.when('/chat',
+    $routeProvider.when('/previewro',
     {
-        templateUrl : 'angular/partial/dashboard/chat.html',
-        controller  : 'ChatController',
+        templateUrl : 'angular/partial/requestorder/preview.html',
+        controller  : 'PreviewController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -136,7 +109,5 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-
-    $routeProvider.otherwise({redirectTo:'/error/404'});
 
 }]);

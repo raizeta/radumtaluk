@@ -1,0 +1,128 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper">
+    <section class="content">
+<!--         <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span> -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-danger">
+            <div class="panel-heading bg-aqua">
+                Products List  
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <select ng-model="type" class="form-control">
+                            <option value="">Pilih Type</option>
+                            <option ng-repeat="tipe in tipebarangs" value="{{tipe.KD_TYPE}}">{{tipe.NM_TYPE}}</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-6 col-md-4">
+                        <select ng-model="kategori" class="form-control">
+                            <option value="">Pilih Kategori</option>
+                            <option ng-repeat="category in categories" value="{{category.KD_KATEGORI}}">{{category.NM_KATEGORI}}</option>
+                            <option>Makanan</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-sm-4 col-md-4">
+                        <select ng-model="unit" class="form-control">
+                            <option value="">Pilih Unit</option>
+                            <option ng-repeat="unit in unitbarangs" value="{{unit.KD_UNIT}}">{{unit.NM_UNIT}}</option>
+                        </select>
+                    </div>
+                </div></br>
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" ng-model="apasaja" class=" form-control" placeholder="Search By Product Name">
+                    </div>
+                </div>
+                </br>
+               <table>
+                <thead>
+                  <tr>
+<!--                     <th class="numeric">KD BRG</th> -->
+                    <th class="numeric">NM BRG</th>
+                    <th class="numeric">NAMA TYPE</th>
+                    <th class="numeric">NAMA KATEGORI</th>
+                    <th class="numeric">NAMA UNIT</th>
+                    <th class="numeric">ADD</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="barangumum in products | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
+                    class="repeat-item">
+                        <p ng-hide="filtered.length">Nothing here!</p>
+<!--                         <td data-title="KD" class="request">
+                              <a href="javascript:;">
+                                {{barangumum.KD_BARANG}}
+                              </a>
+                        </td> -->
+                        <td data-title="NM" class="request">
+                            <a href="javascript:;">
+                              {{barangumum.NM_BARANG}}
+                            </a>
+                        </td>
+                        <td data-title="TYPE" class="request">
+                            <a href="javascript:;">
+                                {{barangumum.type.NM_TYPE}} 
+                            </a>
+                        </td>
+                        <td data-title="CAT" class="request">
+                            <a href="javascript:;">
+                                {{barangumum.kategori.NM_KATEGORI}}
+                            </a>
+                        </td>
+                        <td data-title="UNT" class="request">
+                            <a href="javascript:;">
+                                {{barangumum.unit.NM_UNIT}}
+                            </a>
+                        </td>
+                        <td data-title="DEL" class="request">
+                            <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
+                            <a href="javascript:;" ng-click="addtocart(barangumum)">
+                                <i class="fa fa-shopping-cart fa-2x"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+               </table>
+                
+             </div>
+<!--              <div class="panel-body">
+                 <table>
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Company</th>
+                            <th class="numeric">Price</th>
+                            <th class="numeric">Change</th>
+                            <th class="numeric">Change %</th>
+                            <th class="numeric">Open</th>
+                            <th class="numeric">High</th>
+                            <th class="numeric">Low</th>
+                            <th class="numeric">Volume</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-title="Code">AAC</td>
+                            <td data-title="Company">AUSTRALIAN AGRICULTURAL COMPANY LIMITED.</td>
+                            <td data-title="Price" class="numeric">$1.38</td>
+                            <td data-title="Change" class="numeric">-0.01</td>
+                            <td data-title="Change %" class="numeric">-0.36%</td>
+                            <td data-title="Open" class="numeric">$1.39</td>
+                            <td data-title="High" class="numeric">$1.39</td>
+                            <td data-title="Low" class="numeric">$1.38</td>
+                            <td data-title="Volume" class="numeric">9,395</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div> -->
+           </div>
+
+        </div>
+      </div>
+    </section>
+</div>
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

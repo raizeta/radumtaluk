@@ -7,11 +7,27 @@ var myAppModule     = angular.module('myAppModule',
 myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache","$cordovaNetwork","$cordovaSQLite",
 function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork,$cordovaSQLite) 
 {
+    // var senderid = 724504328230;
+    // var serverkey = "AIzaSyDxGj1GREVYNQ5drMk6X_fRmYmsW-QrIiQ";
+    // var onesignal = "aa7a5f05-1b54-40fc-87fd-80c0f1d99ab7";
 
     document.addEventListener("deviceready", function () 
     {
-        $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default'});
-        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT)');
+        alert("Open DB");
+        $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default', androidLockWorkaround: 1, androidDatabaseImplementation: 2});
+        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT,person_from TEXT, person_to TEXT, create_at TEXT)');
+        alert("Create Table");
+
+        var notificationOpenedCallback = function(jsonData) 
+        {
+            alert("Notification Diterima");
+        };
+
+        window.plugins.OneSignal.init("aa7a5f05-1b54-40fc-87fd-80c0f1d99ab7",{googleProjectNumber: "724504328230"},notificationOpenedCallback);
+      
+        window.plugins.OneSignal.enableInAppAlertNotification(true);
+        window.plugins.OneSignal.setSubscription(true);
+        window.plugins.OneSignal.enableNotificationWhenActive(true);
     });
 
     document.addEventListener("deviceready", function () 
@@ -203,7 +219,6 @@ function($httpProvider,$locationProvider, ngToastProvider,$mdThemingProvider,usS
         verticalPosition:   'bottom',  //top,center
         maxNumber: 3 // 0 for unlimited
     });
-
 }]);
 
 

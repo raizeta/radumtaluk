@@ -11,13 +11,43 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          <li>
-            <a ng-click="logout()" style="cursor: pointer;" data-method="post"><i class="fa fa-power-off"></i></a>
+          <li class="dropdown messages-menu">
+            <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+              <i class="fa fa-shopping-cart"></i>
+              <span class="label label-success">{{jumlahitem}}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">You have {{jumlahitem}} item</li>
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <div class="slimScrollDiv" style="position: relative; width: auto; height: auto;">
+                    <ul class="menu" style="width: 100%; height: 100%; display:inline-block">
+
+                    <li ng-repeat="keranjangbelanja in keranjangbelanja" style="width: 100%; height: 100%; display:inline-block"><!-- start message -->
+                          {{keranjangbelanja.NM_BARANG}}
+                          <span class="pull-right" style="padding-right:5px">
+                            {{keranjangbelanja.unit.NM_UNIT}} @ {{keranjangbelanja.jumlahorder}}
+                          </span>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="footer bg-aqua">
+                <a href="#/previewro">Preview</a>
+              </li>
+            </ul>
           </li>
           <li>
-            <a href="javascript:;" class="sidebar-toggle" ng-click="toggleMenuKanan()" data-toggle="control-sidebar">
+            <a href="javascript:;"  style="cursor: pointer;" ng-click="toggleMenuKanan()" data-toggle="control-sidebar">
+              <i class="fa fa-comment"></i>
             </a>
           </li>
+          <li>
+            <a ng-click="logout()" style="cursor: pointer;" data-method="post">
+              <i class="fa fa-power-off"></i>
+            </a>
+          </li>
+          
         </ul>
       </div>
 

@@ -14,9 +14,9 @@ myAppModule.factory('CategoryService', ["$http","$q","$window",function($http, $
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "";
+		var url = globalurl + "/kategoris";
 		var method ="GET";
-		$http({method:method, url:url,cache:false})
+		$http({method:method, url:url,cache:true})
         .success(function(response) 
         {
 	        deferred.resolve(response);

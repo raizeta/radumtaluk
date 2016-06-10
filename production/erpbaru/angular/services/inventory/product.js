@@ -16,7 +16,7 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
 		var deferred 		= $q.defer();
 		var url = globalurl + "/barangumums?expand=type,kategori,unit";
 		var method ="GET";
-		$http({method:method, url:url,cache:false})
+		$http({method:method, url:url,cache:true})
         .success(function(response) 
         {
 	        deferred.resolve(response);
