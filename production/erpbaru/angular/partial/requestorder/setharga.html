@@ -1,0 +1,100 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper">
+    <section class="content">
+<!--         <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span> -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header bg-aqua">
+                SET HARGA 
+            </div>
+            <div class="box-body">
+               <table>
+                <thead>
+                  <tr>
+                    <th class="numeric">NM BRG</th>
+                    <th class="numeric">NAMA TYPE</th>
+                    <th class="numeric">NAMA KATEGORI</th>
+                    <th class="numeric">NAMA UNIT</th>
+                    <th class="numeric">JUMLAH</th>
+                    <th class="numeric">Harga</th>
+                    <th class="numeric">Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="barangumum in keranjangbelanja | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
+                    class="repeat-item">
+                        <td data-title="NM" class="preview">
+                            <a href="javascript:;">
+                              {{barangumum.NM_BARANG}}
+                            </a>
+                        </td>
+                        <td data-title="TYPE" class="preview">
+                            <a href="javascript:;">
+                                {{barangumum.type.NM_TYPE}} 
+                            </a>
+                        </td>
+                        <td data-title="CAT" class="preview">
+                            <a href="javascript:;">
+                                {{barangumum.kategori.NM_KATEGORI}}
+                            </a>
+                        </td>
+                        <td data-title="UNT" class="preview">
+                            <a href="javascript:;">
+                                {{barangumum.unit.NM_UNIT}}
+                            </a>
+                        </td>
+                        <td data-title="JLH" class="preview">
+                            <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
+                            <a href="javascript:;">
+                                {{barangumum.jumlahorder}}
+                            </a>
+                        </td>
+                        <td data-title="EDI" class="preview" ng-if="barangumum.harga == 0">
+                            <a class="btn btn-success btn-sm" ng-click="setharga(barangumum)" >
+                              <i class="fa fa-edit"></i> &nbsp;Set Harga
+                            </a>
+                        </td>
+                        <td data-title="EDI" class="preview" ng-if="barangumum.harga != 0">
+                            {{barangumum.harga|number}} 
+                            <a class="btn btn-warning btn-sm pull-right" ng-click="setharga(barangumum)" >
+                              <i class="fa fa-refresh"></i>
+                            </a>
+                        </td>
+                        <td data-title="EDI" class="preview">
+                            <span style="float:left">Rp.</span>
+                            <span style="float:right">{{barangumum.harga * barangumum.jumlahorder | number}}</span>
+                        </td>
+                    </tr>
+                    <tr class="bg-success">
+                      <td colspan="6" class="preview">Total</td>
+                      <td class="preview">
+                        <span style="float:left">Rp.</span>
+                        <span style="float:right">{{total|number}}</td>
+                    </tr>
+                </tbody>
+               </table>
+            </div>
+            <div class="box-body">
+               <select ng-model="acc_accby" class="form-control" ng-change="employechange()">
+                <option value="" disabled>Who Is Acc</option>
+                <option ng-repeat="employe in employes" value="{{employe.EMP_ID}}">{{employe.NM_LKP}}</option>
+              </select>
+            </div>
+            <div class="box-footer">
+               <a href="#/newro" class="btn pull-left btn-lg btn-default" id="sendEmail">
+                <i class="fa fa-arrow-circle-left"></i>
+                 Cont
+              </a>
+              <a href="javascript:;" ng-click="confirm(acc_accby)" class="btn pull-right btn-lg btn-default" id="sendEmail" ng-if="keranjangbelanja.length">
+                Create <i class="fa fa-arrow-circle-right"></i>
+              </a>
+            </div>
+
+        </div>
+      </div>
+    </section>
+</div>
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

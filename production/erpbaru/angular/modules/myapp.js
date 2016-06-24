@@ -1,6 +1,6 @@
 'use strict';
 var myAppModule     = angular.module('myAppModule',
-['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','vAccordion','ngAnimate','naif.base64',
+['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','vAccordion','ngAnimate','naif.base64','ng-fusioncharts',
 'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial','ds.clock','ngStorage',
 'ngMessages','hSweetAlert','ui.calendar','checklist-model','luegg.directives']);
 
@@ -14,7 +14,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     document.addEventListener("deviceready", function () 
     {
         alert("Open DB");
-        $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default', androidLockWorkaround: 1, androidDatabaseImplementation: 2});
+        $rootScope.db = window.sqlitePlugin.openDatabase({name:"lukisongroup.db", location:'default', androidLockWorkaround: 1, androidDatabaseImplementation: 2});
         $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT,person_from TEXT, person_to TEXT, create_at TEXT)');
         alert("Create Table");
 
@@ -72,7 +72,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         {
             $rootScope.loading= false;
         }
-        $timeout(hideloading, 100);
+        $timeout(hideloading, 1000);
         
     });
 
@@ -112,6 +112,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     }
     
     $rootScope.tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
+    $rootScope.waktuharini = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
     var tanggal = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
     var tanggalmulai = $filter('date')(new Date(),'yyyy-MM-dd 05:00:00');
     var tanggalakhir = $filter('date')(new Date(),'yyyy-MM-dd 23:59:59');

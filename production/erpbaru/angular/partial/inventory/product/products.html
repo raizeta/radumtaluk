@@ -10,8 +10,14 @@
                 Products List  
             </div>
             <div class="panel-body">
-                <a class="btn btn-warning" href="#/product/new">
-                    New Product <i class="fa fa-plus"></i>
+                <a class="btn btn-success" href="#/product/new">
+                    <i class="fa fa-plus"></i>
+                </a>
+                <a ng-click="checkall()" style="cursor:pointer" class="btn btn-warning">
+                    {{chekuncek}}
+                </a>
+                <a class="btn btn-danger" ng-click="bulkdelete()" ng-show="deletebutton" style="cursor:pointer;float:right">
+                    <i class="fa fa-trash-o"></i>
                 </a>
 
             </div>
@@ -19,7 +25,7 @@
                <table>
                 <thead>
                   <tr>
-                    <th>CHECK</th>
+                    <th>#</th>
                     <th class="numeric">ID</th>
                     <th class="numeric">KD BRG</th>
                     <th class="numeric">NM BRG</th>
@@ -36,14 +42,13 @@
                     <th>IMAGE</th>
                     <th>NOTE</th> -->
                     <th class="numeric">STATUS</th>
-                    <th class="numeric">EDIT</th>
-                    <th class="numeric">DELETE</th>
+                    <th class="numeric">EDIT/DELETE</th>
                   </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="barangumum in products" class="repeat-item">
+                    <tr ng-repeat="barangumum in products" class="repeat-item" ng-class="{'bg-aqua' : tableSelection[$index]}">
                         <td data-title="All" class="numeric">
-                            <input type="checkbox" ng-click="isSelected(barangumum)">
+                            <input type="checkbox" ng-model="tableSelection[$index]"/>
                         </td>
                         <td data-title="ID" class="numeric">
                             <a href="#/product/{{barangumum.ID}}">
@@ -76,8 +81,15 @@
                             <a href="#/erp/masterbarang/detail/kategori/{{barangumum.kategori.ID}}" 
                             editable-select="barangumum.kategori.ID" e-ng-options="c.ID as c.NM_KATEGORI for c in categories">{{barangumum.unit.KD_UNIT}} {{barangumum.unit.NM_UNIT}}</a>
                         </td>
+                        <td data-title="SUP" class="numeric" ng-if="barangumum.KD_SUPPLIER != null">
+                            {{barangumum.KD_SUPPLIER}}
+                        </td>
+                        <td data-title="SUP" class="numeric" ng-if="barangumum.KD_SUPPLIER == null">
+                            <a class="btn btn-danger btn-xs">
+                              <i class="fa fa-edit"></i> &nbsp;NOT SET
+                            </a>
+                        </td>
                         
-                        <td data-title="SUP" class="numeric">{{barangumum.KD_SUPPLIER}}</td>
                         <td data-title="CORP" class="numeric">{{barangumum.KD_CORP}}</td>
                         <td data-title="STS" ng-if='barangumum.STATUS === 1' >
                             <a class="btn btn-success btn-xs"><i class="fa fa-edit"></i> &nbsp;Enable</a>
@@ -86,11 +98,10 @@
                             <a class="btn btn-danger btn-xs"><i class="fa fa-edit"></i> &nbsp;Disable</a> 
                         </td>
                         <td data-title="EDIT" class="numeric">
-                            <a href="#/product/{{barangumum.ID}}/edit"><i class="fa fa-refresh fa-2x"></i></a>
-                        </td>
-                        <td data-title="DEL" class="numeric">
-                            <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
-                            <a href="javascript:;" ng-click="deleteproduct(barangumum)">
+                            <a href="#/product/{{barangumum.ID}}/edit" style="padding-right:50px">
+                                <i class="fa fa-refresh fa-2x"></i>
+                            </a>
+                            <a href="javascript:;" ng-click="deleteproduct(barangumum)" style="float:right;padding-right:15px">
                                 <i class="fa fa-trash fa-2x"></i>
                             </a>
                         </td>

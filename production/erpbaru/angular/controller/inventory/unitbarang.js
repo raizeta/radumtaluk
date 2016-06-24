@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("UnitBarangsController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","UnitBarangService", 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,UnitBarangService) 
+myAppModule.controller("UnitBarangsController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","UnitBarangService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,UnitBarangService) 
 {   
     $scope.userInfo = auth;
 	$scope.logout = function () 
@@ -9,6 +9,11 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$route
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+    UnitBarangService.GetUnitBarangs()
+    .then(function (result)
+    {
+        $scope.units = result.Unitbarang;
+    });
 }]);
 myAppModule.controller("UnitBarangController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","UnitBarangService",
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,UnitBarangService) 

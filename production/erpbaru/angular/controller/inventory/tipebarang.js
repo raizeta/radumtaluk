@@ -9,6 +9,11 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBa
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+    TipeBarangService.GetTipeBarangs()
+    .then(function (result)
+    {
+        $scope.types = result.Tipebarang;
+    });
 }]);
 myAppModule.controller("TipeBarangController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","TipeBarangService",
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,TipeBarangService) 

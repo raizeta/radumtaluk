@@ -1,89 +1,66 @@
 <div ng-include="'angular/partial/headtemplate.html'"></div>
 <div ng-include="'angular/partial/homemenu.html'"></div>
-<div class="content-wrapper" >
+<div class="content-wrapper">
     <section class="content">
-        <div class="row placeholders">
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="toggleMenuKanan()" data-toggle="control-sidebar">
-              <img src="asset/admin/dist/img/chat.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Chat</h4>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-danger">
+            <div class="panel-heading bg-aqua">
+                Category 
             </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/telepon.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Talk</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/meeting.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Gro Wup</h4>
-            </div>
-        </div>
-        <div class="row placeholders">
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="chat()">
-              <img src="asset/admin/dist/img/chart.jpg" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Chart</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/product.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Inv</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/money.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Cheap</h4>
-            </div>
-        </div>
-        <div class="row placeholders">
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="chat()">
-              <img src="asset/admin/dist/img/gopo.jpg" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Po</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/ro.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Ro</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/mail.jpg" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Mail</h4>
-            </div>
-        </div>
-        <div class="row placeholders">
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="chat()">
-              <img src="asset/admin/dist/img/coffee.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Meet</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/telepon.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Send</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 placeholder">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/chat.png" width="100" height="100" class="img-circle">
-              </a>
-              <h4 style="width: 100px;text-align:center;display:block;">Go Sleep</h4>
-            </div>
-        </div>
+            <div class="panel-body">
+                <a class="btn btn-warning" href="#/product/new">
+                    New Category <i class="fa fa-plus"></i>
+                </a>
 
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <input type="text" ng-model="apasaja" class=" form-control" placeholder="Search By Kategori Name">
+                    </div>
+                </div></br>
+               <table>
+                <thead>
+                  <tr>
+                    <th class="types">KATEGORI</th>
+                    <th class="types">CORP</th>
+                    <th class="types">STATUS</th>
+                    <th class="types">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="type in types" class="repeat-item">
+                    	<td data-title="STS" class="types">
+                            {{type.NM_TYPE}}
+                        </td>
+                    	<td data-title="STS" class="types" ng-if='type.STATUS === 1' >
+                            <a class="btn btn-success btn-xs">
+                            	<i class="fa fa-edit"></i> &nbsp;Enable
+                            </a>
+                        </td>
+                        <td data-title="STS" class="types" ng-if='type.STATUS === 0 || types.STATUS === 3' >
+                            <a class="btn btn-danger btn-xs">
+                            	<i class="fa fa-edit"></i> &nbsp;Disable
+                            </a> 
+                        </td>
+                        <td data-title="EDI" class="types">
+                            <a href="javascript:;" ng-click="edit(type)" style="padding-right:50px">
+                                <i class="fa fa-refresh fa-2x"></i>
+                            </a>
+                            <a href="javascript:;" ng-click="delete(type)" style="float:right;padding-right:15px">
+                                <i class="fa fa-trash-o fa-2x"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+               </table>
+                
+             </div>
+           </div>
+
+        </div>
+      </div>
     </section>
-
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>

@@ -49,10 +49,44 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Produc
         {
             
             $scope.products = _.without($scope.products,barangumum);
-
-            $scope.$apply();
+            // $scope.$apply();
             alert("delete");
         }
+    }
+    $scope.tableSelection = {};
+    $scope.chekuncek = "CHECK";
+
+    $scope.checkall = function()
+    {
+        var selectionlength = _.size($scope.tableSelection)
+        if (selectionlength == 0)
+        {
+            angular.forEach($scope.products, function(row, index) 
+            {
+                $scope.tableSelection[index] = true;
+            });
+            $scope.deletebutton = true;
+            $scope.chekuncek = "UNCHECK";
+        }
+        else
+        {
+            $scope.tableSelection = {};
+            $scope.deletebutton   = false;
+            $scope.chekuncek = "CHECK";
+        }
+    }
+    $scope.bulkdelete = function()
+    {
+        for (var i = $scope.products.length - 1; i >= 0; i--) 
+        {
+            if ($scope.tableSelection[i]) 
+            {
+                $scope.products.splice(i, 1);
+                delete $scope.tableSelection[i];
+            }
+        }
+        $scope.deletebutton   = false;
+        $scope.chekuncek = "CHECK";
     }
 }]);
 
@@ -103,6 +137,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$route
     .then(function (result) 
     {
         $scope.product = result;
+        console.log($scope.product);
     });
 
 }]);

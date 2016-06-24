@@ -9,6 +9,11 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$route
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+    SuplierService.GetSupliers()
+    .then(function (result)
+    {
+        $scope.supliers = result.Suplier;
+    });
 }]);
 myAppModule.controller("SuplierController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","$routeParams","SuplierService", 
 function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$routeParams,SuplierService) 

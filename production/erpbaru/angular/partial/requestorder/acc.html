@@ -1,0 +1,128 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper">
+    <section class="content">
+<!--         <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span> -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header bg-aqua">
+                SET HARGA 
+            </div>
+            <div class="box-body">
+               <table>
+                <thead>
+                  <tr>
+                    <th class="numeric">NM BRG</th>
+                    <th class="numeric">NAMA TYPE</th>
+                    <th class="numeric">NAMA KATEGORI</th>
+                    <th class="numeric">NAMA UNIT</th>
+                    <th class="numeric">JUMLAH</th>
+                    <th class="numeric">REV JLH</th>
+                    <th class="numeric">HARGA</th>
+                    <th class="numeric">REV HARGA</th>
+                    <th class="numeric">Total</th>
+                    <th class="numeric">Item/Price Reason</th>
+                    <th class="numeric">Accept/Reject</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="barangumum in revisiharga | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
+                    class="repeat-item">
+                        <td data-title="NM" class="preview">
+                            <a href="javascript:;">
+                              {{barangumum.NM_BARANG}}
+                            </a>
+                        </td>
+                        <td data-title="TYPE" class="preview">
+                            <a href="javascript:;">
+                                {{barangumum.type.NM_TYPE}} 
+                            </a>
+                        </td>
+                        <td data-title="CAT" class="preview">
+                            <a href="javascript:;">
+                                {{barangumum.kategori.NM_KATEGORI}}
+                            </a>
+                        </td>
+                        <td data-title="UNT" class="preview">
+                            <a href="javascript:;">
+                                {{barangumum.unit.NM_UNIT}}
+                            </a>
+                        </td>
+                        <td data-title="JLH" class="preview">
+                            <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
+                            <a href="javascript:;">
+                                {{barangumum.jumlahorder}}
+                            </a>
+                        </td>
+
+                        <td data-title="EDI" class="preview">
+                            {{barangumum.harga|number}} 
+                        </td>
+                        <td data-title="EDI" class="preview" ng-if="barangumum.revisijumlah == 0">
+                            <a class="btn btn-success btn-sm" ng-click="setrevisijumlah(barangumum)" >
+                              <i class="fa fa-edit"></i> &nbsp;Set Jumlah
+                            </a>
+                        </td>
+                        <td data-title="EDI" class="preview" ng-if="barangumum.revisijumlah != 0">
+                            {{barangumum.revisijumlah|number}} 
+                            <a class="btn btn-warning btn-sm pull-right" ng-click="setrevisijumlah(barangumum)" >
+                              <i class="fa fa-refresh"></i>
+                            </a>
+                        </td>
+
+                        <td data-title="EDI" class="preview" ng-if="barangumum.revisiharga == 0">
+                            <a class="btn btn-success btn-sm" ng-click="setrevisiharga(barangumum)" >
+                              <i class="fa fa-edit"></i> &nbsp;Set Harga
+                            </a>
+                        </td>
+                        <td data-title="EDI" class="preview" ng-if="barangumum.revisiharga != 0">
+                            {{barangumum.revisiharga|number}} 
+                            <a class="btn btn-warning btn-sm pull-right" ng-click="setrevisiharga(barangumum)" >
+                              <i class="fa fa-refresh"></i>
+                            </a>
+                        </td>
+
+                        <td data-title="EDI" class="preview">
+                            <span style="float:left">Rp.</span>
+                            <span style="float:right">{{barangumum.subtotal| number}}</span>
+                        </td>
+                        <td data-title="EDI" class="preview">
+                            <textarea></textarea>
+                        </td>
+                        <td class="preview">
+                            <select ng-model="barangumum.statusaprove">
+                                <option value="">Accepted/Rejected</option>
+                                <option value="accept">Accept</option>
+                                <option value="rejected">Reject</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="bg-success">
+                      <td colspan="8" class="preview">Total</td>
+                      <td class="preview">
+                        <span style="float:left">Rp.</span>
+                        <span style="float:right">{{totalharga|number}}</td>
+                    </tr>
+                </tbody>
+               </table>
+                
+             </div>
+           </div>
+            <div class="box-footer">
+               <a href="#/newro" class="btn pull-left btn-lg btn-default" id="sendEmail">
+                <i class="fa fa-arrow-circle-left"></i>
+                 Cont
+              </a>
+              <a href="javascript:;" ng-click="confirm()" class="btn pull-right btn-lg btn-default" ng-if="revisiharga.length">
+                Confirm <i class="fa fa-arrow-circle-right"></i>
+              </a>
+            </div>
+
+        </div>
+      </div>
+    </section>
+</div>
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

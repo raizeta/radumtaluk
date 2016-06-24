@@ -14,9 +14,9 @@ myAppModule.factory('SuplierService', ["$http","$q","$window",function($http, $q
     {
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "";
+		var url = globalurl + "/supliers";
 		var method ="GET";
-		$http({method:method, url:url,cache:false})
+		$http({method:method, url:url,cache:true})
         .success(function(response) 
         {
 	        deferred.resolve(response);

@@ -7,6 +7,8 @@ document.write('<script src="angular/vendor/spin.js"></script>');
 document.write('<script src="angular/vendor/angular-spinner.js"></script>');
 document.write('<script src="angular/vendor/angular-strap.js"></script>');
 
+document.write('<script src="angular/vendor/fusioncharts.js"></script>');
+document.write('<script src="angular/vendor/angular-fusioncharts.min.js"></script>');
 
 document.write('<script src="bower_components/ngmap/build/scripts/ng-map.min.js"></script>');
 

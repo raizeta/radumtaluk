@@ -22,7 +22,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="barangumum in products | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
+                    <tr ng-repeat="barangumum in keranjangbelanja | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
                     class="repeat-item">
                         <td data-title="NM" class="preview">
                             <a href="javascript:;">
@@ -70,8 +70,8 @@
                 <i class="fa fa-arrow-circle-left"></i>
                  Cont
               </a>
-              <a href="javascript:;" class="btn pull-right btn-lg btn-default" id="sendEmail">
-                Confirm <i class="fa fa-arrow-circle-right"></i>
+              <a href="#/setharga" class="btn pull-right btn-lg btn-default" id="sendEmail" ng-if="keranjangbelanja.length">
+                Set Harga <i class="fa fa-arrow-circle-right"></i>
               </a>
             </div>
 

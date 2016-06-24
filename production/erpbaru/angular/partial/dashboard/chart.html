@@ -1,51 +1,20 @@
 
 <div ng-include="'angular/partial/headtemplate.html'"></div>
 <div ng-include="'angular/partial/homemenu.html'"></div>
-<div class="content-wrapper" >
-    <section class="content">
-      <div class="container">
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4">
-              <a href="javascript:;" ng-click="toggleMenuKanan()" data-toggle="control-sidebar">
-              <img src="asset/admin/dist/img/chat.png" class="img-responsive img-circle">
-              </a>
-              <h4 style="text-align:center;display:block;">LIPAT</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/telepon.png" class="img-responsive img-circle">
-              </a>
-              <h4 style="text-align:center;display:block;">ESM</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/mail.jpg" class="img-responsive img-circle">
-              </a>
-              <h4 style="text-align:center;display:block;">SSS</h4>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-4 col-sm-4 col-md-4">
-              <a href="#/chart">
-              <img src="asset/admin/dist/img/chart.jpg" class="img-responsive img-circle">
-              </a>
-              <h4 style="text-align:center;display:block;">GOSEND</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4">
-              <a href="#/inventory">
-              <img src="asset/admin/dist/img/mail.jpg" class="img-responsive img-circle">
-              </a>
-              <h4 style="text-align:center;display:block;">LUKISON</h4>
-            </div>
-            <div class="col-xs-4 col-sm-4 col-md-4">
-              <a href="javascript:;" ng-click="telepon()">
-              <img src="asset/admin/dist/img/money.png" class="img-responsive img-circle">
-              </a>
-              <h4 style="text-align:center;display:block;">HO</h4>
-            </div>
-        </div>
+<div class="content-wrapper">
+  <section class="content">
+    <div class="row">
+      <div class="col-md-12">
+        <fusioncharts width= 100% type="bar2d" datasource="{{horeca}}">
+        </fusioncharts> 
       </div>
-    </section>
-
-</div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <fusioncharts width= 100% type="bar2d" datasource="{{others}}">
+        </fusioncharts> 
+      </div>
+    </div>
+  </section><!-- /.content --> 
+</div><!-- /.content-wrapper -->
 <div ng-include="'angular/partial/foottemplate.html'"></div>

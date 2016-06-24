@@ -51,7 +51,11 @@
                 <tbody>
                     <tr ng-repeat="barangumum in products | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
                     class="repeat-item">
-                        <p ng-hide="filtered.length">Nothing here!</p>
+                        <p ng-hide="filtered.length">Nothing Find Here! &nbsp;&nbsp;
+                            <a class="btn btn-success" href="javascript:;">
+                                <i class="fa fa-plus"></i> &nbsp; New Product
+                            </a>
+                        </p>
 <!--                         <td data-title="KD" class="request">
                               <a href="javascript:;">
                                 {{barangumum.KD_BARANG}}
@@ -77,10 +81,11 @@
                                 {{barangumum.unit.NM_UNIT}}
                             </a>
                         </td>
-                        <td data-title="DEL" class="request">
+                        <td data-title="DEL" class="request messages-menu">
                             <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
                             <a href="javascript:;" ng-click="addtocart(barangumum)">
-                                <i class="fa fa-shopping-cart fa-2x"></i>
+                                <i class="fa fa-shopping-cart fa-2x"> {{barangumum.incart}}</i>
+                                
                             </a>
                         </td>
                     </tr>
