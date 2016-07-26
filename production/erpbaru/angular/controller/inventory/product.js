@@ -50,7 +50,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Produc
             
             $scope.products = _.without($scope.products,barangumum);
             // $scope.$apply();
-            alert("delete");
+            // alert("delete");
         }
     }
     $scope.tableSelection = {};

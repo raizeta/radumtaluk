@@ -19,8 +19,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     {
         if(response.length == 0)
         {
-            //alert("Tolong Lakukan Absensi Terlebih Dahulu");
-            sweetAlert("Oops...", "Tolong Lakukan Absensi Terlebih Dahulu!", "error");
+            alert("Tolong Lakukan Absensi Terlebih Dahulu");
+            // sweetAlert("Oops...", "Absensi Terlebih Dahulu!", "error");
 
             $location.path('/absensi');
         }
@@ -39,13 +39,13 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     {
         if(tanggalplan < tanggalsekarang)
         {
-            //alert("Wrong Time To Check In This Customer");
-            sweetAlert("Oops...", "Wrong Time To Check In This Customer!", "error");
+            alert("Tidak Bisa Lagi Check In");
+            //sweetAlert("Oops...", "Wrong Time To Check In This Customer!", "error");
         }
         else if(tanggalplan > tanggalsekarang)
         {
-            //alert("Wait For The Right Time To Check In This Customer");
-            sweetAlert("Oops...", "Wait For The Right Time To Check In This Customer!", "error");
+            alert("Belum Bisa Check In");
+            //sweetAlert("Oops...", "Wait For The Right Time To Check In This Customer!", "error");
         }
         else if(tanggalplan == tanggalsekarang)
         {
@@ -57,8 +57,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 {
                     if(customer.CHECKOUT == 1)
                     {
-                        //alert("You Have Check Out From This Customer.");
-                        sweetAlert("Oops...", "You Have Check Out From This Customer!", "error");
+                        alert("Kamu Sudah Check Out");
+                        //sweetAlert("Oops...", "Kamu Sudah Check Out!", "error");
                     }
                     else
                     {
@@ -84,8 +84,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var configjarak = response.Configuration[3].value;
                                 if(jarak > configjarak)
                                 {
-                                    //alert("Di Luar Radius");
-                                    sweetAlert("Oops...", "Out Of Ranges!", "error");
+                                    alert("Di Luar Radius");
+                                    // sweetAlert("Oops...", "Di Luar Radius!", "error");
                                 }
                                 else
                                 {
@@ -97,13 +97,13 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 }
                 else if(absensimasuk == 0)
                 {
-                    //alert("Kamu Sudah Absen Keluar.");
-                    sweetAlert("Oops...", "Kamu Sudah Absen Keluar!", "error");
+                    alert("Kamu Sudah Absen Keluar.");
+                    // sweetAlert("Oops...", "Kamu Sudah Absen Keluar!", "error");
                 }
             }
             else
             {
-                alert("Not Allowed For Unknown Reason");
+                alert("Tidak Diijinkan. Reason Unknown");
             }   
         }
     } 
@@ -138,11 +138,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             $scope.loading  = false;
             sweet.show({
                 title: 'Confirm',
-                text: 'Cheers...Kamu Belum Memiliki Agenda Untuk Saat Ini',
+                text: 'Kamu Belum Memiliki Agenda Untuk Saat Ini',
                 type: 'warning',
                 showCancelButton: false,
                 confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yeah. I Like This!',
+                confirmButtonText: 'Yes!',
                 closeOnConfirm: true,
                 closeOnCancel: true
             }, 

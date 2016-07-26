@@ -311,37 +311,57 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Produc
 
     $scope.confirm = function(acc_accby)
     {
-
-        var str = "" + 1;
-        var pad = "0000";
-        var ans = pad.substring(0, pad.length - str.length) + str;
-
-
-        var requestorderheaders                 = [];
-        var requestorderheader                  = {};
-        requestorderheader.noresi               = ans;
-        requestorderheader.owner                = auth.username;
-        requestorderheader.acc_accby            = acc_accby;
-        requestorderheader.acc_mgrby            = '';
-        requestorderheader.create_at            = $rootScope.waktuharini;
-        requestorderheader.acc_at               = '';
-        requestorderheader.mgracc_at            = '';
-        requestorderheader.status               = 1;
-        requestorderheaders.push(requestorderheader);
-
-        var setheader = JSON.stringify(requestorderheaders);
-        $window.localStorage.setItem('ro-headers', setheader);
-
+        console.log(acc_accby);
+        var errorvalidasi = [];
         angular.forEach($scope.keranjangbelanja, function(value, index)
         {
-            $scope.keranjangbelanja[index].noresi = acc_accby;
+            var harga = $scope.keranjangbelanja[index].harga;
+            if(harga == 0)
+            {
+                errorvalidasi.push($scope.keranjangbelanja[index]);
+            }
         });
+        if(errorvalidasi.length > 0)
+        {
+            alert("Harga Untuk Setiap Item Belum Lengkap");
+        }
+        else if(acc_accby == undefined)
+        {
+            alert("ACC Tidak Boleh Kosong");
+        }
+        else
+        {
+            var str = "" + 1;
+            var pad = "0000";
+            var ans = pad.substring(0, pad.length - str.length) + str;
 
-        var setharga  = JSON.stringify($scope.keranjangbelanja);
-        $window.localStorage.setItem('set-harga', setharga);
-        $window.localStorage.removeItem('request-order', setharga);
-        $window.localStorage.removeItem('product-order', setharga);
-        $location.path('progress');
+
+            var requestorderheaders                 = [];
+            var requestorderheader                  = {};
+            requestorderheader.noresi               = ans;
+            requestorderheader.owner                = auth.username;
+            requestorderheader.acc_accby            = acc_accby;
+            requestorderheader.acc_mgrby            = '';
+            requestorderheader.create_at            = $rootScope.waktuharini;
+            requestorderheader.acc_at               = '';
+            requestorderheader.mgracc_at            = '';
+            requestorderheader.status               = 1;
+            requestorderheaders.push(requestorderheader);
+
+            var setheader = JSON.stringify(requestorderheaders);
+            $window.localStorage.setItem('ro-headers', setheader);
+
+            angular.forEach($scope.keranjangbelanja, function(value, index)
+            {
+                $scope.keranjangbelanja[index].noresi = acc_accby;
+            });
+
+            var setharga  = JSON.stringify($scope.keranjangbelanja);
+            $window.localStorage.setItem('set-harga', setharga);
+            $window.localStorage.removeItem('request-order', setharga);
+            $window.localStorage.removeItem('product-order', setharga);
+            $location.path('progress');            
+        }
     }
 }]);
 

@@ -16,20 +16,14 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
     document.addEventListener("deviceready", function () 
     {
-        
-    });
-
+        $rootScope.devicemodel      = $cordovaDevice.getModel();
+        $rootScope.deviceplatform   = $cordovaDevice.getPlatform();
+        $rootScope.deviceuuid       = $cordovaDevice.getUUID();
+        $rootScope.deviceversion    = $cordovaDevice.getVersion();
+    }, false);
 
     document.addEventListener("deviceready", function () 
-      {
-        $rootScope.devicemodel = $cordovaDevice.getModel();
-        $rootScope.deviceplatform = $cordovaDevice.getPlatform();
-        $rootScope.deviceuuid = $cordovaDevice.getUUID();
-        $rootScope.deviceversion = $cordovaDevice.getVersion();
-      }, false);
-
-      document.addEventListener("deviceready", function () 
-      {
+    {
 
         var type = $cordovaNetwork.getNetwork();
 
@@ -47,7 +41,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
           var offlineState = networkState;
         })
 
-      }, false);
+    }, false);
 
     $rootScope.onlineangular = navigator.onLine;
     $window.addEventListener("offline", function() 

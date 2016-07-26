@@ -5,6 +5,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
     $scope.activeabsensi = "active";
     $scope.showbuttonabsensikeluar  = false;
     $scope.showbuttonabsensimasuk   = false;
+    $scope.showbuttonnotifiabsen    = false;
     $scope.userInfo = auth;
     var tanggalplan = $rootScope.tanggalharini;
 	$scope.logout = function () 
@@ -26,12 +27,18 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         }
         else
         {
-            var idsalesmanabsensikeluar = response.Salesmanabsensi[0].WAKTU_KELUAR;
-            if(idsalesmanabsensikeluar == null)
+            var idsalesmanabsensikeluar = response.Salesmanabsensi[0].STATUS;
+            if(idsalesmanabsensikeluar == 0)
             {
                 $scope.showbuttonabsensimasuk   = false;
                 $scope.showbuttonabsensikeluar  = true;  
-            }  
+            } 
+            else if(idsalesmanabsensikeluar == 1)
+            {
+                $scope.showbuttonabsensikeluar  = false;
+                $scope.showbuttonabsensimasuk   = false;
+                $scope.showbuttonnotifiabsen    = true;
+            } 
         }
     });
 
@@ -52,8 +59,8 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         {
             $scope.showbuttonabsensikeluar   = true;
             $scope.showbuttonabsensimasuk    = false;
-
-            sweetAlert("Terimakasih", "Kamu Telah Berhasil Melakukan Absensi Masuk", "success");
+            alert("Kamu Telah Berhasil Melakukan Absensi Masuk");
+            //sweetAlert("Terimakasih", "Kamu Telah Berhasil Melakukan Absensi Masuk", "success");
             $location.path("/agenda/" + tanggalplan);
 
             var absensimasuk = {};
@@ -93,11 +100,13 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
                     $scope.buttonabsensimasuk   = true;
                     $scope.buttonabsensikeluar  = true;
                     $scope.showbuttonabsensikeluar  = false;
-                    sweetAlert("Terimakasih", "Kamu Telah Berhasil Melakukan Absensi Keluar", "success");
+                    alert("Terimakasih. Absensi Keluar Sukses");
+                    //sweetAlert("Terimakasih", "Kamu Telah Berhasil Melakukan Absensi Keluar", "success");
                     var absensimasuk = {};
                     absensimasuk.absensimasuk   = 0;
                     var absensimasuk = JSON.stringify(absensimasuk);
                     $window.localStorage.setItem('my-absen', absensimasuk);
+                    $scope.showbuttonnotifiabsen    = true;
                     
                 });
             }); 

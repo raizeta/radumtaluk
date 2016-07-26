@@ -24,3 +24,10 @@ myAppModule.filter('htmlToPlaintext', function()
     }
   }
 );
+
+myAppModule.filter('myDateFormat', function myDateFormat($filter){
+  return function(text){
+    var  tempdate= new Date(text.replace(/-/g,"/"));
+    return $filter('date')(tempdate, "dd-MMMM-yyyy HH:mm:ss");
+  }
+});

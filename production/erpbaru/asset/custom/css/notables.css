@@ -95,6 +95,11 @@ only screen and (max-width: 760px),
     .preview:nth-of-type(3):before { content: "KATEGORI"; }
     .preview:nth-of-type(4):before { content: "UNIT"; }
     .preview:nth-of-type(5):before { content: "JUMLAH"; }
+    .preview:nth-of-type(6):before { content: "HARGA"; }
+    .preview:nth-of-type(7):before { content: "SUB"; }
+
+    .preview-dua:nth-of-type(1):before { content: "TOTAL"; }
+
 
     .category:nth-of-type(1):before { content: "NAMA"; }
     .category:nth-of-type(2):before { content: "CORP"; }

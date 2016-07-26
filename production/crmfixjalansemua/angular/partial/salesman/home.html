@@ -55,13 +55,13 @@
 
       </div>
       <div class="row">
-          <div class="col-md-6" ng-repeat="memo in salesmanmemo | orderBy: 'ID':true ">
+          <div class="col-md-6" ng-repeat="memo in salesmanmemo | orderBy: 'CREATE_AT':true ">
             <div class="box box-widget">
               <div class="box-header with-border">
                 <div class="user-block">
                   <img class="img-circle" data-ng-src="data:image/jpg;charset=utf-8;base64,{{memo.IMG_BASE64}}" alt="User Image">
                   <span class="username"><a href="#">{{memo.NM_USER}}</a></span>
-                  <span class="description">{{memo.STATUS_MESSAGES}} - {{memo.CREATE_AT}}</span>
+                  <span class="description">{{memo.STATUS_MESSAGES}} @{{memo.CREATE_AT| myDateFormat}}</span>
                 </div>
                 <!-- /.user-block -->
                 <div class="box-tools">

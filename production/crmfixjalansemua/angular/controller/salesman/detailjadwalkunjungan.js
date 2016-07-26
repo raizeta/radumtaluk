@@ -182,8 +182,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         if(jarak > configjarak)
         {
-            //alert("Out Of Ranges");
-            sweetAlert("Oops...", "Out Of Ranges!", "error");
+            alert("Di Luar Radius");
+            // sweetAlert("Oops...", "Out Of Ranges!", "error");
         }
         else
         {
@@ -290,7 +290,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         if(jarak > configjarak)
         {
-            sweetAlert("Oops...", "Di Luar Radius!", "error");
+            alert("Di Luar Radius.");
+            // sweetAlert("Oops...", "Di Luar Radius!", "error");
         }
         else
         {
@@ -383,8 +384,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         if(jarak > configjarak)
         {
-            sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
-            //alert("Kamu Sedang Tidak Di Dalam Radius");
+            // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
+            alert("Kamu Sedang Tidak Di Dalam Radius");
         }
         else
         {
@@ -441,8 +442,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         if(jarak > configjarak)
         {
-            //alert("Kamu Sedang Tidak Di Dalam Radius");
-            sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
+            alert("Kamu Sedang Tidak Di Dalam Radius");
+            // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
         }
         else
         {
@@ -567,8 +568,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         if(jarak > configjarak)
         {
-            //alert("Kamu Sedang Tidak Di Dalam Radius");
-            sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
+            alert("Kamu Sedang Tidak Di Dalam Radius");
+            // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
         }
         else
         {

@@ -126,7 +126,23 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         CustomerService.GetGroupCustomers()
         .then(function (result) 
         {
-            $scope.customergroups = result.Customergroup;
+            // $scope.customergroups = result.Customergroup;
+            var customergroups   = [];
+            _.each(result.Customergroup, function(executes) 
+            {
+                var customergroup = {};
+                customergroup.CREATE_AT = executes.CREATE_AT;
+                customergroup.CREATE_BY = executes.CREATE_BY;
+                customergroup.ID =executes.ID;
+                customergroup.KETERANGAN =executes.KETERANGAN;
+                customergroup.SCDL_GROUP_NM =executes.SCDL_GROUP_NM;
+                customergroup.STATUS =executes.STATUS;
+                customergroup.UPDATE_AT=executes.UPDATE_AT;
+                customergroup.UPDATE_BY=executes.UPDATE_BY;
+                customergroup.ALIAS = executes.KETERANGAN + " (" + executes.SCDL_GROUP_NM + ")";
+                customergroups.push(customergroup);
+            });
+            $scope.customergroups = customergroups;
             $scope.loading  = false;
             $scope.visible = false;  
         });
@@ -150,18 +166,28 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     {
         if($scope.customer == undefined)
         {
-            console.log();
+            console.log("Undefined");
         }
         else
         {
            $scope.loading  = true;
+           
+
             CustomerService.GetSingleCustomer($scope.customer)
             .then(function (result) 
             {
-                $rootScope.currentcustlat  = result.MAP_LAT;
-                $rootScope.currentcustlng  = result.MAP_LNG;
+                if(result.MAP_LAT == null || result.MAP_LNG == null)
+                {
+                    $rootScope.currentcustlat  = 0.0;
+                    $rootScope.currentcustlng  = 0.0; 
+                }
+                else
+                {
+                    $rootScope.currentcustlat  = result.MAP_LAT;
+                    $rootScope.currentcustlng  = result.MAP_LNG; 
+                }
+                
                 var jarak = $rootScope.jaraklokasi($scope.gpslong,$scope.gpslat,$rootScope.currentcustlng,$rootScope.currentcustlat);
-                console.log(jarak);
                 $scope.loading  = false;
                 $scope.visible = true;
             }); 
@@ -213,7 +239,12 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
             ngToast.create('Posisi Customer Berhasil Di Update');
 
         })
-
+        .error (function (data)
+        {
+            $rootScope.currentcustlat = undefined;
+            $rootScope.currentcustlng = undefined;
+            alert("Validation Failed. " + data[0].message); 
+        })
         .finally(function()
         {
             $scope.loading = false;  
@@ -221,5 +252,48 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     }
 }]);
 
+
+myAppModule.controller("SalesTrackController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","ngToast","sweet","SalesTrackServices",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,ngToast,sweet,SalesTrackServices) 
+{
+    $scope.activesalestrack = "active";
+    $scope.userInfo = auth;
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+
+    $scope.loading  = true;
+    SalesTrackServices.getSalesTracks($rootScope.tanggalharini)
+    .then(function (result) 
+    {
+        $scope.salestracks = result;
+    });
+
+}]);
+myAppModule.controller("SalesTrackPerUserController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","ngToast","sweet","SalesTrackServices","$routeParams",
+function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,ngToast,sweet,SalesTrackServices,$routeParams) 
+{
+    var idsalesman = $routeParams.idsalesman;
+    $scope.activesalestrack = "active";
+    $scope.userInfo = auth;
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+
+    $scope.loading  = true;
+    SalesTrackServices.getSalesTrack($rootScope.tanggalharini,idsalesman)
+    .then(function (result) 
+    {
+        $scope.salestracks = result;
+        console.log(result);
+    });
+
+}]);
 
 

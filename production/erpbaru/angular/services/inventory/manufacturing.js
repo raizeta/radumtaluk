@@ -3,7 +3,7 @@ myAppModule.factory('ManufacturingService', ["$http","$q","$window",function($ht
 {
 	var getUrl = function()
 	{
-		return "http://api.lukisongroup.com/master";
+		return "http://api.lukison.int/master";
 	}
 	var gettoken = function()
 	{

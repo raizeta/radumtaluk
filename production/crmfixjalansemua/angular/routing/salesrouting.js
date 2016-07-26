@@ -117,7 +117,60 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-
+    $routeProvider.when('/salestrack',
+    {
+        templateUrl : 'angular/partial/salesman/salestrack.html',
+        controller  : 'SalesTrackController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+    $routeProvider.when('/salestrack/:idsalesman',
+    {
+        templateUrl : 'angular/partial/salesman/salestrackperuser.html',
+        controller  : 'SalesTrackPerUserController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
     $routeProvider.when('/detailcustomer/:idcustomer/:idtanggal',
     {
         templateUrl : 'angular/partial/salesman/detailcustomer.html',
@@ -183,7 +236,39 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 return resolvegpslocation;
             }  
         }
+    });
 
+    $routeProvider.when('/outcase',
+    {
+        templateUrl : 'angular/partial/salesman/outcase.html',
+        controller  : 'OutCaseController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            },
+            resolvegpslocation: function (LocationService) 
+            {
+                var resolvegpslocation = LocationService.GetGpsLocation();
+                return resolvegpslocation;
+            } 
+        }
     });
 
     $routeProvider.when('/history',
@@ -254,7 +339,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     {
                         var tanggalkunjungan = $filter('date')(xxx.tanggalkunjungan,'dd-MM-yyyy');
                         //alert("Double Check In Not Allowed. Please, Check Out First From  " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan);
-                        sweetAlert("Oops...", "Double Check In Not Allowed. Please, Check Out First From  " + xxx.namakustomer + " Di Tanggal " + tanggalkunjungan + "!", "error");
+                        sweetAlert("Oops", "Check Out Terlebih Dulu Dari " + xxx.namakustomer + " !", "error");
                         $location.path('/agenda/' + $filter('date')(xxx.tanggalkunjungan,'yyyy-MM-dd'));
                     }
                 }

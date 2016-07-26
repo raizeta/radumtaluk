@@ -5,7 +5,7 @@ function($http, $rootScope, $interval)
 	var getUrl = function()
   {
     //return "http://labtest3-api.int/master";
-    return "http://api.lukisongroup.com/master";
+    return "http://api.lukison.int/master";
   }
   var gettoken = function()
   {

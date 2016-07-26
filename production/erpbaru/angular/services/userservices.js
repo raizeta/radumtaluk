@@ -7,7 +7,7 @@ myAppModule.factory('UserService', ["$http","$q","$window",function($http, $q, $
     var geturl = function()
     {
         //return "http://labtest3-api.int/";
-        return "http://api.lukisongroup.com/";
+        return "http://api.lukison.int/";
     }
 
     var gettoken = function()

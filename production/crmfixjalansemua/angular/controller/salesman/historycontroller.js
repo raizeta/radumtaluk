@@ -12,16 +12,41 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
     }
 
     var tanggalplan = $rootScope.tanggalharini;
-    AbsensiService.getAbsensi(auth,tanggalplan)
-    .then (function (response)
+    if($window.localStorage.getItem('my-absen'))
     {
-        if(response.length == 0)
+    }
+    else
+    {
+        AbsensiService.getAbsensi(auth,tanggalplan)
+        .then (function (response)
         {
-            //alert("Tolong Lakukan Absensi Terlebih Dahulu");
-            sweetAlert("Oops...", "Tolong Lakukan Absensi Terlebih Dahulu!", "error");
-            $location.path('/absensi');
-        }
-    });
+            if(response.length == 0)
+            {
+                alert("Tolong Lakukan Absensi Terlebih Dahulu");
+                // sweetAlert("Oops...", "Tolong Lakukan Absensi Terlebih Dahulu!", "error");
+                $location.path('/absensi');
+            }
+            else
+            {
+                var resultabsen = response.Salesmanabsensi[0];
+                if(resultabsen.STATUS == 0)
+                {
+                    var absensimasuk = {};
+                    absensimasuk.absensimasuk   = 1;
+                    var absensimasuk = JSON.stringify(absensimasuk);
+                    $window.localStorage.setItem('my-absen', absensimasuk);
+                }
+                else
+                {
+                    var absensimasuk = {};
+                    absensimasuk.absensimasuk   = 0;
+                    var absensimasuk = JSON.stringify(absensimasuk);
+                    $window.localStorage.setItem('my-absen', absensimasuk); 
+                }  
+            }
+        });
+    }
+
     $scope.activehistory    = "active";
     $scope.loading          = true;
     

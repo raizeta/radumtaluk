@@ -1,3 +1,4 @@
+<?php
 #Check Requiretments
 cordova requirements android
 
