@@ -19,13 +19,23 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-	        var result = [];
-	        angular.forEach(response.BarangPenjualan, function(value, key)
-	        {
-	            var KD_BARANG = value.KD_BARANG;
-	            result.push(KD_BARANG);
-	        });
-	        deferred.resolve(result);
+	        if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+		        var result = [];
+		        angular.forEach(response.BarangPenjualan, function(value, key)
+		        {
+		            var KD_BARANG = value.KD_BARANG;
+		            result.push(KD_BARANG);
+		        });
+		        deferred.resolve(result);
+	    	}
         })
         .error(function(err,status)
         {
@@ -51,15 +61,25 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-	        var result = [];
-	        angular.forEach(response.BarangPenjualan, function(value, key)
-	        {
-	            var product = {};
-	            product.KD_BARANG = value.KD_BARANG;
-	            product.NM_BARANG = value.NM_BARANG;
-	            result.push(product);
-	        });
-	        deferred.resolve(result);
+	        if(angular.isDefined(data.statusCode))
+            {
+               if(data.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+		        var result = [];
+		        angular.forEach(response.BarangPenjualan, function(value, key)
+		        {
+		            var product = {};
+		            product.KD_BARANG = value.KD_BARANG;
+		            product.NM_BARANG = value.NM_BARANG;
+		            result.push(product);
+		        });
+		        deferred.resolve(result);
+		    }
         })
         .error(function(err,status)
         {
@@ -86,13 +106,23 @@ myAppModule.factory('ProductService', ["$http","$q","$window",function($http, $q
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-	        var baranginventory = [];
-	        angular.forEach(response.ProductInventory, function(value, key)
-	        {
-	            var KD_BARANG = value.KD_BARANG;
-	            baranginventory.push(KD_BARANG);
-	        });
-	        deferred.resolve(baranginventory);
+	        if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+		        var baranginventory = [];
+		        angular.forEach(response.ProductInventory, function(value, key)
+		        {
+		            var KD_BARANG = value.KD_BARANG;
+		            baranginventory.push(KD_BARANG);
+		        });
+		        deferred.resolve(baranginventory);
+		    }
         })
         .error(function(err,status)
         {

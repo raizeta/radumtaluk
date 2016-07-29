@@ -44,6 +44,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL)
         .success(function(data,status, headers, config) 
         {
+            console.log(data);
             var idstatuskunjungan = data.StatusKunjungan[0].ID;
 
             var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);

@@ -21,27 +21,38 @@ myAppModule.factory('LastVisitCustomerService', ["$http","$q","$window",function
         $http({method:method, url:url})
 		.success(function(response,status,headers) 
 		{
-			var customers = response.LVSummaryCustomer;
-			var filterproduct = [];
-	        angular.forEach(customers, function(value, key)
-	        {
-	        	var existingFilter = _.findWhere(filterproduct, { NM_BARANG: value.NM_BARANG });
-	        	if(existingFilter)
-	        	{
-	        		existingFilter['TYPE' + value.SO_TYPE]  = value.SO_QTY;
-	        	}
-	        	else
-	        	{
-	        		var filter      = {};
-	        		filter.NM_FIRST 				= value.NM_FIRST;
-	        		filter.TGL 						= value.TGL;
-                    filter.KD_BARANG            	= value.KD_BARANG;
-                    filter.NM_BARANG            	= value.NM_BARANG;
-                    filter['TYPE' + value.SO_TYPE]  = value.SO_QTY;
-                    filterproduct.push(filter);
-	        	}
-	        });
-			deferred.resolve(filterproduct);
+			if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+            	var customers = response.LVSummaryCustomer;
+				var filterproduct = [];
+		        angular.forEach(customers, function(value, key)
+		        {
+		        	var existingFilter = _.findWhere(filterproduct, { NM_BARANG: value.NM_BARANG });
+		        	if(existingFilter)
+		        	{
+		        		existingFilter['TYPE' + value.SO_TYPE]  = value.SO_QTY;
+		        	}
+		        	else
+		        	{
+		        		var filter      = {};
+		        		filter.NM_FIRST 				= value.NM_FIRST;
+		        		filter.TGL 						= value.TGL;
+	                    filter.KD_BARANG            	= value.KD_BARANG;
+	                    filter.NM_BARANG            	= value.NM_BARANG;
+	                    filter['TYPE' + value.SO_TYPE]  = value.SO_QTY;
+	                    filterproduct.push(filter);
+		        	}
+		        });
+				deferred.resolve(filterproduct);
+            }
+			
 		})
 		.error(function(err,status)
         {

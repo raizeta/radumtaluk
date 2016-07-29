@@ -17,14 +17,28 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         var url = getUrl();
         var deferred = $q.defer();
 
-        $http.get(url + "/salesmanabsensis/search?USER_ID="+ iduser + "&TGL=" + tanggalplan)
-        .success(function(data,status,headers,config) 
+        $http.get(url + "/salesmanabsensis/search?USER_ID="+ iduser + "&&TGL=" + tanggalplan,{cache:false})
+        .success(function(response,status,headers,config) 
         {
-            deferred.resolve(data);
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+               deferred.resolve(response); 
+            } 
         })
         .error(function(err,status)
         {
             if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else if (status === -1)
             {
                 deferred.resolve([]);
             }
@@ -35,7 +49,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
-
     var setAbsensi = function(detail)
     {
         var url = getUrl();

@@ -20,7 +20,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http.get(url + "/detailkunjungans/"+ ID_DETAIL)
         .success(function(data,status,headers,config) 
         {
-            if(data.CHECKIN_TIME == null || data.CHECKIN_TIME == '')
+            if(data.CHECKIN_TIME == null || data.CHECKIN_TIME == '' || data.CHECKIN_TIME == '0000-00-00 00:00:00')
             {
                 var result              = $rootScope.seriliazeobject(detail);
                 var serialized          = result.serialized;
@@ -35,6 +35,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             else
             {
                 deferred.resolve(data);
+                console.log(data);
             }    
         })
         .error(function(err,status)
@@ -56,9 +57,28 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         var url = getUrl();
         var deferred = $q.defer();
         $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL)
-        .success(function(data,status, headers, config) 
+        .success(function(response,status, headers, config) 
         {
-            deferred.resolve(data);
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    var result              = $rootScope.seriliazeobject(statuskunjungan);
+                    var serialized          = result.serialized;
+                    var config              = result.config;
+
+                    $http.post(url + "/statuskunjungans",serialized,config)
+                    .success(function(data,status, headers, config) 
+                    {
+                        deferred.resolve(data);
+                    });
+                } 
+            }
+            else
+            {
+                deferred.resolve(response);
+            }
+            
         })
         .error(function(err,status)
         {
@@ -82,9 +102,34 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+
+    var getCheckinStatus = function(tanggalplan,auth)
+    {
+        var url = getUrl();
+        var deferred = $q.defer();
+        $http.get(url + "/statuskunjungans/search?TGL=" + tanggalplan + "&&USER_ID=" + auth + "&&CHECK_IN=1" + "&&CHECK_OUT=0")
+        .success(function(data,status, headers, config) 
+        {
+            deferred.resolve(data);
+        })
+        .error(function(err,status)
+        {
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+
+        });
+        return deferred.promise;
+    }
     
 	return{
             setCheckinAction:setCheckinAction,
-            updateCheckinStatus:updateCheckinStatus
+            updateCheckinStatus:updateCheckinStatus,
+            getCheckinStatus:getCheckinStatus
 		}
 }]);

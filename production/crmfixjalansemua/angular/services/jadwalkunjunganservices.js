@@ -20,7 +20,17 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
 		$http({method:method, url:url,cache:false})
 		.success(function(response,status,headers) 
 		{
-			deferred.resolve(response);
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+               deferred.resolve(response); 
+            }
 		})
 		.error(function(err,status)
         {
@@ -46,7 +56,17 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-            deferred.resolve(response);
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+               deferred.resolve(response); 
+            }
         })
         .error(function(err,status)
         {
@@ -173,7 +193,18 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-            deferred.resolve(response.StatusKunjungan[0]);  
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                } 
+            }
+            else
+            {
+               deferred.resolve(response.StatusKunjungan[0]); 
+            }
+              
         })
         .error(function(err,status)
         {

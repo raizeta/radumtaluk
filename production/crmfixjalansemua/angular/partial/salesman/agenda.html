@@ -9,7 +9,7 @@
         <md-content class="md-padding">
           <md-tabs md-dynamic-height md-border-bottom md-selected="data.selectedIndex" class="md-accent">
             <md-tab id="tab1">
-              <md-tab-label>LIST {{viewtanggal| date:'dd-MM-yyyy' }} </md-tab-label>
+              <md-tab-label>LIST CUSTOMER </md-tab-label>
               <md-tab-body>
                   <md-list>
                     <md-list-item class="noright" ng-repeat="customer in customers | orderBy: 'JARAK' " ng-click="detailjadwalkunjungan(customer)">

@@ -60,9 +60,9 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         });
     }, false);
 
-    $rootScope.loading= true;
     $rootScope.$on("$routeChangeStart", function (e, curr, prev,userInfo) 
     {
+        $rootScope.loading= true;
         if (curr.$$route && curr.$$route.resolve) 
         {
             $rootScope.loading= true;
@@ -77,7 +77,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         {
             $rootScope.loading= false;
         }
-        $timeout(hideloading, 100);
+        $timeout(hideloading, 1000);
         
     });
 
@@ -301,13 +301,13 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     {
         
         var options = {
-                quality: 100,
+                quality: 50,
                 destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: false,
                 encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 100,
-                targetHeight: 100,
+                targetWidth: 400,
+                targetHeight: 400,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
                 correctOrientation:true

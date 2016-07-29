@@ -37,7 +37,23 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     $scope.zoomvalue = 17;
     var geocoder = new google.maps.Geocoder;    
     var y  = resolvesingledetailkunjunganbyiddetail.DetailKunjungan[0];
-    console.log(y);
+
+    if(resolvegpslocation.statusgps == "EC:1")
+    {
+        alert("GPS Tidak Hidup");
+    }
+    else if(resolvegpslocation.statusgps == "EC:2")
+    {
+        alert("Lokasi Tidak Tersedia");
+    }
+    else if(resolvegpslocation.statusgps == "EC:3")
+    {
+        alert("GPS Time OUt");
+    }
+    else if(resolvegpslocation.statusgps == "EC:3")
+    {
+        alert("Unknown Reason");
+    }
 
     $scope.googlemaplat     = resolvegpslocation.latitude;    //get from gps
     $scope.googlemaplong    = resolvegpslocation.longitude;  //get from gps
@@ -141,9 +157,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         checkindata.namakustomer        = $scope.blabla;
         checkindata.tanggalkunjungan    = PLAN_TGL_KUNJUNGAN;
 
-        var val = JSON.stringify(checkindata)
-        $window.localStorage.setItem('my-storage', val);
-
         var detail = {};
         var checkintime         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
         detail.LAT              = $scope.googlemaplat;
@@ -187,7 +200,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         }
         else
         {
-            $window.localStorage.removeItem('my-storage');
             sweet.show({
                 title: 'Checkout',
                 text: 'Apakah Kamu Yakin Untuk Checkout?',
@@ -218,11 +230,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         sweet.show({
                                         title: 'Success!',
                                         text: 'Kamu Berhasil Checkout',
-                                        timer: 2000,
+                                        timer: 1000,
                                         showConfirmButton: false
                                     });
                         $scope.loading = true;
-                        $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),2000);
+                        $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
                     });
                     
                 });    
@@ -391,44 +403,44 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         {
             document.addEventListener("deviceready", function () 
             {
-              var options = $rootScope.getCameraOptions();
-              $cordovaCamera.getPicture(options).then(function (imageData) 
-              {
-                var status = {};
-                status.bgcolor          = "bg-green";
-                status.icon             = "fa fa-check bg-green";
-                $rootScope.statusstartpicture = status;
-
-                var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                
-                var gambarkunjungan={};
-                gambarkunjungan.ID_DETAIL           = ID_DETAIL;
-                gambarkunjungan.IMG_NM_START        = "gambar start";
-                gambarkunjungan.IMG_DECODE_START    = imageData;
-                gambarkunjungan.TIME_START          = timeimagestart;
-                gambarkunjungan.STATUS              = 1;
-                gambarkunjungan.CREATE_BY           = idsalesman;
-                gambarkunjungan.CUSTOMER_ID         = y.CUST_ID;
-
-                GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
-                .then(function (data)
+                var options = $rootScope.getCameraOptions();
+                $cordovaCamera.getPicture(options)
+                .then(function (imageData) 
                 {
-                    ngToast.create('Gambar Telah Berhasil Di Update');
-                    var statuskunjungan = {};
-                    statuskunjungan.START_PIC = 1;
+                    var status = {};
+                    status.bgcolor          = "bg-green";
+                    status.icon             = "fa fa-check bg-green";
+                    $rootScope.statusstartpicture = status;
 
-                    GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
+                    var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                    
+                    var gambarkunjungan={};
+                    gambarkunjungan.ID_DETAIL           = ID_DETAIL;
+                    gambarkunjungan.IMG_NM_START        = "gambar start";
+                    gambarkunjungan.IMG_DECODE_START    = imageData;
+                    gambarkunjungan.TIME_START          = timeimagestart;
+                    gambarkunjungan.STATUS              = 1;
+                    gambarkunjungan.CREATE_BY           = idsalesman;
+                    gambarkunjungan.CUSTOMER_ID         = y.CUST_ID;
+
+                    GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
                     .then(function (data)
                     {
-                        console.log(data);
-                    });
-                });
+                        ngToast.create('Gambar Telah Berhasil Di Update');
+                        var statuskunjungan = {};
+                        statuskunjungan.START_PIC = 1;
 
-              }, 
-              function(err) 
-              {
-                    alert("Error While Take A Picture");
-              });
+                        GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
+                        .then(function (data)
+                        {
+                            console.log(data);
+                        });
+                    });
+                }, 
+                function(err) 
+                {
+                    alert(err.message);
+                });
 
             }, false);
 
@@ -450,19 +462,20 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             document.addEventListener("deviceready", function () 
             {
                 var options = {
-                    quality: 100,
+                    quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 100,
-                    targetHeight: 100,
+                    targetWidth: 400,
+                    targetHeight: 400,
                     popoverOptions: CameraPopoverOptions,
                     saveToPhotoAlbum: false,
                     correctOrientation:true
                   };
                   
-                $cordovaCamera.getPicture(options).then(function(imageData) 
+                $cordovaCamera.getPicture(options)
+                .then(function(imageData) 
                 {
                     var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                     var gambarkunjungan={};
@@ -495,7 +508,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 }, 
                 function(err) 
                 {
-                    alert("Error While Take A Picture");
+                    alert(err.message);
                 });
             }, false);
         }

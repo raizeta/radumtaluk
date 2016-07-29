@@ -1,5 +1,5 @@
-myAppModule.controller("OutCaseController", ["$rootScope","$scope", "$location","$http","auth","$window","resolvegpslocation","CustomerService",
-function ($rootScope,$scope, $location, $http,auth,$window,resolvegpslocation,CustomerService)
+myAppModule.controller("OutCaseController", ["$rootScope","$scope", "$location","$http","auth","$window","CustomerService",
+function ($rootScope,$scope, $location, $http,auth,$window,CustomerService)
 {
     $scope.userInfo = auth;
     $scope.loading  = true;

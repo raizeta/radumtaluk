@@ -15,114 +15,6 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet","$rootScope",
         return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
     }
 
-	// var login = function(username,password,autouuid)
-	// {
-	// 	var autouuid = autouuid;
- //        var urla = geturl();
-
- //        var deferred = $q.defer();
-	// 	var username = username;
-	// 	var password = password;
-	// 	var url = urla + "login/users?username=" + username;
-	// 	var method ="GET";
-	// 	$http({method:method, url:url})
- //        .success(function(response) 
- //        {
- //            //console.log(response);
- //            var rusername 	= response.uservalidation.username;
- //            var rid			= response.uservalidation.id;
- //            var rtoken		= response.uservalidation.token;
- //            var site		= response.uservalidation.site;
- //            var gambar1      = response.uservalidation.image64;
-
- //            var url = urla + "login/passwords?id=" + rid + "&token=" + rtoken + "&password=" + password;
-	// 		var method ="GET";
-	// 		$http({method:method, url:url})
-	// 		.success(function(response)
-	// 		{
-	// 			var statuslogin = response.passwordvalidation.login;
-	// 			var rulename	= response.passwordvalidation.rule_nm;
- //                var accessid    = response.passwordvalidation.accessid;
- //                var uuid        = response.passwordvalidation.uuid;
- //                if((uuid === '' || uuid === null))
- //                {
- //                    var urluuid = "http://api.lukisongroup.com/login/uuids/" + rid;
- //                    $http.get(urluuid)
- //                    .success(function(data,status, headers, config) 
- //                    {
- //                        data.UUID = autouuid;
- //                        var result              = $rootScope.seriliazeobject(data);
- //                        var serialized          = result.serialized;
- //                        var config              = result.config;
- //                        $http.put(urluuid,serialized,config)
- //                        .success(function(data,status, headers, config) 
- //                        {
- //                            var gambar = gambar1;
- //                            if(statuslogin == 'true')
- //                            {
- //                                userInfo = 
- //                                {
- //                                    accessToken: rtoken,
- //                                    username: rusername,
- //                                    rulename:rulename,
- //                                    id:rid,
- //                                    accessid:accessid,
- //                                    gambar:gambar,
- //                                    uuid:uuid
- //                                };
- //                                $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
- //                                deferred.resolve(userInfo);
- //                            }
- //                            else
- //                            {
- //                                deferred.reject("error");
- //                            }
- //                        });
- //                    });
- //                }
- //                else if((uuid !== autouuid))
- //                {
- //                    statuslogin = 'false';
- //                    deferred.reject("error uuid");
- //                }
- //                else if((uuid === autouuid))
- //                {
- //                    var gambar = gambar1;
- //                    if(statuslogin == 'true')
- //                    {
- //                        userInfo = 
- //                        {
- //                            accessToken: rtoken,
- //                            username: rusername,
- //                            rulename:rulename,
- //                            id:rid,
- //                            accessid:accessid,
- //                            gambar:gambar,
- //                            uuid:uuid
- //                        };
- //                        $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
- //                        deferred.resolve(userInfo);
- //                    }
- //                    else
- //                    {
- //                        deferred.reject("error");
- //                    }
- //                }
-                
-	// 		})
- //            .error(function()
- //            {
- //                deferred.reject(error);
- //            });
- //        })
-
- //        .error(function()
- //        {
- //            deferred.reject(error);
- //        });
-
- //        return deferred.promise;
-	// }
     var login = function(username,password)
     {
         var urla = geturl();
@@ -135,51 +27,74 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet","$rootScope",
         $http({method:method, url:url})
         .success(function(response) 
         {
-            var rusername   = response.uservalidation.username;
-            var rid         = response.uservalidation.id;
-            var rtoken      = response.uservalidation.token;
-            var site        = response.uservalidation.site;
-            var gambar1      = response.uservalidation.image64;
-            var url = urla + "login/passwords?id=" + rid + "&token=" + rtoken + "&password=" + password;
-            var method ="GET";
-            $http({method:method, url:url})
-            .success(function(response)
+            if(angular.isDefined(response.statusCode))
             {
-                var statuslogin = response.passwordvalidation.login;
-                var rulename    = response.passwordvalidation.rule_nm;
-                var accessid    = response.passwordvalidation.accessid;
-                var gambar      = gambar1;
-                if(statuslogin == 'true')
-                    {
-                        userInfo = 
-                        {
-                            accessToken: rtoken,
-                            username: rusername,
-                            rulename:rulename,
-                            id:rid,
-                            accessid:accessid,
-                            gambar:gambar
-                        };
-                        $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
-                        deferred.resolve(userInfo);
-                    }
-                else
+               if(response.statusCode == 404)
                 {
-                    deferred.reject("password_salah");
+                    deferred.resolve("username_salah");
                 }
-            })
-            .error(function()
+            }
+            else
             {
-                deferred.reject(error);
-            });
+                var rusername   = response.uservalidation.username;
+                var rid         = response.uservalidation.id;
+                var rtoken      = response.uservalidation.token;
+                var site        = response.uservalidation.site;
+                var gambar1      = response.uservalidation.image64;
+                var url = urla + "login/passwords?id=" + rid + "&token=" + rtoken + "&password=" + password;
+                var method ="GET";
+                $http({method:method, url:url})
+                .success(function(response)
+                {
+                    var statuslogin = response.passwordvalidation.login;
+                    var rulename    = response.passwordvalidation.rule_nm;
+                    var accessid    = response.passwordvalidation.accessid;
+                    var gambar      = gambar1;
+                    if(statuslogin == 'true')
+                        {
+                            userInfo = 
+                            {
+                                accessToken: rtoken,
+                                username: rusername,
+                                rulename:rulename,
+                                id:rid,
+                                accessid:accessid,
+                                gambar:gambar
+                            };
+                            $window.sessionStorage["userInfo"] = JSON.stringify(userInfo);
+                            deferred.resolve(userInfo);
+                        }
+                    else
+                    {
+                        deferred.reject("password_salah");
+                    }
+                })
+                .error(function(err)
+                {
+                    deferred.reject("username_salah");
+                });  
+            }
+            
         })
-        .error(function()
+        .error(function(err,status)
         {
-            deferred.reject("username_salah");
+            if(angular.isDefined(err.code))
+            {
+                if(err.code == 8 || err.code =='8')
+                {
+                    deferred.reject("username_salah");
+                }
+            }
+            else
+            {
+                deferred.reject("jaringan");
+            }
+            
         });
 
         return deferred.promise;
     }
+    
 	function getUserInfo() 
 	{
         return userInfo;
