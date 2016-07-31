@@ -8,6 +8,36 @@ myAppModule.run(["$rootScope","$http","$location","LocationService","$window","n
 function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork,$cordovaSQLite) 
 {
 
+    if($window.localStorage.getItem('LocalStorageChekIn'))
+    {
+        var tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
+        var LocalStorageChekIn = JSON.parse($window.localStorage.getItem('LocalStorageChekIn'));
+        if(LocalStorageChekIn.tanggalkunjungan != tanggalharini)
+        {
+            $window.localStorage.removeItem('LocalStorageChekIn');
+        }
+    }
+
+    if($window.localStorage.getItem('LSListHistory'))
+    {
+        var tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
+        var LSListHistory = JSON.parse($window.localStorage.getItem('LSListHistory'));
+        if(LSListHistory.LSListHistoryTgl != tanggalharini)
+        {
+            $window.localStorage.removeItem('LSListHistory');
+        }
+    }
+    
+    if($window.localStorage.getItem('LSListAgenda'))
+    {
+        var tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
+        var LSListAgenda = JSON.parse($window.localStorage.getItem('LSListAgenda'));
+        if(LSListAgenda.LSListAgendaTgl != tanggalharini)
+        {
+            $window.localStorage.removeItem('LSListAgenda');
+        }
+    }
+
     document.addEventListener("deviceready", function () 
     {
         $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default'});

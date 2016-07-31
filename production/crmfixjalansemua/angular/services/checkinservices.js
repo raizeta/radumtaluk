@@ -35,7 +35,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             else
             {
                 deferred.resolve(data);
-                console.log(data);
             }    
         })
         .error(function(err,status)
@@ -57,7 +56,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         var url = getUrl();
         var deferred = $q.defer();
         $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL)
-        .success(function(response,status, headers, config) 
+        .success(function (response,status, headers, config) 
         {
             if(angular.isDefined(response.statusCode))
             {
@@ -77,28 +76,11 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             else
             {
                 deferred.resolve(response);
-            }
-            
+            }   
         })
-        .error(function(err,status)
+        .error(function (error)
         {
-            if (status === 404)
-            {
-                var result              = $rootScope.seriliazeobject(statuskunjungan);
-                var serialized          = result.serialized;
-                var config              = result.config;
-
-                $http.post(url + "/statuskunjungans",serialized,config)
-                .success(function(data,status, headers, config) 
-                {
-                    deferred.resolve(data);
-                });
-            }
-            else    
-            {
-                deferred.reject(err);
-            }
-
+            deferred.reject(error);
         });
         return deferred.promise;
     }
@@ -107,10 +89,18 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
     {
         var url = getUrl();
         var deferred = $q.defer();
-        $http.get(url + "/statuskunjungans/search?TGL=" + tanggalplan + "&&USER_ID=" + auth + "&&CHECK_IN=1" + "&&CHECK_OUT=0")
-        .success(function(data,status, headers, config) 
+        $http.get(url + "/statuskunjungans/search?TGL=" + tanggalplan + "&USER_ID=" + auth + "&CHECK_IN=1" + "&CHECK_OUT=0")
+        .success(function(response,status, headers, config) 
         {
-            deferred.resolve(data);
+            if(angular.isDefined(response.statusCode))
+            {
+                deferred.resolve([]);
+            }
+            else
+            {
+              deferred.resolve(response.StatusKunjungan[0]);  
+            }
+            
         })
         .error(function(err,status)
         {

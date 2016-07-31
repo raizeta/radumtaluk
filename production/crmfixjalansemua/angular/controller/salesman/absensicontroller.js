@@ -1,7 +1,8 @@
 'use strict';
-myAppModule.controller("AbsensiController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout","AbsensiService","LocationService", 
-function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,AbsensiService,LocationService) 
+myAppModule.controller("AbsensiController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout","AbsensiService","LocationService","absen", 
+function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,AbsensiService,LocationService,absen) 
 {   
+
     $scope.activeabsensi = "active";
     $scope.userInfo = auth;
 
@@ -14,31 +15,53 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         window.location.href = "index.html";
     }
 
-    AbsensiService.getAbsensi(auth,tanggalplan)
-    .then(function(responseabsensi)
+    if(absen)
     {
-        $scope.responseabsen = responseabsensi;
-        if($scope.responseabsen.length == 0)
+        if(absen.AbsenMasuk == 1)
         {
-            $scope.showbuttonabsensimasuk = true;
+           if(absen.AbsenKeluar == 0)
+           {
+                $scope.showbuttonabsensikeluar = true;
+           }
+           else
+           {
+               $scope.showbuttonnotifiabsen = true; 
+           }
         }
         else
         {
-            var resultabsen = $scope.responseabsen.Salesmanabsensi[0];
-            if(resultabsen.STATUS == 0)
-            {
-                $scope.showbuttonabsensikeluar = true;
-            }
-            else if(resultabsen.STATUS == 1)
-            {
-                $scope.showbuttonnotifiabsen = true;
-            }  
+            $scope.showbuttonabsensimasuk = true;
         }
-    },
-    function (error)
+        
+    }
+    else
     {
-        alert("Data Absensi Error");
-    });
+        AbsensiService.getAbsensi(auth,tanggalplan)
+        .then(function(responseabsensi)
+        {
+            $scope.responseabsen = responseabsensi;
+            if($scope.responseabsen.length == 0)
+            {
+                $scope.showbuttonabsensimasuk = true;
+            }
+            else
+            {
+                if($scope.responseabsen.STATUS == 0)
+                {
+                    $scope.showbuttonabsensikeluar = true;
+                }
+                else if($scope.responseabsen.STATUS == 1)
+                {
+                    $scope.showbuttonnotifiabsen = true;
+                }  
+            }
+        },
+        function (error)
+        {
+            alert("Data Absensi Error");
+        }); 
+    }
+    
 
     LocationService.GetGpsLocation()
     .then (function (responsegps)
@@ -69,12 +92,20 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         AbsensiService.setAbsensi(detail)
         .then (function (response)
         {
-            $scope.showbuttonabsensikeluar = true;
-            var lanjutkeagenda = confirm("Absensi Sukses.Lanjut Ke Agenda?");
-            if (lanjutkeagenda == true) 
+            $scope.loadingcontent = true;
+            $timeout(function()
             {
-                $location.path("/agenda/" + tanggalplan);
-            } 
+                $scope.showbuttonabsensikeluar = true;
+                var lanjutkeagenda = confirm("Absensi Sukses.Lanjut Ke Agenda?");
+                if (lanjutkeagenda == true) 
+                {
+                    $location.path("/agenda/" + tanggalplan);
+                }
+                else
+                {
+                    $scope.loadingcontent = false;
+                } 
+            },10000);
         }, 
         function (error)
         {
@@ -92,39 +123,32 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         var yakinabsenkeluar = confirm("Yakin Untuk Absen Keluar?");
         if (yakinabsenkeluar == true) 
         {
-            AbsensiService.getAbsensi(auth,tanggalplan)
-            .then(function(response)
+            if($window.localStorage.getItem('LocalStorageAbsensi'))
             {
-                if(response.length != 0)
+                var LocalStorageAbsensi     = JSON.parse($window.localStorage.getItem('LocalStorageAbsensi'));
+                var AbsenID         = LocalStorageAbsensi.AbsenID;
+
+                var detail = {};
+                detail.WAKTU_KELUAR      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                detail.LATITUDE_KELUAR   = $scope.googlemaplat;
+                detail.LONG_KELUAR       = $scope.googlemaplong;
+                detail.UPDATE_BY         = auth.id;
+                detail.UPDATE_AT         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                detail.STATUS            = 1;
+                AbsensiService.updateAbsensi(AbsenID,detail)
+                .then (function (response)
                 {
-                    var resultabsen = response.Salesmanabsensi[0];
-                    var idsalesmanabsensi = resultabsen.ID;
-                    var detail = {};
-                    detail.WAKTU_KELUAR      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                    detail.LATITUDE_KELUAR   = $scope.googlemaplat;
-                    detail.LONG_KELUAR       = $scope.googlemaplong;
-                    detail.UPDATE_BY         = auth.id;
-                    detail.UPDATE_AT         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                    detail.STATUS            = 1;
-                    AbsensiService.updateAbsensi(idsalesmanabsensi,detail)
-                    .then (function (response)
-                    {
-                        $scope.showbuttonnotifiabsen = true;
-                        $scope.loadingcontent = false;
-                        alert("Terimakasih. Absensi Keluar Sukses");       
-                    },
-                    function (error)
-                    {
-                        $scope.showbuttonabsensikeluar = true;
-                        $scope.loadingcontent = false;
-                        alert("Gagal Absensi Keluar.Try Again"); 
-                    });
-                }
-            },
-            function (error)
-            {
-                alert("Data Absensi Error");
-            });
+                    $scope.showbuttonnotifiabsen = true;
+                    $scope.loadingcontent = false;
+                    alert("Terimakasih. Absensi Keluar Sukses");       
+                },
+                function (error)
+                {
+                    $scope.showbuttonabsensikeluar = true;
+                    $scope.loadingcontent = false;
+                    alert("Gagal Absensi Keluar.Try Again"); 
+                });
+            }  
         }
         else
         {
