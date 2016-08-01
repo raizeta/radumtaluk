@@ -411,11 +411,42 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 }, 
                 function(err) 
                 {
-                    alert(err.message);
+                    // alert(err.message);
                 });
 
             }, false);
+            
 
+            // #####TEST DI DALAM WEBSITE #####################
+            // var status = {};
+            // status.bgcolor          = "bg-green";
+            // status.icon             = "fa fa-check bg-green";
+            // $rootScope.statusstartpicture = status;
+
+            // var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+            
+            // var gambarkunjungan={};
+            // gambarkunjungan.ID_DETAIL           = ID_DETAIL;
+            // gambarkunjungan.IMG_NM_START        = "gambar start";
+            // gambarkunjungan.IMG_DECODE_START    = "Test Image Data";
+            // gambarkunjungan.TIME_START          = timeimagestart;
+            // gambarkunjungan.STATUS              = 1;
+            // gambarkunjungan.CREATE_BY           = idsalesman;
+            // gambarkunjungan.CUSTOMER_ID         = y.CUST_ID;
+
+            // GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
+            // .then(function (data)
+            // {
+            //     ngToast.create('Gambar Telah Berhasil Di Update');
+            //     var statuskunjungan = {};
+            //     statuskunjungan.START_PIC = 1;
+
+            //     GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
+            //     .then(function (data)
+            //     {
+            //         // console.log(data);
+            //     });
+            // });
         }
     }
     //#####################################################################################################
@@ -431,16 +462,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         }
         else
         {
+            // MODE MOBILE DEVICE
             document.addEventListener("deviceready", function () 
             {
                 var options = {
-                    quality: 100,
+                    quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 100,
-                    targetHeight: 100,
+                    targetWidth: 300,
+                    targetHeight: 300,
                     popoverOptions: CameraPopoverOptions,
                     saveToPhotoAlbum: false,
                     correctOrientation:true
@@ -480,9 +512,42 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 }, 
                 function(err) 
                 {
-                    alert(err.message);
+                    // alert(err.message);
                 });
             }, false);
+            
+            // ####MODE WEB DEVICE
+            // var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+            // var gambarkunjungan={};
+
+            // gambarkunjungan.IMG_NM_END      = "gambar end";
+            // gambarkunjungan.IMG_DECODE_END  = "TEST GAMBAR END";
+            // gambarkunjungan.TIME_END        = timeimageend;
+            // gambarkunjungan.ID_DETAIL       = ID_DETAIL;
+            // gambarkunjungan.UPDATE_BY       = idsalesman;
+
+
+            // GambarService.setEndGambarAction(ID_DETAIL,gambarkunjungan)
+            // .then(function (data)
+            // {
+            //     ngToast.create('Gambar Telah Berhasil Di Update');
+            //     var status = {};
+            //     status.bgcolor          = "bg-green";
+            //     status.icon             = "fa fa-check bg-green";
+            //     $rootScope.statusendpicture = status;
+
+            //     var statuskunjungan = {};
+            //     statuskunjungan.END_PIC = 1;
+
+            //     GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
+            //     .then(function (data)
+            //     {
+            //         console.log(data);
+            //     });
+            // }); 
+
+
+
         }
     }
     //#####################################################################################################

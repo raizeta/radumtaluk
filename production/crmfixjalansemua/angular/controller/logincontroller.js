@@ -24,7 +24,7 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
     	var username = $scope.user.username;
     	var password	= $scope.user.password;
         
-    	authService.login(username, password,$scope.deviceuuid)
+    	authService.loginwithuuid(username, password,$scope.deviceuuid)
         .then(function (result) 
         {
             if(result == "username_salah")

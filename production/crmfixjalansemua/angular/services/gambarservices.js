@@ -17,33 +17,36 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         var deferred = $q.defer();
         
         $http.get(url + "/gambars/search?ID_DETAIL="+ ID_DETAIL)
-        .success(function(data,status, headers, config) 
+        .success(function(response,status, headers, config) 
         {
-            deferred.resolve(data);
+            if(angular.isDefined(response.statusCode))
+            {
+                if (response.statusCode == 404)
+                {
+                    var result              = $rootScope.seriliazeobject(detail);
+                    var serialized          = result.serialized;
+                    var config              = result.config;
+
+                    $http.post(url + "/gambars",serialized,config)
+                    .success(function(response,status, headers, config) 
+                    {
+                        deferred.resolve(response);
+                    });
+                }
+            }
+            else
+            {
+                deferred.resolve(response.Gambar[0]);  
+            }
         })
         .error(function(err,status)
         {
-            if (status === 404)
-            {
-                var result              = $rootScope.seriliazeobject(detail);
-                var serialized          = result.serialized;
-                var config              = result.config;
-
-                $http.post(url + "/gambars",serialized,config)
-                .success(function(data,status, headers, config) 
-                {
-                    deferred.resolve(data);
-                });
-            }
-            else    
-            {
-                deferred.reject(err);
-            }
-
+            deferred.reject(err);
         });
 
         return deferred.promise;
     }
+
     var setEndGambarAction = function(ID_DETAIL,gambarkunjungan)
     {
         var url = getUrl();
@@ -52,7 +55,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         .success(function(data,status, headers, config) 
         {
             var idgambar = data.Gambar[0].ID;
-
             var result              = $rootScope.seriliazeobject(gambarkunjungan);
             var serialized          = result.serialized;
             var config              = result.config;
