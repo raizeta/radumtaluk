@@ -331,13 +331,13 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     {
         
         var options = {
-                quality: 50,
+                quality: 100,
                 destinationType: Camera.DestinationType.DATA_URL,
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: false,
                 encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 300,
-                targetHeight: 300,
+                targetWidth: 100,
+                targetHeight: 100,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
                 correctOrientation:true
