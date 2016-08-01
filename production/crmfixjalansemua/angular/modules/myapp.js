@@ -336,8 +336,8 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
                 sourceType: Camera.PictureSourceType.CAMERA,
                 allowEdit: false,
                 encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 400,
-                targetHeight: 400,
+                targetWidth: 300,
+                targetHeight: 300,
                 popoverOptions: CameraPopoverOptions,
                 saveToPhotoAlbum: false,
                 correctOrientation:true

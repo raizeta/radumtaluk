@@ -16,9 +16,6 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
             $scope.deviceplatform   = $cordovaDevice.getPlatform();
             $scope.deviceuuid       = $cordovaDevice.getUUID();
             $scope.deviceversion    = $cordovaDevice.getVersion();
-            alert($scope.devicemodel);
-            alert($scope.deviceplatform);
-            alert($scope.deviceuuid);
         }, false);
 
         $scope.loginLoading = true;
@@ -26,6 +23,7 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
         $scope.user = angular.copy(user);
     	var username = $scope.user.username;
     	var password	= $scope.user.password;
+        
     	authService.login(username, password,$scope.deviceuuid)
         .then(function (result) 
         {
@@ -60,6 +58,9 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
             if(err == 'error uuid')
             {
                 alert("Login Dari HP Orang Tidak Diijinkan");
+                $scope.user.username    = "";
+                $scope.user.password    = "";
+                focus('focusUsername');
             }
             else if(err == 'password_salah')
             {

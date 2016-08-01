@@ -69,12 +69,14 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
                     $http.post(url + "/statuskunjungans",serialized,config)
                     .success(function(data,status, headers, config) 
                     {
+                        data.StatusAda = "BelumAda";
                         deferred.resolve(data);
                     });
                 } 
             }
             else
             {
+                response.StatusAda = "SudahAda";
                 deferred.resolve(response);
             }   
         })

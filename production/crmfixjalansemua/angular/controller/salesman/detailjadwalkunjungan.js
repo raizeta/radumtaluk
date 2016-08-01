@@ -144,11 +144,18 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             CheckInService.updateCheckinStatus(ID_DETAIL,statuskunjungan)
             .then(function(data)
             {
-                console.log("Check In Status Sukses");
+                $scope.idstatuskunjunganresponse;
+                if(data.StatusAda == "SudahAda")
+                {
+                   $scope.idstatuskunjunganresponse = data.StatusKunjungan[0].ID; 
+                }
+                else if(data.StatusAda == "BelumAda")
+                {
+                   $scope.idstatuskunjunganresponse = data.ID; 
+                }
             });
         });
-
-                   
+                
     };
     $scope.checkin();
     //#####################################################################################################
@@ -193,7 +200,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     var statuskunjungan = {};
                     statuskunjungan.CHECK_OUT = 1;
 
-                    CheckOutService.updateCheckoutStatus(ID_DETAIL,statuskunjungan)
+                    CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
                     .then(function(data,status)
                     {
                         sweet.show({
@@ -204,6 +211,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                                     });
                         $scope.loading = true;
                         $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
+                    },
+                    function (error)
+                    {
+                        alert("Checkout Tidak Berhasil.Try Again");
                     });
                     
                 });    
@@ -214,7 +225,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     JadwalKunjunganService.GetJustStatusKunjungan(ID_DETAIL)
     .then(function (response)
     {
-        console.log(response);
         $rootScope.statusstartpicture   = $rootScope.cekstatusbarang(response.statusstartpic);
         $rootScope.statusendpicture     = $rootScope.cekstatusbarang(response.statusendpic);
         $rootScope.statusbarangstockqty = $rootScope.cekstatusbarang(response.statusinventorystock);
@@ -429,8 +439,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 400,
-                    targetHeight: 400,
+                    targetWidth: 300,
+                    targetHeight: 300,
                     popoverOptions: CameraPopoverOptions,
                     saveToPhotoAlbum: false,
                     correctOrientation:true

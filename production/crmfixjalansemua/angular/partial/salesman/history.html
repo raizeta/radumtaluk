@@ -5,6 +5,7 @@
   <section class="content">
     <div class="row">
         <div class="col-md-12 col-sm-6 col-xs-12">
+        	<span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16}"></span>
             <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
         </div>
       </div>

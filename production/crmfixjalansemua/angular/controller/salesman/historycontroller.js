@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$filter","$window","auth","uiCalendarConfig","JadwalKunjunganService","history","absen",
-function ($rootScope,$scope,$location,$filter,$window,auth,uiCalendarConfig,JadwalKunjunganService,history,absen) 
+myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$filter","$timeout","$window","auth","uiCalendarConfig","JadwalKunjunganService","history","absen",
+function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarConfig,JadwalKunjunganService,history,absen) 
 {  
     $scope.userInfo = auth;
     $scope.logout = function () 
@@ -70,7 +70,7 @@ function ($rootScope,$scope,$location,$filter,$window,auth,uiCalendarConfig,Jadw
                         {
                            if(absen.AbsenKeluar == 0)
                            {
-                                data.color = '#cc4b39';
+                                data.color = '#0000ff';
                            }
                            else
                            {
@@ -92,12 +92,14 @@ function ($rootScope,$scope,$location,$filter,$window,auth,uiCalendarConfig,Jadw
             alert("List History Kosong");
         }
         $scope.eventSources = [$scope.events];
+        
     }
     else
     {
         JadwalKunjunganService.GetListHistory(auth)
         .then (function (response)
         {
+
             if(response.length != 0)
             {
                 var responselisthistory = response;
@@ -126,7 +128,7 @@ function ($rootScope,$scope,$location,$filter,$window,auth,uiCalendarConfig,Jadw
                             {
                                if(absen.AbsenKeluar == 0)
                                {
-                                    data.color = '#cc4b39';
+                                    data.color = '#0000ff';
                                }
                                else
                                {
@@ -147,7 +149,7 @@ function ($rootScope,$scope,$location,$filter,$window,auth,uiCalendarConfig,Jadw
             {
                 alert("List History Kosong");
             }
-            $scope.eventSources = [$scope.events]; 
+            $scope.eventSources = [$scope.events];    
         },
         function (error)
         {

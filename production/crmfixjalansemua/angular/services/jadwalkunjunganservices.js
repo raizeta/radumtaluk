@@ -96,7 +96,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
     {
         var globalurl = getUrl();
         var deferred = $q.defer();
-        var url = globalurl + "/statuskunjunganprosedurs/search?USER_ID="+ userInfo +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + groupcustomer;
+        var url = globalurl + "/statuskunjunganprosedurs/search?USER_ID="+ userInfo +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + groupcustomer + "&access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
         var method ="GET";
         $http({method:method, url:url,cache:false})
         .success(function(response) 

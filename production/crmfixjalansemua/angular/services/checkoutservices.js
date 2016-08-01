@@ -37,24 +37,19 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
-    var updateCheckoutStatus = function(ID_DETAIL,statuskunjungan)
+    var updateCheckoutStatus = function(idstatuskunjungan,statuskunjungan)
     {
         var url = getUrl();
         var deferred = $q.defer();
-        $http.get(url + "/statuskunjungans/search?ID_DETAIL=" + ID_DETAIL)
+
+        var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
+        var serialized              = resultstatus.serialized;
+        var config                  = resultstatus.config;
+
+        $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
         .success(function(data,status, headers, config) 
         {
-            var idstatuskunjungan = data.StatusKunjungan[0].ID;
-
-            var resultstatus            = $rootScope.seriliazeobject(statuskunjungan);
-            var serialized              = resultstatus.serialized;
-            var config                  = resultstatus.config;
-            
-            $http.put(url + "/statuskunjungans/"+ idstatuskunjungan,serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                deferred.resolve(data);
-            }); 
+            deferred.resolve(data);
         })
         .error(function(err,status)
         {
@@ -62,6 +57,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+    
 	return{
             setCheckoutAction:setCheckoutAction,
             updateCheckoutStatus:updateCheckoutStatus

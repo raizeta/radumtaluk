@@ -40,98 +40,134 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         $scope.gpslong  = data.longitude;
     });
     
-    if(tanggalsekarang == tanggalplan)
+    //###################################################### USING LOCAL STORAGE)##############################################//
+    // if(tanggalsekarang == tanggalplan)
+    // {
+    //     if(agenda)
+    //     {
+    //         if(agenda.length == 0)
+    //         {
+    //             alert("Belum Ada Jadwal Hari Ini");
+    //             $location.path('/history');
+    //         }
+    //         else
+    //         {
+    //             $scope.customers = agenda;
+    //             $scope.loading   = false;
+    //         }  
+    //     }
+    //     else
+    //     {
+    //         JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+    //         .then(function(response)
+    //         {
+    //             if(response.length == 0)
+    //             {
+    //                 alert("Belum Ada Jadwal Hari Ini");
+    //                 $location.path('/history');
+    //             }
+    //             else
+    //             {
+    //                 var idgroupcustomer         = response.SCDL_GROUP;
+    //                 JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan)
+    //                 .then(function (result) 
+    //                 {
+    //                     $scope.customers = result;
+    //                     $scope.loading   = false;
+    //                 },
+    //                 function (error)
+    //                 {
+    //                     var forcereload = confirm("Cors Agenda Error. Reload Again");
+    //                     if (forcereload == true) 
+    //                     {
+    //                         $scope.loading   = true;
+    //                         $timeout(function()
+    //                         {
+    //                             $window.location.reload();
+    //                         },10000);
+    //                     }
+    //                     else
+    //                     {
+    //                         $scope.loading   = false;
+    //                     }
+    //                 });  
+    //             }      
+    //         });  
+    //     }
+    // }
+    // else
+    // {
+    //     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+    //     .then(function(response)
+    //     {
+    //         if(response.length == 0)
+    //         {
+    //             alert("Belum Ada Jadwal Hari Ini");
+    //             $location.path('/history');
+    //         }
+    //         else
+    //         {
+    //             var idgroupcustomer         = response.SCDL_GROUP;
+    //             JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan)
+    //             .then(function (result) 
+    //             {
+    //                 $scope.customers = result;
+    //                 $scope.loading   = false;
+    //             },
+    //             function (error)
+    //             {
+    //                 var forcereload = confirm("Cors Agenda Error. Reload Again");
+    //                 if (forcereload == true) 
+    //                 {
+    //                     $scope.loading   = true;
+    //                     $timeout(function()
+    //                     {
+    //                         $window.location.reload();
+    //                     },10000);
+    //                 }
+    //                 else
+    //                 {
+    //                     $scope.loading   = false;
+    //                 }
+    //             });  
+    //         }      
+    //     });  
+    // }
+    JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+    .then(function(response)
     {
-        if(agenda)
+        if(response.length == 0)
         {
-            if(agenda.length == 0)
-            {
-                alert("Belum Ada Jadwal Hari Ini");
-                $location.path('/history');
-            }
-            else
-            {
-                $scope.customers = agenda;
-                $scope.loading   = false;
-            }  
+            alert("Belum Ada Jadwal Hari Ini");
+            $location.path('/history');
         }
         else
         {
-            JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
-            .then(function(response)
+            var idgroupcustomer         = response.SCDL_GROUP;
+            JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan)
+            .then(function (result) 
             {
-                if(response.length == 0)
+                $scope.customers = result;
+                $scope.loading   = false;
+            },
+            function (error)
+            {
+                var forcereload = confirm("Cors Agenda Error. Reload Again");
+                if (forcereload == true) 
                 {
-                    alert("Belum Ada Jadwal Hari Ini");
-                    $location.path('/history');
+                    $scope.loading   = true;
+                    $timeout(function()
+                    {
+                        $window.location.reload();
+                    },10000);
                 }
                 else
                 {
-                    var idgroupcustomer         = response.SCDL_GROUP;
-                    JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan)
-                    .then(function (result) 
-                    {
-                        $scope.customers = result;
-                        $scope.loading   = false;
-                    },
-                    function (error)
-                    {
-                        var forcereload = confirm("Cors Agenda Error. Reload Again");
-                        if (forcereload == true) 
-                        {
-                            $scope.loading   = true;
-                            $timeout(function()
-                            {
-                                $window.location.reload();
-                            },10000);
-                        }
-                        else
-                        {
-                            $scope.loading   = false;
-                        }
-                    });  
-                }      
-            });  
-        }
-    }
-    else
-    {
-        JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
-        .then(function(response)
-        {
-            if(response.length == 0)
-            {
-                alert("Belum Ada Jadwal Hari Ini");
-                $location.path('/history');
-            }
-            else
-            {
-                var idgroupcustomer         = response.SCDL_GROUP;
-                JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan)
-                .then(function (result) 
-                {
-                    $scope.customers = result;
                     $scope.loading   = false;
-                },
-                function (error)
-                {
-                    var forcereload = confirm("Cors Agenda Error. Reload Again");
-                    if (forcereload == true) 
-                    {
-                        $scope.loading   = true;
-                        $timeout(function()
-                        {
-                            $window.location.reload();
-                        },10000);
-                    }
-                    else
-                    {
-                        $scope.loading   = false;
-                    }
-                });  
-            }      
-        });  
-    }
+                }
+            });  
+        }      
+    });
 
     CheckInService.getCheckinStatus(tanggalplan,idsalesman)
     .then(function (result) 
@@ -173,7 +209,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                         {
                             if($window.localStorage.getItem('LocalStorageChekIn'))
                             {
-                                alert("LS Check In Exist");
                                 var LocalStorageChekIn = JSON.parse($window.localStorage.getItem('LocalStorageChekIn'));
                                 if(LocalStorageChekIn.iddetailkunjungan != customer.ID)
                                 {
