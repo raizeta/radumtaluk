@@ -58,6 +58,32 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
         });
         return deferred.promise;
 	}
+	var GetCustomers = function(idcustomer)
+	{
+		var globalurl = getUrl();
+		var deferred = $q.defer();
+		var url = globalurl + "/customers/search?STATUS=1";
+		var method ="GET";
+		$http({method:method, url:url,cache:false})
+        .success(function(response) 
+        {
+		  	deferred.resolve(response);
+        })
+        .error(function()
+        {
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+        });
+
+        return deferred.promise;
+	}
+
 	var GetSingleCustomer = function(idcustomer)
 	{
 		var globalurl = getUrl();
@@ -86,6 +112,7 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
 	return{
 			GetGroupCustomers:GetGroupCustomers,
 			GetSingleCustomer:GetSingleCustomer,
-			GetSingleGroupCustomer:GetSingleGroupCustomer
+			GetSingleGroupCustomer:GetSingleGroupCustomer,
+			GetCustomers:GetCustomers
 		}
 }]);

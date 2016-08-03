@@ -92,19 +92,26 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         return deferred.promise;
     }
 
-	var GetSingleDetailKunjunganProsedur = function(userInfo,groupcustomer,tanggalplan,resolvegpslocation)
+	var GetSingleDetailKunjunganProsedur = function(userInfo,groupcustomer,tanggalplan)
     {
         var globalurl = getUrl();
         var deferred = $q.defer();
         var url = globalurl + "/statuskunjunganprosedurs/search?USER_ID="+ userInfo +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + groupcustomer + "&access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
         var method ="GET";
         $http({method:method, url:url,cache:false})
-        .success(function(response) 
+        .success(function(response,status,headers,config) 
         {
+            console.log(headers());
+            if(angular.isDefined(headers()['last-modified']))
+            {
+                alert("Dari Cache");
+            }
+
             if(angular.isDefined(response.statusCode))
             {
                 deferred.resolve([]);
             }
+
             else
             {
                 LocationService.GetGpsLocation()
@@ -132,25 +139,28 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
                         customer.INVENTORY_SELLOUT      = ((value.INVENTORY_SELLOUT == null || value.INVENTORY_SELLOUT == 0) ? 0 : 1);
                         customer.INVENTORY_EXPIRED      = ((value.INVENTORY_EXPIRED == null || value.INVENTORY_EXPIRED == 0) ? 0 : 1);
 
-                        if(customer.CHECK_OUT  == 1)
-                        {
-                            customer.imagecheckout = "asset/admin/dist/img/customer.jpg";
-                        }
-                        if((customer.CHECK_OUT  == 0 || customer.CHECK_OUT  == null) && customer.CHECK_IN  == 1)
-                        {
-                            customer.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
-                        }
+                        
                         if(customer.CHECK_IN  == 0 || customer.CHECK_IN  == null)
                         {
                             customer.imagecheckout = "asset/admin/dist/img/normal.jpg";
                         }
-                        var idcustomer      = value.CUST_ID;
-                        
+                        else
+                        {
+                            if((customer.CHECK_OUT  == 1))
+                            {
+                                customer.imagecheckout = "asset/admin/dist/img/customer.jpg";
+                            }
+                            else
+                            {
+                                customer.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
+                            } 
+                        }
+
                         var longitude1      = responsegps.longitude;
                         var latitude1       = responsegps.latitude;
                         
-                        var longitude2      = value.MAP_LNG;
-                        var latitude2       = value.MAP_LAT;
+                        var longitude2      = customer.MAP_LNG;
+                        var latitude2       = customer.MAP_LAT;
                         
                         
                         var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
@@ -186,7 +196,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
                         var ListAgenda = JSON.stringify(LSListAgenda);
                         $window.localStorage.setItem('LSListAgenda', ListAgenda);
                     }
-                    
+
                     deferred.resolve(customers);  
                 });  
             }  
@@ -212,8 +222,14 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         var url = globalurl + "/statuskunjungans/search?ID_DETAIL="+ ID_DETAIL;
         var method ="GET";
         $http({method:method, url:url,cache:false})
-        .success(function(response) 
+        .success(function(response,status,headers,config) 
         {
+            console.log(headers());
+            if(angular.isDefined(headers()['last-modified']))
+            {
+                alert("Dari Cache");
+            }
+
             if(angular.isDefined(response.statusCode))
             {
                if(response.statusCode == 404)
