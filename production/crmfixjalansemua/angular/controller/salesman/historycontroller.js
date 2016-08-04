@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$filter","$timeout","$window","auth","uiCalendarConfig","JadwalKunjunganService","history","absen",
-function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarConfig,JadwalKunjunganService,history,absen) 
+myAppModule.controller("HistoryController", ["$rootScope","$scope", "$location","$filter","$timeout","$window","auth","uiCalendarConfig","JadwalKunjunganService",
+function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarConfig,JadwalKunjunganService) 
 {  
     $scope.userInfo = auth;
     $scope.logout = function () 
@@ -40,11 +40,14 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
     };
     $scope.events = [];
     $scope.eventSources = [$scope.events];
-    if(history)
+
+    JadwalKunjunganService.GetListHistory(auth)
+    .then (function (response)
     {
-        if(history.length != 0)
+
+        if(response.length != 0)
         {
-            var responselisthistory = history;
+            var responselisthistory = response;
             var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
             angular.forEach(responselisthistory, function(value, key)
             {
@@ -64,24 +67,7 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
                 }
                 else if(tanggal == tanggalsekarang)     
                 {
-                    if(absen)
-                    {
-                        if(absen.AbsenMasuk == 1)
-                        {
-                           if(absen.AbsenKeluar == 0)
-                           {
-                                data.color = '#0000ff';
-                           }
-                           else
-                           {
-                               data.color = '#dd4b39'; 
-                           }
-                        } 
-                    }
-                    else 
-                    {
-                        data.color = '#dd4b39';
-                    }  
+
                 }
 
                 $scope.events.push(data);
@@ -91,72 +77,14 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
         {
             alert("List History Kosong");
         }
-        $scope.eventSources = [$scope.events];
-        
-    }
-    else
+        $scope.eventSources = [$scope.events];    
+    },
+    function (error)
     {
-        JadwalKunjunganService.GetListHistory(auth)
-        .then (function (response)
-        {
+        console.log(error);
+        alert("Error Get List History");
+    });  
 
-            if(response.length != 0)
-            {
-                var responselisthistory = response;
-                var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
-                angular.forEach(responselisthistory, function(value, key)
-                {
-                    var tanggal= value.TGL1;
-                    var data ={};
-                    data.title = value.NOTE;
-                    data.start = new Date(tanggal);
-                    data.allDay =true;
-                    data.url ="#/agenda/" + tanggal;
-                    if(tanggal > tanggalsekarang)
-                    {
-                      data.color = '#378006';  
-                    }
-                    else if(tanggal < tanggalsekarang)
-                    {
-                        data.color = '#dd4b39';
-                    }
-                    else if(tanggal == tanggalsekarang)     
-                    {
-                        if(absen)
-                        {
-                            if(absen.AbsenMasuk == 1)
-                            {
-                               if(absen.AbsenKeluar == 0)
-                               {
-                                    data.color = '#0000ff';
-                               }
-                               else
-                               {
-                                   data.color = '#dd4b39'; 
-                               }
-                            } 
-                        }
-                        else 
-                        {
-                            data.color = '#dd4b39';
-                        }  
-                    }
-
-                    $scope.events.push(data);
-                }); 
-            }
-            else
-            {
-                alert("List History Kosong");
-            }
-            $scope.eventSources = [$scope.events];    
-        },
-        function (error)
-        {
-            console.log(error);
-            alert("Error Get List History");
-        });  
-    }
       
 }]);
 

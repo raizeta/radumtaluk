@@ -25,26 +25,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
-            },
-            absen: function ($q, AbsensiService,$location,$filter) 
-            {
-                var LocalStorageAbsensi = AbsensiService.getLocalStorageAbsensi();
-                if(LocalStorageAbsensi)
-                {
-                   var tglhariini = $filter('date')(new Date(),'yyyy-MM-dd');
-                   if (LocalStorageAbsensi.AbsenTanggal == tglhariini) 
-                    {
-                        return $q.when(LocalStorageAbsensi);
-                    }
-                    else
-                    {
-                        $location.path('/absensi');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/absensi');
-                }
             }
         }
     });
@@ -79,36 +59,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var tanggalplan             = $route.current.params.idtanggal;
                 var userInfo                = authService.getUserInfo();
                 return JadwalKunjunganService.GetGroupCustomerByTanggalPlan(userInfo,tanggalplan);
-            },
-            absen: function ($q, AbsensiService,$location,$filter) 
-            {
-                var LocalStorageAbsensi = AbsensiService.getLocalStorageAbsensi();
-                if(LocalStorageAbsensi)
-                {
-                   var tglhariini = $filter('date')(new Date(),'yyyy-MM-dd');
-                   if (LocalStorageAbsensi.AbsenTanggal == tglhariini) 
-                    {
-                        return $q.when(LocalStorageAbsensi);
-                    }
-                    else
-                    {
-                        alert("Absen Terlebih Dahulu");
-                        $location.path('/absensi');
-                    } 
-                }
-                else 
-                {
-                    alert("Absen Terlebih Dahulu");
-                    $location.path('/absensi');
-                }
-            },
-            agenda: function ($q, JadwalKunjunganService) 
-            {
-                var LocalStorageAgenda = JadwalKunjunganService.getLocalStorageAgenda();
-                if(LocalStorageAgenda)
-                {
-                    return $q.when(LocalStorageAgenda.LSListAgenda);
-                }
             }
         }
     });
@@ -136,36 +86,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 else 
                 {
                     $location.path('/');
-                }
-            },
-            history: function ($q,JadwalKunjunganService) 
-            {
-                var LSListHistory = JadwalKunjunganService.getLocalStorageHistory();
-                if(LSListHistory)
-                {
-                    return $q.when(LSListHistory.LSListHistory);    
-                }
-            },
-            absen: function ($q, AbsensiService,$location,$filter) 
-            {
-                var LocalStorageAbsensi = AbsensiService.getLocalStorageAbsensi();
-                if(LocalStorageAbsensi)
-                {
-                   var tglhariini = $filter('date')(new Date(),'yyyy-MM-dd');
-                   if (LocalStorageAbsensi.AbsenTanggal == tglhariini) 
-                    {
-                        return $q.when(LocalStorageAbsensi);
-                    }
-                    else
-                    {
-                        alert("Absen Terlebih Dahulu");
-                        $location.path('/absensi');
-                    } 
-                }
-                else 
-                {
-                    alert("Absen Terlebih Dahulu");
-                    $location.path('/absensi');
                 }
             }
         }
@@ -216,14 +136,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             {
                 var resolveconfigradius = configurationService.getConfigRadius();
                 return resolveconfigradius;
-            },
-            agenda: function ($q, JadwalKunjunganService) 
-            {
-                var LocalStorageAgenda = JadwalKunjunganService.getLocalStorageAgenda();
-                if(LocalStorageAgenda)
-                {
-                    return $q.when(LocalStorageAgenda.LSListAgenda);
-                }
             }
         }
     });

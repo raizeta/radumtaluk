@@ -39,10 +39,7 @@ myAppModule.factory('LocationService', function ($q) {
           }
           else
           {
-            currentLocation.latitude    = 0;
-            currentLocation.longitude   = 0;
-            currentLocation.statusgps   = "ECU";
-            deferred.resolve(currentLocation);
+            deferred.rejected(err);
           }
           
       });

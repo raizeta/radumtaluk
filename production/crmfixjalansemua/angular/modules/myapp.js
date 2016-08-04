@@ -8,41 +8,16 @@ myAppModule.run(["$rootScope","$http","$location","LocationService","$window","n
 function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork,$cordovaSQLite) 
 {
 
-    if($window.localStorage.getItem('LocalStorageChekIn'))
-    {
-        var tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
-        var LocalStorageChekIn = JSON.parse($window.localStorage.getItem('LocalStorageChekIn'));
-        if(LocalStorageChekIn.tanggalkunjungan != tanggalharini)
-        {
-            $window.localStorage.removeItem('LocalStorageChekIn');
-        }
-    }
-
-    if($window.localStorage.getItem('LSListHistory'))
-    {
-        var tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
-        var LSListHistory = JSON.parse($window.localStorage.getItem('LSListHistory'));
-        if(LSListHistory.LSListHistoryTgl != tanggalharini)
-        {
-            $window.localStorage.removeItem('LSListHistory');
-        }
-    }
-    
-    if($window.localStorage.getItem('LSListAgenda'))
-    {
-        var tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
-        var LSListAgenda = JSON.parse($window.localStorage.getItem('LSListAgenda'));
-        if(LSListAgenda.LSListAgendaTgl != tanggalharini)
-        {
-            $window.localStorage.removeItem('LSListAgenda');
-        }
-    }
-
     document.addEventListener("deviceready", function () 
     {
-        $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default'});
+        alert("Open DB");
+        $rootScope.db = window.sqlitePlugin.openDatabase({name:"nextflow.db", location:'default', androidLockWorkaround: 1, androidDatabaseImplementation: 2});
         $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT)');
-    });
+        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Agenda (id INTEGER PRIMARY KEY AUTOINCREMENT, TGL TEXT, USER_ID INTEGER, CUST_ID TEXT, CUST_NM TEXT, LAG TEXT, LAT TEXT, MAP_LAT TEXT, MAP_LNG TEXT, CHECKIN_TIME TEXT,CHECKOUT_TIME TEXT,CHECK_IN INTEGER, CHECK_OUT INTEGER, INVENTORY_EXPIRED INTEGER, INVENTORY_SELLIN INTEGER, INVENTORY_SELLOUT INTEGER, INVENTORY_STOCK INTEGER, REQUEST INTEGER,START_PIC INTEGER, END_PIC INTEGER, SCDL_GROUP INTEGER)');
+        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Statuskunjungan (ID INTEGER PRIMARY KEY AUTOINCREMENT, ID_DETAIL INTEGER, TGL TEXT, USER_ID INTEGER, CUST_ID TEXT, CUST_NM TEXT, CHECK_IN INTEGER, CHECK_OUT INTEGER, INVENTORY_EXPIRED INTEGER, INVENTORY_SELLIN INTEGER, INVENTORY_SELLOUT INTEGER, INVENTORY_STOCK INTEGER, REQUEST INTEGER,START_PIC INTEGER, END_PIC INTEGER)');
+        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Absensi (ID INTEGER PRIMARY KEY AUTOINCREMENT, ID_SERVER INTEGER,TGL TEXT, USER_ID INTEGER, USER_NM TEXT, WAKTU_MASUK TEXT, WAKTU_KELUAR TEXT,STATUS_ABSENSI TEXT)');
+        alert("Create Table");
+   });
 
     document.addEventListener("deviceready", function () 
     {
@@ -52,43 +27,6 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         $rootScope.deviceversion    = $cordovaDevice.getVersion();
     }, false);
 
-    document.addEventListener("deviceready", function () 
-    {
-
-        var type = $cordovaNetwork.getNetwork();
-
-        $rootScope.isOnline = $cordovaNetwork.isOnline();
-
-        var isOffline = $cordovaNetwork.isOffline();
-
-        // listen for Online event
-        $rootScope.$on('$cordovaNetwork:online', function(event, networkState){
-          var onlineState = networkState;
-        })
-
-        // listen for Offline event
-        $rootScope.$on('$cordovaNetwork:offline', function(event, networkState){
-          var offlineState = networkState;
-        })
-
-    }, false);
-
-    $rootScope.onlineangular = navigator.onLine;
-    $window.addEventListener("offline", function() 
-    {
-        $rootScope.$apply(function() 
-        {
-            $rootScope.onlineangular = false;
-        });
-    }, false);
-
-    $window.addEventListener("online", function() 
-    {
-        $rootScope.$apply(function() 
-        {
-            $rootScope.onlineangular = true;
-        });
-    }, false);
 
     $rootScope.$on("$routeChangeStart", function (e, curr, prev,userInfo) 
     {
