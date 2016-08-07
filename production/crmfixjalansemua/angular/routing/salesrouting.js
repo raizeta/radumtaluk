@@ -53,12 +53,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
-            },
-            ResolveIdGroupCustomer: function (authService,JadwalKunjunganService,$route) 
-            {
-                var tanggalplan             = $route.current.params.idtanggal;
-                var userInfo                = authService.getUserInfo();
-                return JadwalKunjunganService.GetGroupCustomerByTanggalPlan(userInfo,tanggalplan);
             }
         }
     });
@@ -331,80 +325,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 else 
                 {
                     $location.path('/');
-                }
-            }
-        }
-    });
-
-    $routeProvider.when('/detailjadwalkunjungan/:iddetailkunjungan',
-    {
-        templateUrl : 'angular/partial/salesman/detailjadwalkunjungan.html',
-        controller  : 'DetailJadwalKunjunganController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            },
-            paksachekin: function ($q,$location,$route,$window,$filter) 
-            {
-                var iddetailkunjungan  = $route.current.params.iddetailkunjungan;
-                if($window.localStorage.getItem('my-storage'))
-                {
-                    var tglhariini = $filter('date')(new Date(),'yyyy-MM-dd');
-
-                    var xxx = JSON.parse($window.localStorage.getItem('my-storage'));
-                    if((iddetailkunjungan != xxx.iddetailkunjungan) && (tglhariini == xxx.tanggalkunjungan))
-                    {
-                        var tanggalkunjungan = $filter('date')(xxx.tanggalkunjungan,'dd-MM-yyyy');
-                        alert("Check Out Terlebih Dulu Dari " + xxx.namakustomer + " !");
-                        //sweetAlert("Oops", "Check Out Terlebih Dulu Dari " + xxx.namakustomer + " !", "error");
-                        $location.path('/agenda/' + $filter('date')(xxx.tanggalkunjungan,'yyyy-MM-dd'));
-                    }
-                }
-            },
-            resolvegpslocation: function (LocationService) 
-            {
-                var resolvegpslocation = LocationService.GetGpsLocation();
-                return resolvegpslocation;
-            },
-            resolvesingledetailkunjunganbyiddetail: function (singleapiService,$route) 
-            {
-                var iddetailkunjungan             = $route.current.params.iddetailkunjungan;
-                var resolvesingledetailkunjunganbyiddetail = singleapiService.singledetailkunjunganbyiddetail(iddetailkunjungan);
-                return resolvesingledetailkunjunganbyiddetail;
-            },
-            resolvedatabarangall: function(ProductService)
-            {
-                var resolvedatabarang = ProductService.GetDataBarangs();
-                return resolvedatabarang;
-            },
-            resolveconfigradius: function($q,configurationService)
-            {
-                var resolveconfigradius = configurationService.getConfigRadius();
-                return resolveconfigradius;
-            },
-            agenda: function ($q, JadwalKunjunganService) 
-            {
-                var LocalStorageAgenda = JadwalKunjunganService.getLocalStorageAgenda();
-                if(LocalStorageAgenda)
-                {
-                    return $q.when(LocalStorageAgenda.LSListAgenda);
                 }
             }
         }

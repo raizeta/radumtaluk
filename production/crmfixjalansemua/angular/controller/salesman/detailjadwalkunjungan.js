@@ -11,10 +11,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     status.icon="fa fa-close bg-aqua";
     status.show = false;
 
-    $rootScope.statusbarangexpired = status;
-    $rootScope.statusstartpicture = status;
-    $rootScope.statusendpicture = status;
-    $rootScope.statusmessageskunjungan = status;
+    $scope.statusbarangexpired = status;
+    $scope.statusstartpicture = status;
+    $scope.statusendpicture = status;
+    $scope.statusmessageskunjungan = status;
 
     var iddetail = $routeParams.iddetailkunjungan;
     $scope.userInfo = auth;
@@ -88,30 +88,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     {
         alert("Sales Aktifitas Error");
     });
-    // ####################################################################################################
-    // SUMMARY FUNCTION
-    //#####################################################################################################
-    $scope.summary = function()
-    {
-        $scope.loading = true;
-        SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,idsalesman)
-        .then(function (data)
-        {
-            $scope.BarangSummary = data.InventorySummary;
-            $scope.loading = false;
-        });
-    };
     
-    $scope.lastvisitsummary = function()
-    {
-        $scope.loading = true;
-        LastVisitCustomerService.LastVisitSummaryCustomer(CUST_ID,PLAN_TGL_KUNJUNGAN)
-        .then(function (data)
-        {
-            $scope.Lastvisitsummary = data;
-            $scope.loading = false;
-        });
-    };
     //#####################################################################################################
     // CHECK-IN FUNCTION
     //#####################################################################################################
@@ -152,103 +129,22 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                    $scope.idstatuskunjunganresponse = data.ID; 
                 }
             });
-        });
-                
+        });           
     };
     $scope.checkin();
-    //#####################################################################################################
-    // CHECK-OUT FUNCTION
-    //#####################################################################################################
-    $scope.checkout = function()
-    {
-        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > configjarak)
-        {
-            alert("Di Luar Radius");
-            // sweetAlert("Oops...", "Out Of Ranges!", "error");
-        }
-        else
-        {
-            sweet.show({
-                title: 'Checkout',
-                text: 'Apakah Kamu Yakin Untuk Checkout?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes',
-                closeOnConfirm: true
-            }, 
-            function() 
-            {
-                var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                var detail={};
-                detail.CHECKOUT_LAT              = $scope.googlemaplat;
-                detail.CHECKOUT_LAG              = $scope.googlemaplong;
-                detail.CHECKOUT_TIME             = checkouttime;
-                detail.UPDATE_BY                 = idsalesman;
-
-                CheckOutService.setCheckoutAction(ID_DETAIL,detail)
-                .then(function(data)
-                {
-                    if($window.localStorage.getItem('LocalStorageChekIn'))
-                    {
-                        $window.localStorage.removeItem('LocalStorageChekIn')
-                    }
-
-                    var statuskunjungan = {};
-                    statuskunjungan.CHECK_OUT = 1;
-
-                    CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
-                    .then(function(data,status)
-                    {
-                        sweet.show({
-                                        title: 'Success!',
-                                        text: 'Kamu Berhasil Checkout',
-                                        timer: 1000,
-                                        showConfirmButton: false
-                                    });
-                        $scope.loading = true;
-                        $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
-                    },
-                    function (error)
-                    {
-                        alert("Checkout Tidak Berhasil.Try Again");
-                    });
-                    
-                });    
-            }); 
-        } 
-    };
     //#####################################################################################################
     JadwalKunjunganService.GetJustStatusKunjungan(ID_DETAIL)
     .then(function (response)
     {
-        $rootScope.statusstartpicture   = $rootScope.cekstatusbarang(response.statusstartpic);
-        $rootScope.statusendpicture     = $rootScope.cekstatusbarang(response.statusendpic);
-        $rootScope.statusbarangstockqty = $rootScope.cekstatusbarang(response.statusinventorystock);
-        $rootScope.statusbarangsellin   = $rootScope.cekstatusbarang(response.statusinventorysellin);
-        $rootScope.statusbarangsellout  = $rootScope.cekstatusbarang(response.statusinventorysellout);
-        $rootScope.statusbarangexpired  = $rootScope.cekstatusbarang(response.statusinventoryexpired);
+        $scope.statusstartpicture   = $rootScope.cekstatusbarang(response.statusstartpic);
+        $scope.statusendpicture     = $rootScope.cekstatusbarang(response.statusendpic);
+        $scope.statusbarangexpired  = $rootScope.cekstatusbarang(response.statusinventoryexpired);
     });
-    //#####################################################################################################
-    // DATA BARANG INVENTORY FUNCTION
-    //#####################################################################################################
-    var databarangall = resolvedatabarangall;
-    ProductService.GetDataBarangsInventory(CUST_ID,PLAN_TGL_KUNJUNGAN,6)
-    .then(function (result) 
-    {
-        var x      = $rootScope.diffbarang(databarangall,result);
-        var objectdatabarangall = $rootScope.objectdatabarangs();
-        $rootScope.barangsellin = [];
-        angular.forEach(x, function(value, key)
-        {
-            var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
-            $rootScope.barangsellin.push(existingFilter);
-        });
-    });
+
     // ####################################################################################################
     // DATA BARANG EXPIRED FUNCTION
     //#####################################################################################################
+    var databarangall = resolvedatabarangall;
     ExpiredService.setExpiredAction(ID_DETAIL)
     .then (function (data)
     {
@@ -285,7 +181,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 text: namaproduct,
                 type: 'input',
                 showCancelButton: true,
-                closeOnConfirm: false,
+                closeOnConfirm: true,
                 animation: false,
                 inputPlaceholder: 'Quantity/PCS'
             }, 
@@ -313,6 +209,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 
                 else
                 {
+                    $scope.loadingcontent = true;
                     var detail={};
                     detail.SO_TYPE                  = sotype;
                     detail.TGL                      = PLAN_TGL_KUNJUNGAN;
@@ -330,7 +227,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         sweet.show({
                                         title: 'Saved',
                                         type: 'success',
-                                        timer: 20,
+                                        timer: 2000,
                                         showConfirmButton: false
                                     });
 
@@ -352,6 +249,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                                 ngToast.create('Status Inventory Berhasil Di Update');
                             });
                         }
+                        $scope.loadingcontent = false;
                     });
                     
                 }
@@ -404,7 +302,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         .then(function (data)
                         {
                             console.log(data);
+                        }, 
+                        function(err) 
+                        {
+                            alert("Gagal Update Status Start Picture");
                         });
+                    }, 
+                    function(err) 
+                    {
+                        alert("Gagal Menyimpan Start Picture Ke Server");
                     });
                 }, 
                 function(err) 
@@ -469,8 +375,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: false,
                     encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 300,
-                    targetHeight: 300,
+                    targetWidth: 500,
+                    targetHeight: 500,
                     popoverOptions: CameraPopoverOptions,
                     saveToPhotoAlbum: false,
                     correctOrientation:true
@@ -505,7 +411,15 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         .then(function (data)
                         {
                             console.log(data);
+                        }, 
+                        function(err) 
+                        {
+                            alert("Gagal Update Status End Picture Ke Server");
                         });
+                    }, 
+                    function(err) 
+                    {
+                        alert("Gagal Menyimpan End Picture Ke Server");
                     }); 
                 }, 
                 function(err) 
@@ -549,6 +463,68 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
         }
     }
     //#####################################################################################################
+    // CHECK-OUT FUNCTION
+    //#####################################################################################################
+    $scope.checkout = function()
+    {
+        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+        if(jarak > configjarak)
+        {
+            alert("Di Luar Radius");
+            // sweetAlert("Oops...", "Out Of Ranges!", "error");
+        }
+        else
+        {
+            sweet.show({
+                title: 'Checkout',
+                text: 'Apakah Kamu Yakin Untuk Checkout?',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes',
+                closeOnConfirm: true
+            }, 
+            function() 
+            {
+                var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                var detail={};
+                detail.CHECKOUT_LAT              = $scope.googlemaplat;
+                detail.CHECKOUT_LAG              = $scope.googlemaplong;
+                detail.CHECKOUT_TIME             = checkouttime;
+                detail.UPDATE_BY                 = idsalesman;
+
+                CheckOutService.setCheckoutAction(ID_DETAIL,detail)
+                .then(function(data)
+                {
+                    var statuskunjungan = {};
+                    statuskunjungan.CHECK_OUT = 1;
+
+                    CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
+                    .then(function(data,status)
+                    {
+                        sweet.show({
+                                        title: 'Success!',
+                                        text: 'Kamu Berhasil Checkout',
+                                        timer: 1000,
+                                        showConfirmButton: false
+                                    });
+                        $scope.loading = true;
+                        $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
+                    },
+                    function (error)
+                    {
+                        alert("Update Status Check Out Ke Server Gagal.Try Again");
+                    });
+                    
+                },
+                function (error)
+                {
+                    alert("Update Check Out SCDL Detail Ke Server Gagal.Try Again");
+                });    
+            }); 
+        } 
+    };
+    //#####################################################################################################
     // NOTE KUNJUNGAN FUNCTION
     //#####################################################################################################
     $scope.messageskunjungandisabled = false;
@@ -563,8 +539,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             status.icon="fa fa-check bg-green";
             $rootScope.statusmessageskunjungan = status;
             $scope.messageskunjungandisabled = true;
-        }
-        
+        }    
     })
     .error(function(err,status)
     {
@@ -612,6 +587,31 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             $scope.loading = false;  
         });
     }
+
+    // ####################################################################################################
+    // SUMMARY FUNCTION
+    //#####################################################################################################
+    $scope.summary = function()
+    {
+        $scope.loading = true;
+        SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,idsalesman)
+        .then(function (data)
+        {
+            $scope.BarangSummary = data.InventorySummary;
+            $scope.loading = false;
+        });
+    };
+    
+    $scope.lastvisitsummary = function()
+    {
+        $scope.loading = true;
+        LastVisitCustomerService.LastVisitSummaryCustomer(CUST_ID,PLAN_TGL_KUNJUNGAN)
+        .then(function (data)
+        {
+            $scope.Lastvisitsummary = data;
+            $scope.loading = false;
+        });
+    };
     //#####################################################################################################
     // EXPIRED FUNCTION
     //#####################################################################################################
@@ -643,6 +643,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 });
               modal.close.then(function(result) 
               {
+                $scope.loadingcontent = true;
                 var kodebarang     = barang.KD_BARANG;
 
                 for(var i = 0; i < result.list.length ; i ++)
@@ -678,7 +679,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
 
                         .finally(function()
                         {
-                            $scope.loading = false;  
+                            $scope.loadingcontent = false;  
                         }); 
                     }
                 }
