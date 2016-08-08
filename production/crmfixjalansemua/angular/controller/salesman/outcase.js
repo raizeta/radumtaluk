@@ -1,8 +1,8 @@
-myAppModule.controller("OutCaseController", ["$rootScope","$scope", "$location","$http","$filter","$timeout","$window","auth","CustomerService","OutCaseService","JadwalKunjunganService","authService",
-function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,CustomerService,OutCaseService,JadwalKunjunganService,authService)
+myAppModule.controller("OutCaseController", ["$rootScope","$scope", "$location","$http","$filter","$timeout","$window","auth","CustomerService","OutCaseService","JadwalKunjunganService","authService","$cordovaSQLite",
+function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,CustomerService,OutCaseService,JadwalKunjunganService,authService,$cordovaSQLite)
 {
     $scope.userInfo = auth;
-    $scope.loading  = true;
+    $scope.loadingcontent  = true;
     $scope.activeoutcase = "active";
 
     $scope.logout = function () 
@@ -51,21 +51,25 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
 
     $scope.customergroupchange = function()
     {
-        $scope.loading  = true;
+        $scope.loadingcontent  = true;
         CustomerService.GetSingleGroupCustomer($scope.customer.ID)
         .then(function (result) 
         {
             $scope.showcustomer = true;
             $scope.showusers 	= true;
             $scope.customers 	= result.Customer;
-            $scope.loading  	= false;
+            $scope.loadingcontent  	= false;
             $scope.visible 		= false;
+        },
+        function (error)
+        {
+            alert("Gagal Mendapat Group Customer Dari Server");
         });
     }
 
     $scope.getcustomers = function()
     {
-        $scope.loading  = true;
+        $scope.loadingcontent  = true;
         CustomerService.GetCustomers()
         .then(function (result) 
         {
@@ -84,7 +88,11 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
             });
             $scope.customeparents   = customerparents;
             $scope.customers        = customers;
-            $scope.loading  = false;
+            $scope.loadingcontent  = false;
+        },
+        function (error)
+        {
+            alert("Gagal Mendapatkan Customer Dari Server");
         });
     };
     $scope.getcustomers();
@@ -92,30 +100,32 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
     $scope.customerparentchange = function()
     {
         $scope.showcustomer = true;
-        $scope.loading      = false;
+        $scope.loadingcontent      = false;
         $scope.visible      = false;
     }
-    $scope.customerchange = function()
+    $scope.customerchange = function(customer)
     {
         $scope.showusers    = true;
-        $scope.loading      = false;
+        $scope.loadingcontent      = false;
         $scope.visible      = false;
     }
 
     $scope.submitForm = function(customer)
     {
-        console.log(customer);
-        $scope.loading = true;
+        $scope.loadingcontent = true;
         $scope.isSubmitButtonDisabled = true;
 
-        
+        //Mencari Nama Customer Ketika Hanya Diketahui Kodenya Saja
+        //Penting Jangan Dihapus
+        var existingFilter = _.findWhere($scope.customers, { CUST_KD: customer.CUST_KD });
+
         var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
         JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalsekarang)
         .then(function(response)
         {
             if(response.length == 0)
             {
-                $scope.loading = false;
+                $scope.loadingcontent = false;
                 alert("Belum Ada Jadwal Kunjungan Anda Hari Ini");
             }
             else
@@ -132,6 +142,40 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
                 OutCaseService.SetOutOfCases(detail)
                 .then(function (result) 
                 {
+                    var newID_SERVER                = result.ID;
+                    var newTGL                      = tanggalsekarang;
+                    var newUSER_ID                  = auth.id;
+                    var newCUST_ID                  = result.CUST_ID;
+                    var newCUST_NM                  = existingFilter.CUST_NM;
+                    var newLAG                      = null;
+                    var newLAT                      = null;
+                    var newMAP_LAT                  = null;
+                    var newMAP_LNG                  = null;
+                    var newCHECKIN_TIME             = null;
+                    var newCHECKOUT_TIME            = null;
+                    var newCHECK_IN                 = 0;
+                    var newCHECK_OUT                = 0;
+                    var newINVENTORY_EXPIRED        = 0;
+                    var newINVENTORY_SELLIN         = 0;
+                    var newINVENTORY_SELLOUT        = 0;
+                    var newINVENTORY_STOCK          = 0;
+                    var newREQUEST                  = 0;
+                    var newSTART_PIC                = 0;
+                    var newEND_PIC                  = 0;
+                    var newSCDL_GROUP               = response.SCDL_GROUP;
+                    var newISON_SERVER              = 1;
+
+                    var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,CHECK_IN,CHECK_OUT,INVENTORY_EXPIRED,INVENTORY_SELLIN,INVENTORY_SELLOUT,INVENTORY_STOCK,REQUEST,START_PIC,END_PIC,SCDL_GROUP,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                    $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newCHECK_IN,newCHECK_OUT,newINVENTORY_EXPIRED,newINVENTORY_SELLIN,newINVENTORY_SELLOUT,newINVENTORY_STOCK,newREQUEST,newSTART_PIC,newEND_PIC,newSCDL_GROUP,newISON_SERVER])
+                    .then(function(result) 
+                    {
+                        alert("Customer Untuk Out Of Case Berhasil Disimpan Di Local!");
+                    }, 
+                    function(error) 
+                    {
+                        alert("Customer Untuk Out Of Case Gagal Disimpan Ke Local: " + error.message);
+                    });
+
                     $timeout(function()
                     {
                         var lanjutkeagenda = confirm("Out Case Berhasil Disimpan.Lanjut Ke Agenda?");
@@ -141,7 +185,7 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
                         }
                         else
                         {
-                            $scope.loading = false;
+                            $scope.loadingcontent = false;
                             $scope.isSubmitButtonDisabled = false;
                         }
                         
@@ -150,6 +194,7 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
                 function (error)
                 {
                     alert("Out Case Gagal Ditambahkan");
+                    $scope.loadingcontent = false;
                 }); 
             }      
         });

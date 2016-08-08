@@ -190,7 +190,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
                 },
                 function(error) 
                 {
-                    console.log("Update Absen Keluar Gagal Disimpan Di Local: " + error.message);
+                    alert("Update Absen Keluar Gagal Disimpan Di Local: " + error.message);
                 });
                        
             },

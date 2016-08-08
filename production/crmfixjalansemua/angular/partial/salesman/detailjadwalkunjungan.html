@@ -98,14 +98,14 @@
                                       </div>
                                     </div>
                                     <!-- /.box-header -->
-                                    <form name="customerForm" ng-submit="submitForm(salesmanmemo)" method="post" novalidate>
+                                    <form name="FormSalesMemo" ng-submit="submitFormSalesMemo(salesmanmemo)" method="post" novalidate>
                                     <div class="box-body" ng-disabled="messageskunjungandisabled">
-                                      <div class="form-group" ng-class="{ 'has-error' : customerForm.ISI_MESSAGES.$invalid && !customerForm.ISI_MESSAGES.$pristine,'has-success':customerForm.ISI_MESSAGES.$valid  }">
+                                      <div class="form-group" ng-class="{ 'has-error' : FormSalesMemo.ISI_MESSAGES.$invalid && !FormSalesMemo.ISI_MESSAGES.$pristine,'has-success':FormSalesMemo.ISI_MESSAGES.$valid  }">
                                         <textarea class="form-control" name="ISI_MESSAGES" class="form-control" ng-model="salesmanmemo.ISI_MESSAGES"  rows="3" placeholder="Memo Kunjungan ..." ng-disabled="messageskunjungandisabled" required></textarea>
                                       </div>
                                     </div>
                                     <div class="box-footer clearfix">
-                                      <button type="submit" ng-disabled="customerForm.$invalid || messageskunjungandisabled" class="pull-right btn btn-default" id="sendEmail">Send
+                                      <button type="submit" ng-disabled="FormSalesMemo.$invalid || messageskunjungandisabled" class="pull-right btn btn-default" id="sendEmail">Send
                                         <i class="fa fa-arrow-circle-right"></i></button>
                                     </div>
                                   </form>

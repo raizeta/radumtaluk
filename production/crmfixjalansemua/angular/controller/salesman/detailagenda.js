@@ -46,7 +46,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         {
             if (result.rows.length > 0) 
             {
-                alert("Data Agenda Sudah Ada Di Local");
+                console.log("Data Agenda Sudah Ada Di Local");
                 $scope.customers = [];
                 var l = result.rows.length;
                 for (var i=0; i < l; i++) 
@@ -165,15 +165,15 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                     $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newCHECK_IN,newCHECK_OUT,newINVENTORY_EXPIRED,newINVENTORY_SELLIN,newINVENTORY_SELLOUT,newINVENTORY_STOCK,newREQUEST,newSTART_PIC,newEND_PIC,newSCDL_GROUP,newISON_SERVER])
                                     .then(function(result) 
                                     {
-                                        alert("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
+                                        console.log("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
                                     }, 
                                     function(error) 
                                     {
-                                        alert("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
+                                        console.log("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
                                     });
                                 });
                                 $scope.customers = responseagendatoday;
-                                $scope.loading   = false;  
+                                $scope.loadingcontent   = false;  
                             }
                             else
                             {
@@ -186,7 +186,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                             var forcereload = confirm("Cors Agenda Error. Reload Again");
                             if (forcereload == true) 
                             {
-                                $scope.loading   = true;
+                                $scope.loadingcontent   = true;
                                 $timeout(function()
                                 {
                                     $window.location.reload();
@@ -194,7 +194,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                             }
                             else
                             {
-                                $scope.loading   = false;
+                                $scope.loadingcontent   = false;
                             }
                         });  
                     }      
@@ -213,7 +213,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     
     $scope.detailjadwalkunjungan = function(customer)
     {
-        alert(customer.ID);
         if(tanggalplan < tanggalsekarang)
         {
             alert("Tidak Bisa Lagi Check In");
