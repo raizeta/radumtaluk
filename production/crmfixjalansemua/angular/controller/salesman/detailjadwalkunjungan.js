@@ -9,7 +9,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var statusaction={};
     statusaction.bgcolor="bg-aqua";
     statusaction.icon="fa fa-close bg-aqua";
-    statusaction.show = false;
+    statusaction.show = true;
 
     $scope.statusbarangexpired      = statusaction;
     $scope.statusstartpicture       = statusaction;
@@ -702,17 +702,33 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     // ####################################################################################################
     // GET DATA BARANG UNTUK EXPIRED FUNCTION
     //#####################################################################################################
-    var databarangall = resolvedatabarangall;
+    // var databarangall = resolvedatabarangall;
     ExpiredService.setExpiredAction(ID_DETAIL)
-    .then (function (data)
+    .then (function (databarangexpired)
     {
-        var x           = $rootScope.diffbarang(databarangall,data);
-        $rootScope.barangexpired   = [];
-        var objectdatabarangall = $rootScope.objectdatabarangs();
-        angular.forEach(x, function(value, key)
+        ProductService.GetDataBarangsSqlite()
+        .then (function (response)
         {
-            var existingFilter = _.findWhere(objectdatabarangall, { KD_BARANG: value.KD_BARANG });
-            $rootScope.barangexpired.push(existingFilter);
+            var arrayobjectdatabarang = response;
+            var arrayhanyakodebarang = [];
+
+            angular.forEach(response, function(value, key)
+            {
+                arrayhanyakodebarang.push(value.KD_BARANG);
+            });
+
+            var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
+
+            $scope.barangexpired   = [];
+            angular.forEach(x, function(value, key)
+            {
+                var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
+                $scope.barangexpired.push(existingFilter);
+            });
+        },
+        function (error)
+        {
+            alert("Product Sqlite Error");
         });
     });
     //#####################################################################################################
@@ -788,8 +804,8 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     }
                     ngToast.create("Expired Product Telah Diupdate");
 
-                    $rootScope.barangexpired.splice(index,1);
-                    if($rootScope.barangexpired.length == 0)
+                    $scope.barangexpired.splice(index,1);
+                    if($scope.barangexpired.length == 0)
                     {
                         var updateINVENTORY_EXPIRED      = 1;
                         var queryupdateagenda = 'UPDATE Agenda SET INVENTORY_EXPIRED = ? WHERE ID_SERVER = ?';
@@ -803,12 +819,12 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                             alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
                         });
 
-                        var status={};
-                        status.bgcolor="bg-green";
-                        status.icon="fa fa-check bg-green";
-                        status.show = false;
+                        var statusbarangexpired     = {};
+                        statusbarangexpired.bgcolor = "bg-green";
+                        statusbarangexpired.icon    = "fa fa-check bg-green";
+                        statusbarangexpired.show    = false;
 
-                        $scope.statusbarangexpired = status;
+                        $scope.statusbarangexpired = statusbarangexpired;
 
                         var idstatuskunjungan   = $rootScope.findidstatuskunjunganbyiddetail(ID_DETAIL);
                         var statuskunjungan = {};

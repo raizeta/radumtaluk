@@ -186,7 +186,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
     $rootScope.diffbarang = function(x,y)
     {
-        console.log(x);
+
         var resultdiffsellin = [];
         angular.forEach(x, function(key) 
         {
