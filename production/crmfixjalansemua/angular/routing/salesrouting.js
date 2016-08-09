@@ -110,26 +110,31 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     $location.path('/');
                 }
             },
-            resolvegpslocation: function (LocationService) 
-            {
-                var resolvegpslocation = LocationService.GetGpsLocation();
-                return resolvegpslocation;
-            },
             resolvesingledetailkunjunganbyiddetail: function (singleapiService,$route) 
             {
                 var iddetailkunjungan             = $route.current.params.iddetailkunjungan;
                 var resolvesingledetailkunjunganbyiddetail = singleapiService.singledetailkunjunganbyiddetail(iddetailkunjungan);
                 return resolvesingledetailkunjunganbyiddetail;
             },
-            resolvedatabarangall: function(ProductService)
-            {
-                var resolvedatabarang = ProductService.GetDataBarangs();
-                return resolvedatabarang;
-            },
             resolveconfigradius: function($q,configurationService)
             {
                 var resolveconfigradius = configurationService.getConfigRadius();
                 return resolveconfigradius;
+            },
+            resolveobjectbarang: function($q,ProductService)
+            {
+                var resultobjectbarang = ProductService.GetObjectDataBarangs();
+                return resultobjectbarang;
+            },
+            resolveobjectbarangsqlite: function($q,ProductService)
+            {
+                var resultobjectbarangsqlite = ProductService.GetDataBarangsSqlite();
+                return resultobjectbarangsqlite;
+            },
+            resolvesot2type: function($q,SOT2Services)
+            {
+                var resultsot2type = SOT2Services.getSOT2Type();
+                return resultsot2type;
             }
         }
     });

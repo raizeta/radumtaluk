@@ -19,11 +19,11 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
     .then (function (responsegps)
     {
         $scope.googlemaplat     = responsegps.latitude;    //get from gps
-        $scope.googlemaplong    = responsegps.longitude;  
-    },
-    function (error)
-    {
-        alert("GPS Tidak Hidup");
+        $scope.googlemaplong    = responsegps.longitude;
+        if(responsegps.statusgps != "Bekerja")
+        {
+            alert("GPS Error Kode " + responsegps.statusgps);
+        }  
     });
     
     document.addEventListener("deviceready", function () 

@@ -60,7 +60,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         {
             if(angular.isDefined(headers()['last-modified']))
             {
-                alert("Dari Cache");
+                console.log("Dari Cache");
                 console.log("Update Status Check In");
             }
             else

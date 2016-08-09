@@ -1,5 +1,5 @@
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
@@ -36,6 +36,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         $scope.datagpslocation = data;
         $scope.gpslat   = data.latitude;
         $scope.gpslong  = data.longitude;
+        
+        if(data.statusgps != "Bekerja")
+        {
+            alert("GPS Error Kode " + data.statusgps);
+        }
     });
 
     document.addEventListener("deviceready", function () 
@@ -119,7 +124,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             }
             else
             {
-                alert("Data Agenda Masih Kosong Di Local");
+                console.log("Data Agenda Masih Kosong Di Local");
                 JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
                 .then(function(response)
                 {
@@ -230,11 +235,36 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             }
             else
             {
-                var lanjutcheckin = confirm("Yakin Check In Di Customer " + customer.CUST_NM +"?");
-                if (lanjutcheckin == true) 
+                AgendaSqliteServices.getCheckinCheckoutStatus(tanggalplan,auth.id)
+                .then (function (response)
                 {
-                    $location.path('/detailjadwalkunjungan/' + customer.ID)
-                }  
+                    console.log(response);
+                    console.log(customer.ID);
+                    
+                    if(response.length == 0)
+                    {
+                        var lanjutcheckin = confirm("Yakin Check In Di Customer " + customer.CUST_NM +"?");
+                        if (lanjutcheckin == true) 
+                        {
+                            $location.path('/detailjadwalkunjungan/' + customer.ID);
+                        }
+                    }
+                    else
+                    {
+                        if(response == customer.ID)
+                        {
+                            $location.path('/detailjadwalkunjungan/' + customer.ID);
+                        }
+                        else
+                        {
+                            alert("Double Check In Dilarang");
+                        }   
+                    }
+                },
+                function (error)
+                {
+                    alert("Error Check In Check Out");
+                });   
             }  
         }
     } 

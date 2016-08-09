@@ -98,7 +98,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             // console.log(headers());
             if(angular.isDefined(headers()['last-modified']))
             {
-                alert("Dari Cache");
+                console.log("Dari Cache");
             }
 
             if(angular.isDefined(response.statusCode))
@@ -301,7 +301,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
             console.log(headers());
             if(angular.isDefined(headers()['last-modified']))
             {
-                alert("Dari Cache");
+                console.log("Dari Cache");
             }
 
             if(angular.isDefined(response.statusCode))

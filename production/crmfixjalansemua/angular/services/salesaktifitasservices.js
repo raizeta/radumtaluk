@@ -11,83 +11,52 @@ function($rootScope,$http, $q, $filter, $window, ProductService)
 		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 	}
     
-    var getSalesAktifitas = function(CUST_ID,PLAN_TGL_KUNJUNGAN)
+    var getSalesAktifitas = function(CUST_ID,PLAN_TGL_KUNJUNGAN,resolveobjectbarang,resolvesot2type)
     {
         var globalurl       = getUrl();
         var deferred        = $q.defer();
-        getPureSalesAktifitas()
-        .then (function (responsepuresalesaktifitas)
+
+        var databarang = resolveobjectbarang;
+        var salesaktivitas = [];
+        var i = 0;
+        
+        angular.forEach(resolvesot2type, function(value, key)
         {
-            ProductService.GetDataBarangsSqlite()
-            .then (function (responseobjectdatabarang)
+            var barangaksi = $rootScope.barangaksi(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID);
+            var diffbarangresult = [];
+            angular.forEach(barangaksi, function(value, key)
             {
-                var databarang = responseobjectdatabarang;
-                var salesaktivitas = [];
-                var i = 0;
-                angular.forEach(responsepuresalesaktifitas, function(value, key)
-                {
-                    var barangaksi = $rootScope.barangaksi(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID);
-                    var diffbarangresult = [];
-                    angular.forEach(barangaksi, function(value, key)
-                    {
-                        var existingFilter = _.findWhere(databarang, { KD_BARANG: value });
-                        diffbarangresult.push(existingFilter);
-                    });
-                    var diffbarang = _.difference(databarang,diffbarangresult);
-                    if(diffbarang.length == 0)
-                    {
-                        var status={};
-                        status.bgcolor="bg-green";
-                        status.icon="fa fa-check bg-green";
-                        status.show = true;
-                    }
-                    else
-                    {
-                        var status={};
-                        status.bgcolor="bg-aqua";
-                        status.icon="fa fa-close bg-aqua";
-                        status.show = true;
-                    }
-                    
-                    responsepuresalesaktifitas[i].products  = diffbarang;  
-                    responsepuresalesaktifitas[i].status    = status;
-                    
-                    salesaktivitas.push(responsepuresalesaktifitas[i]);
-                    i = i + 1;
-                });
-                deferred.resolve(salesaktivitas);
+                var existingFilter = _.findWhere(databarang, { KD_BARANG: value });
+                diffbarangresult.push(existingFilter);
             });
-        });
-        return deferred.promise;
-    }
-
-    var getPureSalesAktifitas = function()
-    {
-        var globalurl       = getUrl();
-        var deferred        = $q.defer();
-
-        $http.get(globalurl + "/tipesalesaktivitas/search?UNTUK_DEVICE=ANDROID&STATUS=1")
-        .success(function(response,status, headers, config) 
-        {
-            if(angular.isDefined(response.statusCode))
+            var diffbarang = _.difference(databarang,diffbarangresult);
+            if(diffbarang.length == 0)
             {
-                deferred.resolve([]);
+                var status={};
+                status.bgcolor="bg-green";
+                status.icon="fa fa-check bg-green";
+                status.show = true;
             }
             else
             {
-                deferred.resolve(response.Tipesalesaktivitas);   
-            }  
-        },
-        function (error)
-        {
-            deferred.rejected(error);
+                var status={};
+                status.bgcolor="bg-aqua";
+                status.icon="fa fa-close bg-aqua";
+                status.show = true;
+            }
+            
+            resolvesot2type[i].products  = diffbarang;  
+            resolvesot2type[i].status    = status;
+            
+            salesaktivitas.push(resolvesot2type[i]);
+            i = i + 1;
         });
-        return deferred.promise;  
+        deferred.resolve(salesaktivitas);
+
+        return deferred.promise;
     }
 
 	return{
             getSalesAktifitas:getSalesAktifitas,
-            getPureSalesAktifitas:getPureSalesAktifitas
-
 		}
 }]);

@@ -169,7 +169,7 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
                     $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newCHECK_IN,newCHECK_OUT,newINVENTORY_EXPIRED,newINVENTORY_SELLIN,newINVENTORY_SELLOUT,newINVENTORY_STOCK,newREQUEST,newSTART_PIC,newEND_PIC,newSCDL_GROUP,newISON_SERVER])
                     .then(function(result) 
                     {
-                        alert("Customer Untuk Out Of Case Berhasil Disimpan Di Local!");
+                        console.log("Customer Untuk Out Of Case Berhasil Disimpan Di Local!");
                     }, 
                     function(error) 
                     {

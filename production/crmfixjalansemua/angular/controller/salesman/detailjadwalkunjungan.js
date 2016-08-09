@@ -1,15 +1,17 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","resolvegpslocation","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","configurationService","resolvedatabarangall","resolveconfigradius","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite",
-function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,resolvegpslocation,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,configurationService,resolvedatabarangall,resolveconfigradius,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradius","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarang","resolveobjectbarangsqlite","resolvesot2type",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradius,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarang,resolveobjectbarangsqlite,resolvesot2type) 
 {
+    var url = $rootScope.linkurl;
+    
     var sortedConfigRadius = _.sortBy( resolveconfigradius.Configuration, 'value' ).reverse();
     var configjarak = sortedConfigRadius[0].value;
 
     var statusaction={};
     statusaction.bgcolor="bg-aqua";
     statusaction.icon="fa fa-close bg-aqua";
-    statusaction.show = true;
+    statusaction.show = false;
 
     $scope.statusbarangexpired      = statusaction;
     $scope.statusstartpicture       = statusaction;
@@ -36,25 +38,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     // var geocoder = new google.maps.Geocoder;    
     var y  = resolvesingledetailkunjunganbyiddetail.DetailKunjungan[0];
 
-    if(resolvegpslocation.statusgps == "EC:1")
+    LocationService.GetGpsLocation()
+    .then (function (responsegps)
+    {
+        $scope.googlemaplat     = responsegps.latitude;    //get from gps
+        $scope.googlemaplong    = responsegps.longitude;  
+    },
+    function (error)
     {
         alert("GPS Tidak Hidup");
-    }
-    else if(resolvegpslocation.statusgps == "EC:2")
-    {
-        alert("Lokasi Tidak Tersedia");
-    }
-    else if(resolvegpslocation.statusgps == "EC:3")
-    {
-        alert("GPS Time OUt");
-    }
-    else if(resolvegpslocation.statusgps == "EC:3")
-    {
-        alert("Unknown Reason");
-    }
+    });
 
-    $scope.googlemaplat     = resolvegpslocation.latitude;    //get from gps
-    $scope.googlemaplong    = resolvegpslocation.longitude;  //get from gps
 
     $scope.CUST_MAP_LAT      = y.MAP_LAT;
     $scope.CUST_MAP_LNG      = y.MAP_LNG;
@@ -67,13 +61,13 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     var CUST_ID             = y.CUST_ID;
     var ID_GROUP            = y.SCDL_GROUP;
 
-    var longitude1     = $scope.googlemaplong;
-    var latitude1      = $scope.googlemaplat;
+    var longitudegps     = $scope.googlemaplong;
+    var latitudegps      = $scope.googlemaplat;
 
-    var longitude2     = DEFAULT_CUST_LONG;
-    var latitude2      = DEFAULT_CUST_LAT;
+    var longitudecustomer     = DEFAULT_CUST_LONG;
+    var latitudecustomer      = DEFAULT_CUST_LAT;
 
-    var jarak = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
+    var jarak = $rootScope.jaraklokasi(longitudegps,latitudegps,longitudecustomer,latitudecustomer);
 
     //#####################################################################################################
     // CHECK-IN FUNCTION
@@ -129,7 +123,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
             $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKIN_TIME,updateCHECK_IN,updateLAG,updateLAT,ID_DETAIL])
             .then(function(result) 
             {
-                alert("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
+                console.log("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
             },
             function(error) 
             {
@@ -175,11 +169,10 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     // ####################################################################################################
     // MENU ACTION
     // ####################################################################################################
-    var url = $rootScope.linkurl;
-    SalesAktifitas.getSalesAktifitas(CUST_ID,PLAN_TGL_KUNJUNGAN)
+    
+    SalesAktifitas.getSalesAktifitas(CUST_ID,PLAN_TGL_KUNJUNGAN,resolveobjectbarangsqlite,resolvesot2type)
     .then (function(response)
     {
-        console.log(response);
         $scope.salesaktivitas = response;
     },
     function (error)
@@ -241,7 +234,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                 {
                     $scope.loadingcontent = true;
                     var detail={};
-                    detail.SO_TYPE                  = sotype;
+                    detail.SO_TYPE                  = idinventory; //5:INVENTORY STOCK, 6:INVENTORY_SELLIN, 7:INVENTORY_SELLOUT, 8:PRODUCT RETURN,9:REQUEST
                     detail.TGL                      = PLAN_TGL_KUNJUNGAN;
                     detail.CUST_KD                  = CUST_ID;
                     detail.KD_BARANG                = barang.KD_BARANG;
@@ -277,7 +270,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $cordovaSQLite.execute($rootScope.db,queryinsertsot2,[newISON_SERVER,newTGL,newCUST_KD,newKD_BARANG,newSO_QTY,newSO_TYPE,newPOS,newUSER_ID,newSTATUS,newWAKTU_INPUT_INVENTORY,newID_GROUP])
                         .then(function(result) 
                         {
-                            alert("SOT2 Berhasil Disimpan Di Local!");
+                            console.log("SOT2 Berhasil Disimpan Di Local!");
                         }, 
                         function(error) 
                         {
@@ -312,7 +305,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                             $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [titledialog,ID_DETAIL])
                             .then(function(result) 
                             {
-                                alert("Terimakasih. Agenda Status " + titledialog + " Berhasil Di Update Di Local");
+                                console.log("Terimakasih. Agenda Status " + titledialog + " Berhasil Di Update Di Local");
                             },
                             function(error) 
                             {
@@ -324,6 +317,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     },
                     function (error)
                     {
+                        alert(error);
                         alert("Gagal Menyimpan SOT2 Ke Server");
                         $scope.loadingcontent = false;
                     });
@@ -389,7 +383,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateSTART_PIC,ID_DETAIL])
                         .then(function(result) 
                         {
-                            alert("Terimakasih. Agenda Start Pic Di Update Di Local");
+                            console.log("Terimakasih. Agenda Start Pic Di Update Di Local");
                         },
                         function(error) 
                         {
@@ -510,7 +504,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateEND_PIC,ID_DETAIL])
                         .then(function(result) 
                         {
-                            alert("Terimakasih. Agenda End Pic Di Update Di Local");
+                            console.log("Terimakasih. Agenda End Pic Di Update Di Local");
                         },
                         function(error) 
                         {
@@ -620,7 +614,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                     $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateCHECK_OUT,ID_DETAIL])
                     .then(function(result) 
                     {
-                        alert("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
+                        console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
                     },
                     function(error) 
                     {
@@ -706,29 +700,22 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
     ExpiredService.setExpiredAction(ID_DETAIL)
     .then (function (databarangexpired)
     {
-        ProductService.GetDataBarangsSqlite()
-        .then (function (response)
+        var arrayobjectdatabarang = resolveobjectbarangsqlite;
+        var arrayhanyakodebarang = [];
+
+        angular.forEach(arrayobjectdatabarang, function(value, key)
         {
-            var arrayobjectdatabarang = response;
-            var arrayhanyakodebarang = [];
+            arrayhanyakodebarang.push(value.KD_BARANG);
+        });
 
-            angular.forEach(response, function(value, key)
-            {
-                arrayhanyakodebarang.push(value.KD_BARANG);
-            });
+        var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
 
-            var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
+        $scope.barangexpired   = [];
 
-            $scope.barangexpired   = [];
-            angular.forEach(x, function(value, key)
-            {
-                var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
-                $scope.barangexpired.push(existingFilter);
-            });
-        },
-        function (error)
+        angular.forEach(x, function(value, key)
         {
-            alert("Product Sqlite Error");
+            var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
+            $scope.barangexpired.push(existingFilter);
         });
     });
     //#####################################################################################################
@@ -812,11 +799,11 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateINVENTORY_EXPIRED,ID_DETAIL])
                         .then(function(result) 
                         {
-                            alert("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
+                            console.log("Terimakasih. Inventory Expired Berhasil Di Update Di Local");
                         },
                         function(error) 
                         {
-                            alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
+                            alert("Inventory Expired Gagal Di Update Di Local: " + error.message);
                         });
 
                         var statusbarangexpired     = {};
@@ -841,7 +828,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,$routeP
                         })
                         .finally(function()
                         {
-                            alert("Status Inventory Expired Gagal Di Update Di Server");
                             $scope.loadingcontent = false;  
                         }); 
                     }
