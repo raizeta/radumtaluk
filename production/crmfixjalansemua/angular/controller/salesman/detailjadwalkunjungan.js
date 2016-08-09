@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","resolvesingledetailkunjunganbyiddetail","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradius","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarang","resolveobjectbarangsqlite","resolvesot2type",
-function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,resolvesingledetailkunjunganbyiddetail,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradius,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarang,resolveobjectbarangsqlite,resolvesot2type) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradius","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradius,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver) 
 {
     var url = $rootScope.linkurl;
     
@@ -18,7 +18,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.statusendpicture         = statusaction;
     $scope.statusmessageskunjungan  = statusaction;
 
-    var iddetail = $routeParams.iddetailkunjungan;
     $scope.userInfo = auth;
     $scope.logout = function () 
     { 
@@ -35,9 +34,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     var tanggalinventory = $filter('date')(new Date(),'yyyy-MM-dd');
 
     $scope.zoomvalue = 17;
-    // var geocoder = new google.maps.Geocoder;    
-    var y  = resolvesingledetailkunjunganbyiddetail.DetailKunjungan[0];
-
+    var geocoder = new google.maps.Geocoder;    
     LocationService.GetGpsLocation()
     .then (function (responsegps)
     {
@@ -49,25 +46,21 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         alert("GPS Tidak Hidup");
     });
 
+    $scope.CUST_MAP_LAT                 = resolveagendabyidserver.MAP_LAT;
+    $scope.CUST_MAP_LNG                 = resolveagendabyidserver.MAP_LNG;
+    $scope.namacustomerdiview           = resolveagendabyidserver.CUST_NM;
 
-    $scope.CUST_MAP_LAT      = y.MAP_LAT;
-    $scope.CUST_MAP_LNG      = y.MAP_LNG;
-    $scope.blabla            = y.CUST_NM;
-
-    var ID_DETAIL           = y.ID;
-    var DEFAULT_CUST_LONG   = y.MAP_LNG;
-    var DEFAULT_CUST_LAT    = y.MAP_LAT;
-    var PLAN_TGL_KUNJUNGAN  = y.TGL;
-    var CUST_ID             = y.CUST_ID;
-    var ID_GROUP            = y.SCDL_GROUP;
-
-    var longitudegps     = $scope.googlemaplong;
-    var latitudegps      = $scope.googlemaplat;
+    var ID_DETAIL                       = resolveagendabyidserver.ID_SERVER;
+    var DEFAULT_CUST_LONG               = resolveagendabyidserver.MAP_LNG;      //Posisi Actual Customer
+    var DEFAULT_CUST_LAT                = resolveagendabyidserver.MAP_LAT;      //Posisi Actual Customer
+    var PLAN_TGL_KUNJUNGAN              = resolveagendabyidserver.TGL;
+    var CUST_ID                         = resolveagendabyidserver.CUST_ID;
+    var ID_GROUP                        = resolveagendabyidserver.SCDL_GROUP;
 
     var longitudecustomer     = DEFAULT_CUST_LONG;
     var latitudecustomer      = DEFAULT_CUST_LAT;
 
-    var jarak = $rootScope.jaraklokasi(longitudegps,latitudegps,longitudecustomer,latitudecustomer);
+    var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,longitudecustomer,latitudecustomer);
 
     //#####################################################################################################
     // CHECK-IN FUNCTION
@@ -141,29 +134,16 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     // ####################################################################################################
     $scope.checkstatusgambarstartendexpired = function()
     {
-        document.addEventListener("deviceready", function () 
+        if (resolveagendabyidserver) 
         {
-            var queryagendatoday = "SELECT * FROM Agenda WHERE ID_SERVER = ?";
-            $cordovaSQLite.execute($rootScope.db, queryagendatoday, [iddetail])
-            .then(function(result) 
-            {
-                if (result.rows.length > 0) 
-                {
-                    var startpicturestatus          = result.rows.item(0).START_PIC;
-                    var endpicturestatus            = result.rows.item(0).END_PIC;
-                    var inventoryexpiredstatus      = result.rows.item(0).INVENTORY_EXPIRED;
+            var startpicturestatus          = resolveagendabyidserver.START_PIC;
+            var endpicturestatus            = resolveagendabyidserver.END_PIC;
+            var inventoryexpiredstatus      = resolveagendabyidserver.INVENTORY_EXPIRED;
 
-                    $scope.statusstartpicture   = $rootScope.cekstatusbarang(startpicturestatus);
-                    $scope.statusendpicture     = $rootScope.cekstatusbarang(endpicturestatus);
-                    $scope.statusbarangexpired  = $rootScope.cekstatusbarang(inventoryexpiredstatus);
-                }
-            },
-            function(error) 
-            {
-                $scope.loadingcontent  = false;
-                alert("Gagal Mendapatkan Data Dari Local Untuk Agenda Dengan ID_SERVER" + iddetail + ": " + error.message);
-            });
-        },false); 
+            $scope.statusstartpicture   = $rootScope.cekstatusbarang(startpicturestatus);
+            $scope.statusendpicture     = $rootScope.cekstatusbarang(endpicturestatus);
+            $scope.statusbarangexpired  = $rootScope.cekstatusbarang(inventoryexpiredstatus);
+        }
     }
     $scope.checkstatusgambarstartendexpired();
     // ####################################################################################################
@@ -359,7 +339,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     gambarkunjungan.TIME_START          = timeimagestart;
                     gambarkunjungan.STATUS              = 1;
                     gambarkunjungan.CREATE_BY           = idsalesman;
-                    gambarkunjungan.CUSTOMER_ID         = y.CUST_ID;
+                    gambarkunjungan.CUSTOMER_ID         = resolveagendabyidserver.CUST_ID;
 
                     GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
                     .then(function (data)
@@ -401,38 +381,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 });
 
             }, false);
-            
-
-            // #####TEST DI DALAM WEBSITE #####################
-            // var status = {};
-            // status.bgcolor          = "bg-green";
-            // status.icon             = "fa fa-check bg-green";
-            // $rootScope.statusstartpicture = status;
-
-            // var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            
-            // var gambarkunjungan={};
-            // gambarkunjungan.ID_DETAIL           = ID_DETAIL;
-            // gambarkunjungan.IMG_NM_START        = "gambar start";
-            // gambarkunjungan.IMG_DECODE_START    = "Test Image Data";
-            // gambarkunjungan.TIME_START          = timeimagestart;
-            // gambarkunjungan.STATUS              = 1;
-            // gambarkunjungan.CREATE_BY           = idsalesman;
-            // gambarkunjungan.CUSTOMER_ID         = y.CUST_ID;
-
-            // GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
-            // .then(function (data)
-            // {
-            //     ngToast.create('Gambar Telah Berhasil Di Update');
-            //     var statuskunjungan = {};
-            //     statuskunjungan.START_PIC = 1;
-
-            //     GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
-            //     .then(function (data)
-            //     {
-            //         // console.log(data);
-            //     });
-            // });
         }
     }
     //#####################################################################################################
@@ -660,9 +608,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         $scope.loadingcontent = true;
         var memodibuatpada         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
         var salesmanmemo = {};
-        salesmanmemo.ID_DETAIL          = y.ID;
-        salesmanmemo.KD_CUSTOMER        = y.CUST_ID;
-        salesmanmemo.NM_CUSTOMER        = y.CUST_NM;
+        salesmanmemo.ID_DETAIL          = resolveagendabyidserver.ID_SERVER;
+        salesmanmemo.KD_CUSTOMER        = resolveagendabyidserver.CUST_ID;
+        salesmanmemo.NM_CUSTOMER        = resolveagendabyidserver.CUST_NM;
         salesmanmemo.TGL                = $filter('date')(new Date(),'yyyy-MM-dd');
 
 
@@ -696,7 +644,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     // ####################################################################################################
     // GET DATA BARANG UNTUK EXPIRED FUNCTION
     //#####################################################################################################
-    // var databarangall = resolvedatabarangall;
     ExpiredService.setExpiredAction(ID_DETAIL)
     .then (function (databarangexpired)
     {

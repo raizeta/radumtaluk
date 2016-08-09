@@ -36,8 +36,31 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         });
         return deferred.promise;
     }
-
+    var getAgendaByIdServer = function (ID_SERVER)
+    {
+        var deferred = $q.defer();
+        var queryagendatoday = "SELECT * FROM Agenda WHERE ID_SERVER = ?";
+        $cordovaSQLite.execute($rootScope.db, queryagendatoday, [ID_SERVER])
+        .then(function(result) 
+        {
+            if (result.rows.length > 0) 
+            {
+                deferred.resolve(result.rows.item(0));
+            }
+            else
+            {
+                deferred.resolve([]);
+            }
+        },
+        function (error)
+        {
+            alert("Error Get Customer Agenda By Param ID_SERVER");
+            deferred.rejected(error);
+        });
+        return deferred.promise;
+    }
     return{
-            getCheckinCheckoutStatus:getCheckinCheckoutStatus
+            getCheckinCheckoutStatus:getCheckinCheckoutStatus,
+            getAgendaByIdServer:getAgendaByIdServer
         }
 }]);

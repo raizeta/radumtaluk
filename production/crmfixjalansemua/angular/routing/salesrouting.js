@@ -110,21 +110,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     $location.path('/');
                 }
             },
-            resolvesingledetailkunjunganbyiddetail: function (singleapiService,$route) 
-            {
-                var iddetailkunjungan             = $route.current.params.iddetailkunjungan;
-                var resolvesingledetailkunjunganbyiddetail = singleapiService.singledetailkunjunganbyiddetail(iddetailkunjungan);
-                return resolvesingledetailkunjunganbyiddetail;
-            },
             resolveconfigradius: function($q,configurationService)
             {
                 var resolveconfigradius = configurationService.getConfigRadius();
                 return resolveconfigradius;
-            },
-            resolveobjectbarang: function($q,ProductService)
-            {
-                var resultobjectbarang = ProductService.GetObjectDataBarangs();
-                return resultobjectbarang;
             },
             resolveobjectbarangsqlite: function($q,ProductService)
             {
@@ -135,6 +124,12 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             {
                 var resultsot2type = SOT2Services.getSOT2Type();
                 return resultsot2type;
+            },
+            resolveagendabyidserver: function($q,AgendaSqliteServices,$route)
+            {
+                var ID_SERVER              = $route.current.params.iddetailkunjungan;
+                var resultagendabyidserver = AgendaSqliteServices.getAgendaByIdServer(ID_SERVER);
+                return resultagendabyidserver;
             }
         }
     });
