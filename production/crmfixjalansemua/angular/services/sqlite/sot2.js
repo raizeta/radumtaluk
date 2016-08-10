@@ -11,11 +11,11 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
     }
     
-    var getSOT2Quantity = function (tanggalplan,sotype,CUST_KD)
+    var getSOT2Quantity = function (CUST_KD,tanggalplan,sotype)
     {
         var deferred = $q.defer();
-        var queryabsensi = 'SELECT * FROM Sot2 WHERE TGL = ? AND SO_TYPE = ? AND CUST_KD = ?';
-        $cordovaSQLite.execute($rootScope.db, queryabsensi, [tanggalplan, sotype, CUST_KD])
+        var queryabsensi = 'SELECT * FROM Sot2 WHERE CUST_KD = ? AND TGL = ? AND SO_TYPE = ?';
+        $cordovaSQLite.execute($rootScope.db, queryabsensi, [CUST_KD,tanggalplan,sotype])
         .then(function(result) 
         {
             if (result.rows.length > 0) 
@@ -27,7 +27,8 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                     var KD_BARANG = result.rows.item(i).KD_BARANG;
                     datasot2.push(KD_BARANG);
                 }
-                deferred.resolve(datasot2);
+                var resultdatasot2 = $rootScope.unique(datasot2);
+                deferred.resolve(resultdatasot2);
             }
             else
             {

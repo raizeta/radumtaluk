@@ -207,7 +207,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             }
             $scope.loadingcontent  = false; 
         },
-
         function(error) 
         {
             $scope.loadingcontent  = false;

@@ -176,18 +176,19 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 		$http({method:method, url:url,config:config,cache:false})
 		.success(function(response) 
 		{
-			deferred.resolve(response);
+			if(angular.isDefined(response.statusCode))
+            {
+                deferred.resolve([]);
+            }
+            else
+            {
+            	deferred.resolve(response);
+            }
+			
 		})
 		.error(function(err,status)
         {
-			if (status === 404)
-			{
-	        	deferred.resolve([]);
-	      	}
-	      	else	
-      		{
-	        	deferred.reject(err);
-	      	}
+        	deferred.reject(err);
         });
 		return deferred.promise;
 	}

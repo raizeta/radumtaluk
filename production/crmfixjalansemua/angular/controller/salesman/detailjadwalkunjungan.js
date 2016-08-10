@@ -28,10 +28,10 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
 
     var url = $rootScope.linkurl;
 
-    var idsalesman  = auth.id;
 
-    var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
-    var tanggalinventory = $filter('date')(new Date(),'yyyy-MM-dd');
+
+    var tanggalsekarang         = $filter('date')(new Date(),'yyyy-MM-dd');
+    var tanggalinventory        = $filter('date')(new Date(),'yyyy-MM-dd');
 
     $scope.zoomvalue = 17;
     var geocoder = new google.maps.Geocoder;    
@@ -51,14 +51,14 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.namacustomerdiview           = resolveagendabyidserver.CUST_NM;
 
     var ID_DETAIL                       = resolveagendabyidserver.ID_SERVER;
-    var DEFAULT_CUST_LONG               = resolveagendabyidserver.MAP_LNG;      //Posisi Actual Customer
-    var DEFAULT_CUST_LAT                = resolveagendabyidserver.MAP_LAT;      //Posisi Actual Customer
+    var DEFAULT_CUST_LONG               = resolveagendabyidserver.MAP_LNG;      //Posisi Actual Customer Dari Master
+    var DEFAULT_CUST_LAT                = resolveagendabyidserver.MAP_LAT;      //Posisi Actual Customer Dari Master
     var PLAN_TGL_KUNJUNGAN              = resolveagendabyidserver.TGL;
     var CUST_ID                         = resolveagendabyidserver.CUST_ID;
     var ID_GROUP                        = resolveagendabyidserver.SCDL_GROUP;
 
-    var longitudecustomer     = DEFAULT_CUST_LONG;
-    var latitudecustomer      = DEFAULT_CUST_LAT;
+    var longitudecustomer               = DEFAULT_CUST_LONG;
+    var latitudecustomer                = DEFAULT_CUST_LAT;
 
     var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,longitudecustomer,latitudecustomer);
 
@@ -73,7 +73,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         detail.LAG              = $scope.googlemaplong;
         detail.RADIUS           = jarak;
         detail.CHECKIN_TIME     = checkintime;
-        detail.CREATE_BY        = idsalesman;
+        detail.CREATE_BY        = auth.id;
         detail.CREATE_AT        = checkintime;
         detail.STATUS           = 1;
 
@@ -85,7 +85,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             var statuskunjungan = {};
             statuskunjungan.ID_DETAIL               = ID_DETAIL;
             statuskunjungan.TGL                     = PLAN_TGL_KUNJUNGAN;
-            statuskunjungan.USER_ID                 = idsalesman;
+            statuskunjungan.USER_ID                 = auth.id;
             statuskunjungan.CUST_ID                 = CUST_ID;
             statuskunjungan.CHECK_IN                = 1;
 
@@ -140,16 +140,15 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             var endpicturestatus            = resolveagendabyidserver.END_PIC;
             var inventoryexpiredstatus      = resolveagendabyidserver.INVENTORY_EXPIRED;
 
-            $scope.statusstartpicture   = $rootScope.cekstatusbarang(startpicturestatus);
-            $scope.statusendpicture     = $rootScope.cekstatusbarang(endpicturestatus);
-            $scope.statusbarangexpired  = $rootScope.cekstatusbarang(inventoryexpiredstatus);
+            $scope.statusstartpicture       = $rootScope.cekstatusbarang(startpicturestatus);
+            $scope.statusendpicture         = $rootScope.cekstatusbarang(endpicturestatus);
+            $scope.statusbarangexpired      = $rootScope.cekstatusbarang(inventoryexpiredstatus);
         }
     }
     $scope.checkstatusgambarstartendexpired();
     // ####################################################################################################
     // MENU ACTION
     // ####################################################################################################
-    
     SalesAktifitas.getSalesAktifitas(CUST_ID,PLAN_TGL_KUNJUNGAN,resolveobjectbarangsqlite,resolvesot2type)
     .then (function(response)
     {
@@ -159,7 +158,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     {
         alert("Sales Aktifitas Error");
     });
-    
     // ####################################################################################################
     // INVENTORY FUNCTION
     //#####################################################################################################
@@ -219,7 +217,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     detail.CUST_KD                  = CUST_ID;
                     detail.KD_BARANG                = barang.KD_BARANG;
                     detail.POS                      = 'ANDROID';
-                    detail.USER_ID                  = idsalesman;
+                    detail.USER_ID                  = auth.id;
                     detail.SO_QTY                   = inputValue;
                     detail.ID_GROUP                 = ID_GROUP;
                     detail.WAKTU_INPUT_INVENTORY    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
@@ -250,7 +248,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         $cordovaSQLite.execute($rootScope.db,queryinsertsot2,[newISON_SERVER,newTGL,newCUST_KD,newKD_BARANG,newSO_QTY,newSO_TYPE,newPOS,newUSER_ID,newSTATUS,newWAKTU_INPUT_INVENTORY,newID_GROUP])
                         .then(function(result) 
                         {
-                            console.log("SOT2 Berhasil Disimpan Di Local!");
+                            alert("SOT2 Berhasil Disimpan Di Local!");
                         }, 
                         function(error) 
                         {
@@ -338,7 +336,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     gambarkunjungan.IMG_DECODE_START    = imageData;
                     gambarkunjungan.TIME_START          = timeimagestart;
                     gambarkunjungan.STATUS              = 1;
-                    gambarkunjungan.CREATE_BY           = idsalesman;
+                    gambarkunjungan.CREATE_BY           = auth.id;
                     gambarkunjungan.CUSTOMER_ID         = resolveagendabyidserver.CUST_ID;
 
                     GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
@@ -422,7 +420,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     gambarkunjungan.IMG_DECODE_END  = imageData;
                     gambarkunjungan.TIME_END        = timeimageend;
                     gambarkunjungan.ID_DETAIL       = ID_DETAIL;
-                    gambarkunjungan.UPDATE_BY       = idsalesman;
+                    gambarkunjungan.UPDATE_BY       = auth.id;
 
 
                     GambarService.setEndGambarAction(ID_DETAIL,gambarkunjungan)
@@ -469,36 +467,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     // alert(err.message);
                 });
             }, false);
-            
-            // ####MODE WEB DEVICE
-            // var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            // var gambarkunjungan={};
-
-            // gambarkunjungan.IMG_NM_END      = "gambar end";
-            // gambarkunjungan.IMG_DECODE_END  = "TEST GAMBAR END";
-            // gambarkunjungan.TIME_END        = timeimageend;
-            // gambarkunjungan.ID_DETAIL       = ID_DETAIL;
-            // gambarkunjungan.UPDATE_BY       = idsalesman;
-
-
-            // GambarService.setEndGambarAction(ID_DETAIL,gambarkunjungan)
-            // .then(function (data)
-            // {
-            //     ngToast.create('Gambar Telah Berhasil Di Update');
-            //     var status = {};
-            //     status.bgcolor          = "bg-green";
-            //     status.icon             = "fa fa-check bg-green";
-            //     $rootScope.statusendpicture = status;
-
-            //     var statuskunjungan = {};
-            //     statuskunjungan.END_PIC = 1;
-
-            //     GambarService.updateGambarStatus(ID_DETAIL,statuskunjungan)
-            //     .then(function (data)
-            //     {
-            //         console.log(data);
-            //     });
-            // }); 
         }
     }
     //#####################################################################################################
@@ -530,7 +498,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 detail.CHECKOUT_LAT              = $scope.googlemaplat;
                 detail.CHECKOUT_LAG              = $scope.googlemaplong;
                 detail.CHECKOUT_TIME             = checkouttime;
-                detail.UPDATE_BY                 = idsalesman;
+                detail.UPDATE_BY                 = auth.id;
 
                 CheckOutService.setCheckoutAction(ID_DETAIL,detail)
                 .then(function(data)
@@ -579,34 +547,31 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     //#####################################################################################################
     // NOTE KUNJUNGAN FUNCTION
     //#####################################################################################################
-    $scope.messageskunjungandisabled = false;
-    $http.get(url + "/messageskunjungans/search?ID_DETAIL=" + ID_DETAIL)
-    .success(function(data,status, headers, config) 
+    SalesAktifitas.getMemoSalesAktifitas(ID_DETAIL)
+    .then (function (responsesalesmemo)
     {
-        console.log(data);
-        if(data.statusCode != 404)
+        if(angular.isArray(responsesalesmemo))
         {
-            $scope.salesmanmemo = data.Messageskunjungan[0];
-            var statusmessagekunjungan = {};
-            statusmessagekunjungan.bgcolor="bg-green";
-            statusmessagekunjungan.icon="fa fa-check bg-green";
-            $scope.statusmessageskunjungan = statusmessagekunjungan;
-            $scope.messageskunjungandisabled = true;
-        }    
-    })
-    .error(function(err,status)
+            $scope.messageskunjungandisabled = false;
+        }
+        else
+        {
+            $scope.salesmanmemo                 = responsesalesmemo.isimemo;
+            $scope.statusmessageskunjungan      = responsesalesmemo;
+            $scope.messageskunjungandisabled    = responsesalesmemo.messageskunjungandisabled;
+        }
+    },
+    function (error)
     {
+        alert("Error Mendapatkan Sales Memo Dari Server");
         $scope.messageskunjungandisabled = false;
-    })
-    .finally(function()
-    {
-        $scope.loadingcontent = false;  
     });
 
     $scope.submitFormSalesMemo = function(formsalesmanmemo)
     {
-        $scope.loadingcontent = true;
-        var memodibuatpada         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        $scope.loadingcontent           = true;
+        var memodibuatpada              = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+
         var salesmanmemo = {};
         salesmanmemo.ID_DETAIL          = resolveagendabyidserver.ID_SERVER;
         salesmanmemo.KD_CUSTOMER        = resolveagendabyidserver.CUST_ID;
@@ -621,26 +586,20 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         salesmanmemo.CREATE_AT          = memodibuatpada;
         salesmanmemo.CREATE_BY          = auth.id;
 
-        var result              = $rootScope.seriliazeobject(salesmanmemo);
-        var serialized          = result.serialized;
-        var config              = result.config;
-
-        $http.post(url + "/messageskunjungans",serialized,config)
-        .success(function(data,status, headers, config) 
+        SalesAktifitas.setMemoSalesAktifitas(salesmanmemo)
+        .then (function (responsesalesmemo)
         {
+            $scope.statusmessageskunjungan      = responsesalesmemo;
+            $scope.messageskunjungandisabled    = responsesalesmemo.messageskunjungandisabled;
+            $scope.loadingcontent = false;
             ngToast.create('Memo Kunjungan Berhasil Di Save');
-            var statusmemokunjungan             = {};
-            statusmemokunjungan.bgcolor         = "bg-green";
-            statusmemokunjungan.icon            = "fa fa-check bg-green";
-            $scope.statusmessageskunjungan      = statusmemokunjungan;
-            $scope.messageskunjungandisabled    = true;
-        })
-        .finally(function()
+        },
+        function (error)
         {
-            $scope.loadingcontent = false;  
+            alert("Memo Status Kunjungan Gagal Di Save Di Server");
+            $scope.loadingcontent = false;
         });
     }
-
     // ####################################################################################################
     // GET DATA BARANG UNTUK EXPIRED FUNCTION
     //#####################################################################################################
@@ -714,11 +673,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                             detailexpired.ID_DETAIL         = ID_DETAIL;
                             detailexpired.CUST_ID           = CUST_ID;
                             detailexpired.BRG_ID            = kodebarang;
-                            detailexpired.USER_ID           = idsalesman;
+                            detailexpired.USER_ID           = auth.id;
                             detailexpired.TGL_KJG           = PLAN_TGL_KUNJUNGAN;
                             detailexpired.QTY               = expiredqty;
                             detailexpired.DATE_EXPIRED      = tglexpd;
-                            detailexpired.CREATE_BY         = idsalesman;
+                            detailexpired.CREATE_BY         = auth.id;
 
                             var expiredproduct              = $rootScope.seriliazeobject(detailexpired);
                             var serialized                  = expiredproduct.serialized;
@@ -788,7 +747,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.summary = function()
     {
         $scope.loadingcontent = true;
-        SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,idsalesman)
+        SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,auth.id)
         .then(function (data)
         {
             $scope.BarangSummary = data.InventorySummary;

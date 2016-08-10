@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.factory('SalesAktifitas', ["$rootScope","$http","$q","$filter","$window","ProductService",
-function($rootScope,$http, $q, $filter, $window, ProductService)
+myAppModule.factory('SalesAktifitas', ["$rootScope","$http","$q","$filter","$window","ProductService","SOT2Services",
+function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
 {
 	var getUrl = function()
 	{
@@ -22,6 +22,26 @@ function($rootScope,$http, $q, $filter, $window, ProductService)
         
         angular.forEach(resolvesot2type, function(value, key)
         {
+            
+            SOT2Services.getSOT2Quantity(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID)
+            .then (function (response)
+            {
+                var l = response.length;
+                alert("Panjang L =" + l);
+                for (var i=0; i < l; i++)
+                {
+                   alert(response[i]); 
+                }
+                angular.forEach(response, function(value, key)
+                {
+                    alert(value);
+                });
+            },
+            function (error)
+            {
+                alert("SO T2 ERROR");
+            });
+
             var barangaksi = $rootScope.barangaksi(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID);
             var diffbarangresult = [];
             angular.forEach(barangaksi, function(value, key)
@@ -56,7 +76,67 @@ function($rootScope,$http, $q, $filter, $window, ProductService)
         return deferred.promise;
     }
 
+    var setMemoSalesAktifitas = function(salesmanmemo)
+    {
+        var url = getUrl();
+        var deferred = $q.defer();
+
+        var result              = $rootScope.seriliazeobject(salesmanmemo);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url + "/messageskunjungans",serialized,config)
+        .success(function(data,status, headers, config) 
+        {
+            var statusmemokunjungan                         = {};
+
+            statusmemokunjungan.bgcolor                     = "bg-green";
+            statusmemokunjungan.icon                        = "fa fa-check bg-green";
+            statusmemokunjungan.messageskunjungandisabled   = true;
+
+            deferred.resolve(statusmemokunjungan);
+        })
+        .error(function(err)
+        {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    }
+    
+    var getMemoSalesAktifitas = function(ID_DETAIL)
+    {
+        var url = getUrl();
+        var deferred = $q.defer();
+
+        $http.get(url + "/messageskunjungans/search?ID_DETAIL=" + ID_DETAIL)
+        .success(function(response,status, headers, config) 
+        {
+            if(angular.isDefined(response.statusCode))
+            {
+                deferred.resolve([]);
+            }
+            else
+            {
+                deferred.resolve(response.Salesmanabsensi[0]);
+                var statusmemokunjungan                         = {};
+                statusmemokunjungan.isimemo                     = response.Messageskunjungan[0]
+                statusmemokunjungan.bgcolor                     = "bg-green";
+                statusmemokunjungan.icon                        = "fa fa-check bg-green";
+                statusmemokunjungan.messageskunjungandisabled   = true;
+                deferred.resolve(statusmemokunjungan); 
+            }
+        })
+        .error(function(err)
+        {
+            deferred.reject(err);
+        });
+        
+        return deferred.promise;
+    }
 	return{
             getSalesAktifitas:getSalesAktifitas,
+            setMemoSalesAktifitas:setMemoSalesAktifitas,
+            getMemoSalesAktifitas:getMemoSalesAktifitas
 		}
 }]);

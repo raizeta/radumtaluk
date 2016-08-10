@@ -39,9 +39,7 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
         eventRender: $scope.eventRender
       }
     };
-
     $scope.events = [];
-    $scope.eventSources = [$scope.events];
 
     document.addEventListener("deviceready", function () 
     {
@@ -49,34 +47,38 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
         $cordovaSQLite.execute($rootScope.db, queryscdlheader, [auth.id])
         .then(function(result) 
         {
+            // alert("Result Dari Local");
             if (result.rows.length > 0) 
             {
+                // alert("Result Dari Local Ada");
                 var l = result.rows.length;
+                var agendakalender = [];
                 for (var i=0; i < l; i++) 
                 {
-                    var tanggalscdlheader= result.rows.item(i).TGL1;
-                    var data ={};
-                    data.title = result.rows.item(i).NOTE;
-                    data.start = new Date(tanggalscdlheader);
-                    data.allDay =true;
-                    data.url ="#/agenda/" + tanggalscdlheader;
-                    if(tanggalscdlheader > tanggalsekarang)
+                    var tanggalscdlheader = result.rows.item(i).TGL1;
+                    // alert("Cek Tanggal Sekarang Sama");
+                    if(tanggalscdlheader != tanggalsekarang)
                     {
-                      data.color = '#378006';  
-                    }
-                    else if(tanggalscdlheader < tanggalsekarang)
-                    {
-                        data.color = '#dd4b39';
-                    }
-                    else if(tanggalscdlheader == tanggalsekarang)
-                    {
-                        data.color = '#ff4bcc';
-                    }
-                    $scope.events.push(data);
+                        var data ={};
+                        data.title = result.rows.item(i).NOTE;
+                        data.start = new Date(tanggalscdlheader);
+                        data.allDay =true;
+                        data.url ="#/agenda/" + tanggalscdlheader;
+                        if(tanggalscdlheader > tanggalsekarang)
+                        {
+                          data.color = '#378006';  
+                        }
+                        else if(tanggalscdlheader < tanggalsekarang)
+                        {
+                            data.color = '#dd4b39';
+                        }
+                        $scope.events.push(data); 
+                    } 
                 }
             }
             else
             {
+                // alert("Result Dari Local Tidak Ada");
                 JadwalKunjunganService.GetListHistory(auth)
                 .then (function (responselisthistory)
                 {
@@ -99,7 +101,7 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
                             }, 
                             function(error) 
                             {
-                                console.log("SCDL Header Gagal Disimpan Ke Local: " + error.message);
+                                alert("SCDL Header Gagal Disimpan Ke Local: " + error.message);
                             });
 
                             var tanggalscdlheader= value.TGL1;
@@ -122,6 +124,7 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
                             } 
 
                             $scope.events.push(data);
+                            
                         });
                     }
                     else
@@ -135,92 +138,103 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
                     alert("Gagal Mendapatkan SCDL Header Dari Server");
                 });          
             }
+
+            $scope.loadingcontent          = false;
         },
         function(error) 
         {
             $scope.loadingcontent          = false;
-            console.log("Gagal Mendapatkan Data SCDL Header Dari Local" + error.message);
+            alert("Gagal Mendapatkan Data SCDL Header Dari Local" + error.message);
         });
-    });
 
-    
-    $scope.loadscdlheaderhariini = function()
-    {
-        document.addEventListener("deviceready", function () 
+        var queryscdlheaderhariini = 'SELECT * FROM Scdlheader WHERE USER_ID = ? AND TGL1 = ?';
+        $cordovaSQLite.execute($rootScope.db, queryscdlheaderhariini, [auth.id,tanggalsekarang])
+        .then(function(result) 
         {
-            var queryscdlheader = "SELECT * FROM Scdlheader WHERE USER_ID = ? AND TGL1 = ?";
-            $cordovaSQLite.execute($rootScope.db, queryscdlheader, [auth.id,tanggalsekarang])
-            .then(function(result) 
+            // alert("Masukkan Lah Barang Itu");
+            if (result.rows.length > 0) 
             {
-                if (result.rows.length > 0) 
-                {
-                    console.log("Data SCDL Hari Ini Sudah Ada Di Local");
-                }
-                else
-                {
-                    JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalsekarang)
-                    .then (function (responselisthistory)
-                    {
-                        if(responselisthistory.length != 0)
-                        {
-                            angular.forEach(responselisthistory, function(value, key)
-                            {
-                                var tanggalscdlheader = value.TGL1;
-                                var data = {};
-                                data.title      = value.NOTE;
-                                data.start      = new Date(tanggalscdlheader);
-                                data.allDay     = true;
-                                data.url        = "#/agenda/" + tanggalscdlheader;
-                                data.color      = '#ff4bcc'; 
-
-                                $scope.events.push(data);
-
-                                var newID_SERVER        = value.ID;
-                                var newTGL1             = value.TGL1;
-                                var newSCDL_GROUP       = value.SCDL_GROUP;
-                                var newUSER_ID          = value.USER_ID;
-                                var newNOTE             = value.NOTE;
-                                var newSTATUS_HEADER    = value.STATUS;
-
-                                var queryinsertscdlheader = 'INSERT INTO Scdlheader (ID_SERVER,TGL1,SCDL_GROUP,USER_ID,NOTE,STATUS_HEADER) VALUES (?,?,?,?,?,?)';
-                                $cordovaSQLite.execute($rootScope.db,queryinsertscdlheader,[newID_SERVER,newTGL1,newSCDL_GROUP,newUSER_ID,newNOTE,newSTATUS_HEADER])
-                                .then(function(result) 
-                                {
-                                    console.log("SCDL Header Tanggal Hari Ini Berhasil Disimpan Di Local!");
-                                }, 
-                                function(error) 
-                                {
-                                    console.log("SCDL Header Tanggal Hari Ini Gagal Disimpan Ke Local: " + error.message);
-                                });
-                            }); 
-                        }
-                        else
-                        {
-                            alert("SCDL Header Hari Ini Masih Kosong");
-                        }
-                    },
-                    function (error)
-                    {
-                        $scope.loadingcontent          = false;
-                        alert("Gagal Mendapatkan SCDL Header Hari Ini Dari Server");
-                    });          
-                }
-            },
-            function(error) 
+                // alert("Data Untuk Tanggal Sekarang Sudah Ada Di Local");
+                var tanggalscdlheader   = result.rows.item(0).TGL1;
+                var data                = {};
+                data.title              = result.rows.item(0).NOTE;
+                data.start              = new Date(tanggalscdlheader);
+                data.allDay             = true;
+                data.url                = "#/agenda/" + tanggalscdlheader;
+                data.color              = '#ff4bcc';
+                $scope.events.push(data); 
+            }
+            else
             {
-                console.log("Gagal Mendapatkan SCDL Header Hari Ini Dari Local: " + error.message);
-                $scope.loadingcontent          = false;
-            });
-        }); 
-    }
-    
-    $timeout(function()
-    {
-        $scope.loadscdlheaderhariini();
-        $scope.loadingcontent          = false;
-    },5000);
-    
-    
+                // alert("Data Untuk Tanggal Sekarang Belum Ada Di Local");
 
+                JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalsekarang)
+                .then (function (responselisthistory)
+                {
+                    if(angular.isArray(responselisthistory))
+                    {
+                        alert("SCDL Header Hari Ini Masih Kosong");
+                    }
+                    else
+                    {
+                        var tanggalscdlheader   = responselisthistory.TGL1;
+                        var data                = {};
+                        data.title              = responselisthistory.NOTE;
+                        data.start              = new Date(tanggalscdlheader);
+                        data.allDay             = true;
+                        data.url                = "#/agenda/" + tanggalscdlheader;
+                        if(tanggalscdlheader > tanggalsekarang)
+                        {
+                          data.color = '#378006';  
+                        }
+                        else if(tanggalscdlheader < tanggalsekarang)
+                        {
+                            data.color = '#dd4b39';
+                        }
+                        else if(tanggalscdlheader == tanggalsekarang)
+                        {
+                            data.color = '#ff4bcc';
+                        } 
+                        $scope.events.push(data);
+
+                        var newID_SERVER        = responselisthistory.ID;
+                        var newTGL1             = responselisthistory.TGL1;
+                        var newSCDL_GROUP       = responselisthistory.SCDL_GROUP;
+                        var newUSER_ID          = responselisthistory.USER_ID;
+                        var newNOTE             = responselisthistory.NOTE;
+                        var newSTATUS_HEADER    = responselisthistory.STATUS;
+
+                        var queryinsertscdlheadertanggalsekarang = 'INSERT INTO Scdlheader (ID_SERVER,TGL1,SCDL_GROUP,USER_ID,NOTE,STATUS_HEADER) VALUES (?,?,?,?,?,?)';
+                        $cordovaSQLite.execute($rootScope.db,queryinsertscdlheadertanggalsekarang,[newID_SERVER,newTGL1,newSCDL_GROUP,newUSER_ID,newNOTE,newSTATUS_HEADER])
+                        .then(function(result) 
+                        {
+                            console.log("SCDL Header Tanggal Hari Ini Berhasil Disimpan Di Local!");
+                        }, 
+                        function(error) 
+                        {
+                            alert("SCDL Header Tanggal Hari Ini Gagal Disimpan Ke Local: " + error.message);
+                        });    
+                    }
+                    $scope.loadingcontent          = false;
+
+                },
+                function (error)
+                {
+                    $scope.loadingcontent          = false;
+                    alert("Gagal Mendapatkan SCDL Header Hari Ini Dari Server");
+                });          
+            }
+            
+        },
+        function(error) 
+        {
+            alert("Gagal Mendapatkan SCDL Header Hari Ini Dari Local: " + error.message);
+            $scope.loadingcontent          = false;
+        });
+        
+    },false);
+ 
+    $scope.eventSources = [$scope.events];
+    
 }]);
 

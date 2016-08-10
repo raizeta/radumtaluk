@@ -166,6 +166,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         
         return result;
     }
+    
     $rootScope.cekstatusbarang = function(statusvalue)
     {
         var status={};
