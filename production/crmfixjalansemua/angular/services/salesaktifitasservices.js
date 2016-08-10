@@ -2,14 +2,14 @@
 myAppModule.factory('SalesAktifitas', ["$rootScope","$http","$q","$filter","$window","ProductService","SOT2Services",
 function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukisongroup.com/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
+    var getUrl = function()
+    {
+        return "http://api.lukisongroup.com/master";
+    }
+    var gettoken = function()
+    {
+        return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+    }
     
     var getSalesAktifitas = function(CUST_ID,PLAN_TGL_KUNJUNGAN,resolveobjectbarang,resolvesot2type)
     {
@@ -22,54 +22,38 @@ function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
         
         angular.forEach(resolvesot2type, function(value, key)
         {
-            
             SOT2Services.getSOT2Quantity(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID)
             .then (function (response)
             {
-                var l = response.length;
-                alert("Panjang L =" + l);
-                for (var i=0; i < l; i++)
+                var barangaksi = response;
+                var diffbarangresult = [];
+                angular.forEach(barangaksi, function(value, key)
                 {
-                   alert(response[i]); 
-                }
-                angular.forEach(response, function(value, key)
-                {
-                    alert(value);
+                    var existingFilter = _.findWhere(databarang, { KD_BARANG: value });
+                    diffbarangresult.push(existingFilter);
                 });
-            },
-            function (error)
-            {
-                alert("SO T2 ERROR");
+                var diffbarang = _.difference(databarang,diffbarangresult);
+                if(diffbarang.length == 0)
+                {
+                    var status={};
+                    status.bgcolor="bg-green";
+                    status.icon="fa fa-check bg-green";
+                    status.show = true;
+                }
+                else
+                {
+                    var status={};
+                    status.bgcolor="bg-aqua";
+                    status.icon="fa fa-close bg-aqua";
+                    status.show = true;
+                }
+                
+                resolvesot2type[i].products  = diffbarang;  
+                resolvesot2type[i].status    = status;
+                
+                salesaktivitas.push(resolvesot2type[i]);
+                i = i + 1;
             });
-
-            var barangaksi = $rootScope.barangaksi(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID);
-            var diffbarangresult = [];
-            angular.forEach(barangaksi, function(value, key)
-            {
-                var existingFilter = _.findWhere(databarang, { KD_BARANG: value });
-                diffbarangresult.push(existingFilter);
-            });
-            var diffbarang = _.difference(databarang,diffbarangresult);
-            if(diffbarang.length == 0)
-            {
-                var status={};
-                status.bgcolor="bg-green";
-                status.icon="fa fa-check bg-green";
-                status.show = true;
-            }
-            else
-            {
-                var status={};
-                status.bgcolor="bg-aqua";
-                status.icon="fa fa-close bg-aqua";
-                status.show = true;
-            }
-            
-            resolvesot2type[i].products  = diffbarang;  
-            resolvesot2type[i].status    = status;
-            
-            salesaktivitas.push(resolvesot2type[i]);
-            i = i + 1;
         });
         deferred.resolve(salesaktivitas);
 
@@ -134,9 +118,9 @@ function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
         
         return deferred.promise;
     }
-	return{
+    return{
             getSalesAktifitas:getSalesAktifitas,
             setMemoSalesAktifitas:setMemoSalesAktifitas,
             getMemoSalesAktifitas:getMemoSalesAktifitas
-		}
+        }
 }]);

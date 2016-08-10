@@ -14,7 +14,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     var getCheckinCheckoutStatus = function (tanggalplan,userid)
     {
         var deferred = $q.defer();
-        var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ? AND CHECK_IN = ? AND CHECK_OUT = ?";
+        var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ? AND STSCHECK_IN = ? AND STSCHECK_OUT = ?";
         $cordovaSQLite.execute($rootScope.db, queryagendatoday, [tanggalplan, userid, 1, 0])
         .then(function(result) 
         {

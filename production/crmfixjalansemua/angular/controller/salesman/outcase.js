@@ -11,34 +11,7 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-    // $scope.customergroup = function()
-    // {
-    //     $scope.loading  = true;
-    //     CustomerService.GetGroupCustomers()
-    //     .then(function (result) 
-    //     {
-    //         // $scope.customergroups = result.Customergroup;
-    //         var customergroups   = [];
-    //         _.each(result.Customergroup, function(executes) 
-    //         {
-    //             var customergroup = {};
-    //             customergroup.CREATE_AT = executes.CREATE_AT;
-    //             customergroup.CREATE_BY = executes.CREATE_BY;
-    //             customergroup.ID =executes.ID;
-    //             customergroup.KETERANGAN =executes.KETERANGAN;
-    //             customergroup.SCDL_GROUP_NM =executes.SCDL_GROUP_NM;
-    //             customergroup.STATUS =executes.STATUS;
-    //             customergroup.UPDATE_AT=executes.UPDATE_AT;
-    //             customergroup.UPDATE_BY=executes.UPDATE_BY;
-    //             customergroup.ALIAS = executes.KETERANGAN + " (" + executes.SCDL_GROUP_NM + ")";
-    //             customergroups.push(customergroup);
-    //         });
-    //         $scope.customergroups = customergroups;
-    //         $scope.loading  = false;
-    //         $scope.visible = false;  
-    //     });
-    // };
-    // $scope.customergroup();
+    
     authService.getManagers()
     .then (function (response)
     {
@@ -55,11 +28,11 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
         CustomerService.GetSingleGroupCustomer($scope.customer.ID)
         .then(function (result) 
         {
-            $scope.showcustomer = true;
-            $scope.showusers 	= true;
-            $scope.customers 	= result.Customer;
-            $scope.loadingcontent  	= false;
-            $scope.visible 		= false;
+            $scope.showcustomer           = true;
+            $scope.showusers 	          = true;
+            $scope.customers 	          = result.Customer;
+            $scope.loadingcontent  	      = false;
+            $scope.visible 		          = false;
         },
         function (error)
         {
@@ -153,20 +126,22 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
                     var newMAP_LNG                  = null;
                     var newCHECKIN_TIME             = null;
                     var newCHECKOUT_TIME            = null;
-                    var newCHECK_IN                 = 0;
-                    var newCHECK_OUT                = 0;
-                    var newINVENTORY_EXPIRED        = 0;
-                    var newINVENTORY_SELLIN         = 0;
-                    var newINVENTORY_SELLOUT        = 0;
-                    var newINVENTORY_STOCK          = 0;
-                    var newREQUEST                  = 0;
-                    var newSTART_PIC                = 0;
-                    var newEND_PIC                  = 0;
-                    var newSCDL_GROUP               = response.SCDL_GROUP;
-                    var newISON_SERVER              = 1;
 
-                    var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,CHECK_IN,CHECK_OUT,INVENTORY_EXPIRED,INVENTORY_SELLIN,INVENTORY_SELLOUT,INVENTORY_STOCK,REQUEST,START_PIC,END_PIC,SCDL_GROUP,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-                    $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newCHECK_IN,newCHECK_OUT,newINVENTORY_EXPIRED,newINVENTORY_SELLIN,newINVENTORY_SELLOUT,newINVENTORY_STOCK,newREQUEST,newSTART_PIC,newEND_PIC,newSCDL_GROUP,newISON_SERVER])
+                    var newSTSCHECK_IN              = 0;
+                    var newSTSCHECK_OUT             = 0;
+                    var newSTSINVENTORY_EXPIRED     = 0;
+                    var newSTSINVENTORY_SELLIN      = 0;
+                    var newSTSINVENTORY_SELLOUT     = 0;
+                    var newSTSINVENTORY_STOCK       = 0;
+                    var newSTSINVENTORY_REQUEST     = 0;
+                    var newSTSINVENTORY_RETURN      = 0;
+                    var newSTSSTART_PIC             = 0;
+                    var newSTSEND_PIC               = 0;
+                    var newSCDL_GROUP               = response.SCDL_GROUP;
+                    var newSTSISON_SERVER           = 1;
+
+                    var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,STSCHECK_IN,STSCHECK_OUT,STSINVENTORY_EXPIRED,STSINVENTORY_SELLIN,STSINVENTORY_SELLOUT,STSINVENTORY_STOCK,STSINVENTORY_REQUEST,STSINVENTORY_RETURN,STSSTART_PIC,STSEND_PIC,SCDL_GROUP,STSISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                    $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newSTSCHECK_IN,newSTSCHECK_OUT,newSTSINVENTORY_EXPIRED,newSTSINVENTORY_SELLIN,newSTSINVENTORY_SELLOUT,newSTSINVENTORY_STOCK,newSTSINVENTORY_REQUEST,newSTSINVENTORY_RETURN,newSTART_PIC,newEND_PIC,newSCDL_GROUP,newISON_SERVER])
                     .then(function(result) 
                     {
                         console.log("Customer Untuk Out Of Case Berhasil Disimpan Di Local!");

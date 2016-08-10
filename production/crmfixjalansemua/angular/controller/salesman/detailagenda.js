@@ -57,32 +57,34 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                 for (var i=0; i < l; i++) 
                 {
                     var customer = {};
-                    customer.ID                     = result.rows.item(i).ID_SERVER;
-                    customer.CUST_ID                = result.rows.item(i).CUST_ID;
-                    customer.CUST_NM                = result.rows.item(i).CUST_NM;
-                    customer.MAP_LAT                = result.rows.item(i).MAP_LAT;
-                    customer.MAP_LNG                = result.rows.item(i).MAP_LNG;
-                    customer.TANGGAL                = result.rows.item(i).TGL;
-                    customer.CHECKIN_TIME           = $filter('date')(result.rows.item(i).CHECKIN_TIME,'dd-MM-yyyy HH:mm:ss');
-                    customer.CHECKOUT_TIME          = $filter('date')(result.rows.item(i).CHECKOUT_TIME,'dd-MM-yyyy HH:mm:ss');
+                    customer.ID                         = result.rows.item(i).ID_SERVER;
+                    customer.CUST_ID                    = result.rows.item(i).CUST_ID;
+                    customer.CUST_NM                    = result.rows.item(i).CUST_NM;
+                    customer.MAP_LAT                    = result.rows.item(i).MAP_LAT;
+                    customer.MAP_LNG                    = result.rows.item(i).MAP_LNG;
+                    customer.TANGGAL                    = result.rows.item(i).TGL;
+                    customer.CHECKIN_TIME               = $filter('date')(result.rows.item(i).CHECKIN_TIME,'dd-MM-yyyy HH:mm:ss');
+                    customer.CHECKOUT_TIME              = $filter('date')(result.rows.item(i).CHECKOUT_TIME,'dd-MM-yyyy HH:mm:ss');
 
-                    customer.START_PIC              = result.rows.item(i).START_PIC;
-                    customer.END_PIC                = result.rows.item(i).END_PIC;
-                    customer.CHECK_IN               = result.rows.item(i).CHECK_IN;
-                    customer.CHECK_OUT              = result.rows.item(i).CHECK_OUT;
-                    customer.INVENTORY_STOCK        = result.rows.item(i).INVENTORY_STOCK;
-                    customer.INVENTORY_SELLIN       = result.rows.item(i).INVENTORY_SELLIN;
-                    customer.INVENTORY_SELLOUT      = result.rows.item(i).INVENTORY_SELLOUT;
-                    customer.INVENTORY_EXPIRED      = result.rows.item(i).INVENTORY_EXPIRED;
+                    customer.STSSTART_PIC               = result.rows.item(i).STSSTART_PIC;
+                    customer.STSEND_PIC                 = result.rows.item(i).STSEND_PIC;
+                    customer.STSCHECK_IN                = result.rows.item(i).STSCHECK_IN;
+                    customer.STSCHECK_OUT               = result.rows.item(i).STSCHECK_OUT;
+                    customer.STSINVENTORY_STOCK         = result.rows.item(i).STSINVENTORY_STOCK;
+                    customer.STSINVENTORY_SELLIN        = result.rows.item(i).STSINVENTORY_SELLIN;
+                    customer.STSINVENTORY_SELLOUT       = result.rows.item(i).STSINVENTORY_SELLOUT;
+                    customer.STSINVENTORY_EXPIRED       = result.rows.item(i).STSINVENTORY_STSEXPIRED;
+                    customer.STSINVENTORY_STSREQUEST    = result.rows.item(i).STSINVENTORY_STSREQUEST;
+                    customer.STSINVENTORY_STSRETURN     = result.rows.item(i).STSINVENTORY_STSRETURN;
 
                     
-                    if(customer.CHECK_IN  == 0 || customer.CHECK_IN  == null)
+                    if(customer.STSCHECK_IN  == 0 || customer.STSCHECK_IN  == null)
                     {
                         customer.imagecheckout = "asset/admin/dist/img/normal.jpg";
                     }
                     else
                     {
-                        if((customer.CHECK_OUT  == 1)||(customer.CHECK_OUT  == "1"))
+                        if((customer.STSCHECK_OUT  == 1)||(customer.STSCHECK_OUT  == "1"))
                         {
                             customer.imagecheckout = "asset/admin/dist/img/customer.jpg";
                         }
@@ -112,8 +114,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                     customer.JARAK            = $filter('setDecimal')(jarak/1000,0);
 
 
-                    var totalstatus = customer.START_PIC + customer.END_PIC + customer.INVENTORY_STOCK + customer.INVENTORY_SELLIN + customer.INVENTORY_SELLOUT + customer.INVENTORY_SELLOUT + customer.CHECK_IN + customer.CHECK_OUT;
-                    var persen = (totalstatus * 100)/8;
+                    var totalstatus = customer.STSSTART_PIC + customer.STSEND_PIC + customer.STSCHECK_IN + customer.STSCHECK_OUT + customer.STSINVENTORY_STOCK + customer.STSINVENTORY_SELLIN + customer.STSINVENTORY_SELLOUT + customer.STSINVENTORY_EXPIRED + customer.STSINVENTORY_REQUEST + customer.STSINVENTORY_RETURN;
+                    var persen = (totalstatus * 100)/10;
                     customer.persen = persen;
                     if(persen == 100)
                     {
@@ -136,7 +138,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                     else
                     {
                         var idgroupcustomer         = response.SCDL_GROUP;
-                        JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan)
+                        JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan,$scope.gpslong,$scope.gpslat)
                         .then(function (responseagendatoday) 
                         {
                             if(responseagendatoday.length > 0)
@@ -148,33 +150,37 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                     var newUSER_ID                  = auth.id;
                                     var newCUST_ID                  = value.CUST_ID;
                                     var newCUST_NM                  = value.CUST_NM;
-                                    var newLAG                      = null;
-                                    var newLAT                      = null;
-                                    var newMAP_LAT                  = value.MAP_LAT;
-                                    var newMAP_LNG                  = value.MAP_LNG;
+                                    var newLAG                      = $scope.gpslat;  //GPS LAT LOCATION
+                                    var newLAT                      = $scope.gpslong; //GPS LNG LOCATION
+                                    var newMAP_LAT                  = value.MAP_LAT; //ACTUAL LAT CUSTOMER DARI MASTER
+                                    var newMAP_LNG                  = value.MAP_LNG; //ACTUAL LAG CUSTOMER DARI MASTER
                                     var newCHECKIN_TIME             = value.CHECKIN_TIME;
                                     var newCHECKOUT_TIME            = value.CHECKOUT_TIME;
-                                    var newCHECK_IN                 = value.CHECK_IN;
-                                    var newCHECK_OUT                = value.CHECK_OUT;
-                                    var newINVENTORY_EXPIRED        = value.INVENTORY_EXPIRED;
-                                    var newINVENTORY_SELLIN         = value.INVENTORY_SELLIN;
-                                    var newINVENTORY_SELLOUT        = value.INVENTORY_SELLOUT;
-                                    var newINVENTORY_STOCK          = value.INVENTORY_STOCK;
-                                    var newREQUEST                  = null;
-                                    var newSTART_PIC                = value.START_PIC;
-                                    var newEND_PIC                  = value.END_PIC;
-                                    var newSCDL_GROUP               = idgroupcustomer;
-                                    var newISON_SERVER              = 1;
 
-                                    var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,CHECK_IN,CHECK_OUT,INVENTORY_EXPIRED,INVENTORY_SELLIN,INVENTORY_SELLOUT,INVENTORY_STOCK,REQUEST,START_PIC,END_PIC,SCDL_GROUP,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-                                    $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newCHECK_IN,newCHECK_OUT,newINVENTORY_EXPIRED,newINVENTORY_SELLIN,newINVENTORY_SELLOUT,newINVENTORY_STOCK,newREQUEST,newSTART_PIC,newEND_PIC,newSCDL_GROUP,newISON_SERVER])
+                                    var newSTSCHECK_IN              = value.STSCHECK_IN;
+                                    var newSTSCHECK_OUT             = value.STSCHECK_OUT;
+                                    var newSTSINVENTORY_EXPIRED     = value.STSINVENTORY_EXPIRED;
+                                    var newSTSINVENTORY_SELLIN      = value.STSINVENTORY_SELLIN;
+                                    var newSTSINVENTORY_SELLOUT     = value.STSINVENTORY_SELLOUT;
+                                    var newSTSINVENTORY_STOCK       = value.STSINVENTORY_STOCK;
+                                    var newSTSINVENTORY_REQUEST     = value.STSINVENTORY_REQUEST;
+                                    var newSTSINVENTORY_RETURN      = value.STSINVENTORY_RETURN;
+
+
+                                    var newSTSSTART_PIC             = value.STSSTART_PIC;
+                                    var newSTSEND_PIC               = value.STSEND_PIC;
+                                    var newSCDL_GROUP               = idgroupcustomer;
+                                    var newSTSISON_SERVER           = 1;
+
+                                    var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,STSCHECK_IN,STSCHECK_OUT,STSINVENTORY_EXPIRED,STSINVENTORY_SELLIN,STSINVENTORY_SELLOUT,STSINVENTORY_STOCK,STSINVENTORY_REQUEST,STSINVENTORY_RETURN,STSSTART_PIC,STSEND_PIC,SCDL_GROUP,STSISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newSTSCHECK_IN,newSTSCHECK_OUT,newSTSINVENTORY_EXPIRED,newSTSINVENTORY_SELLIN,newSTSINVENTORY_SELLOUT,newSTSINVENTORY_STOCK,newSTSINVENTORY_REQUEST,newSTSINVENTORY_RETURN,newSTSSTART_PIC,newSTSEND_PIC,newSCDL_GROUP,newSTSISON_SERVER])
                                     .then(function(result) 
                                     {
-                                        console.log("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
+                                        alert("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
                                     }, 
                                     function(error) 
                                     {
-                                        console.log("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
+                                        alert("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
                                     });
                                 });
                                 $scope.customers = responseagendatoday;
@@ -228,7 +234,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         else if(tanggalplan == tanggalsekarang)
         {
 
-            if(customer.CHECK_OUT == 1 || customer.CHECK_OUT == "1")
+            if(customer.STSCHECK_OUT == 1 || customer.STSCHECK_OUT == "1")
             {
                 alert("Kamu Sudah Check Out");
             }

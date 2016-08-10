@@ -108,12 +108,12 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             });
 
             var updateCHECKIN_TIME  = checkintime;
-            var updateCHECK_IN      = 1;
+            var updateSTSCHECK_IN   = 1;
             var updateLAG           = $scope.googlemaplong;
             var updateLAT           = $scope.googlemaplat;
 
-            var queryupdateagenda = 'UPDATE Agenda SET CHECKIN_TIME = ?, CHECK_IN = ?, LAG = ?, LAT = ? WHERE ID_SERVER = ?';
-            $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKIN_TIME,updateCHECK_IN,updateLAG,updateLAT,ID_DETAIL])
+            var queryupdateagenda = 'UPDATE Agenda SET CHECKIN_TIME = ?, STSCHECK_IN = ?, LAG = ?, LAT = ? WHERE ID_SERVER = ?';
+            $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKIN_TIME,updateSTSCHECK_IN,updateLAG,updateLAT,ID_DETAIL])
             .then(function(result) 
             {
                 console.log("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
@@ -136,9 +136,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     {
         if (resolveagendabyidserver) 
         {
-            var startpicturestatus          = resolveagendabyidserver.START_PIC;
-            var endpicturestatus            = resolveagendabyidserver.END_PIC;
-            var inventoryexpiredstatus      = resolveagendabyidserver.INVENTORY_EXPIRED;
+            var startpicturestatus          = resolveagendabyidserver.STSSTART_PIC;
+            var endpicturestatus            = resolveagendabyidserver.STSEND_PIC;
+            var inventoryexpiredstatus      = resolveagendabyidserver.STSINVENTORY_EXPIRED;
 
             $scope.statusstartpicture       = $rootScope.cekstatusbarang(startpicturestatus);
             $scope.statusendpicture         = $rootScope.cekstatusbarang(endpicturestatus);
@@ -212,7 +212,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 {
                     $scope.loadingcontent = true;
                     var detail={};
-                    detail.SO_TYPE                  = idinventory; //5:INVENTORY STOCK, 6:INVENTORY_SELLIN, 7:INVENTORY_SELLOUT, 8:PRODUCT RETURN,9:REQUEST
+                    detail.SO_TYPE                  = idinventory; //5:INVENTORY_STOCK, 6:INVENTORY_SELLIN, 7:INVENTORY_SELLOUT, 8:INVENTORY_RETURN,9:INVENTORY_REQUEST
                     detail.TGL                      = PLAN_TGL_KUNJUNGAN;
                     detail.CUST_KD                  = CUST_ID;
                     detail.KD_BARANG                = barang.KD_BARANG;
@@ -279,7 +279,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                                 $scope.loadingcontent = false;
                             });
 
-                            var queryupdateagenda = 'UPDATE Agenda SET '+ titledialog + ' = ? WHERE ID_SERVER = ?';
+                            var queryupdateagenda = 'UPDATE Agenda SET STS' + titledialog + ' = ? WHERE ID_SERVER = ?';
                             $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [titledialog,ID_DETAIL])
                             .then(function(result) 
                             {
@@ -356,9 +356,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                             alert("Gagal Update Status Start Picture");
                         });
 
-                        var updateSTART_PIC  = 1;
-                        var queryupdateagenda = 'UPDATE Agenda SET START_PIC = ? WHERE ID_SERVER = ?';
-                        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateSTART_PIC,ID_DETAIL])
+                        var updateSTSSTART_PIC  = 1;
+                        var queryupdateagenda   = 'UPDATE Agenda SET STSSTART_PIC = ? WHERE ID_SERVER = ?';
+                        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateSTSSTART_PIC,ID_DETAIL])
                         .then(function(result) 
                         {
                             console.log("Terimakasih. Agenda Start Pic Di Update Di Local");
@@ -445,9 +445,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                             alert("Gagal Update Status End Picture Ke Server");
                         });
 
-                        var updateEND_PIC  = 1;
-                        var queryupdateagenda = 'UPDATE Agenda SET END_PIC = ? WHERE ID_SERVER = ?';
-                        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateEND_PIC,ID_DETAIL])
+                        var updateSTSEND_PIC  = 1;
+                        var queryupdateagenda = 'UPDATE Agenda SET STSEND_PIC = ? WHERE ID_SERVER = ?';
+                        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateSTSEND_PIC,ID_DETAIL])
                         .then(function(result) 
                         {
                             console.log("Terimakasih. Agenda End Pic Di Update Di Local");
@@ -524,10 +524,10 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     });
 
                     var updateCHECKOUT_TIME  = checkouttime;
-                    var updateCHECK_OUT      = 1;
+                    var updateSTSCHECK_OUT      = 1;
 
-                    var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, CHECK_OUT = ? WHERE ID_SERVER = ?';
-                    $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateCHECK_OUT,ID_DETAIL])
+                    var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, STSCHECK_OUT = ? WHERE ID_SERVER = ?';
+                    $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
                     .then(function(result) 
                     {
                         console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
@@ -700,9 +700,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     $scope.barangexpired.splice(index,1);
                     if($scope.barangexpired.length == 0)
                     {
-                        var updateINVENTORY_EXPIRED      = 1;
-                        var queryupdateagenda = 'UPDATE Agenda SET INVENTORY_EXPIRED = ? WHERE ID_SERVER = ?';
-                        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateINVENTORY_EXPIRED,ID_DETAIL])
+                        var updateSTSINVENTORY_EXPIRED      = 1;
+                        var queryupdateagenda = 'UPDATE Agenda SET STSINVENTORY_EXPIRED = ? WHERE ID_SERVER = ?';
+                        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateSTSINVENTORY_EXPIRED,ID_DETAIL])
                         .then(function(result) 
                         {
                             console.log("Terimakasih. Inventory Expired Berhasil Di Update Di Local");
