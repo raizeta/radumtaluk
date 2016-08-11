@@ -119,9 +119,48 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
 
         return deferred.promise;  
     }
+
+    var getSOT2Summary = function (tanggalplan,SCDL_GROUP,userid)
+    {
+        var deferred = $q.defer();
+        var querysummary = 'SELECT * FROM Sot2 WHERE TGL = ? AND SCDL_GROUP = ? AND CUST_KD = ? AND USER_ID = ?';
+        $cordovaSQLite.execute($rootScope.db, querysummary, [tanggalplan,SCDL_GROUP,CUST_KD,userid])
+        .then(function(result) 
+        {
+            if (result.rows.length > 0) 
+            {
+                var summarypercustomer = [];
+                var l = result.rows.length;
+                for (var i=0; i < l; i++) 
+                {
+                    var summary = {};
+                    summary.KD_BARANG           = result.rows.item(i).KD_BARANG;
+                    summary.NM_BARANG           = result.rows.item(i).NM_BARANG;
+                    summary.CUST_KD             = result.rows.item(i).CUST_KD;
+                    summary.CUST_NM             = result.rows.item(i).CUST_NM;
+                    summary.SO_TYPE             = result.rows.item(i).SO_TYPE;
+                    summary.SO_QTY              = result.rows.item(i).SO_QTY;
+                    summary.DIALOG_TITLE        = result.rows.item(i).DIALOG_TITLE;
+                    summarypercustomer.push(summary);
+                }
+                deferred.resolve(summaryapercustomer);
+            }
+            else
+            {
+                deferred.resolve([]);
+            }
+        },
+
+        function(error) 
+        {
+            deferred.resolve(error.message);
+        });
+        return deferred.promise;  
+    }
     
     return{
             getSOT2Quantity:getSOT2Quantity,
-            getSOT2Type:getSOT2Type
+            getSOT2Type:getSOT2Type,
+            getSOT2Summary:getSOT2Summary
         }
 }]);

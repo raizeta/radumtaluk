@@ -1,5 +1,5 @@
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
@@ -73,10 +73,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                     customer.STSINVENTORY_STOCK         = result.rows.item(i).STSINVENTORY_STOCK;
                     customer.STSINVENTORY_SELLIN        = result.rows.item(i).STSINVENTORY_SELLIN;
                     customer.STSINVENTORY_SELLOUT       = result.rows.item(i).STSINVENTORY_SELLOUT;
-                    customer.STSINVENTORY_EXPIRED       = result.rows.item(i).STSINVENTORY_STSEXPIRED;
-                    customer.STSINVENTORY_STSREQUEST    = result.rows.item(i).STSINVENTORY_STSREQUEST;
-                    customer.STSINVENTORY_STSRETURN     = result.rows.item(i).STSINVENTORY_STSRETURN;
-
+                    customer.STSINVENTORY_EXPIRED       = result.rows.item(i).STSINVENTORY_EXPIRED;
+                    customer.STSINVENTORY_REQUEST       = result.rows.item(i).STSINVENTORY_REQUEST;
+                    customer.STSINVENTORY_RETURN        = result.rows.item(i).STSINVENTORY_RETURN;
                     
                     if(customer.STSCHECK_IN  == 0 || customer.STSCHECK_IN  == null)
                     {
@@ -233,44 +232,55 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         }
         else if(tanggalplan == tanggalsekarang)
         {
-
-            if(customer.STSCHECK_OUT == 1 || customer.STSCHECK_OUT == "1")
+            if(resolvestatusabsensi.statusabsensi == 0)
             {
-                alert("Kamu Sudah Check Out");
-            }
-            else
-            {
-                AgendaSqliteServices.getCheckinCheckoutStatus(tanggalplan,auth.id)
-                .then (function (response)
+                if(customer.STSCHECK_OUT == 1 || customer.STSCHECK_OUT == "1")
                 {
-                    console.log(response);
-                    console.log(customer.ID);
-                    
-                    if(response.length == 0)
+                    alert("Kamu Sudah Check Out");
+                }
+                else
+                {
+                    AgendaSqliteServices.getCheckinCheckoutStatus(tanggalplan,auth.id)
+                    .then (function (response)
                     {
-                        var lanjutcheckin = confirm("Yakin Check In Di Customer " + customer.CUST_NM +"?");
-                        if (lanjutcheckin == true) 
+                        console.log(response);
+                        console.log(customer.ID);
+                        
+                        if(response.length == 0)
                         {
-                            $location.path('/detailjadwalkunjungan/' + customer.ID);
-                        }
-                    }
-                    else
-                    {
-                        if(response == customer.ID)
-                        {
-                            $location.path('/detailjadwalkunjungan/' + customer.ID);
+                            var lanjutcheckin = confirm("Yakin Check In Di Customer " + customer.CUST_NM +"?");
+                            if (lanjutcheckin == true) 
+                            {
+                                $location.path('/detailjadwalkunjungan/' + customer.ID);
+                            }
                         }
                         else
                         {
-                            alert("Double Check In Dilarang");
-                        }   
-                    }
-                },
-                function (error)
-                {
-                    alert("Error Check In Check Out");
-                });   
-            }  
+                            if(response == customer.ID)
+                            {
+                                $location.path('/detailjadwalkunjungan/' + customer.ID);
+                            }
+                            else
+                            {
+                                alert("Double Check In Dilarang");
+                            }   
+                        }
+                    },
+                    function (error)
+                    {
+                        alert("Error Check In Check Out");
+                    });   
+                }  
+            }
+            else if(resolvestatusabsensi.statusabsensi == 1)
+            {
+                alert("Sudah Absen Keluar");
+            }
+            else
+            {
+                alert("Lakukan Absen Masuk Terlebih Dahulu");
+            }
+              
         }
     } 
 

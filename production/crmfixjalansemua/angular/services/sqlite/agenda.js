@@ -36,6 +36,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         });
         return deferred.promise;
     }
+
     var getAgendaByIdServer = function (ID_SERVER)
     {
         var deferred = $q.defer();
@@ -59,6 +60,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         });
         return deferred.promise;
     }
+    
     return{
             getCheckinCheckoutStatus:getCheckinCheckoutStatus,
             getAgendaByIdServer:getAgendaByIdServer

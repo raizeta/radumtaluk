@@ -53,6 +53,13 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
+            },
+            resolvestatusabsensi: function($q,AbsensiSqliteServices,authService,$filter)
+            {
+                var tanggalplan             = $filter('date')(new Date(),'yyyy-MM-dd');
+                var userInfo                = authService.getUserInfo();
+                var resolvestatusabsensi    = AbsensiSqliteServices.getAbsensiStatus(tanggalplan,userInfo.id);
+                return resolvestatusabsensi;
             }
         }
     });
@@ -81,10 +88,17 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
+            },
+            resolvestatusabsensi: function($q,AbsensiSqliteServices,authService,$filter)
+            {
+                var tanggalplan             = $filter('date')(new Date(),'yyyy-MM-dd');
+                var userInfo                = authService.getUserInfo();
+                var resolvestatusabsensi    = AbsensiSqliteServices.getAbsensiStatus(tanggalplan,userInfo.id);
+                return resolvestatusabsensi;
             }
         }
     });
-
+    
     $routeProvider.when('/detailjadwalkunjungan/:iddetailkunjungan',
     {
         templateUrl : 'angular/partial/salesman/detailjadwalkunjungan.html',
@@ -133,7 +147,42 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-
+    
+    $routeProvider.when('/outcase',
+    {
+        templateUrl : 'angular/partial/salesman/outcase.html',
+        controller  : 'OutCaseController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            },
+            resolvestatusabsensi: function($q,AbsensiSqliteServices,authService,$filter)
+            {
+                var tanggalplan             = $filter('date')(new Date(),'yyyy-MM-dd');
+                var userInfo                = authService.getUserInfo();
+                var resolvestatusabsensi    = AbsensiSqliteServices.getAbsensiStatus(tanggalplan,userInfo.id);
+                return resolvestatusabsensi;
+            }
+        }
+    });
+    
     $routeProvider.when('/home',
     {
         templateUrl : 'angular/partial/salesman/home.html',
@@ -302,33 +351,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
     
-    $routeProvider.when('/outcase',
-    {
-        templateUrl : 'angular/partial/salesman/outcase.html',
-        controller  : 'OutCaseController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
+    
 
     $routeProvider.when('/dblocal',
     {

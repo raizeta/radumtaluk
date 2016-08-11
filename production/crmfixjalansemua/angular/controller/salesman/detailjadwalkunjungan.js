@@ -215,7 +215,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     detail.SO_TYPE                  = idinventory; //5:INVENTORY_STOCK, 6:INVENTORY_SELLIN, 7:INVENTORY_SELLOUT, 8:INVENTORY_RETURN,9:INVENTORY_REQUEST
                     detail.TGL                      = PLAN_TGL_KUNJUNGAN;
                     detail.CUST_KD                  = CUST_ID;
+                    detail.CUST_NM                  = resolveagendabyidserver.CUST_NM;
                     detail.KD_BARANG                = barang.KD_BARANG;
+                    detail.NM_BARANG                = namaproduct;
                     detail.POS                      = 'ANDROID';
                     detail.USER_ID                  = auth.id;
                     detail.SO_QTY                   = inputValue;
@@ -235,7 +237,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         var newISON_SERVER              = 1;
                         var newTGL                      = detail.TGL;
                         var newCUST_KD                  = detail.CUST_KD;
+                        var newCUST_NM                  = detail.CUST_NM;
                         var newKD_BARANG                = detail.KD_BARANG;
+                        var newNM_BARANG                = detail.NM_BARANG;
                         var newSO_QTY                   = detail.SO_QTY;
                         var newSO_TYPE                  = detail.SO_TYPE;
                         var newPOS                      = detail.POS;
@@ -243,9 +247,10 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         var newSTATUS                   = 1;
                         var newWAKTU_INPUT_INVENTORY    = detail.WAKTU_INPUT_INVENTORY;
                         var newID_GROUP                 = detail.ID_GROUP;
+                        var newDIALOG_TITLE             = idinventorys.DIALOG_TITLE;
 
-                        var queryinsertsot2 = 'INSERT INTO Sot2 (ISON_SERVER,TGL,CUST_KD,KD_BARANG,SO_QTY,SO_TYPE,POS,USER_ID,STATUS,WAKTU_INPUT_INVENTORY,ID_GROUP) VALUES (?,?,?,?,?,?,?,?,?,?,?)';
-                        $cordovaSQLite.execute($rootScope.db,queryinsertsot2,[newISON_SERVER,newTGL,newCUST_KD,newKD_BARANG,newSO_QTY,newSO_TYPE,newPOS,newUSER_ID,newSTATUS,newWAKTU_INPUT_INVENTORY,newID_GROUP])
+                        var queryinsertsot2 = 'INSERT INTO Sot2 (ISON_SERVER,TGL,CUST_KD,CUST_NM,KD_BARANG,NM_BARANG,SO_QTY,SO_TYPE,POS,USER_ID,STATUS,WAKTU_INPUT_INVENTORY,ID_GROUP,DIALOG_TITLE) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                        $cordovaSQLite.execute($rootScope.db,queryinsertsot2,[newISON_SERVER,newTGL,newCUST_KD,newCUST_NM,newKD_BARANG,newNM_BARANG,newSO_QTY,newSO_TYPE,newPOS,newUSER_ID,newSTATUS,newWAKTU_INPUT_INVENTORY,newID_GROUP,newDIALOG_TITLE])
                         .then(function(result) 
                         {
                             alert("SOT2 Berhasil Disimpan Di Local!");

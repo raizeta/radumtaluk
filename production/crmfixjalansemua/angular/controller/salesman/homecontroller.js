@@ -252,7 +252,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     }
 }]);
 
-
 myAppModule.controller("SalesTrackController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","ngToast","sweet","SalesTrackServices",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,ngToast,sweet,SalesTrackServices) 
 {
@@ -273,6 +272,7 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
     });
 
 }]);
+
 myAppModule.controller("SalesTrackPerUserController", ["$rootScope","$scope", "$location","$http", "authService", "auth","$window","NgMap","LocationService","ngToast","sweet","SalesTrackServices","$routeParams",
 function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,LocationService,ngToast,sweet,SalesTrackServices,$routeParams) 
 {
