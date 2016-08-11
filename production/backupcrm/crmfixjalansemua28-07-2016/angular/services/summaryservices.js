@@ -43,6 +43,7 @@ myAppModule.factory('SummaryService', ["$http","$q","$window",function($http, $q
 		        _.each(BarangSummaryAll, function(execute) 
 		        {
 		            var existingFilter = _.findWhere(filtersproduct, { CUST_ID: execute.CUST_ID });
+		            console.log(existingFilter);
 		            if (existingFilter) 
 		            {
 		                var index = filtersproduct.indexOf(existingFilter);
