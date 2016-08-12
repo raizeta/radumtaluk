@@ -253,6 +253,36 @@
                   </section><!-- /.content -->
               </md-tab-body>
             </md-tab>
+            
+            <md-tab id="tab8" ng-click="summaryallsqlite()">
+              <md-tab-label>summaryallsqlite</md-tab-label>
+              <md-tab-body>
+                  <section class="content">
+                    <div class="row" >
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                              	<th>NAMA PRODUCT</th>
+                              	<th ng-repeat-start="xxx in summarysqlite[0].penjualan">{{xxx.DIALOG_TITLE}}</th>
+                              	<th ng-repeat-end="xxx in summarysqlite[0].penjualan"></th>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="barang in summarysqlite">
+                                  <td>{{barang.NM_BARANG}}</td>
+                                  <td align="center" ng-repeat-start="xxx in barang.penjualan">{{xxx.QTY|number}}</td>
+                                  <td align="center" ng-repeat-end="xxx in barang.penjualan"></td>
+                                </tr>
+                              </tbody>
+                             </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>   
+              </md-tab-body>
+            </md-tab>
           </md-tabs>
         </md-content>
       </div>

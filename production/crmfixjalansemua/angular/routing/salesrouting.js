@@ -60,6 +60,16 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var userInfo                = authService.getUserInfo();
                 var resolvestatusabsensi    = AbsensiSqliteServices.getAbsensiStatus(tanggalplan,userInfo.id);
                 return resolvestatusabsensi;
+            },
+            resolveobjectbarangsqlite: function($q,ProductService)
+            {
+                var resultobjectbarangsqlite = ProductService.GetDataBarangsSqlite();
+                return $q.when(resultobjectbarangsqlite);
+            },
+            resolvesot2type: function($q,SOT2Services)
+            {
+                var resultsot2type = SOT2Services.getSOT2Type();
+                return $q.when(resultsot2type);
             }
         }
     });

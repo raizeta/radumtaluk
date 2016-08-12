@@ -1,5 +1,5 @@
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
@@ -334,6 +334,22 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         }, 
         function (err) 
         {          
+            alert(err);
+            $scope.loadingcontent  = false;
+        });
+    };
+
+    $scope.summaryallsqlite = function()
+    {
+        console.log(resolvesot2type);
+    	$scope.loadingcontent  = true;
+        SOT2Services.getSOT2Summary(tanggalplan,auth.id,resolveobjectbarangsqlite,resolvesot2type)
+        .then(function(data)
+        {
+            $scope.summarysqlite = data;
+        },
+        function (err)
+        {
             alert(err);
             $scope.loadingcontent  = false;
         });

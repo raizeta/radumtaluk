@@ -120,11 +120,11 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         return deferred.promise;  
     }
 
-    var getSOT2Summary = function (tanggalplan,SCDL_GROUP,userid)
+    var getSOT2SummaryPerCustomer = function (tanggalplan,userid,resolveobjectbarangsqlite,resolvesot2type,CUST_ID)
     {
         var deferred = $q.defer();
-        var querysummary = 'SELECT * FROM Sot2 WHERE TGL = ? AND SCDL_GROUP = ? AND CUST_KD = ? AND USER_ID = ?';
-        $cordovaSQLite.execute($rootScope.db, querysummary, [tanggalplan,SCDL_GROUP,CUST_KD,userid])
+        var querysummary = 'SELECT * FROM Sot2 WHERE TGL = ? AND USER_ID = ? AND CUST_KD = ?';
+        $cordovaSQLite.execute($rootScope.db, querysummary, [tanggalplan,userid,CUST_ID])
         .then(function(result) 
         {
             if (result.rows.length > 0) 
@@ -143,11 +143,65 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                     summary.DIALOG_TITLE        = result.rows.item(i).DIALOG_TITLE;
                     summarypercustomer.push(summary);
                 }
-                deferred.resolve(summaryapercustomer);
+                
+                var productdas      = resolveobjectbarangsqlite;
+                var typepenjualan   = resolvesot2type;
+
+                var combination = [];
+                for(var i=0;i < productdas.length ; i ++)
+                {
+                    var product = {};
+                    product.KD_BARANG            = productdas[i].KD_BARANG;
+                    product.NM_BARANG            = productdas[i].NM_BARANG;
+                    
+                    product.penjualan = [];
+                	for(var j=0;j < typepenjualan.length ; j ++)
+                    {
+                        var detail = {};
+                        detail.SO_TYPE              = typepenjualan[j].SO_TYPE;
+                        detail.SO_ID                = typepenjualan[j].SO_ID;
+                        detail.DIALOG_TITLE         = typepenjualan[j].DIALOG_TITLE;
+                        detail.QTY                  = 0;
+                        product.penjualan.push(detail);
+                    }
+                	combination.push(product);
+
+                }
+                
+                angular.forEach(summarypercustomer, function (value,key)
+        	    {
+        	        var existproduct = _.findWhere(combination, { KD_BARANG: value.KD_BARANG });
+        	        var existtypepenjualan = _.findWhere(existproduct.penjualan, { SO_ID: value.SO_TYPE });
+        	        existtypepenjualan.QTY = value.SO_QTY;
+        	    });
+                
+                deferred.resolve(combination);
             }
             else
             {
-                deferred.resolve([]);
+            	var productdas      = resolveobjectbarangsqlite;
+                var typepenjualan   = resolvesot2type;
+
+                var combination = [];
+                for(var i=0;i < productdas.length ; i ++)
+                {
+                    var product = {};
+                    product.KD_BARANG            = productdas[i].KD_BARANG;
+                    product.NM_BARANG            = productdas[i].NM_BARANG;
+                    
+                    product.penjualan = [];
+                	for(var j=0;j < typepenjualan.length ; j ++)
+                    {
+                        var detail = {};
+                        detail.KD_TYPE              = typepenjualan[j].SO_TYPE;
+                        detail.SO_ID                = typepenjualan[j].SO_ID;
+                        detail.DIALOG_TITLE         = typepenjualan[j].DIALOG_TITLE;
+                        detail.QTY                  = 0;
+                        product.penjualan.push(detail);
+                    }
+                	combination.push(product);
+                }
+                deferred.resolve(combination);
             }
         },
 
@@ -161,6 +215,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     return{
             getSOT2Quantity:getSOT2Quantity,
             getSOT2Type:getSOT2Type,
-            getSOT2Summary:getSOT2Summary
+            getSOT2SummaryPerCustomer:getSOT2SummaryPerCustomer
         }
 }]);
