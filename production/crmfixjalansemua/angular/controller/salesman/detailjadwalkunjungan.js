@@ -253,7 +253,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         $cordovaSQLite.execute($rootScope.db,queryinsertsot2,[newISON_SERVER,newTGL,newCUST_KD,newCUST_NM,newKD_BARANG,newNM_BARANG,newSO_QTY,newSO_TYPE,newPOS,newUSER_ID,newSTATUS,newWAKTU_INPUT_INVENTORY,newID_GROUP,newDIALOG_TITLE])
                         .then(function(result) 
                         {
-                            alert("SOT2 Berhasil Disimpan Di Local!");
+                            console.log("SOT2 Berhasil Disimpan Di Local!");
                         }, 
                         function(error) 
                         {
@@ -328,6 +328,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 $cordovaCamera.getPicture(options)
                 .then(function (imageData) 
                 {
+                    $scope.loadingcontent = true;
                     var statusstartpicture              = {};
                     statusstartpicture.bgcolor          = "bg-green";
                     statusstartpicture.icon             = "fa fa-check bg-green";
@@ -372,15 +373,18 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         {
                             alert("Agenda Start Pic Gagal Di Update Di Local: " + error.message);
                         });
+                        $scope.loadingcontent = false;
                     }, 
                     function(err) 
                     {
                         alert("Gagal Menyimpan Start Picture Ke Server");
+                        $scope.loadingcontent = false;
                     });
                 }, 
                 function(err) 
                 {
                     // alert(err.message);
+                    $scope.loadingcontent = false;
                 });
 
             }, false);
@@ -418,6 +422,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 $cordovaCamera.getPicture(options)
                 .then(function(imageData) 
                 {
+                    $scope.loadingcontent = true;
                     var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                     var gambarkunjungan={};
 
@@ -461,15 +466,19 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         {
                             alert("Agenda End Pic Gagal Di Update Di Local: " + error.message);
                         });
+
+                        $scope.loadingcontent = false;
                     }, 
                     function(err) 
                     {
                         alert("Gagal Menyimpan End Picture Ke Server");
+                        $scope.loadingcontent = false;
                     }); 
                 }, 
                 function(err) 
                 {
                     // alert(err.message);
+                    $scope.loadingcontent = false;
                 });
             }, false);
         }
@@ -498,6 +507,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             }, 
             function() 
             {
+                $scope.loadingcontent = true;
+
                 var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                 var detail={};
                 detail.CHECKOUT_LAT              = $scope.googlemaplat;
@@ -520,32 +531,33 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                                         timer: 1000,
                                         showConfirmButton: false
                                     });
-                        $scope.loadingcontent = true;
+                        
                         $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
                     },
                     function (error)
                     {
                         alert("Update Status Check Out Ke Server Gagal.Try Again");
                     });
-
-                    var updateCHECKOUT_TIME  = checkouttime;
-                    var updateSTSCHECK_OUT      = 1;
-
-                    var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, STSCHECK_OUT = ? WHERE ID_SERVER = ?';
-                    $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
-                    .then(function(result) 
-                    {
-                        console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
-                    },
-                    function(error) 
-                    {
-                        alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
-                    });
                 },
                 function (error)
                 {
                     alert("Update Check Out SCDL Detail Ke Server Gagal.Try Again");
-                });    
+                });
+
+                var updateCHECKOUT_TIME  = checkouttime;
+                var updateSTSCHECK_OUT      = 1;
+
+                var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, STSCHECK_OUT = ? WHERE ID_SERVER = ?';
+                $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
+                .then(function(result) 
+                {
+                    console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
+                },
+                function(error) 
+                {
+                    alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
+                }); 
+
             }); 
         } 
     };
@@ -561,7 +573,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         }
         else
         {
-            $scope.salesmanmemo                 = responsesalesmemo.isimemo;
+            $scope.salesmanmemo                 = responsesalesmemo;
             $scope.statusmessageskunjungan      = responsesalesmemo;
             $scope.messageskunjungandisabled    = responsesalesmemo.messageskunjungandisabled;
         }
@@ -749,26 +761,29 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     // ####################################################################################################
     // SUMMARY FUNCTION
     //#####################################################################################################
-    $scope.summary = function()
+    //Server Using API
+    // $scope.summary = function()
+    // {
+    //     $scope.loadingcontent = true;
+    //     SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,auth.id)
+    //     .then(function (data)
+    //     {
+    //         $scope.BarangSummary = data.InventorySummary;
+    //         $scope.loadingcontent = false;
+    //     });
+    // };
+    //Local Using Sqlite
+    $scope.summarycustomer = function()
     {
-        $scope.loadingcontent = true;
-        SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,auth.id)
-        .then(function (data)
-        {
-            $scope.BarangSummary = data.InventorySummary;
-            $scope.loadingcontent = false;
-        });
-    };
-    
-    $scope.summaryallsqlite = function()
-    {
-        console.log(resolvesot2type);
     	$scope.loadingcontent  = true;
         SOT2Services.getSOT2SummaryPerCustomer(PLAN_TGL_KUNJUNGAN,auth.id,resolveobjectbarangsqlite,resolvesot2type,CUST_ID)
         .then(function(data)
         {
             $scope.summarysqlite = data;
-            $scope.loadingcontent  = false;
+            $timeout(function()
+            {
+                $scope.loadingcontent  = false;
+            },5000);
         },
         function (err)
         {

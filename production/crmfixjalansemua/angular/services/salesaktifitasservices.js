@@ -102,9 +102,8 @@ function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
             }
             else
             {
-                deferred.resolve(response.Salesmanabsensi[0]);
                 var statusmemokunjungan                         = {};
-                statusmemokunjungan.isimemo                     = response.Messageskunjungan[0]
+                statusmemokunjungan.ISI_MESSAGES                = response.Messageskunjungan[0]
                 statusmemokunjungan.bgcolor                     = "bg-green";
                 statusmemokunjungan.icon                        = "fa fa-check bg-green";
                 statusmemokunjungan.messageskunjungandisabled   = true;
@@ -118,6 +117,7 @@ function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
         
         return deferred.promise;
     }
+    
     return{
             getSalesAktifitas:getSalesAktifitas,
             setMemoSalesAktifitas:setMemoSalesAktifitas,

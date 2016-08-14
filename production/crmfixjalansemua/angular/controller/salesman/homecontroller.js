@@ -1,13 +1,13 @@
 'use strict';
-myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout", 
-function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout) 
+myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout","ManagerService", 
+function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,ManagerService) 
 {   
     $scope.activehome = "active";
     // alert($rootScope.devicemodel);
     // alert($rootScope.deviceplatform);
     // alert($rootScope.deviceuuid);
     // alert($rootScope.deviceversion);
-    $scope.loading  = true;
+    $scope.loadingcontent  = true;
     $scope.userInfo = auth;
 	$scope.logout = function () 
     { 
@@ -16,27 +16,26 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         window.location.href = "index.html";
     }
 
-    apiService.datasalesmanmemo()
-    .then(function(data)
+    ManagerService.getManagerMemo()
+    .then(function(response)
     {
-        $scope.loading = true;
-        $scope.salesmanmemo = data.Salesmanmemo;
-    })
-    .finally(function()
-    {
+        $scope.loadingcontent = true;
+        $scope.salesmanmemo = response;
+        
         var hideloading = function()
         {
-            $scope.loading= false;
+            $scope.loadingcontent= false;
         }
 
-        $timeout(hideloading,1000);
+        $timeout(hideloading,5000);
     });
+
     $scope.memodibuatpada        = $filter('date')(new Date(),'dd-MM-yyyy HH:mm:ss');
-    var url = $rootScope.linkurl;
+
     $scope.submitForm = function(formsalesmanmemo)
     {
 
-        $scope.loading = true;
+        $scope.loadingcontent = true;
         var memodibuatpada         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
 
         var salesmanmemo = {};
@@ -47,48 +46,18 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast
         salesmanmemo.CREATE_AT          = memodibuatpada;
         salesmanmemo.CREATE_BY          = auth.id;
 
-        function serializeObj(obj) 
+        ManagerService.setManagerMemo(salesmanmemo)
+        .then(function(response)
         {
-          var result = [];
-          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
-          return result.join("&");
-        }
-        var memo = serializeObj(salesmanmemo);
-        var config = 
+            $scope.salesmanmemo.push(response);
+            $scope.salesmanmemo.ISI_MESSAGES = '';
+            $scope.salesmanmemo.STATUSMEMO  = null;
+            $scope.loadingcontent = false;
+        },
+        function (error)
         {
-            headers : 
-            {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'
-                
-            }
-        };
-
-        $http.post(url + "/salesmanmemos",memo,config)
-        .success(function(data,status, headers, config) 
-        {
-            ngToast.create('Memo Berhasil Di Save');
-            apiService.datasalesmanmemo()
-            .then(function(data)
-            {
-                
-                $scope.salesmanmemo = data.Salesmanmemo;
-            })
-            .finally(function()
-            {
-                var hideloading = function()
-                {
-                    $scope.loading= false;
-                }
-
-                $timeout(hideloading,10000);
-            });
-
-        })
-
-        .finally(function()
-        {
-            $scope.loading = false;  
+            alert("Manager Memo Gagal Disimpan Ke Server");
+            $scope.loadingcontent = false;
         });
     }
 }]);
@@ -264,11 +233,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         window.location.href = "index.html";
     }
 
-    $scope.loading  = true;
+    $scope.loadingcontent  = true;
     SalesTrackServices.getSalesTracks($rootScope.tanggalharini)
     .then(function (result) 
     {
         $scope.salestracks = result;
+        $scope.loadingcontent  = false;
+    },
+    function (error)
+    {
+        alert("Sales Tracking On Customer Error");
+        $scope.loadingcontent  = false;
     });
 
 }]);
@@ -286,12 +261,17 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         window.location.href = "index.html";
     }
 
-    $scope.loading  = true;
+    $scope.loadingcontent  = true;
     SalesTrackServices.getSalesTrack($rootScope.tanggalharini,idsalesman)
     .then(function (result) 
     {
         $scope.salestracks = result;
-        console.log(result);
+        $scope.loadingcontent  = false;
+    },
+    function (error)
+    {
+        alert("Sales Track Detail Per User Error");
+        $scope.loadingcontent  = false;
     });
 
 }]);

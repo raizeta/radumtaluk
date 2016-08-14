@@ -64,6 +64,7 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
         });
     }
 
+    
 
     var date = new Date();
     var d = date.getDate();
@@ -71,7 +72,7 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
     var y = date.getFullYear();
     
     var mt = historyresolve.JadwalKunjungan;
-    $scope.events = [];
+    var agendakalender = [];
 
     var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     angular.forEach(mt, function(value, key)
@@ -107,9 +108,19 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
             }  
         }
 
-        $scope.events.push(data);
+        agendakalender.push(data);
     });
 
+
+    var data ={};
+    data.title = 'JT6';
+    data.start = new Date(tanggalplan);
+    data.allDay =true;
+    data.url ="#/agenda/" + tanggalplan;
+    data.color = '#378006';
+
+    agendakalender.push(data);  
+        
     $scope.uiConfig = 
     {
       calendar:
@@ -129,6 +140,8 @@ function ($rootScope,$scope,$location,auth,$window,uiCalendarConfig,historyresol
         eventRender: $scope.eventRender
       }
     };
-    $scope.eventSources = [$scope.events];
+
+    agendakalender= _.uniq(agendakalender, 'url');
+    $scope.eventSources = [agendakalender];
 }]);
 

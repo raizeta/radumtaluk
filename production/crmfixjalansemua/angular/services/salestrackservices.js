@@ -19,6 +19,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http.get(url + "/salestracks/search?TGL=" + tanggalplan)
         .success(function(data,status,headers,config) 
         {
+            console.log(data);
             var salestracks   = [];
             _.each(data['Sales Track'], function(executes) 
             {
@@ -65,6 +66,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+    
     var getSalesTrack= function(tanggalplan,salesmanid)
     {
         console.log(tanggalplan);
@@ -74,6 +76,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         $http.get(url + "/salestrackperusers/search?TGL=" + tanggalplan + "&USER_ID=" + salesmanid)
         .success(function(data,status,headers,config) 
         {
+            console.log(data);
             var salestracks   = [];
             _.each(data.SalesTrackPerUser, function(executes) 
             {

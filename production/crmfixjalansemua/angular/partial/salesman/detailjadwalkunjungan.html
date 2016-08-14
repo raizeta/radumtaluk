@@ -1,7 +1,7 @@
 <div ng-include="'angular/partial/headtemplate.html'"></div>
 <div ng-include="'angular/partial/homemenu.html'"></div>
 
-<div class="content-wrapper">
+<div class="content-wrapper" class="ng-cloak">
   <span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16,position:'fixed'}"></span>
   <section class="content">
     <div class="row">
@@ -16,7 +16,6 @@
                     <section class="content">
                       <div class="row">
                         <div class="col-md-12">
-                          <!-- The time line -->
                           <ul class="timeline">
                             <li class="time-label">
                               <span class="bg-green">
@@ -46,7 +45,6 @@
                                         </button>
                                       </div>
                                     </div>
-                                    <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
                                       <div class="timeline-body" ng-show="salesactivity.status.show">
                                         <img ng-repeat="barang in salesactivity.products" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty($parent.$index,barang,$index,salesactivity)">
@@ -67,7 +65,6 @@
                                         </button>
                                       </div>
                                     </div>
-                                    <!-- /.box-header -->
                                     <div class="box-body" style="display: block;">
                                       <div class="timeline-body" ng-show="statusbarangexpired.show">
                                         <img ng-repeat="barang in barangexpired" src="asset/graph/{{barang.KD_BARANG}}.png"  class="img-circle" id="{{$index}}" ng-click="showmodal(barang,$index)">
@@ -97,7 +94,6 @@
                                         </button>
                                       </div>
                                     </div>
-                                    <!-- /.box-header -->
                                     <form name="FormSalesMemo" ng-submit="submitFormSalesMemo(salesmanmemo)" method="post" novalidate>
                                     <div class="box-body" ng-disabled="messageskunjungandisabled">
                                       <div class="form-group" ng-class="{ 'has-error' : FormSalesMemo.ISI_MESSAGES.$invalid && !FormSalesMemo.ISI_MESSAGES.$pristine,'has-success':FormSalesMemo.ISI_MESSAGES.$valid  }">
@@ -119,7 +115,6 @@
                             </li>  
                           </ul>
                         </div>
-                        <!-- /.col -->
                       </div>
                     </section>
                   </md-list>   
@@ -147,7 +142,7 @@
               </md-tab-body>
             </md-tab>
 
-            <md-tab id="tab3" ng-click="summary()">
+            <!-- <md-tab id="tab3" ng-click="summary()">
               <md-tab-label>SUMMARY</md-tab-label>
               <md-tab-body>
                   <section class="content">
@@ -176,21 +171,48 @@
                                   <td>{{barangsummary.RETURN_INV}}</td>
                                   <td>{{barangsummary.REQUEST_INV}}</td>
                                 </tr>
-                                <!-- <tr>
-                                  <td>Total</td>
-                                  <td>{{totalstockqty}}</td>
-                                  <td>{{totalsellout}}</td>
-                                  <td>{{totalsellin}}</td>
-                                </tr> -->
                               </tbody>
                              </table>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </section><!-- /.content -->
+                  </section>
+              </md-tab-body>
+            </md-tab> -->
+
+            <md-tab id="tab3" ng-click="summarycustomer()">
+              <md-tab-label>Summary</md-tab-label>
+              <md-tab-body>
+                  <section class="content">
+                    <div class="row" >
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                                <th class="bg-aqua">NAMA PRODUCT</th>
+                                <th class="bg-aqua"ng-repeat-start="xxx in summarysqlite[0].penjualan">
+                                  {{xxx.DIALOG_TITLE}}
+                                </th>
+                                <th ng-repeat-end style="display:none"></th>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="barang in summarysqlite">
+                                  <td>{{barang.NM_BARANG}}</td>
+                                  <td align="center" ng-repeat-start="xxx in barang.penjualan">{{xxx.QTY|number}}</td>
+                                  <td align="center" ng-repeat-end style="display:none"></td>
+                                </tr>
+                              </tbody>
+                             </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>   
               </md-tab-body>
             </md-tab>
+
             <md-tab id="tab4" ng-click="lastvisitsummary()">
               <md-tab-label>LV SUMMARY</md-tab-label>
               <md-tab-body>
@@ -254,40 +276,11 @@
               </md-tab-body>
             </md-tab>
             
-            <md-tab id="tab8" ng-click="summaryallsqlite()">
-              <md-tab-label>summaryallsqlite</md-tab-label>
-              <md-tab-body>
-                  <section class="content">
-                    <div class="row" >
-                      <div class="col-md-12">
-                        <div class="panel panel-danger">
-                          <div class="panel-body table-responsive">
-                             <table class="table table-hover table-striped table-bordered">
-                              <thead>
-                              	<th>NAMA PRODUCT</th>
-                              	<th ng-repeat-start="xxx in summarysqlite[0].penjualan">{{xxx.DIALOG_TITLE}}</th>
-                              	<th ng-repeat-end="xxx in summarysqlite[0].penjualan"></th>
-                              </thead>
-                              <tbody>
-                                <tr ng-repeat="barang in summarysqlite">
-                                  <td>{{barang.NM_BARANG}}</td>
-                                  <td align="center" ng-repeat-start="xxx in barang.penjualan">{{xxx.QTY|number}}</td>
-                                  <td align="center" ng-repeat-end="xxx in barang.penjualan"></td>
-                                </tr>
-                              </tbody>
-                             </table>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </section>   
-              </md-tab-body>
-            </md-tab>
           </md-tabs>
         </md-content>
       </div>
     </div>
-  </section><!-- /.content -->
-</div><!-- /.content-wrapper -->
+  </section>
+</div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>
  

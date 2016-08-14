@@ -9,7 +9,7 @@
 <div class="content-wrapper" >
     <section class="content">
       <div class="row" ng-if="(userInfo.accessid == 1)">
-        <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
+        <span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16, position:'fixed'}"></span>
             <div class="col-md-12">
               <div class="box box-widget">
                 <div class="box-header with-border">
@@ -59,7 +59,8 @@
             <div class="box box-widget">
               <div class="box-header with-border">
                 <div class="user-block">
-                  <img class="img-circle" data-ng-src="data:image/jpg;charset=utf-8;base64,{{memo.IMG_BASE64}}" alt="User Image">
+                  <!-- <img class="img-circle" data-ng-src="data:image/jpg;charset=utf-8;base64,{{memo.IMG_BASE64}}" alt="User Image"> -->
+                  <img class="img-circle" data-ng-src="asset/admin/dist/img/manager.png" alt="User Image">
                   <span class="username"><a href="#">{{memo.NM_USER}}</a></span>
                   <span class="description">{{memo.STATUS_MESSAGES}} @{{memo.CREATE_AT| myDateFormat}}</span>
                 </div>
@@ -72,63 +73,12 @@
               </div>
               <div class="box-body" compile="memo.ISI_MESSAGES ">
                 {{ memo.ISI_MESSAGES }}
-
-                <!-- <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
-                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
-                <span class="pull-right text-muted">45 likes - 2 comments</span> -->
               </div>
-
-              <!-- <div class="box-footer box-comments">
-                <div class="box-comment">
-                  <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
-
-                  <div class="comment-text">
-                        <span class="username">
-                          Maria Gonzales
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                        </span>
-                    It is a long established fact that a reader will be distracted
-                    by the readable content of a page when looking at its layout.
-                  </div>
-                  
-                </div>
-                <div class="box-comment">
-                  
-                  <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
-
-                  <div class="comment-text">
-                        <span class="username">
-                          Nora Havisham
-                          <span class="text-muted pull-right">8:03 PM Today</span>
-                        </span>
-                    The point of using Lorem Ipsum is that it has a more-or-less
-                    normal distribution of letters, as opposed to using
-                    'Content here, content here', making it look like readable English.
-                  </div>
-                  
-                </div>
-                
-              </div>
-
-              <div class="box-footer">
-                <form action="#" method="post">
-                  <img class="img-responsive img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="Alt Text">
-                  
-                  <div class="img-push">
-                    <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
-                  </div>
-                </form>
-              </div> -->
             </div>
 
           </div>
 
       </div>
     </section>
-    <!-- <nav mfb-menu position="br" effect="zoomin" active-icon="ion-navicon-round" resting-icon="ion-plus-round" toggling-method="hover">
-              <button mfb-button icon="ion-social-freebsd-devil" label="Add"></button>
-              <button mfb-button icon="ion-social-usd" label="Remove"></button>
-              <button mfb-button icon="ion-android-mail" label="Edit"></button>
-    </nav> -->
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>

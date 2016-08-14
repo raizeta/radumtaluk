@@ -55,26 +55,33 @@ function ($rootScope,$scope,$location,$filter,$timeout,$window,auth,uiCalendarCo
                 var agendakalender = [];
                 for (var i=0; i < l; i++) 
                 {
-                    var tanggalscdlheader = result.rows.item(i).TGL1;
-                    // alert("Cek Tanggal Sekarang Sama");
-                    if(tanggalscdlheader != tanggalsekarang)
+                    var resultsqlite = {};
+                    resultsqlite.TGL1 = result.rows.item(i).TGL1;
+                    resultsqlite.NOTE = result.rows.item(i).NOTE;
+                    agendakalender.push(resultsqlite);
+                }
+
+                var uniqagendakalender = _.uniq(agendakalender, 'TGL1');
+                angular.forEach(uniqagendakalender, function(value, key)
+                {
+                    if(value.TGL1 != tanggalsekarang)
                     {
                         var data ={};
-                        data.title = result.rows.item(i).NOTE;
-                        data.start = new Date(tanggalscdlheader);
+                        data.title = value.NOTE;
+                        data.start = new Date(value.TGL1);
                         data.allDay =true;
-                        data.url ="#/agenda/" + tanggalscdlheader;
-                        if(tanggalscdlheader > tanggalsekarang)
+                        data.url ="#/agenda/" + value.TGL1;
+                        if(value.TGL1 > tanggalsekarang)
                         {
                           data.color = '#378006';  
                         }
-                        else if(tanggalscdlheader < tanggalsekarang)
+                        else if(value.TGL1 < tanggalsekarang)
                         {
                             data.color = '#dd4b39';
                         }
                         $scope.events.push(data); 
-                    } 
-                }
+                    }
+                });
             }
             else
             {

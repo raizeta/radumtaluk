@@ -175,7 +175,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                     $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newSTSCHECK_IN,newSTSCHECK_OUT,newSTSINVENTORY_EXPIRED,newSTSINVENTORY_SELLIN,newSTSINVENTORY_SELLOUT,newSTSINVENTORY_STOCK,newSTSINVENTORY_REQUEST,newSTSINVENTORY_RETURN,newSTSSTART_PIC,newSTSEND_PIC,newSCDL_GROUP,newSTSISON_SERVER])
                                     .then(function(result) 
                                     {
-                                        alert("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
+                                        console.log("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
                                     }, 
                                     function(error) 
                                     {
@@ -284,25 +284,55 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         }
     } 
 
-    $scope.summaryall = function()
+    // Dari APi Server
+    // $scope.summaryall = function()
+    // {
+    //     $scope.loadingcontent  = true;
+    //     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+    //     .then(function(data)
+    //     {
+    //         var idgroupcustomer         = data.SCDL_GROUP;
+    //         SummaryService.datasummaryall(idsalesman,tanggalplan,idgroupcustomer)
+    //         .then(function (result) 
+    //         {
+    //             $scope.siteres      = result.siteres;
+    //             $scope.totalalls    = result.totalalls;
+    //             $scope.loadingcontent  = false;
+    //         }, 
+    //         function (err) 
+    //         {          
+    //             alert(err);
+    //             $scope.loadingcontent  = false;
+    //         });
+    //     },
+    //     function (err)
+    //     {
+    //         alert(err);
+    //         $scope.loadingcontent  = false;
+    //     });
+    // };
+
+    // Dari Local Sqlite
+    $scope.summaryallsqlite = function()
     {
         $scope.loadingcontent  = true;
-        JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+        SOT2Services.getSOT2SummaryAllCustomer(tanggalplan,auth.id,resolveobjectbarangsqlite,resolvesot2type)
         .then(function(data)
         {
-            var idgroupcustomer         = data.SCDL_GROUP;
-            SummaryService.datasummaryall(idsalesman,tanggalplan,idgroupcustomer)
-            .then(function (result) 
+            // Untuk Referensi Lihat di Backcrm 28-07-2016 OutCaseController
+            $scope.combinations = data;
+            
+            var z = '';
+            angular.forEach($scope.combinations[0].products, function(value,key)
             {
-                $scope.siteres      = result.siteres;
-                $scope.totalalls    = result.totalalls;
-                $scope.loadingcontent  = false;
-            }, 
-            function (err) 
-            {          
-                alert(err);
-                $scope.loadingcontent  = false;
+                var xxx = value;
+                angular.forEach(xxx.penjualan, function(value,key)
+                {
+                    z = z + '<td>' + value.DIALOG_TITLE + '</td>';
+                });
             });
+            $scope.indonesia = z;
+            $scope.loadingcontent  = false;
         },
         function (err)
         {
@@ -339,20 +369,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         });
     };
 
-    $scope.summaryallsqlite = function()
-    {
-        console.log(resolvesot2type);
-    	$scope.loadingcontent  = true;
-        SOT2Services.getSOT2Summary(tanggalplan,auth.id,resolveobjectbarangsqlite,resolvesot2type)
-        .then(function(data)
-        {
-            $scope.summarysqlite = data;
-        },
-        function (err)
-        {
-            alert(err);
-            $scope.loadingcontent  = false;
-        });
-    };
+    
  
 }]);
