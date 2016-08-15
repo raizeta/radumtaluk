@@ -155,7 +155,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                     product.NM_BARANG            = productdas[i].NM_BARANG;
                     
                     product.penjualan = [];
-                	for(var j=0;j < typepenjualan.length ; j ++)
+                    for(var j=0;j < typepenjualan.length ; j ++)
                     {
                         var detail = {};
                         detail.SO_TYPE              = typepenjualan[j].SO_TYPE;
@@ -164,22 +164,22 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                         detail.QTY                  = 0;
                         product.penjualan.push(detail);
                     }
-                	combination.push(product);
+                    combination.push(product);
 
                 }
                 
                 angular.forEach(summarypercustomer, function (value,key)
-        	    {
-        	        var existproduct = _.findWhere(combination, { KD_BARANG: value.KD_BARANG });
-        	        var existtypepenjualan = _.findWhere(existproduct.penjualan, { SO_ID: value.SO_TYPE });
-        	        existtypepenjualan.QTY = value.SO_QTY;
-        	    });
+                {
+                    var existproduct = _.findWhere(combination, { KD_BARANG: value.KD_BARANG });
+                    var existtypepenjualan = _.findWhere(existproduct.penjualan, { SO_ID: value.SO_TYPE });
+                    existtypepenjualan.QTY = value.SO_QTY;
+                });
                 
                 deferred.resolve(combination);
             }
             else
             {
-            	var productdas      = resolveobjectbarangsqlite;
+                var productdas      = resolveobjectbarangsqlite;
                 var typepenjualan   = resolvesot2type;
 
                 var combination = [];
@@ -190,7 +190,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                     product.NM_BARANG            = productdas[i].NM_BARANG;
                     
                     product.penjualan = [];
-                	for(var j=0;j < typepenjualan.length ; j ++)
+                    for(var j=0;j < typepenjualan.length ; j ++)
                     {
                         var detail = {};
                         detail.KD_TYPE              = typepenjualan[j].SO_TYPE;
@@ -199,7 +199,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                         detail.QTY                  = 0;
                         product.penjualan.push(detail);
                     }
-                	combination.push(product);
+                    combination.push(product);
                 }
                 deferred.resolve(combination);
             }
@@ -223,15 +223,12 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         $cordovaSQLite.execute($rootScope.db, querysummary, [tanggalplan,userid])
         .then(function(result) 
         {
-            console.log("Query SOT2 Sukses");
             if (result.rows.length > 0) 
             {
                 var summaryallcustomer = [];
                 var l = result.rows.length;
                 for (var i=0; i < l; i++) 
                 {
-                    console.log("Query SOT2 Sukses Memiliki Nilai ");
-
                     var summary = {};
                     summary.KD_BARANG           = result.rows.item(i).KD_BARANG;
                     summary.NM_BARANG           = result.rows.item(i).NM_BARANG;
@@ -251,7 +248,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                     if (result.rows.length > 0) 
                     {
                         var l = result.rows.length;
-
                         var customers = [];
                         for (var i=0; i < l; i++) 
                         {
@@ -284,36 +280,41 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                                     detail.SO_ID                = typepenjualan[j].SO_ID;
                                     detail.DIALOG_TITLE         = typepenjualan[j].DIALOG_TITLE;
                                     detail.QTY                  = 0;
+                                    detail.TOTALQTY             = 0;
                                     product.penjualan.push(detail);
                                 }
                                 customer.products.push(product);
                             }
                             combination.push(customer);
                         }
+
+                        var total = combination[0].products;
                         angular.forEach(summaryallcustomer, function (value,key)
                         {
                             var existcustomer           = _.findWhere(combination, { CUST_KD: value.CUST_KD });
                             var existproduct            = _.findWhere(existcustomer.products, { KD_BARANG: value.KD_BARANG });
                             var existtypepenjualan      = _.findWhere(existproduct.penjualan, { SO_ID: value.SO_TYPE });
                             existtypepenjualan.QTY      = value.SO_QTY;
+
+                            var existproductontotal     = _.findWhere(total, { KD_BARANG: value.KD_BARANG });
+                            
+                            var existtotal              = _.findWhere(existproductontotal.penjualan, { SO_ID: value.SO_TYPE });
+                            var total_temp              = existtotal.TOTALQTY;
+                            existtotal.TOTALQTY         = parseInt(total_temp) + parseInt(value.SO_QTY);
                         });
 
-                        var resultcombinations = combination;
-                        deferred.resolve(resultcombinations);
+                        deferred.resolve(combination);
                     }
                 });
             }
             else
             {
-                console.log("SOT2 Untuk Agenda Hari Ini Masih Kosong");
                 var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ?";
                 $cordovaSQLite.execute($rootScope.db, queryagendatoday, [tanggalplan, userid])
                 .then(function(result) 
                 {
-                    console.log("Apakah Sudah Ada Kustomer Untuk Agenda Hari Ini?")
                     if (result.rows.length > 0) 
                     {
-                        console.log("Ya Sudah Ada Di Local");
                         var l = result.rows.length;
                         var customers = [];
                         for (var i=0; i < l; i++) 
@@ -347,6 +348,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                                     detail.SO_ID                = typepenjualan[j].SO_ID;
                                     detail.DIALOG_TITLE         = typepenjualan[j].DIALOG_TITLE;
                                     detail.QTY                  = 0;
+                                    detail.TOTALQTY             = 0;
                                     product.penjualan.push(detail);
                                 }
                                 customer.products.push(product);
@@ -364,7 +366,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         },
         function(error) 
         {
-            console.log("query SOT2 Gagal");
             deferred.resolve(error.message);
         });
         return deferred.promise;  

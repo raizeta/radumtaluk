@@ -1,13 +1,31 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradius","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services",
-function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradius,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService) 
 {
     var url = $rootScope.linkurl;
+    if(resolveconfigradiussqlite)
+    {
+        if(resolveconfigradiussqlite.length > 0)
+        {
+            var sortedConfigRadius = _.sortBy( resolveconfigradiussqlite, 'valueradius' ).reverse();
+            $scope.configjarak = sortedConfigRadius[0].valueradius;
+        }
+        else
+        {
+            ConfigradiusService.getConfigRadiusFromServer()
+            .then (function (response)
+            {
+                var sortedConfigRadius = _.sortBy(response, 'valueradius' ).reverse();
+                $scope.configjarak = sortedConfigRadius[0].valueradius;
+            },
+            function (error)
+            {
+                alert("error");
+            });          
+        }  
+    }
     
-    var sortedConfigRadius = _.sortBy( resolveconfigradius.Configuration, 'value' ).reverse();
-    var configjarak = sortedConfigRadius[0].value;
-
     var statusaction={};
     statusaction.bgcolor="bg-aqua";
     statusaction.icon="fa fa-close bg-aqua";
@@ -168,7 +186,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         var sotype      = idinventorys.ID;
 
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > configjarak)
+        if(jarak > $scope.configjarak)
         {
             alert("Di Luar Radius.");
             // sweetAlert("Oops...", "Di Luar Radius!", "error");
@@ -315,7 +333,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.starttakeapicture = function()
     {
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > configjarak)
+        if(jarak > $scope.configjarak)
         {
             // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
             alert("Kamu Sedang Tidak Di Dalam Radius");
@@ -396,7 +414,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.endtakeapicture = function()
     {
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > configjarak)
+        if(jarak > $scope.configjarak)
         {
             alert("Kamu Sedang Tidak Di Dalam Radius");
             // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
@@ -489,7 +507,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.checkout = function()
     {
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > configjarak)
+        if(jarak > $scope.configjarak)
         {
             alert("Di Luar Radius");
             // sweetAlert("Oops...", "Out Of Ranges!", "error");
@@ -647,7 +665,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.showmodal = function(barang,index) 
     {
         var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > configjarak)
+        if(jarak > $scope.configjarak)
         {
             alert("Kamu Sedang Tidak Di Dalam Radius");
             // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
@@ -775,7 +793,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     //Local Using Sqlite
     $scope.summarycustomer = function()
     {
-    	$scope.loadingcontent  = true;
+        $scope.loadingcontent  = true;
         SOT2Services.getSOT2SummaryPerCustomer(PLAN_TGL_KUNJUNGAN,auth.id,resolveobjectbarangsqlite,resolvesot2type,CUST_ID)
         .then(function(data)
         {

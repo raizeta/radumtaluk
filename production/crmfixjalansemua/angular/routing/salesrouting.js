@@ -134,10 +134,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     $location.path('/');
                 }
             },
-            resolveconfigradius: function($q,configurationService)
+            resolveconfigradiussqlite: function($q,ConfigradiusService)
             {
-                var resolveconfigradius = configurationService.getConfigRadius();
-                return resolveconfigradius;
+                var resolveconfigradius = ConfigradiusService.getConfigradiusSqlite();
+                return $q.when(resolveconfigradius);
             },
             resolveobjectbarangsqlite: function($q,ProductService)
             {

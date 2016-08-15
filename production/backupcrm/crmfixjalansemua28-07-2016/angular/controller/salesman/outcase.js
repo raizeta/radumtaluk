@@ -97,17 +97,24 @@ function copy(obj) {
     var summarypercustomer = [];
     var summary1 = {};
     summary1.KD_CUST                = "CUST-01";
-    summary1.KD_BARANG              = "C002";
+    summary1.KD_BARANG              = "C001";
     summary1.KD_TYPE                = 'T1';
     summary1.QTY                    = 10;
     summarypercustomer.push(summary1);
 
     var summary2 = {};
-    summary2.KD_CUST                = "CUST-01";
+    summary2.KD_CUST                = "CUST-02";
     summary2.KD_BARANG              = "C001";
-    summary2.KD_TYPE                = 'T3';
+    summary2.KD_TYPE                = 'T1';
     summary2.QTY                    = 5;
     summarypercustomer.push(summary2);
+
+    var summary3 = {};
+    summary3.KD_CUST                = "CUST-02";
+    summary3.KD_BARANG              = "C001";
+    summary3.KD_TYPE                = 'T2';
+    summary3.QTY                    = 5;
+    summarypercustomer.push(summary3);
 
     var customers = [ 
                 {KD_CUST:'CUST-01',NM_CUST:'CUST SATU'},
@@ -150,49 +157,34 @@ function copy(obj) {
             {
                 var detail = {};
                 detail.KD_TYPE              = typepenjualan[j].KD_TYPE;
-                detail.DIALOG_TITLE              = typepenjualan[j].DIALOG_TITLE;
+                detail.DIALOG_TITLE         = typepenjualan[j].DIALOG_TITLE;
                 detail.QTY                  = 0;
+                detail.TOTAL                = 0;
                 product.penjualan.push(detail);
             }
             customer.products.push(product);
         }
         combination.push(customer);
     }
-    console.log(combination);
 
-    // Cara Yang Kedua
-    angular.forEach(customers, function(value,key)
-    {
-        angular.forEach(productdas, function(value,key)
-        {
-            value.penjualan = typepenjualan;
-        });
-        value.products = productdas;
-    });
-    console.log(customer) //Hasilnya Sama Seperti Pada Cara Yang Diatas, Ini Mengakses Langsung Parent Dari Array
-
-    
-    // Menggunakan Cara Yang Pertama
+    var total = combination[0].products;
     angular.forEach(summarypercustomer, function (value,key)
     {
         var existcustomer           = _.findWhere(combination, { KD_CUST: value.KD_CUST });
         var existproduct            = _.findWhere(existcustomer.products, { KD_BARANG: value.KD_BARANG });
         var existtypepenjualan      = _.findWhere(existproduct.penjualan, { KD_TYPE: value.KD_TYPE });
         existtypepenjualan.QTY      = value.QTY;
-    });
-    $scope.combinations = combination;
-    console.log($scope.combinations);
 
-    // Menggunakan Cara Yang Kedua
-    angular.forEach(summarypercustomer, function (value,key)
-    {
-        var existcustomer           = _.findWhere(customers, { KD_CUST: value.KD_CUST });
-        var existproduct            = _.findWhere(existcustomer.products, { KD_BARANG: value.KD_BARANG });
-        var existtypepenjualan      = _.findWhere(existproduct.penjualan, { KD_TYPE: value.KD_TYPE });
-        existtypepenjualan.QTY      = value.QTY;
+        var existproductontotal     = _.findWhere(total, { KD_BARANG: value.KD_BARANG });
+        var existtotal              = _.findWhere(existproductontotal.penjualan, { KD_TYPE: value.KD_TYPE });
+
+        var total_temp              = existtotal.TOTAL;
+        existtotal.TOTAL            = total_temp + value.QTY;
     });
-    $scope.combinations = customers;
-    console.log($scope.combinations);
+    
+    $scope.combinations = combination;
+    $scope.totalall     = total;
+    console.log($scope.totalall);
 
 
     var z = '';

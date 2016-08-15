@@ -321,18 +321,23 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         {
             // Untuk Referensi Lihat di Backcrm 28-07-2016 OutCaseController
             $scope.combinations = data;
+            $scope.totalall     = $scope.combinations[0].products;
             
             var z = '';
+            var totalinventory = '<td>TOTAL</td>';
             angular.forEach($scope.combinations[0].products, function(value,key)
             {
                 var xxx = value;
+                $scopeclass.center = "center";
                 angular.forEach(xxx.penjualan, function(value,key)
                 {
-                    z = z + '<td>' + value.DIALOG_TITLE + '</td>';
+                    z = z + '<td class="'+ $scopeclass.center + '">' + value.DIALOG_TITLE + '</td>';
+                    totalinventory = totalinventory + '<td class="'+ $scopeclass.center + '">' + value.TOTALQTY + '</td>';
                 });
             });
             $scope.indonesia = z;
             $scope.loadingcontent  = false;
+            $scope.totalinventory = totalinventory;
         },
         function (err)
         {
@@ -351,10 +356,10 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             LastVisitService.LastVisitSummaryAll(tanggalplan,idgroupcustomer)
             .then(function (result) 
             {
-                $scope.sitereslv          = result.siteres;
-                $scope.totalallslv        = result.totalalls;
-                $scope.datapengunjung   = result.pengunjung;
-                $scope.loadingcontent  = false;
+                $scope.sitereslv            = result.siteres;
+                $scope.totalallslv          = result.totalalls;
+                $scope.datapengunjung       = result.pengunjung;
+                $scope.loadingcontent       = false;
             }, 
             function (err) 
             {          

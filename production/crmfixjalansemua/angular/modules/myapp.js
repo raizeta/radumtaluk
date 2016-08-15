@@ -24,6 +24,8 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         
 
         $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Sot2Type (ID INTEGER PRIMARY KEY AUTOINCREMENT, ID_SERVER INTEGER,SO_TYPE TEXT,UNTUK_DEVICE TEXT,STATUS INTEGER,SO_ID INTEGER,DIALOG_TITLE TEXT)');
+        
+        $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Configradius (ID INTEGER PRIMARY KEY AUTOINCREMENT, ID_SERVER INTEGER,CHECKIN TEXT,VALUERADIUS INTEGER,NOTE TEXT)');
    });
 
     document.addEventListener("deviceready", function () 

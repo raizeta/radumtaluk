@@ -1,0 +1,134 @@
+<style>
+.widget-clock .digital {
+     text-align: left; 
+     font-size: 4px;
+}
+</style>
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper" >
+    <section class="content">
+      <div class="row" ng-if="(userInfo.accessid == 1)">
+        <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
+            <div class="col-md-12">
+              <div class="box box-widget">
+                <div class="box-header with-border">
+                  <div class="user-block">
+                    <img class="img-circle" data-ng-src="data:image/jpeg;base64,{{userInfo.gambar}}" alt="User Image">
+                    <span class="username"><a href="#">{{userInfo.username}}</a></span>
+                    <span class="description">
+                      <ds-widget-clock show-digital digital-format="'dd-MMM-yyyy hh:mm:ss a'"></ds-widget-clock>
+                    </span>
+                  </div>
+                  <!-- /.user-block -->
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <form name="customerForm" ng-submit="submitForm(salesmanmemo)" method="post" novalidate>
+                  <div class="box-body">
+                    <div class="form-group" ng-class="{ 'has-error' : customerForm.ISI_MESSAGES.$invalid && !customerForm.ISI_MESSAGES.$pristine,'has-success':customerForm.ISI_MESSAGES.$valid  }">
+                      <textarea class="form-control" name="ISI_MESSAGES" class="form-control" ng-model="salesmanmemo.ISI_MESSAGES"  rows="3" placeholder="Broadcast a Messages To Salesman ..." required></textarea>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':customerForm.STATUSMEMO.$invalid && !customerForm.STATUSMEMO.$pritine,'has-success':customerForm.STATUSMEMO.$valid}">
+                      <label>Attention</label>
+                      <select class="form-control"  name="STATUSMEMO" style="width: 100%;" ng-model="salesmanmemo.STATUSMEMO"  ng-required="true">
+                        <option value='' selected disabled>Choose One</option>
+                        <option value='URGENT'>URGENT</option>
+                        <option value='HIGH'>HIGH ATTENTION</option>
+                        <option value='MEDIUM'>MEDIUM ATTENTION</option>
+                        <option value='LOW'>LOW ATTENTION</option>
+                      </select>
+                      
+                    </div>
+                  </div>
+                  <div class="box-footer clearfix">
+                    <button type="submit" ng-disabled="customerForm.$invalid" class="pull-right btn btn-default" id="sendEmail">Send
+                      <i class="fa fa-arrow-circle-right"></i></button>
+                  </div>
+                </form>
+              </div>
+
+            </div>
+
+      </div>
+      <div class="row">
+          <div class="col-md-6" ng-repeat="memo in salesmanmemo | orderBy: 'CREATE_AT':true ">
+            <div class="box box-widget">
+              <div class="box-header with-border">
+                <div class="user-block">
+                  <img class="img-circle" data-ng-src="data:image/jpg;charset=utf-8;base64,{{memo.IMG_BASE64}}" alt="User Image">
+                  <span class="username"><a href="#">{{memo.NM_USER}}</a></span>
+                  <span class="description">{{memo.STATUS_MESSAGES}} @{{memo.CREATE_AT| myDateFormat}}</span>
+                </div>
+                <!-- /.user-block -->
+                <div class="box-tools">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="box-body" compile="memo.ISI_MESSAGES ">
+                {{ memo.ISI_MESSAGES }}
+
+                <!-- <button type="button" class="btn btn-default btn-xs"><i class="fa fa-share"></i> Share</button>
+                <button type="button" class="btn btn-default btn-xs"><i class="fa fa-thumbs-o-up"></i> Like</button>
+                <span class="pull-right text-muted">45 likes - 2 comments</span> -->
+              </div>
+
+              <!-- <div class="box-footer box-comments">
+                <div class="box-comment">
+                  <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+
+                  <div class="comment-text">
+                        <span class="username">
+                          Maria Gonzales
+                          <span class="text-muted pull-right">8:03 PM Today</span>
+                        </span>
+                    It is a long established fact that a reader will be distracted
+                    by the readable content of a page when looking at its layout.
+                  </div>
+                  
+                </div>
+                <div class="box-comment">
+                  
+                  <img class="img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="User Image">
+
+                  <div class="comment-text">
+                        <span class="username">
+                          Nora Havisham
+                          <span class="text-muted pull-right">8:03 PM Today</span>
+                        </span>
+                    The point of using Lorem Ipsum is that it has a more-or-less
+                    normal distribution of letters, as opposed to using
+                    'Content here, content here', making it look like readable English.
+                  </div>
+                  
+                </div>
+                
+              </div>
+
+              <div class="box-footer">
+                <form action="#" method="post">
+                  <img class="img-responsive img-circle img-sm" src="asset/admin/dist/img/user2-160x160.jpg" alt="Alt Text">
+                  
+                  <div class="img-push">
+                    <input type="text" class="form-control input-sm" placeholder="Press enter to post comment">
+                  </div>
+                </form>
+              </div> -->
+            </div>
+
+          </div>
+
+      </div>
+    </section>
+    <!-- <nav mfb-menu position="br" effect="zoomin" active-icon="ion-navicon-round" resting-icon="ion-plus-round" toggling-method="hover">
+              <button mfb-button icon="ion-social-freebsd-devil" label="Add"></button>
+              <button mfb-button icon="ion-social-usd" label="Remove"></button>
+              <button mfb-button icon="ion-android-mail" label="Edit"></button>
+    </nav> -->
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>
