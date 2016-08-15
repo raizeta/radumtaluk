@@ -189,6 +189,13 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var userInfo                = authService.getUserInfo();
                 var resolvestatusabsensi    = AbsensiSqliteServices.getAbsensiStatus(tanggalplan,userInfo.id);
                 return resolvestatusabsensi;
+            },
+            resolveagendatoday: function ($q, authService,AgendaSqliteServices,$filter) 
+            {
+                var tanggalplan              = $filter('date')(new Date(),'yyyy-MM-dd');
+                var userInfo                 = authService.getUserInfo();
+                var resolveagendatoday       = AgendaSqliteServices.getAgendaTodayForOutCase(tanggalplan,userInfo.id);
+                return resolveagendatoday;
             }
         }
     });

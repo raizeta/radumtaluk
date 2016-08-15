@@ -60,9 +60,43 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         });
         return deferred.promise;
     }
+
+    var getAgendaTodayForOutCase = function (TGL,USER_ID)
+    {
+        var deferred = $q.defer();
+        var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ?";
+        $cordovaSQLite.execute($rootScope.db, queryagendatoday, [TGL,USER_ID])
+        .then(function(result) 
+        {
+            if (result.rows.length > 0) 
+            {
+                var customers = [];
+                var l = result.rows.length;
+                for (var i=0; i < l; i++) 
+                {
+                    var customer = {};
+                    customer.ID                         = result.rows.item(i).ID_SERVER;
+                    customer.CUST_ID                    = result.rows.item(i).CUST_ID;
+                    customer.CUST_NM                    = result.rows.item(i).CUST_NM;
+                    customers.push(customer);
+                }
+                deferred.resolve(customers);
+            }
+            else
+            {
+                deferred.resolve([]);
+            }
+        },
+        function (error)
+        {
+            deferred.rejected(error);
+        });
+        return deferred.promise;
+    }
     
     return{
             getCheckinCheckoutStatus:getCheckinCheckoutStatus,
-            getAgendaByIdServer:getAgendaByIdServer
+            getAgendaByIdServer:getAgendaByIdServer,
+            getAgendaTodayForOutCase:getAgendaTodayForOutCase
         }
 }]);
