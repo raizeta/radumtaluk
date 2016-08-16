@@ -51,7 +51,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         {
             if (result.rows.length > 0) 
             {
-                console.log("Data Agenda Sudah Ada Di Local");
                 $scope.customers = [];
                 var l = result.rows.length;
                 for (var i=0; i < l; i++) 
@@ -98,8 +97,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                     
                     var longitude2      = customer.MAP_LNG;
                     var latitude2       = customer.MAP_LAT;
-                    
-                    
+
                     var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
                     //var roundjarak      = $filter('setDecimal')(jarak,0);
                     if(jarak < 1000)
@@ -125,7 +123,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             }
             else
             {
-                console.log("Data Agenda Masih Kosong Di Local");
                 JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
                 .then(function(response)
                 {
@@ -284,35 +281,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         }
     } 
 
-    // Dari APi Server
-    // $scope.summaryall = function()
-    // {
-    //     $scope.loadingcontent  = true;
-    //     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
-    //     .then(function(data)
-    //     {
-    //         var idgroupcustomer         = data.SCDL_GROUP;
-    //         SummaryService.datasummaryall(idsalesman,tanggalplan,idgroupcustomer)
-    //         .then(function (result) 
-    //         {
-    //             $scope.siteres      = result.siteres;
-    //             $scope.totalalls    = result.totalalls;
-    //             $scope.loadingcontent  = false;
-    //         }, 
-    //         function (err) 
-    //         {          
-    //             alert(err);
-    //             $scope.loadingcontent  = false;
-    //         });
-    //     },
-    //     function (err)
-    //     {
-    //         alert(err);
-    //         $scope.loadingcontent  = false;
-    //     });
-    // };
 
-    // Dari Local Sqlite
     $scope.summaryallsqlite = function()
     {
         $scope.loadingcontent  = true;

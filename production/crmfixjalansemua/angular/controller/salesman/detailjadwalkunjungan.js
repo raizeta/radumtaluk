@@ -303,7 +303,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                             });
 
                             var queryupdateagenda = 'UPDATE Agenda SET STS' + titledialog + ' = ? WHERE ID_SERVER = ?';
-                            $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [titledialog,ID_DETAIL])
+                            $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [1,ID_DETAIL])
                             .then(function(result) 
                             {
                                 console.log("Terimakasih. Agenda Status " + titledialog + " Berhasil Di Update Di Local");

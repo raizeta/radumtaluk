@@ -103,7 +103,7 @@ function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
             else
             {
                 var statusmemokunjungan                         = {};
-                statusmemokunjungan.ISI_MESSAGES                = response.Messageskunjungan[0]
+                statusmemokunjungan.ISI_MESSAGES                = response.Messageskunjungan[0].ISI_MESSAGES;
                 statusmemokunjungan.bgcolor                     = "bg-green";
                 statusmemokunjungan.icon                        = "fa fa-check bg-green";
                 statusmemokunjungan.messageskunjungandisabled   = true;
