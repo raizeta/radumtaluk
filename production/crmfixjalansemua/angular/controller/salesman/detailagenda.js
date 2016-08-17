@@ -205,6 +205,10 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                             }
                         });  
                     }      
+                },
+                function (error)
+                {
+                    alert("Gagal Mendapathari Data Agenda Today Dari Server");
                 });
             }
             $scope.loadingcontent  = false; 
@@ -281,7 +285,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         }
     } 
 
-
     $scope.summaryallsqlite = function()
     {
         $scope.loadingcontent  = true;
@@ -308,7 +311,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         },
         function (err)
         {
-            alert(err);
+            alert("Gagal Mendapatkan Summary All Dari Local " + err);
             $scope.loadingcontent  = false;
         });
     };
@@ -330,13 +333,13 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             }, 
             function (err) 
             {          
-                alert(err);
+                alert("Gagal Mendapatkan Last Visit Summary Dari Server " + err);
                 $scope.loadingcontent  = false;
             });
         }, 
         function (err) 
         {          
-            alert(err);
+            alert("Gagal Mendapatkan Group Customer Dari Server " + err);
             $scope.loadingcontent  = false;
         });
     };

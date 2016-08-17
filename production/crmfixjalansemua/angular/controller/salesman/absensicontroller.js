@@ -24,6 +24,10 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         {
             alert("GPS Error Kode " + responsegps.statusgps);
         }  
+    },
+    function (error)
+    {
+        alert("Gagal Mendapatkan Data GPS Location");
     });
     
     AbsensiSqliteServices.getAbsensi(tanggalplan, auth.id)
@@ -82,13 +86,13 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
                     },
                     function (error)
                     {
-                        alert(error);
+                        alert("Gagal Menyimpan Absensi Ke Local " + error);
                     });  
                 }  
             },
             function (error)
             {
-                alert("Data Absensi Dari Server Error");
+                alert("Gagal Mendapatkan Data Absensi Dari Server");
             });
         }
     },
@@ -146,7 +150,8 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
             },
             function (error)
             {
-                alert(error.message);
+                alert("Gagal Menyimpan Absensi Ke Local " + error.message);
+                $scope.loadingcontent = false;
             });
         }, 
         function (error)
@@ -190,6 +195,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
                 function (error)
                 {
                     alert("Update Absensi Local Error: " + error.message);
+                    $scope.loadingcontent = false;
                 });        
             },
             function (error)

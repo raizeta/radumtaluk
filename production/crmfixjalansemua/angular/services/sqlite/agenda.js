@@ -17,9 +17,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ? AND STSCHECK_IN = ? AND STSCHECK_OUT = ?";
         $cordovaSQLite.execute($rootScope.db, queryagendatoday, [tanggalplan, userid, 1, 0])
         .then(function(result) 
-        {
-            console.log("Success getCheckinCheckoutStatus");
-            
+        {            
             if (result.rows.length > 0) 
             {
                 deferred.resolve(result.rows.item(0).ID_SERVER);
@@ -31,7 +29,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         },
         function (error)
         {
-            console.log("Error getCheckinCheckoutStatus")
             deferred.rejected(error);
         });
         return deferred.promise;
@@ -55,7 +52,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         },
         function (error)
         {
-            console.log("Error Get Customer Agenda By Param ID_SERVER");
             deferred.rejected(error);
         });
         return deferred.promise;

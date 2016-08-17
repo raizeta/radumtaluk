@@ -27,7 +27,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         return deferred.promise;
     }
     
-
     var setAbsensi = function (isitable)
     {
        var deferred = $q.defer();
