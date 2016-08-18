@@ -42,6 +42,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+    
     var updateInventoryStatus = function(ID_DETAIL,statuskunjungan)
     {
         var url = getUrl();

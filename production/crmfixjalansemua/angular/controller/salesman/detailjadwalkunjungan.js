@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService",
-function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService","ExpiredSqliteServices",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService,ExpiredSqliteServices) 
 {
     var url = $rootScope.linkurl;
     if(resolveconfigradiussqlite)
@@ -318,7 +318,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     },
                     function (error)
                     {
-                        alert(error);
                         alert("Gagal Menyimpan SOT2 Ke Server");
                         $scope.loadingcontent = false;
                     });
@@ -347,10 +346,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 .then(function (imageData) 
                 {
                     $scope.loadingcontent = true;
-                    var statusstartpicture              = {};
-                    statusstartpicture.bgcolor          = "bg-green";
-                    statusstartpicture.icon             = "fa fa-check bg-green";
-                    $scope.statusstartpicture = statusstartpicture;
+                    
 
                     var timeimagestart = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                     
@@ -366,7 +362,12 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     GambarService.setGambarAction(ID_DETAIL,gambarkunjungan)
                     .then(function (data)
                     {
+                        var statusstartpicture              = {};
+                        statusstartpicture.bgcolor          = "bg-green";
+                        statusstartpicture.icon             = "fa fa-check bg-green";
+                        $scope.statusstartpicture = statusstartpicture;
                         ngToast.create('Gambar Telah Berhasil Di Update');
+                        
                         var statuskunjungan = {};
                         statuskunjungan.START_PIC = 1;
 
@@ -638,7 +639,28 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     // ####################################################################################################
     // GET DATA BARANG UNTUK EXPIRED FUNCTION
     //#####################################################################################################
-    ExpiredService.setExpiredAction(ID_DETAIL)
+    // ExpiredService.setExpiredAction(ID_DETAIL)
+    // .then (function (databarangexpired)
+    // {
+    //     var arrayobjectdatabarang = resolveobjectbarangsqlite;
+    //     var arrayhanyakodebarang = [];
+
+    //     angular.forEach(arrayobjectdatabarang, function(value, key)
+    //     {
+    //         arrayhanyakodebarang.push(value.KD_BARANG);
+    //     });
+
+    //     var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
+
+    //     $scope.barangexpired   = [];
+
+    //     angular.forEach(x, function(value, key)
+    //     {
+    //         var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
+    //         $scope.barangexpired.push(existingFilter);
+    //     });
+    // });
+    ExpiredSqliteServices.getSqliteExpired(ID_DETAIL)
     .then (function (databarangexpired)
     {
         var arrayobjectdatabarang = resolveobjectbarangsqlite;
@@ -719,15 +741,26 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                             var config                      = expiredproduct.config;
 
                             $http.post(url + "/expiredproducts",serialized,config)
-                            .success(function(data,status, headers, config) 
+                            .success(function(data,status,headers,config) 
                             {
+                                detailexpired.ID    = data.ID;
+                                ExpiredSqliteServices.setSqliteExpired(detailexpired)
+                                .then (function (resultinsert)
+                                {
+                                    console.log(resultinsert);
+                                },
+                                function (error)
+                                {
+                                    alert("Gagal Menimpan Data Expired Ke Local");
+                                });
                                 
                             })
-
                             .finally(function()
                             {
                                 $scope.loadingcontent = false;  
-                            }); 
+                            });
+
+                             
                         }
                     }
                     ngToast.create("Expired Product Telah Diupdate");

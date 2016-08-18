@@ -280,8 +280,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             else
             {
                 alert("Lakukan Absen Masuk Terlebih Dahulu");
-            }
-              
+            }    
         }
     } 
 
@@ -344,6 +343,4 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         });
     };
 
-    
- 
 }]);

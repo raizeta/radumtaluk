@@ -101,7 +101,6 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         alert("Gagal Mendapatkan Data Absensi Dari Local: " + error.message);
     });
 
-
     $scope.absensimasuk = function () 
     {     
         $scope.showbuttonabsensimasuk   = false;
