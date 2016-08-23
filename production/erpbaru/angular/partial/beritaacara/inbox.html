@@ -1,0 +1,79 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper">
+    <section class="content">
+<!--         <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span> -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-danger">
+            <div class="panel-heading bg-aqua">
+                <a class="btn btn-success btn-sm" href="#/beritaacara/inbox">
+                    <i class="fa fa-plus"></i> INBOX
+                </a>
+                <a href="#/beritaacara/outbox" style="cursor:pointer;" class="btn btn-warning btn-sm">
+                    <i class="fa fa-plus"></i> OUTBOX
+                </a>
+                <a class="btn btn-danger btn-sm" href="#/beritaacara/history" style="cursor:pointer;float:right">
+                    <i class="fa fa-trash-o"></i> HISTORY
+                </a>  
+            </div>
+            <div class="panel-heading">
+                Berita Acara Inbox
+            </div>
+            <div class="panel-body">
+               <table>
+                <thead>
+                  <tr>
+                    <th class="beritaacara">KD_BERITA</th>
+                    <th class="beritaacara">SUBJECT</th>
+                    <th class="beritaacara">KODE REF</th>
+                    <th class="beritaacara">TANGGAL</th>
+                    <th class="beritaacara">CORP</th>
+                    <th class="beritaacara">DEPART</th>
+                    <th class="beritaacara">STATUS</th>
+                    <th class="beritaacara">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-title="KD_BERITA" class="beritaacara">
+                            B.2016.05.26.000003
+                        </td>
+                        <td data-title="SUBJECT"   class="beritaacara">
+                            Chating Update
+                        </td>
+                        <td data-title="KODE REF" class="beritaacara">
+                            (not set)
+                        </td>
+                        <td data-title="TANGGAL" class="beritaacara">
+                            2016-05-26 02:10:47
+                        </td>
+                        <td data-title="CORP" class="beritaacara">
+                            PT. Lukison Group
+                        </td>
+                        <td data-title="DEPART" class="beritaacara">
+                            Information Technologi
+                        </td>
+                        <td data-title="STATUS" class="beritaacara">
+                            <a class="btn btn-danger btn-xs">
+                              <i class="fa fa-edit"></i> &nbsp;NOT YET READ
+                            </a>
+                        </td>
+                        <td data-title="ACTION" class="beritaacara">
+                            <a class="btn btn-success btn-xs">
+                              <i class="fa fa-edit"></i> &nbsp;VIEW DETAIL
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+               </table>
+                
+             </div>
+           </div>
+
+        </div>
+      </div>
+    </section>
+</div>
+
+<div ng-include="'angular/partial/foottemplate.html'"></div>

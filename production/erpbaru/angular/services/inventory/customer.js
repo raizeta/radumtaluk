@@ -1,18 +1,11 @@
 'use strict';
-myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $q, $window)
+myAppModule.factory('CustomerService', ["$rootScope","$http","$q","$window",
+function($rootScope,$http, $q, $window)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukison.int/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
+	var globalurl 		= $rootScope.linkurl.linkurl;
 
 	var GetCustomers = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="GET";
@@ -37,7 +30,6 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
     }
     var GetCustomer = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/" + $id;
 		var method ="GET";
@@ -62,7 +54,6 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
     }
     var CreateCustomer = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="POST";
@@ -87,7 +78,6 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
     }
     var UpdateCustomer = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="PUT";
@@ -112,7 +102,6 @@ myAppModule.factory('CustomerService', ["$http","$q","$window",function($http, $
     }
     var DeleteCustomer = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="DELETE";

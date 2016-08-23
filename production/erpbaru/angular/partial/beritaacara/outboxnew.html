@@ -1,0 +1,75 @@
+<style>
+.widget-clock .digital {
+     text-align: left; 
+     font-size: 4px;
+}
+</style>
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper" >
+    <section class="content">
+      <div class="row">
+            <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
+            <div class="col-md-12">
+              <div class="box box-widget">
+                <div class="box-header with-border">
+                  <div class="user-block">
+                    <img class="img-circle" data-ng-src="data:image/jpeg;base64,{{userInfo.gambar}}" alt="User Image">
+                    <span class="username"><a href="#">{{userInfo.username}}</a></span>
+                    <span class="description">
+                      <ds-widget-clock show-digital digital-format="'dd-MMM-yyyy hh:mm:ss a'"></ds-widget-clock>
+                    </span>
+                  </div>
+                  <div class="box-tools">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <form name="customerForm" ng-submit="submitForm(salesmanmemo)" method="post" novalidate>
+                  <div class="box-body">
+                    <div class="form-group" ng-class="{ 'has-error' : customerForm.ISI_JUDUL.$invalid && !customerForm.ISI_JUDUL.$pristine,'has-success':customerForm.ISI_JUDUL.$valid  }">
+                      <input type="text" name="ISI_JUDUL" class="form-control" ng-model="salesmanmemo.ISI_JUDUL" placeholder="Judul BA" required>
+                    </div>
+                    <div class="form-group" ng-class="{ 'has-error' : customerForm.ISI_MESSAGES.$invalid && !customerForm.ISI_MESSAGES.$pristine,'has-success':customerForm.ISI_MESSAGES.$valid  }">
+                      <textarea class="form-control" name="ISI_MESSAGES" class="form-control" ng-model="salesmanmemo.ISI_MESSAGES"  rows="3" placeholder="Broadcast a Messages To Salesman ..." required></textarea>
+                    </div>
+                    <div flow-init flow-name="uploader.flow" flow-files-added="processFiles($files)" class="form-group">
+                      <button flow-btn type="file">Upload Images</button><br/>
+                      <div ng-repeat="image in uploader.flow.files track by $index" class="gallery-box">
+                          <img class="preview" ng-src="{{imageStrings[$index]}}" width="80" height="80"/>
+
+                      </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':customerForm.DEPART.$invalid && !customerForm.DEPART.$pritine,'has-success':customerForm.DEPART.$valid}">
+                      <select class="form-control"  name="DEPART" style="width: 100%;" ng-model="salesmanmemo.DEPART"  ng-required="true">
+                        <option value='' selected disabled>Sent To Dept</option>
+                        <option value='IT'>IT</option>
+                        <option value='HRD'>HRD</option>
+                        <option value='ACCOUNTING'>ACCOUNTING</option>
+                        <option value='SALES'>SALES</option>
+                        <option value='MARKETING'>MARKETING</option>
+                      </select>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error':customerForm.STATUSMEMO.$invalid && !customerForm.STATUSMEMO.$pritine,'has-success':customerForm.STATUSMEMO.$valid}">
+                      <label>User CC</label>
+                      <select class="form-control"  name="STATUSMEMO" style="width: 100%;" ng-model="salesmanmemo.STATUSMEMO"  ng-required="true">
+                        <option value='' selected disabled>Choose CC</option>
+                        <option value='URGENT'>URGENT</option>
+                        <option value='HIGH'>HIGH ATTENTION</option>
+                        <option value='MEDIUM'>MEDIUM ATTENTION</option>
+                        <option value='LOW'>LOW ATTENTION</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="box-footer clearfix">
+                    <button type="submit" ng-disabled="customerForm.$invalid" class="pull-right btn btn-default" id="sendEmail">Send
+                      <i class="fa fa-arrow-circle-right"></i></button>
+                  </div>
+                </form>
+              </div>
+            </div>
+      </div>
+    </section>
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>

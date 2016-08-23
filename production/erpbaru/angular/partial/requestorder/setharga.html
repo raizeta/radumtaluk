@@ -13,6 +13,7 @@
                <table>
                 <thead>
                   <tr>
+                    <th class="numeric">#</th>
                     <th class="numeric">NM BRG</th>
                     <th class="numeric">NAMA TYPE</th>
                     <th class="numeric">NAMA KATEGORI</th>
@@ -25,6 +26,11 @@
                 <tbody>
                     <tr ng-repeat="barangumum in keranjangbelanja | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
                     class="repeat-item">
+                        <td data-title="NM" class="preview">
+                            <a href="javascript:;">
+                              {{$index + 1}}
+                            </a>
+                        </td>
                         <td data-title="NM" class="preview">
                             <a href="javascript:;">
                               {{barangumum.NM_BARANG}}
@@ -69,7 +75,7 @@
                         </td>
                     </tr>
                     <tr class="bg-warning" style="background:green">
-                      <td colspan="6">Total</td>
+                      <td colspan="7">Total</td>
                       <td class="preview-dua">
                         <!-- <span style="float:left">Rp.</span>
                         <span style="float:right">{{total|number}}</td> -->

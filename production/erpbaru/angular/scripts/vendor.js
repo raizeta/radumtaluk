@@ -34,3 +34,8 @@ document.write('<script src="bower_components/angular-modal-service/dst/angular-
 document.write('<script src="bower_components/underscore/underscore.js"></script>');
 document.write('<script src="bower_components/angular-ui-clock/dist/angular-clock.js"></script>');
 document.write('<script src="bower_components/v-accordion/dist/v-accordion.js"></script>');
+
+document.write('<script src="bower_components/ng-flow/dist/ng-flow-standalone.min.js"></script>');
+// <!-- or include the files separately -->
+document.write('<script src="bower_components/flow.js/dist/flow.min.js"></script>');
+document.write('<script src="bower_components/ng-flow/dist/ng-flow.min.js"></script>');

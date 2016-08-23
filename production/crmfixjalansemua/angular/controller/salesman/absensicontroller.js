@@ -184,7 +184,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
                 $scope.showbuttonnotifiabsen = true;
                 $scope.loadingcontent = false;
 
-                var updateISON_SERVER      = 1;
+                var updateISON_SERVER       = 1;
                 var isitable                = [detail.UPDATE_AT, detail.STATUS, updateISON_SERVER, $scope.idabsensi];
                 AbsensiSqliteServices.updateAbsensi(isitable)
                 .then (function (response)

@@ -1,18 +1,11 @@
 'use strict';
-myAppModule.factory('CategoryService', ["$http","$q","$window",function($http, $q, $window)
+myAppModule.factory('CategoryService', ["$rootScope","$http","$q","$window",
+function($rootScope,$http, $q, $window)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukison.int/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
+	var globalurl 		= $rootScope.linkurl.linkurl;
 
 	var GetCategorys = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/kategoris";
 		var method ="GET";
@@ -32,12 +25,10 @@ myAppModule.factory('CategoryService', ["$http","$q","$window",function($http, $
 	        	deferred.reject(err);
 	      	}
         });	
-
         return deferred.promise;  
     }
     var GetCategory = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/" + $id;
 		var method ="GET";
@@ -62,7 +53,6 @@ myAppModule.factory('CategoryService', ["$http","$q","$window",function($http, $
     }
     var CreateCategory = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="POST";
@@ -87,7 +77,6 @@ myAppModule.factory('CategoryService', ["$http","$q","$window",function($http, $
     }
     var UpdateCategory = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="PUT";
@@ -112,7 +101,6 @@ myAppModule.factory('CategoryService', ["$http","$q","$window",function($http, $
     }
     var DeleteCategory = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="DELETE";

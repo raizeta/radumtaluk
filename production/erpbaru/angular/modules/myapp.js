@@ -2,7 +2,7 @@
 var myAppModule     = angular.module('myAppModule',
 ['ngRoute','ngResource','ngToast','angularSpinner','ui.bootstrap','vAccordion','ngAnimate','naif.base64','ng-fusioncharts',
 'angular-ladda','angularModalService','ngCordova','ngMap','ngMaterial','ds.clock','ngStorage',
-'ngMessages','hSweetAlert','ui.calendar','checklist-model','luegg.directives']);
+'ngMessages','hSweetAlert','ui.calendar','checklist-model','luegg.directives','flow']);
 
 myAppModule.run(["$rootScope","$http","$location","LocationService","$window","ngToast","authService","$q","$filter","$cordovaDevice","$timeout","$templateCache","$cordovaNetwork","$cordovaSQLite",
 function ($rootScope,$http,$location,LocationService,$window,ngToast,authService,$q,$filter,$cordovaDevice,$timeout,$templateCache,$cordovaNetwork,$cordovaSQLite) 
@@ -117,17 +117,11 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
     var tanggalmulai = $filter('date')(new Date(),'yyyy-MM-dd 05:00:00');
     var tanggalakhir = $filter('date')(new Date(),'yyyy-MM-dd 23:59:59');
 
-    var getUrl = function()
-    {
-        return "http://api.lukisongroup.com/master";
-    }
-
-    var gettoken = function()
-    {
-        return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-    }
-    
-    $rootScope.linkurl = getUrl();
+    //Link Url Yang Dijalankan Di Semua Service
+    var globalurl = {};
+    globalurl.linkurl   = "http://api.lukisongroup.com/master";
+    globalurl.tokenurl  = "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+    $rootScope.linkurl = globalurl;
 
     // https://jsfiddle.net/Guffa/Askwb/
     // Remove Duplicate Array
@@ -178,7 +172,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
 }]);
 
-myAppModule.config(['$httpProvider','$locationProvider','ngToastProvider','$mdThemingProvider',"usSpinnerConfigProvider", 
+myAppModule.config(['$httpProvider','$locationProvider','ngToastProvider','$mdThemingProvider',"usSpinnerConfigProvider",
 function($httpProvider,$locationProvider, ngToastProvider,$mdThemingProvider,usSpinnerConfigProvider) 
 {
     //usSpinnerConfigProvider.setDefaults({color: 'blue'});
@@ -220,6 +214,7 @@ function($httpProvider,$locationProvider, ngToastProvider,$mdThemingProvider,usS
         verticalPosition:   'bottom',  //top,center
         maxNumber: 3 // 0 for unlimited
     });
+    
 }]);
 
 

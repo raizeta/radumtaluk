@@ -20,6 +20,7 @@
 
     <link rel="stylesheet" href="bower_components/ladda/dist/ladda-themeless.min.css">
     <link rel="stylesheet" href="bower_components/fullcalendar/dist/fullcalendar.css"/>
+
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="asset/css/font-awesome/css/font-awesome.css" rel="stylesheet">
     <link href="asset/css/_all-skins.min.css" rel="stylesheet">
@@ -55,7 +56,7 @@
 
 <body class="login-page sidebar-mini fixed" off-canvas-menu ng-class="{'sidebar-open':isMenuOpen}">
         <div class="wrapper skin-blue">
-            <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16}"></span>
+            <span data-ng-show="loading" us-spinner="{radius:30, width:8, length: 16,position:'fixed'}"></span>
             <toast></toast>
             
             <div ng-view></div>
@@ -100,5 +101,6 @@
 
         <script src="angular/scripts/inventory.js"></script>
         <script src="angular/scripts/requestorder.js"></script>
+        <script src="angular/scripts/beritaacara.js"></script>
 </body>
 </html>
