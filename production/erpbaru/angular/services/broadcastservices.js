@@ -2,16 +2,7 @@ myAppModule.service('PollingService', ['$http', '$rootScope', '$interval',
 function($http, $rootScope, $interval) 
 {
 
-	var getUrl = function()
-  {
-    //return "http://labtest3-api.int/master";
-    return "http://api.lukison.int/master";
-  }
-  var gettoken = function()
-  {
-    return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-  }
-
+  var globalurl       = $rootScope.linkurl.linkurl;
   var updatedData;
 
     $interval(function() 
@@ -32,19 +23,10 @@ function($http, $rootScope, $interval)
 
 myAppModule.factory("greetingService", function($q, $http,$timeout)
 {
-  var getUrl = function()
-  {
-    //return "http://labtest3-api.int/master";
-    return "http://api.lukisongroup.com/master";
-  }
-  var gettoken = function()
-  {
-    return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-  }
-  
+
   var getGreeting = function(userinfo)
   {
-      var url = getUrl();
+      var url = globalurl;
       var iduser = userinfo.id;
       var deferred = $q.defer();
       var url = url + "/jadwalkunjungans/search?USER_ID=" + iduser;

@@ -1,18 +1,9 @@
 'use strict';
 myAppModule.factory('configurationService', ["$http","$q","$window",function($http, $q, $window)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukison.int/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
-	
+	var globalurl       = $rootScope.linkurl.linkurl;
 	var getConfigRadius = function()
 	{ 
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/configurations";
 		var method ="GET";

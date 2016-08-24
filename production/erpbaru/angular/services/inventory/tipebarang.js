@@ -1,18 +1,10 @@
 'use strict';
-myAppModule.factory('TipeBarangService', ["$http","$q","$window",function($http, $q, $window)
+myAppModule.factory('TipeBarangService', ["$rootScope","$http","$q","$window",
+function($rootScope,$http, $q, $window)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukison.int/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
-
+	var globalurl 		= $rootScope.linkurl.linkurl;
 	var GetTipeBarangs = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/tipebarangs";
 		var method ="GET";
@@ -37,7 +29,6 @@ myAppModule.factory('TipeBarangService', ["$http","$q","$window",function($http,
     }
     var GetTipeBarang = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/" + $id;
 		var method ="GET";
@@ -62,7 +53,6 @@ myAppModule.factory('TipeBarangService', ["$http","$q","$window",function($http,
     }
     var CreateTipeBarang = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="POST";
@@ -87,7 +77,6 @@ myAppModule.factory('TipeBarangService', ["$http","$q","$window",function($http,
     }
     var UpdateTipeBarang = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="PUT";
@@ -112,7 +101,6 @@ myAppModule.factory('TipeBarangService', ["$http","$q","$window",function($http,
     }
     var DeleteTipeBarang = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="DELETE";

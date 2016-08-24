@@ -13,9 +13,10 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
 	    	authService.login(username, password)
             .then(function (result) 
             {
+                console.log(result);
                 $scope.userInfo = result;
-                var rulename = result.rulename;
-                if(rulename == 'SALESMAN')
+                var site = result.site;
+                if(site == 'ERP')
                 {
                 	$location.path('/menu');
                 }
@@ -24,7 +25,15 @@ myAppModule.controller("LoginController", ["$scope", "$location", "$window", "au
             }, 
             function (err) 
             {          
-                sweetAlert("Oops...", "Username Or Password Wrong", "error");
+                if(err == "wrongsite")
+                {
+                    alert("Wrong Site");
+                }
+                else
+                {
+                    sweetAlert("Oops...", "Username Or Password Wrong", "error");  
+                }
+                
                 $scope.loginLoading = false;
                 $scope.disableInput=false;
                 $scope.user.username="";

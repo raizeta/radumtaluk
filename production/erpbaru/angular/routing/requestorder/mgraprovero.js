@@ -12,14 +12,8 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var userInfo = authService.getUserInfo();
                 if(userInfo)
                 {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
+
+                    return $q.when(userInfo);
                 }
                 else 
                 {
@@ -40,14 +34,8 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var userInfo = authService.getUserInfo();
                 if(userInfo)
                 {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
+
+                    return $q.when(userInfo);
                 }
                 else 
                 {

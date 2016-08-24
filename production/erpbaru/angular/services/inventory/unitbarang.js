@@ -1,17 +1,10 @@
 'use strict';
-myAppModule.factory('UnitBarangService', ["$http","$q","$window",function($http, $q, $window)
+myAppModule.factory('UnitBarangService', ["$rootScope","$http","$q","$window",
+function($rootScope,$http, $q, $window)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukison.int/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
+	var globalurl 		= $rootScope.linkurl.linkurl;
 	var GetUnitBarangs = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/unitbarangs";
 		var method ="GET";
@@ -36,7 +29,6 @@ myAppModule.factory('UnitBarangService', ["$http","$q","$window",function($http,
     }
     var GetUnitBarang = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/" + $id;
 		var method ="GET";
@@ -61,7 +53,6 @@ myAppModule.factory('UnitBarangService', ["$http","$q","$window",function($http,
     }
     var CreateUnitBarang = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="POST";
@@ -86,7 +77,6 @@ myAppModule.factory('UnitBarangService', ["$http","$q","$window",function($http,
     }
     var UpdateUnitBarang = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="PUT";
@@ -111,7 +101,6 @@ myAppModule.factory('UnitBarangService', ["$http","$q","$window",function($http,
     }
     var DeleteUnitBarang = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="DELETE";

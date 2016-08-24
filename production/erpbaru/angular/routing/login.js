@@ -12,7 +12,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 var userInfo = authService.getUserInfo();
                 if (userInfo) 
                 {
-                    if(userInfo.rulename === 'SALESMAN')
+                    if(userInfo.site === 'ERP')
                     {
                     	$location.path('/home');
                     }

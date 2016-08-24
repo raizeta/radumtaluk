@@ -1,18 +1,11 @@
 'use strict';
-myAppModule.factory('DistributorService', ["$http","$q","$window",function($http, $q, $window)
+myAppModule.factory('DistributorService', ["$rootScope","$http","$q","$window",
+function($rootScope,$http, $q, $window)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukison.int/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
+	var globalurl 		= $rootScope.linkurl.linkurl;
 
 	var GetDistributors = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="GET";
@@ -37,7 +30,6 @@ myAppModule.factory('DistributorService', ["$http","$q","$window",function($http
     }
     var GetDistributor = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "/" + $id;
 		var method ="GET";
@@ -62,7 +54,6 @@ myAppModule.factory('DistributorService', ["$http","$q","$window",function($http
     }
     var CreateDistributor = function()
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "";
 		var method ="POST";
@@ -87,7 +78,6 @@ myAppModule.factory('DistributorService', ["$http","$q","$window",function($http
     }
     var UpdateDistributor = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="PUT";
@@ -112,7 +102,6 @@ myAppModule.factory('DistributorService', ["$http","$q","$window",function($http
     }
     var DeleteDistributor = function($id)
     {
-		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
 		var url = globalurl + "" + $id;
 		var method ="DELETE";
