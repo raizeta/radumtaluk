@@ -37,60 +37,64 @@
                     </div>
                 </div>
                 </br>
-               <table>
-                <thead>
-                  <tr>
-<!--                     <th class="numeric">KD BRG</th> -->
-                    <th class="numeric">NM BRG</th>
-                    <th class="numeric">NAMA TYPE</th>
-                    <th class="numeric">NAMA KATEGORI</th>
-                    <th class="numeric">NAMA UNIT</th>
-                    <th class="numeric">ADD</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="barangumum in products | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
-                    class="repeat-item">
-                        <p ng-hide="filtered.length">Nothing Find Here! &nbsp;&nbsp;
-                            <a class="btn btn-success" href="javascript:;">
-                                <i class="fa fa-plus"></i> &nbsp; New Product
-                            </a>
-                        </p>
-<!--                         <td data-title="KD" class="request">
-                              <a href="javascript:;">
-                                {{barangumum.KD_BARANG}}
-                              </a>
-                        </td> -->
-                        <td data-title="NM" class="request">
-                            <a href="javascript:;">
-                              {{barangumum.NM_BARANG}}
-                            </a>
-                        </td>
-                        <td data-title="TYPE" class="request">
-                            <a href="javascript:;">
-                                {{barangumum.type.NM_TYPE}} 
-                            </a>
-                        </td>
-                        <td data-title="CAT" class="request">
-                            <a href="javascript:;">
-                                {{barangumum.kategori.NM_KATEGORI}}
-                            </a>
-                        </td>
-                        <td data-title="UNT" class="request">
-                            <a href="javascript:;">
-                                {{barangumum.unit.NM_UNIT}}
-                            </a>
-                        </td>
-                        <td data-title="DEL" class="request messages-menu">
-                            <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
-                            <a href="javascript:;" ng-click="addtocart(barangumum)">
-                                <i class="fa fa-shopping-cart fa-2x"></i>
-                                <span class="label label-success" style="font-size:14px">{{barangumum.incart}}</span>
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-               </table>
+                <div class="row" >
+                    <div class="col-md-12" id="no-more-tables">
+                   <table class="table-bordered table-striped table-condensed cf">
+                    <thead class="cf">
+                      <tr>
+    <!--                     <th class="numeric">KD BRG</th> -->
+                        <th class="numeric">NM BRG</th>
+                        <th class="numeric">NAMA TYPE</th>
+                        <th class="numeric">NAMA KATEGORI</th>
+                        <th class="numeric">NAMA UNIT</th>
+                        <th class="numeric">ADD</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="barangumum in products | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
+                        class="repeat-item">
+                            <p ng-hide="filtered.length">Nothing Find Here! &nbsp;&nbsp;
+                                <a class="btn btn-success" href="javascript:;">
+                                    <i class="fa fa-plus"></i> &nbsp; New Product
+                                </a>
+                            </p>
+    <!--                         <td data-title="KD" class="request">
+                                  <a href="javascript:;">
+                                    {{barangumum.KD_BARANG}}
+                                  </a>
+                            </td> -->
+                            <td data-title="NM" class="request">
+                                <a href="javascript:;">
+                                  {{barangumum.NM_BARANG}}
+                                </a>
+                            </td>
+                            <td data-title="TYPE" class="request">
+                                <a href="javascript:;">
+                                    {{barangumum.type.NM_TYPE}} 
+                                </a>
+                            </td>
+                            <td data-title="CAT" class="request">
+                                <a href="javascript:;">
+                                    {{barangumum.kategori.NM_KATEGORI}}
+                                </a>
+                            </td>
+                            <td data-title="UNT" class="request">
+                                <a href="javascript:;">
+                                    {{barangumum.unit.NM_UNIT}}
+                                </a>
+                            </td>
+                            <td data-title="SHP" class="request messages-menu">
+                                <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
+                                <a href="javascript:;" ng-click="addtocart(barangumum)">
+                                    <i class="fa fa-shopping-cart fa-2x"></i>
+                                    <span class="label label-success" style="font-size:14px">{{barangumum.incart}}</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                   </table>
+                    </div>
+                </div>
                 
              </div>
 <!--              <div class="panel-body">

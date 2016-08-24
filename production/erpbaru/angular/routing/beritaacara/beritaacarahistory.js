@@ -22,4 +22,25 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
+    $routeProvider.when('/beritaacara/history/detail/:iddedtail',
+    {
+        templateUrl : 'angular/partial/beritaacara/historydetail.html',
+        controller  : 'BeritaAcaraHistoryDetailController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+
+                    return $q.when(userInfo);
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
 }]);
