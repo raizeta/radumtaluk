@@ -8,9 +8,9 @@
                     <div class="box-header bg-aqua">
                         MGR APROVE 
                     </div>
-                    <div class="box-body">
-                        <table>
-                            <thead>
+                    <div class="panel-body" id="no-more-tables">
+                            <table class="table-bordered table-striped table-condensed cf">
+                            <thead class="cf">
                                 <tr>
                                     <th class="numeric">#</th>
                                     <th class="numeric">NO.REQUEST ORDER</th>
@@ -20,48 +20,44 @@
                                     <th class="numeric">REQUEST ACC DATE</th>
                                     <th class="numeric">JUMLAH ITEM</th>
                                     <th class="numeric">TOTAL HARGA</th>
-                                    <th class="numeric">DETAIL</th>
                                     <th class="numeric">STATUS</th>
+                                    <th class="numeric">DETAIL</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>1</td>
-                                    <td>RO.2016.08.22.001</td>
-                                    <td>RADUMTA SITEPU / IT</td>
-                                    <td>22-08-2016 17:00</td>
-                                    <td>WAWAN ADETYA / IT</td>
-                                    <td>23-08-2016 17:00</td>
-                                    <td>3/5</td>
-                                    <td>Rp 5.000.000</td>
-                                    <td>
-                                        <a class="btn btn-success btn-sm bg-aqua" href="#/mgraprove/1">
-                                          <i class="fa fa-edit"></i> &nbsp;View Detail
-                                        </a>
+                                    <td data-title="NO." class="preview">
+                                        1
                                     </td>
-                                    <td>
+                                    <td data-title="NO RESI" class="preview">
+                                        RO.2016.08.22.001
+                                    </td>
+                                    <td data-title="CREATOR" class="preview">
+                                        RADUMTA SITEPU / IT
+                                    </td>
+                                    <td data-title="CREATE AT" class="preview">
+                                        22-08-2016 17:00
+                                    </td>
+                                    <td data-title="ACCOR" class="preview">
+                                        WAWAN ADETYA / IT
+                                    </td>
+                                    <td data-title="ACC AT" class="preview">
+                                        23-08-2016 17:00
+                                    </td>
+                                    <td data-title="ACC/ORI" class="preview">
+                                        3/5</td>
+                                    <td data-title="TOTAL" class="preview">
+                                        Rp 5.000.000
+                                    </td>
+                                    
+                                    <td data-title="STATUS" class="preview">
                                         <a class="btn btn-success btn-sm bg-aqua">
                                           <i class="fa fa-edit"></i> &nbsp;New Aproval
                                         </a>
                                     </td>
-                                </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>RO.2016.08.22.002</td>
-                                    <td>RADUMTA SITEPU / IT</td>
-                                    <td>23-08-2016 17:00</td>
-                                    <td>WAWAN ADETYA / IT</td>
-                                    <td>24-08-2016 17:00</td>
-                                    <td>5/5</td>
-                                    <td>Rp 5.000.000</td>
-                                    <td>
+                                    <td data-title="DETAIL" class="preview">
                                         <a class="btn btn-success btn-sm" href="#/mgraprove/1">
-                                          <i class="fa fa-edit"></i> &nbsp;View Detail
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-success btn-sm">
-                                          <i class="fa fa-check"></i> &nbsp;Sdh Diaprove
+                                          <i class="fa fa-eye"></i> &nbsp;View Detail
                                         </a>
                                     </td>
                                 </tr>

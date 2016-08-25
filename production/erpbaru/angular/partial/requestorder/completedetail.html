@@ -9,32 +9,47 @@
             <div class="box-body">
                 <div class="box">
                     <div class="box-header bg-maroon">
-                        REQUEST ORDER
+                        RO.2016.08.22.001
                     </div>
-                    <div class="box-body">
-                        <table>
-                        <thead>
+                    <div class="panel-body" id="no-more-tables">
+                        <table class="table-bordered table-striped table-condensed cf">
+                        <thead class="cf">
                             <tr>
-                                <th class="numeric">#</th>
-                                <th class="numeric">NO.REQUEST ORDER</th>
-                                <th class="numeric">REQUEST ORDER BY</th>
-                                <th class="numeric">REQUEST ORDER DATE</th>
-                                <th class="numeric">DEPARTMENT</th>
-                                <th class="numeric">JUMLAH ITEM</th>
-                                <th class="numeric">TOTAL HARGA</th>
+                                <th class="numeric">CREATOR</th>
+                                <th class="numeric">CREATE AT</th>
+                                <th class="numeric">ACCOR</th>
+                                <th class="numeric">ACC AT</th>
+                                <th class="numeric">APROVER</th>
+                                <th class="numeric">APROVE AT</th>
+                                <th class="numeric">STATUS</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-                                <td>RO.2016.08.22.001</td>
-                                <td>RADUMTA SITEPU</td>
-                                <td>2016.08.22</td>
-                                <td>IT</td>
-                                <td>5</td>
-                                <td>Rp 5000.000</td>
+                                <td data-title="CREATOR" class="preview">
+                                    RADUMTA SITEPU / IT
+                                </td>
+                                <td data-title="CREATE AT" class="preview">
+                                    Selasa, 23-08-2016
+                                </td>
+                                <td data-title="ACC BY" class="preview">
+                                    WAWAN SOLIHIN / IT
+                                </td>
+                                <td data-title="ACC AT" class="preview">
+                                    Rabu, 24-08-2016
+                                </td>
+                                <td data-title="APROVER" class="preview">
+                                    PITER NOVIAN / IT
+                                </td>
+                                <td data-title="APROVE AT" class="preview">
+                                    Kamis, 25-08-2016
+                                </td>
+                                <td data-title="STS APROVE" class="preview">
+                                    <a class="btn btn-danger btn-sm" href="#/complete/3">
+                                      <i class="fa fa-edit"></i> &nbsp;REJECT
+                                    </a>
+                                </td>
                             </tr>
-                            
                         </tbody>
                        </table>
                    </div>
@@ -43,9 +58,9 @@
                     <div class="box-header bg-aqua">
                         REQUEST ORDER DETAIL
                     </div>
-                    <div class="box-body">
-                       <table>
-                        <thead>
+                    <div class="panel-body" id="no-more-tables">
+                        <table class="table-bordered table-striped table-condensed cf">
+                        <thead class="cf">
                           <tr>
                             <th class="numeric">NM BRG</th>
                             <th class="numeric">NAMA TYPE</th>

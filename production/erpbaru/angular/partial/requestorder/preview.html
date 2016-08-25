@@ -9,22 +9,22 @@
             <div class="box-header bg-aqua">
                 Preview RO/Change QTY
             </div>
-            <div class="box-body">
-               <table>
-                <thead>
+            <div class="panel-body" id="no-more-tables">
+               <table class="table-bordered table-striped table-condensed cf">
+                <thead class="cf">
                   <tr>
                     <th class="numeric">NM BRG</th>
                     <th class="numeric">NAMA TYPE</th>
                     <th class="numeric">NAMA KATEGORI</th>
                     <th class="numeric">NAMA UNIT</th>
                     <th class="numeric">JUMLAH</th>
-                    <th class="numeric">E/D</th>
+                    <th class="numeric">DEL</th>
                   </tr>
                 </thead>
                 <tbody>
                     <tr ng-repeat="barangumum in keranjangbelanja | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
                     class="repeat-item">
-                        <td data-title="NM" class="preview">
+                        <td data-title="NAMA" class="preview">
                             <a href="javascript:;">
                               {{barangumum.NM_BARANG}}
                             </a>
@@ -34,7 +34,7 @@
                                 {{barangumum.type.NM_TYPE}} 
                             </a>
                         </td>
-                        <td data-title="CAT" class="preview">
+                        <td data-title="CATE" class="preview">
                             <a href="javascript:;">
                                 {{barangumum.kategori.NM_KATEGORI}}
                             </a>
@@ -52,7 +52,7 @@
                                 </span>
                             </a>
                         </td>
-                        <td data-title="EDI" class="preview">
+                        <td data-title="DEL" class="preview">
                             <!-- <a href="#/product/{{barangumum.ID}}/delete"><i class="fa fa-trash fa-2x"></i></a> -->
                             <!-- <a href="javascript:;" ng-click="edit(barangumum)" style="padding-right:50px">
                                 <i class="fa fa-refresh fa-2x"></i>

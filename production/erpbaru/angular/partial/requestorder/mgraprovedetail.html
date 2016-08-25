@@ -12,32 +12,32 @@
             <div class="box-body">
                 <div class="box">
                     <div class="box-header bg-maroon">
-                        REQUEST ORDER
+                        RO.2016.08.22.001
                     </div>
-                    <div class="box-body">
-                        <table>
-                        <thead>
+                    <div class="panel-body" id="no-more-tables">
+                        <table class="table-bordered table-striped table-condensed cf">
+                        <thead class="cf">
                             <tr>
-                                <th class="numeric">#</th>
-                                <th class="numeric">NO.REQUEST ORDER</th>
                                 <th class="numeric">REQUEST ORDER BY</th>
                                 <th class="numeric">REQUEST ORDER DATE</th>
                                 <th class="numeric">REQUEST ORDER ACC</th>
                                 <th class="numeric">REQUEST ACC DATE</th>
-                                <th class="numeric">JUMLAH ITEM</th>
-                                <th class="numeric">TOTAL HARGA</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1</td>
-                                <td>RO.2016.08.22.001</td>
-                                <td>RADUMTA SITEPU / IT</td>
-                                <td>Senin, 22-08-2016 17:00</td>
-                                <td>Wawan Adetya / IT</td>
-                                <td>Selasa, 23-08-2016 17:00</td>
-                                <td>5</td>
-                                <td>Rp 5000.000</td>
+                                <td data-title="CREATOR" class="preview">
+                                    RADUMTA SITEPU / IT
+                                </td>
+                                <td data-title="CREATE AT" class="preview">
+                                    Senin, 22-08-2016 17:00
+                                </td>
+                                <td data-title="ACCOR" class="preview">
+                                    Wawan Adetya / IT
+                                </td>
+                                <td data-title="ACC AT" class="preview">
+                                    Selasa, 23-08-2016 17:00
+                                </td>
                             </tr>
                             
                         </tbody>
@@ -46,12 +46,13 @@
                 </div>
                 <div class="box">
                     <div class="box-header bg-maroon">
-                        REQUEST ORDER
+                        RO DETAIL
                     </div>
-                    <div class="box-body">
-                       <table>
-                        <thead>
+                    <div class="panel-body" id="no-more-tables">
+                        <table class="table-bordered table-striped table-condensed cf">
+                        <thead class="cf">
                           <tr>
+                            <th class="numeric">NO.</th>
                             <th class="numeric">NM BRG</th>
                             <th class="numeric">NAMA TYPE</th>
                             <th class="numeric">NAMA KATEGORI</th>
@@ -67,6 +68,9 @@
                         <tbody>
                             <tr ng-repeat="barangumum in revisimgr | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
                             class="repeat-item">
+                                <td data-title="NO" class="preview">
+                                      {{$index + 1}}
+                                </td>
                                 <td data-title="NM" class="preview">
                                     <a href="javascript:;">
                                       {{barangumum.NM_BARANG}}
@@ -87,32 +91,31 @@
                                         {{barangumum.unit.NM_UNIT}}
                                     </a>
                                 </td>
-                                <td data-title="JLH" class="preview bg-maroon">
-                                        {{barangumum.jumlahorder}}
-                                </td>
-                                <td data-title="EDI" class="preview bg-maroon">
-                                    {{barangumum.harga|number}} 
+                                <td data-title="ORIGINAL" class="preview">
+                                        {{barangumum.jumlahorder}} @ {{barangumum.harga|number}} 
                                 </td>
 
-                                <td data-title="EDI" class="preview" ng-class="barangumum.classjlh" ng-if="barangumum.revisijumlah == 0">
-                                    {{barangumum.jumlahorder}}
+                                <td data-title="ACTUAL" class="preview" ng-if="barangumum.revisijumlah == 0 && barangumum.revisiharga == 0">
+                                    {{barangumum.jumlahorder}} @ {{barangumum.harga|number}}
                                 </td>
-                                <td data-title="EDI" class="preview" ng-class="barangumum.classjlh" ng-if="barangumum.revisijumlah != 0">
-                                    {{barangumum.revisijumlah|number}} 
+                                
+                                <td data-title="ACTUAL" class="preview" ng-class="barangumum.classjlh" ng-if="barangumum.revisijumlah == 0 && barangumum.revisiharga != 0">
+                                    {{barangumum.jumlahorder|number}} @ 
+                                    {{barangumum.revisiharga|number}}
                                 </td>
-
-                                <td data-title="EDI" class="preview" ng-class="barangumum.classhrg" ng-if="barangumum.revisiharga == 0">
-                                    {{barangumum.harga|number}} 
+                                <td data-title="ACTUAL" class="preview" ng-class="barangumum.classjlh" ng-if="barangumum.revisijumlah != 0 && barangumum.revisiharga == 0">
+                                    {{barangumum.revisijumlah|number}} @ 
+                                    {{barangumum.harga|number}}
                                 </td>
-                                <td data-title="EDI" class="preview" ng-class="barangumum.classhrg" ng-if="barangumum.revisiharga != 0">
-                                    {{barangumum.revisiharga|number}} 
+                                <td data-title="ACTUAL" class="preview" ng-class="barangumum.classjlh" ng-if="barangumum.revisijumlah != 0 && barangumum.revisiharga != 0">
+                                    {{barangumum.revisijumlah|number}} @ 
+                                    {{barangumum.revisiharga|number}}
                                 </td>
-
-                                <td data-title="EDI" class="preview">
-                                    <span style="float:left">Rp.</span>
-                                    <span style="float:right">{{barangumum.subtotal| number}}</span>
+                                
+                                <td data-title="SUBTOTAL" class="preview">
+                                    Rp.{{barangumum.subtotal| number}}
                                 </td>
-                                <td class="preview">
+                                <td data-title="STATUS" class="preview">
                                     <select ng-model="barangumum.statusaprove">
                                         <option value="">Accepted/Rejected</option>
                                         <option value="accept">Accept</option>
@@ -124,8 +127,7 @@
                             <tr class="bg-success">
                               <td colspan="8" class="preview">Total</td>
                               <td class="preview">
-                                <span style="float:left">Rp.</span>
-                                <span style="float:right">{{totalharga|number}}</td>
+                                Rp.{{totalharga|number}}
                             </tr>
                         </tbody>
                        </table>

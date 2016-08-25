@@ -9,9 +9,9 @@
             <div class="box-header bg-aqua">
                 SET HARGA 
             </div>
-            <div class="box-body">
-               <table>
-                <thead>
+            <div class="panel-body" id="no-more-tables">
+               <table class="table-bordered table-striped table-condensed cf">
+                <thead class="cf">
                   <tr>
                     <th class="numeric">#</th>
                     <th class="numeric">NM BRG</th>
@@ -26,12 +26,12 @@
                 <tbody>
                     <tr ng-repeat="barangumum in keranjangbelanja | filter: {NM_BARANG:apasaja, KD_UNIT: unit || undefined, KD_TYPE:type || undefined,KD_KATEGORI:kategori || undefined} as filtered" 
                     class="repeat-item">
-                        <td data-title="NM" class="preview">
+                        <td data-title="NMR" class="preview">
                             <a href="javascript:;">
                               {{$index + 1}}
                             </a>
                         </td>
-                        <td data-title="NM" class="preview">
+                        <td data-title="NAMA" class="preview">
                             <a href="javascript:;">
                               {{barangumum.NM_BARANG}}
                             </a>
@@ -57,7 +57,7 @@
                                 {{barangumum.jumlahorder}}
                             </a>
                         </td>
-                        <td data-title="EDI" class="preview" ng-if="barangumum.harga == 0">
+                        <td data-title="EDIT" class="preview" ng-if="barangumum.harga == 0">
                             <a class="btn btn-success btn-sm" ng-click="setharga(barangumum)" >
                               <i class="fa fa-edit"></i> &nbsp;Set Harga
                             </a>
@@ -68,7 +68,7 @@
                               <i class="fa fa-refresh"></i>
                             </a>
                         </td>
-                        <td data-title="SUB" class="preview">
+                        <td data-title="SUBTOT" class="preview">
                             <!-- <span style="float:left">Rp.</span>
                             <span style="float:right">{{barangumum.harga * barangumum.jumlahorder | number}}</span> -->
                             Rp. {{barangumum.harga * barangumum.jumlahorder | number}}
@@ -77,8 +77,6 @@
                     <tr class="bg-warning" style="background:green">
                       <td colspan="7">Total</td>
                       <td class="preview-dua">
-                        <!-- <span style="float:left">Rp.</span>
-                        <span style="float:right">{{total|number}}</td> -->
                         Rp.{{total|number}}
                     </tr>
                 </tbody>
