@@ -15,14 +15,14 @@
                 </a>
 
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="no-more-tables">
                 <div class="row">
                     <div class="col-md-12">
                         <input type="text" ng-model="apasaja" class=" form-control" placeholder="Search By Kategori Name">
                     </div>
                 </div></br>
-               <table>
-                <thead>
+               <table class="table-bordered table-striped table-condensed cf">
+                <thead class="cf">
                   <tr>
                     <th class="category">KATEGORI</th>
                     <th class="category">CORP</th>
@@ -32,8 +32,8 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="category in categories | filter: {NM_KATEGORI:apasaja}" class="repeat-item">
-                    	<td data-title="ID" class="category">{{category.NM_KATEGORI}}</td>
-                        <td data-title="COR" class="category">{{category.CORP_ID}}</td>
+                    	<td data-title="NAMA" class="category">{{category.NM_KATEGORI}}</td>
+                        <td data-title="CORP" class="category">{{category.CORP_ID}}</td>
                     	<td data-title="STS" class="category" ng-if='category.STATUS === 1' >
                             <a class="btn btn-success btn-xs">
                             	<i class="fa fa-edit"></i> &nbsp;Enable
@@ -44,7 +44,7 @@
                             	<i class="fa fa-edit"></i> &nbsp;Disable
                             </a> 
                         </td>
-                        <td data-title="EDI" class="category">
+                        <td data-title="ACTIONS" class="category">
                             <a href="javascript:;" ng-click="edit(barangumum)" style="padding-right:50px">
                                 <i class="fa fa-refresh fa-2x"></i>
                             </a>

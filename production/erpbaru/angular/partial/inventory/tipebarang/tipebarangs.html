@@ -14,14 +14,14 @@
                 </a>
 
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="no-more-tables">
                 <div class="row">
                     <div class="col-md-12">
                         <input type="text" ng-model="apasaja" class=" form-control" placeholder="Search By Kategori Name">
                     </div>
                 </div></br>
-               <table>
-                <thead>
+               <table class="table-bordered table-striped table-condensed cf">
+                <thead class="cf">
                   <tr>
                     <th class="types">KATEGORI</th>
                     <th class="types">CORP</th>
@@ -31,7 +31,7 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="type in types" class="repeat-item">
-                    	<td data-title="STS" class="types">
+                    	<td data-title="NM TYPE" class="types">
                             {{type.NM_TYPE}}
                         </td>
                     	<td data-title="STS" class="types" ng-if='type.STATUS === 1' >
@@ -44,7 +44,7 @@
                             	<i class="fa fa-edit"></i> &nbsp;Disable
                             </a> 
                         </td>
-                        <td data-title="EDI" class="types">
+                        <td data-title="ACTIONS" class="types">
                             <a href="javascript:;" ng-click="edit(type)" style="padding-right:50px">
                                 <i class="fa fa-refresh fa-2x"></i>
                             </a>

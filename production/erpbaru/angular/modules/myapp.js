@@ -13,10 +13,8 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
 
     document.addEventListener("deviceready", function () 
     {
-        alert("Open DB");
         $rootScope.db = window.sqlitePlugin.openDatabase({name:"lukisongroup.db", location:'default', androidLockWorkaround: 1, androidDatabaseImplementation: 2});
         $cordovaSQLite.execute($rootScope.db, 'CREATE TABLE IF NOT EXISTS Messages (id INTEGER PRIMARY KEY AUTOINCREMENT, message TEXT,person_from TEXT, person_to TEXT, create_at TEXT)');
-        alert("Create Table");
 
         var notificationOpenedCallback = function(jsonData) 
         {
@@ -24,10 +22,10 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         };
 
         window.plugins.OneSignal.init("aa7a5f05-1b54-40fc-87fd-80c0f1d99ab7",{googleProjectNumber: "724504328230"},notificationOpenedCallback);
-      
         window.plugins.OneSignal.enableInAppAlertNotification(true);
         window.plugins.OneSignal.setSubscription(true);
         window.plugins.OneSignal.enableNotificationWhenActive(true);
+        window.plugins.OneSignal.enableVibrate(true);
     });
 
     document.addEventListener("deviceready", function () 

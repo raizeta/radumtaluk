@@ -106,38 +106,37 @@
                                     </a>
                                 </td>
 
-                                <td data-title="EDI" class="preview">
+                                <td data-title="HRG" class="preview">
                                     {{barangumum.harga|number}} 
                                 </td>
-                                <td data-title="EDI" class="preview" ng-if="barangumum.revisijumlah == 0">
+                                <td data-title="ACC JLH" class="preview" ng-if="barangumum.revisijumlah == 0">
                                     <a class="btn btn-success btn-sm" ng-click="setrevisijumlah(barangumum)" >
                                       <i class="fa fa-edit"></i> &nbsp;Set Jumlah
                                     </a>
                                 </td>
-                                <td data-title="EDI" class="preview" ng-if="barangumum.revisijumlah != 0">
+                                <td data-title="ACC JLH" class="preview" ng-if="barangumum.revisijumlah != 0">
                                     {{barangumum.revisijumlah|number}} 
                                     <a class="btn btn-warning btn-sm pull-right" ng-click="setrevisijumlah(barangumum)" >
                                       <i class="fa fa-refresh"></i>
                                     </a>
                                 </td>
 
-                                <td data-title="EDI" class="preview" ng-if="barangumum.revisiharga == 0">
+                                <td data-title="ACC HRG" class="preview" ng-if="barangumum.revisiharga == 0">
                                     <a class="btn btn-success btn-sm" ng-click="setrevisiharga(barangumum)" >
                                       <i class="fa fa-edit"></i> &nbsp;Set Harga
                                     </a>
                                 </td>
-                                <td data-title="EDI" class="preview" ng-if="barangumum.revisiharga != 0">
+                                <td data-title="ACC HRG" class="preview" ng-if="barangumum.revisiharga != 0">
                                     {{barangumum.revisiharga|number}} 
                                     <a class="btn btn-warning btn-sm pull-right" ng-click="setrevisiharga(barangumum)" >
                                       <i class="fa fa-refresh"></i>
                                     </a>
                                 </td>
 
-                                <td data-title="EDI" class="preview">
-                                    <span style="float:left">Rp.</span>
-                                    <span style="float:right">{{barangumum.subtotal| number}}</span>
+                                <td data-title="SUB TOTAL" class="preview">
+                                    Rp. {{barangumum.subtotal| number}}
                                 </td>
-                                <td data-title="EDI" class="preview">
+                                <td data-title="PESAN" class="preview">
                                     <textarea></textarea>
                                 </td>
                                 <td class="preview">

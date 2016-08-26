@@ -14,14 +14,14 @@
                 </a>
 
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="no-more-tables">
                 <div class="row">
                     <div class="col-md-12">
                         <input type="text" ng-model="apasaja" class=" form-control" placeholder="Search By Kategori Name">
                     </div>
                 </div></br>
-               <table>
-                <thead>
+               <table class="table-bordered table-striped table-condensed cf">
+                <thead class="cf">
                   <tr>
                     <th class="supliers">NM SUP</th>
                     <th class="supliers">ALM</th>
@@ -35,48 +35,48 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="suplier in supliers" class="repeat-item">
-                      <td data-title="STS" class="supliers">
+                      <td data-title="NM SUP" class="supliers">
                             {{suplier.NM_SUPPLIER}}
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.ALAMAT == '' || suplier.ALAMAT == null ">
+                      <td data-title="ALAMAT" class="supliers" ng-if="suplier.ALAMAT == '' || suplier.ALAMAT == null ">
                             <a class="btn btn-danger btn-xs">
                               <i class="fa fa-edit"></i> &nbsp;NOT SET
                             </a>
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.ALAMAT != '' && suplier.ALAMAT != null ">
+                      <td data-title="ALAMAT" class="supliers" ng-if="suplier.ALAMAT != '' && suplier.ALAMAT != null ">
                             {{suplier.ALAMAT}}
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.KOTA == '' || suplier.TLP == null ">
+                      <td data-title="ALAMAT" class="supliers" ng-if="suplier.KOTA == '' || suplier.TLP == null ">
                             <a class="btn btn-danger btn-xs">
                               <i class="fa fa-edit"></i> &nbsp;NOT SET
                             </a>
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.KOTA != '' && suplier.TLP != null ">
+                      <td data-title="KOTA" class="supliers" ng-if="suplier.KOTA != '' && suplier.TLP != null ">
                             {{suplier.KOTA}}
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.TLP == '' || suplier.TLP == null ">
+                      <td data-title="TELP" class="supliers" ng-if="suplier.TLP == '' || suplier.TLP == null ">
                             <a class="btn btn-danger btn-xs">
                               <i class="fa fa-edit"></i> &nbsp;NOT SET
                             </a>
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.TLP != '' && suplier.TLP != null">
+                      <td data-title="TELP" class="supliers" ng-if="suplier.TLP != '' && suplier.TLP != null">
                             {{suplier.TLP}}
                       </td>
 
-                      <td data-title="STS" class="supliers" ng-if="suplier.MOBILE == '' || suplier.MOBILE == null ">
+                      <td data-title="MOBILE" class="supliers" ng-if="suplier.MOBILE == '' || suplier.MOBILE == null ">
                             <a class="btn btn-danger btn-xs">
                               <i class="fa fa-edit"></i> &nbsp;NOT SET
                             </a>
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.MOBILE != '' && suplier.MOBILE != null">
+                      <td data-title="MOBILE" class="supliers" ng-if="suplier.MOBILE != '' && suplier.MOBILE != null">
                             {{suplier.MOBILE}}
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.EMAIL == '' || suplier.EMAIL == null ">
+                      <td data-title="EMAIL" class="supliers" ng-if="suplier.EMAIL == '' || suplier.EMAIL == null ">
                             <a class="btn btn-danger btn-xs">
                               <i class="fa fa-edit"></i> &nbsp;NOT SET
                             </a>
                       </td>
-                      <td data-title="STS" class="supliers" ng-if="suplier.EMAIL != '' && suplier.EMAIL != null ">
+                      <td data-title="EMAIL" class="supliers" ng-if="suplier.EMAIL != '' && suplier.EMAIL != null ">
                             {{suplier.EMAIL}}
                       </td>
                       <td data-title="STS" class="supliers" ng-if='suplier.STATUS === 1' >
@@ -89,7 +89,7 @@
                               <i class="fa fa-edit"></i> &nbsp;Disable
                             </a> 
                         </td>
-                        <td data-title="EDI" class="supliers" style="min-width:150px">
+                        <td data-title="ACTIONS" class="supliers" style="min-width:150px">
                             <a href="javascript:;" ng-click="edit(suplier)" style="padding-right:50px">
                                 <i class="fa fa-refresh fa-2x"></i>
                             </a>
