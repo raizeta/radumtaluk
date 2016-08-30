@@ -1,0 +1,27 @@
+<ion-view view-title="SHOP AREA" name="dashboard-view">
+  <ion-content class="padding">
+  		<form class="list">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="search" placeholder="">
+            </label>
+        </form>
+        <ion-list >
+			<ion-item class="chat-item item-remove-animate item-thumbnail-left" ng-repeat="item in menu_items">
+                <img  ng-src="{{'graph/'+ item.p_image_id +'.png'}}"  ng-click="showProductInfo(item.p_id,item.p_description,item.p_image_id,item.p_name,item.p_price)">
+				
+				<p style="position:absolute;right:10px;">
+				<a  ng-click="addToCart(item.p_id,item.p_image_id,item.p_name,item.p_price)" class="button  button-balanced button-clear   icon ion-android-cart">  </a> 
+				</p>
+                
+				<h2 ng-click="showProductInfo(item.p_id,item.p_description,item.p_image_id,item.p_name,item.p_price)" > 
+					{{item.p_name}} 
+				</h2>
+				<p ng-click="showProductInfo(item.p_id,item.p_description,item.p_image_id,item.p_name,item.p_price)">
+					Rp. {{item.p_price|number}}
+				</p>
+			</ion-item>
+			 
+        </ion-list>
+  </ion-content>
+</ion-view>

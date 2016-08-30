@@ -16,7 +16,6 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout)
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-
 }]);
 
 myAppModule.controller("BeritaAcaraOutboxDetailController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","$timeout",
@@ -35,6 +34,11 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,$timeout)
         $scope.userInfo = null;
         $window.sessionStorage.clear();
         window.location.href = "index.html";
+    }
+
+    $scope.submitForm = function()
+    {
+        alert("Submit Klik");
     }
 
 }]);

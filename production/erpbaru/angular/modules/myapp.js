@@ -66,6 +66,8 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
    
     $rootScope.$on("$routeChangeSuccess", function (e, curr, prev,userInfo) 
     {
+        $rootScope.isMenuOpen = false;
+        $rootScope.isMenuKananOpen = false;
         var hideloading = function()
         {
             $rootScope.loading= false;

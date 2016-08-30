@@ -12,9 +12,11 @@
             done[i].removeAttribute('style');
         }
         var ionList = document.getElementsByTagName('ion-list');
-        for (var i = 0; i < ionList.length; i++) {
+        for (var i = 0; i < ionList.length; i++) 
+        {
             var toRemove = ionList[i].className;
-            if (/animate-/.test(toRemove)) {
+            if (/animate-/.test(toRemove)) 
+            {
                 ionList[i].className = ionList[i].className.replace(/(?:^|\s)animate-\S*(?:$|\s)/, '');
             }
         }
