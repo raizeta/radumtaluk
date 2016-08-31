@@ -1,43 +1,31 @@
 
 angular.module('starter')
  
-.controller('AppCtrl', function($scope, $state, $ionicPopup, AuthService, AUTH_EVENTS) 
+.controller('AppCtrl', function($rootScope,$scope, $state, $ionicPopup, AuthService) 
 {
-  $scope.username = AuthService.username();
-
-  $scope.$on(AUTH_EVENTS.notAuthorized, function(event) {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Unauthorized!',
-      template: 'You are not allowed to access this resource.'
-    });
-  });
- 
-  $scope.$on(AUTH_EVENTS.notAuthenticated, function(event) {
-    AuthService.logout();
-    $state.go('login');
-    var alertPopup = $ionicPopup.alert({
-      title: 'Session Lost!',
-      template: 'Sorry, You have to login again.'
-    });
-  });
- 
-  $scope.setCurrentUsername = function(name) {
+  $scope.setCurrentUsername = function(name) 
+  {
     $scope.username = name;
   };
-  $scope.logout = function() {
-    AuthService.logout();
+  $scope.logout = function() 
+  {
     $state.go('login');
   };
+  
 })
 
 .controller('LoginCtrl', function($scope, $state, $ionicPopup, AuthService) {
   $scope.data = {};
- 
-  $scope.login = function(data) {
-    AuthService.login(data.username, data.password).then(function(authenticated) {
-      $state.go('main.dash', {}, {reload: true});
+  $scope.login = function(data) 
+  {
+    AuthService.login(data.username, data.password)
+    .then(function(authenticated) 
+    {
+      $state.go('main.ranking', {}, {reload: true});
       $scope.setCurrentUsername(data.username);
-    }, function(err) {
+    }, 
+    function(err) 
+    {
       var alertPopup = $ionicPopup.alert({
         title: 'Login failed!',
         template: 'Please check your credentials!'
@@ -46,75 +34,143 @@ angular.module('starter')
   };
 })
 
-.controller('DashCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
-  
-  $scope.performValidRequest = function() {
-    $http.get('http://localhost:8100/valid').then(
-      function(result) {
-        $scope.response = result;
-      });
-  };
- 
-  $scope.performUnauthorizedRequest = function() {
-    $http.get('http://localhost:8100/notauthorized').then(
-      function(result) {
-        // No result here..
-      }, function(err) {
-        $scope.response = err;
-      });
-  };
- 
-  $scope.performInvalidRequest = function() {
-    $http.get('http://localhost:8100/notauthenticated').then(
-      function(result) {
-        // No result here..
-      }, function(err) {
-        $scope.response = err;
-      });
 
+.controller('ShopCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,ProductService) 
+{
+  if($window.localStorage.getItem('product-order'))
+  {
+      var productorders       = JSON.parse($window.localStorage.getItem('product-order'));
+      $scope.menu_items       = productorders;
 
-  };
-
-  var menu_items = [];
-  for (var i=0; i<5; i++) 
-  { 
-    var menuitem = {};
-    menuitem.p_id = i + 1;
-    menuitem.p_name = "Product" + i;
-    menu_items.push(menuitem);
+      var jumlahitem                          = JSON.parse($window.localStorage.getItem('jumlah-item'));
+      $rootScope.jumlahitemdikeranjang        = jumlahitem;
   }
-  $scope.menu_items = menu_items;
+  else
+  {
+      ProductService.GetProducts()
+      .then (function (response)
+      {
+        $scope.menu_items = response;
+      },
+      function (error)
+      {
 
+      }); 
+  }
+  
+
+  $scope.addtocart = function(barangumum)
+  {
+      $scope.data = {};
+      var myPopup = $ionicPopup.show
+      ({
+          template: '<input type="number" ng-model="data.wifi">',
+          title: barangumum.NM_PRODUCT,
+          subTitle: 'Quantity/Pcs',
+          scope: $scope,
+          buttons: 
+          [
+            { 
+              text: 'Cancel',
+              type: 'button-assertive', 
+            },
+            {
+              text: '<b>Add</b>',
+              type: 'button-positive',
+              onTap: function(e) 
+              {
+                if (!$scope.data.wifi) 
+                {
+                  e.preventDefault();
+                } 
+                else 
+                {
+                  return $scope.data.wifi;
+                }
+              }
+            }
+          ]
+      });
+      myPopup.then(function(res) 
+      {
+          if(res)
+          {
+              var products = _.findWhere($scope.menu_items, barangumum);
+              if(!(products.quantity))
+              {
+                $rootScope.jumlahitemdikeranjang += 1;
+              }
+              products.quantity = res;
+
+              var productorder = JSON.stringify($scope.menu_items);
+              $window.localStorage.setItem('product-order', productorder);
+
+              var jumlahitem = JSON.stringify($rootScope.jumlahitemdikeranjang);
+              $window.localStorage.setItem('jumlah-item', jumlahitem);
+          }
+      });
+  }
 
 })
-.controller('ShopCtrl', function($scope, $state, $http, $ionicPopup, AuthService) {
-  
-    
 
-  var menu_items = [];
-  var gambarbarang  =['BRG.ESM.2016.01.0001','BRG.ESM.2016.01.0002','BRG.ESM.2016.01.0003','BRG.ESM.2016.01.0004','BRG.ESM.2016.01.0005'];
-  for (var i=0; i<5; i++) 
-  { 
-    var menuitem = {};
-    menuitem.p_id = i + 1;
-    menuitem.p_name = "Maxi Chips " + (i + 1);
-    menuitem.p_price  = 5000;
-    menuitem.p_image_id = gambarbarang[i];
-    menu_items.push(menuitem);
+.controller('CartCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,ProductService) 
+{
+  if($window.localStorage.getItem('product-order'))
+  {
+      var productorders       = JSON.parse($window.localStorage.getItem('product-order'));
+      $scope.menu_items       = productorders;
+
+      var jumlahitem                          = JSON.parse($window.localStorage.getItem('jumlah-item'));
+      $rootScope.jumlahitemdikeranjang        = jumlahitem;
+
+      $scope.cartberisi = true;
   }
-  $scope.menu_items = menu_items;
+  else
+  {
+      $scope.cartberisi = false;
+  }
 
+  $scope.placeanorder = function ()
+  {
+      var confirmPopup = $ionicPopup.confirm
+      ({
+          title: 'Check Out',
+          template: 'Are You Sure To Place And Order?',
+          cancelText:'Cancel',
+          cancelType:'button-assertive',
+      });
+
+      confirmPopup.then(function(res) 
+      {
+          if(res) 
+          {
+              $window.localStorage.removeItem('product-order');
+              $window.localStorage.removeItem('jumlah-item');
+              $rootScope.jumlahitemdikeranjang = 0;
+              $state.go('main.shop');
+          } 
+          else 
+          {
+            console.log('You are not sure');
+          }
+      });
+  }
+  
 })
 
 .controller('RangkingCtrl', function($scope, $state, $http, $ionicPopup, AuthService,$interval) {
   $scope.groups = [];
-  for (var i=0; i<5; i++) {
-    $scope.groups[i] = {
+  for (var i=0; i<5; i++) 
+  {
+    $scope.groups[i] = 
+    {
       name: i,
       items: []
     };
-    for (var j=0; j<3; j++) {
-      $scope.groups[i].items.push(i + '-' + j);
+
+    for (var j=0; j<3; j++) 
+    {
+      $scope.groups[i].items.push('Pembelian-' + (j + 1) + ' = ' + j);
     }
   }
 
@@ -166,12 +222,18 @@ angular.module('starter')
         });
     }, 300);
 
-    // $timeout(function() {
-    //     ionicMaterialMotion.fadeSlideInRight({
-    //         startVelocity: 3000
-    //     });
-    // }, 700);
+    $scope.groups = [];
+    for (var i=0; i<5; i++) 
+    {
+      $scope.groups[i] = 
+      {
+        name: i,
+        items: []
+      };
 
-    // Set Ink
-    // ionicMaterialInk.displayEffect();
+      for (var j=0; j<3; j++) 
+      {
+        $scope.groups[i].items.push('Pembelian-' + (j + 1) + ' = ' + j);
+      }
+    }
 });

@@ -3,9 +3,9 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', ['ionic', 'ngMockE2E','ionic-material'])
+angular.module('starter', ['ionic','ionic-material'])
 
-.run(function($ionicPlatform,$httpBackend,$rootScope, $state, AuthService, AUTH_EVENTS) 
+.run(function($ionicPlatform,$rootScope, $state,$window) 
 {
     $ionicPlatform.ready(function() 
     {
@@ -24,123 +24,36 @@ angular.module('starter', ['ionic', 'ngMockE2E','ionic-material'])
         StatusBar.styleDefault();
       }
     });
-  $httpBackend.whenGET('http://localhost:8100/valid')
-        .respond({message: 'This is my valid response!'});
-  $httpBackend.whenGET('http://localhost:8100/notauthenticated')
-        .respond(401, {message: "Not Authenticated"});
-  $httpBackend.whenGET('http://localhost:8100/notauthorized')
-        .respond(403, {message: "Not Authorized"});
- 
-  $httpBackend.whenGET(/templates\/\w+.*/).passThrough();
 
-  $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
-  {
-      if ('data' in next && 'authorizedRoles' in next.data) 
-      {
-        var authorizedRoles = next.data.authorizedRoles;
-        if (!AuthService.isAuthorized(authorizedRoles)) 
-        {
-          event.preventDefault();
-          $state.go($state.current, {}, {reload: true});
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        }
-      }
-   
-      if (!AuthService.isAuthenticated()) 
-      {
-        if (next.name !== 'login') 
-        {
-          event.preventDefault();
-          $state.go('login');
-        }
-      }
-  });
 
+    $rootScope.$on('$stateChangeStart', function (event,next, nextParams, fromState) 
+    {
+
+    });
+
+    var globalurl = {};
+    globalurl.linkurl   = "http://api.lukisongroup.com/eventmaxi";
+    globalurl.tokenurl  = "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
+    $rootScope.linkurl = globalurl;
+
+    if($window.localStorage.getItem('jumlah-item'))
+    {
+        var jumlahitem                          = JSON.parse($window.localStorage.getItem('jumlah-item'));
+        $rootScope.jumlahitemdikeranjang        = jumlahitem;
+    }
+    else
+    {
+        $rootScope.jumlahitemdikeranjang = 0;
+    }
+    
 })
 
-.config(function ($stateProvider, $urlRouterProvider, USER_ROLES,$ionicConfigProvider,$ionicConfigProvider) 
+
+
+.filter('capitalize', function() 
 {
-  $ionicConfigProvider.views.maxCache(0);
-  $stateProvider
-  .state('login', 
-  {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'LoginCtrl'
-  })
-  .state('main', 
-  {
-    url: '/',
-    abstract: true,
-    templateUrl: 'templates/main.html'
-  })
-
-  .state('main.dash', 
-  {
-    url: 'main/dash',
-    views: 
+    return function(input) 
     {
-        'dash-tab': 
-        {
-          templateUrl: 'templates/dashboard.html',
-          controller: 'DashCtrl'
-        }
-    }
-  })
-  .state('main.ranking', 
-  {
-    url: 'main/rangking',
-    views: 
-    {
-        'rangking-tab': 
-        {
-          templateUrl: 'templates/rangking.html',
-          controller: 'RangkingCtrl'
-        }
-    }
-  })
-  .state('main.profile', 
-  {
-    url: 'main/profile',
-    views: 
-    {
-        'profile-tab': 
-        {
-          templateUrl: 'templates/profile.html',
-          controller: 'ProfileCtrl'
-        }
-    }
-  })
-  .state('main.shop',
-  {
-    url: 'main/shop',
-    views: 
-    {
-        'shop-tab': 
-        {
-          templateUrl: 'templates/shop.html',
-          controller: 'ShopCtrl'
-        }
-    },
-    data: 
-    {
-      authorizedRoles: [USER_ROLES.admin]
-    }
-  });
-  
-  // Thanks to Ben Noblet!
-  $urlRouterProvider.otherwise(function ($injector, $location) {
-    var $state = $injector.get("$state");
-    $state.go("main.dash");
-  });
-  $ionicConfigProvider.tabs.position('bottom');
-  $ionicConfigProvider.navBar.alignTitle('center');
-
-
-})
-
-.filter('capitalize', function() {
-    return function(input) {
       return (!!input) ? input.charAt(0).toUpperCase() + input.substr(1).toLowerCase() : '';
     }
 });

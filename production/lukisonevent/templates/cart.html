@@ -1,13 +1,7 @@
-<ion-view view-title="SHOP AREA" name="dashboard-view">
+<ion-view view-title="YOUR CART" name="dashboard-view">
   <ion-content class="padding">
-  		<form class="list">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="search" placeholder="">
-            </label>
-        </form>
         <ion-list >
-			<ion-item class="chat-item item-remove-animate item-thumbnail-left" ng-repeat="item in menu_items">
+			<ion-item class="chat-item item-remove-animate item-thumbnail-left" ng-repeat="item in menu_items" ng-if="item.quantity">
                 <img  ng-src="{{'graph/'+ item.KD_PRODUCT +'.png'}}"  ng-click="addtocart(item)">
 				
 				<p style="position:absolute;right:10px;">
@@ -19,8 +13,9 @@
 				<h2 ng-click="addtocart(item)" > 
 					{{item.NM_PRODUCT}} 
 				</h2>
-			</ion-item>
-			 
+			</ion-item> 
         </ion-list>
+        <button class="button button-block button-calm" ng-click="placeanorder(data)" ng-show="cartberisi">Place An Order</button>
+        <button class="button button-block button-assertive" ng-click="login(data)" ng-hide="cartberisi">Belum Ada Product Di Keranjang Belanja</button>
   </ion-content>
 </ion-view>
