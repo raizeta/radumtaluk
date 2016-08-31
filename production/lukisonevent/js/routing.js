@@ -45,11 +45,13 @@ angular.module('starter')
   .state('main.orders', 
   {
     url: 'main/orders',
+    cache: false,
     views: 
     {
         'orders-tab': 
         {
           templateUrl: 'templates/orders.html',
+          controller: 'OrderCtrl'
         }
     }
   })

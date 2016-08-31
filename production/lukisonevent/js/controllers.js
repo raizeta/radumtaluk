@@ -113,7 +113,7 @@ angular.module('starter')
 
 })
 
-.controller('CartCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,ProductService) 
+.controller('CartCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,ProductService,OrderService,OrderDetailService) 
 {
   if($window.localStorage.getItem('product-order'))
   {
@@ -130,7 +130,7 @@ angular.module('starter')
       $scope.cartberisi = false;
   }
 
-  $scope.placeanorder = function ()
+  $scope.placeanorder = function(data)
   {
       var confirmPopup = $ionicPopup.confirm
       ({
@@ -144,10 +144,60 @@ angular.module('starter')
       {
           if(res) 
           {
-              $window.localStorage.removeItem('product-order');
-              $window.localStorage.removeItem('jumlah-item');
-              $rootScope.jumlahitemdikeranjang = 0;
-              $state.go('main.shop');
+              var detail = {};
+              var total = $rootScope.sum($scope.menu_items, 'quantity');
+              var rand  = (Math.ceil(Math.random() * 9));
+              detail.NO_RESIORDER   = 'MES.' + $rootScope.hanyatanggalharini + rand;
+              detail.TGL_ORDER      = $rootScope.tanggalwaktuharini;
+              detail.CUST_KD        = 'CUST.MES.001';
+              detail.CUST_NM        = 'CUST RAIZETA';
+              detail.KD_EVENT       = 'MES.001';
+              detail.NM_EVENT       = 'MAXI-EVENT-SMS';
+              detail.TOTAL_ORDER    = total * 1000;
+              detail.STATUS_ORDER   = 1;
+              detail.CREATE_AT      = $rootScope.tanggalwaktuharini;
+              detail.CREATE_BY      = 1;
+              detail.UPDATE_AT      = $rootScope.tanggalwaktuharini;
+              detail.UPDATE_BY      = 1;
+
+              OrderService.CreateOrder(detail)
+              .then (function(response)
+              {
+                  angular.forEach($scope.menu_items,function(value,key)
+                  {
+                    if(angular.isDefined(value.quantity))
+                    {
+                        var detailproduct = {};
+                        detailproduct.KD_PRODUCT  = value.KD_PRODUCT;
+                        detailproduct.JLH_ITEM    = value.quantity;
+                        detailproduct.HARGA_ITEM  = 1000;
+                        detailproduct.KD_ORDER    = response.ID;
+                        detailproduct.CREATE_AT   = $rootScope.tanggalwaktuharini;
+                        detailproduct.CREATE_BY   = 1;
+                        detailproduct.UPDATE_AT   = $rootScope.tanggalwaktuharini;
+                        detailproduct.UPDATE_BY   = 1;
+
+                        OrderDetailService.CreateOrderDetail(detailproduct)
+                        .then (function(response)
+                        {
+                            console.log(response);
+                        },
+                        function (error)
+                        {
+                          console.log(error);
+                        });
+                    }
+                  });
+                  $window.localStorage.removeItem('product-order');
+                  $window.localStorage.removeItem('jumlah-item');
+                  $rootScope.jumlahitemdikeranjang = 0;
+                  $state.go('main.shop');
+              },
+              function (error)
+              {
+                console.log(error);
+              });
+
           } 
           else 
           {
@@ -236,4 +286,18 @@ angular.module('starter')
         $scope.groups[i].items.push('Pembelian-' + (j + 1) + ' = ' + j);
       }
     }
+})
+
+.controller('OrderCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,OrderService) 
+{
+    OrderService.GetOrders()
+    .then (function (response)
+    {
+      $scope.orders = response;
+      console.log(response);
+    },
+    function (error)
+    {
+      console.log(error);
+    }); 
 });

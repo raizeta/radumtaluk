@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic','ionic-material'])
 
-.run(function($ionicPlatform,$rootScope, $state,$window) 
+.run(function($ionicPlatform,$rootScope, $state,$window,$filter) 
 {
     $ionicPlatform.ready(function() 
     {
@@ -45,6 +45,50 @@ angular.module('starter', ['ionic','ionic-material'])
     {
         $rootScope.jumlahitemdikeranjang = 0;
     }
+    $rootScope.seriliazeobject = function(objecttoserialize)
+    {
+        var result={};
+        function serializeObj(obj) 
+        {
+          var result = [];
+          for (var property in obj) result.push(encodeURIComponent(property) + "=" + encodeURIComponent(obj[property]));
+          return result.join("&");
+        }
+        
+        var serialized = serializeObj(objecttoserialize); 
+        var config = 
+        {
+            headers : 
+            {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded;application/json;charset=utf-8;'   
+            }
+        };
+        result.serialized   = serialized;
+        result.config       = config;
+
+        return result;
+    }
+
+    $rootScope.tanggalwaktuharini = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+    $rootScope.hanyatanggalharini = $filter('date')(new Date(),'yyyy.MM.dd');
+
+    $rootScope.sum = function(items, prop)
+    {
+        console.log(items);
+        console.log(prop);
+        return items.reduce( function(a, b)
+        {
+            if(b[prop] == undefined)
+            {
+                return a + 0;
+            }
+            else
+            {
+                return a + b[prop];
+            }
+        }, 0);
+    };
     
 })
 
