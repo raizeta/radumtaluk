@@ -1,13 +1,21 @@
-<ion-view view-title="OrdersDetail Area" name="orders-view">
+<!-- <ion-view view-title="OrdersDetail Area" name="orders-view">
   	<ion-content class="padding">
-        <div class="list chat-item item-remove-animate" ng-repeat="order in orders | orderBy:TGL_ORDER :true">
-
-        </div>
-        <div class="list chat-item item-remove-animate" ng-repeat="order in orders | orderBy:TGL_ORDER :true">
-
-        </div>
-        <div class="list chat-item item-remove-animate" ng-repeat="order in orders | orderBy:TGL_ORDER :true">
+radumta
 
         </div>
   	</ion-content>
+</ion-view> -->
+
+<ion-view view-title="ORDER DETAIL AREA" name="dashboard-view">
+  <ion-content class="padding">
+		<div class="list chat-item item-remove-animate" ng-repeat="item in ordersdetails">
+            <a class="item item-avatar item-icon-right">
+                <img ng-src="{{'graph/'+ item.KD_PRODUCT +'.png'}}" class="icon">
+                <h2>{{item.KD_PRODUCT}}</h2>
+                <p>Harga : Rp. {{item.HARGA_ITEM|number}}</p>
+                <p>Quantity : {{item.JLH_ITEM}} item</p>
+                <i class="icon ion-arrow-right-a muted"></i>
+            </a>
+        </div>
+  </ion-content>
 </ion-view>

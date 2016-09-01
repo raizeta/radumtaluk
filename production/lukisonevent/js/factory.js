@@ -132,19 +132,20 @@ function($rootScope,$http, $q, $window)
 			DeleteProduct:DeleteProduct
 		}
 }])
-.factory('OrderService', ["$rootScope","$http","$q","$window",
-function($rootScope,$http, $q, $window)
+.factory('OrderService', ["$rootScope","$http","$q","$window","OrderDetailService",
+function($rootScope,$http, $q, $window,OrderDetailService)
 {
 	var globalurl 		= $rootScope.linkurl.linkurl;
-	var deferred 		= $q.defer();
 	var GetOrders = function()
     {
+		var deferred 		= $q.defer();
 		var url = globalurl + "/orders/search?STATUS=1";
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 	        deferred.resolve(response.Orders);
+          	
         })
         .error(function(err,status)
         {
@@ -165,7 +166,7 @@ function($rootScope,$http, $q, $window)
 		var deferred 		= $q.defer();
 		var url = globalurl + "/orders/" + $id;
 		var method ="GET";
-		$http({method:method, url:url,cache:true})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 	        deferred.resolve(response);
@@ -184,18 +185,43 @@ function($rootScope,$http, $q, $window)
 
         return deferred.promise;  
     }
-    var CreateOrder = function(detail)
+    var CreateOrder = function(detail,orderdetail)
     {
+		var deferred 		    = $q.defer();
 		var result              = $rootScope.seriliazeobject(detail);
         var serialized          = result.serialized;
         var config              = result.config;
 
 		var url = globalurl + "/orders";
-		var method ="POST";
 		$http.post(url,serialized,config)
-        .success(function(response,status,headers,config) 
+        .success(function(data,status,headers,config) 
         {
-	        deferred.resolve(response);
+	        angular.forEach(orderdetail,function(value,key)
+          	{
+	            if(angular.isDefined(value.quantity))
+	            {
+	                var detailproduct = {};
+	                detailproduct.KD_PRODUCT  = value.KD_PRODUCT;
+	                detailproduct.JLH_ITEM    = value.quantity;
+	                detailproduct.HARGA_ITEM  = 1000;
+	                detailproduct.KD_ORDER    = data.ID;
+	                detailproduct.CREATE_AT   = $rootScope.tanggalwaktuharini;
+	                detailproduct.CREATE_BY   = 1;
+	                detailproduct.UPDATE_AT   = $rootScope.tanggalwaktuharini;
+	                detailproduct.UPDATE_BY   = 1;
+
+	                OrderDetailService.CreateOrderDetail(detailproduct)
+	                .then (function(response)
+	                {
+	                },
+	                function (error)
+	                {
+	                  console.log(error);
+	                });
+	            }
+          	});
+
+          	deferred.resolve(data);
         })
         .error(function(err,status)
         {
@@ -213,6 +239,7 @@ function($rootScope,$http, $q, $window)
     }
     var UpdateOrder = function($id)
     {
+		var deferred 		= $q.defer();
 		var url = globalurl + "/orders/" + $id;
 		var method ="PUT";
 		$http({method:method, url:url,cache:false})
@@ -236,6 +263,7 @@ function($rootScope,$http, $q, $window)
     }
     var DeleteOrder = function($id)
     {
+		var deferred 		= $q.defer();
 		var url = globalurl + "/orders/" + $id;
 		var method ="DELETE";
 		$http({method:method, url:url,cache:false})
@@ -269,10 +297,35 @@ function($rootScope,$http, $q, $window)
 function($rootScope,$http, $q, $window)
 {
 	var globalurl 		= $rootScope.linkurl.linkurl;
-	var deferred 		= $q.defer();
+	
 	var GetOrderDetails = function()
     {
+		var deferred 		= $q.defer();
 		var url = globalurl + "/orderdetails/search?STATUS=1";
+		var method ="GET";
+		$http({method:method, url:url,cache:false})
+        .success(function(response) 
+        {
+	        deferred.resolve(response.Orderdetail);
+        })
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });	
+
+        return deferred.promise;  
+    }
+	var GetOrderDetailsByIdOrders = function(IDORDERS)
+    {
+		var deferred 		= $q.defer();
+		var url = globalurl + "/orderdetails/search?STATUS=1&KD_ORDER=" + IDORDERS;
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -319,6 +372,7 @@ function($rootScope,$http, $q, $window)
     }
     var CreateOrderDetail = function(detail)
     {
+		var deferred 		= $q.defer();
 		var result              = $rootScope.seriliazeobject(detail);
         var serialized          = result.serialized;
         var config              = result.config;
@@ -346,6 +400,7 @@ function($rootScope,$http, $q, $window)
     }
     var UpdateOrderDetail = function($id)
     {
+		var deferred 		= $q.defer();
 		var url = globalurl + "/orderdetails/" + $id;
 		var method ="PUT";
 		$http({method:method, url:url,cache:false})
@@ -369,6 +424,7 @@ function($rootScope,$http, $q, $window)
     }
     var DeleteOrderDetail = function($id)
     {
+		var deferred 		= $q.defer();
 		var url = globalurl + "/orderdetails/" + $id;
 		var method ="DELETE";
 		$http({method:method, url:url,cache:false})
@@ -395,6 +451,7 @@ function($rootScope,$http, $q, $window)
 			GetOrderDetail:GetOrderDetail,
 			CreateOrderDetail:CreateOrderDetail,
 			UpdateOrderDetail:UpdateOrderDetail,
-			DeleteOrderDetail:DeleteOrderDetail
+			DeleteOrderDetail:DeleteOrderDetail,
+			GetOrderDetailsByIdOrders:GetOrderDetailsByIdOrders
 		}
 }]);

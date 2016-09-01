@@ -1,4 +1,20 @@
-<ion-view view-title="Ranking" name="dashboard-view">
+<ion-view view-title="Leader Board Area" name="leader-view">
+    <ion-content class="padding">
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <div class="list chat-item item-remove-animate" ng-repeat="group in groups">
+            <a  class="item item-avatar item-icon-right">
+                <img src="img/{{group.gambar}}" class="icon">
+                <h2>Outlet {{group.name}}</h2>
+                <p>Total Spent : Rp. {{group.spent|number}}</p>
+                <p>Total Sell :{{group.qty}}</p>
+                <p>Order Intensitas :{{group.order}} Kali</p>
+                <i class="icon ion-arrow-right-a muted">{{$index + 1}}</i>
+            </a>
+        </div>
+    </ion-content>
+</ion-view>
+
+<!-- <ion-view view-title="Ranking" name="dashboard-view">
   <ion-content class="padding">
       <ion-list>
         <div class="item rank-item" ng-repeat="group in groups">
@@ -9,12 +25,12 @@
             &nbsp;
             Peringkat {{$index + 1 }} Outlet {{group.name}}
           </ion-item>
-<!--           <ion-item class="item-accordion" ng-repeat="item in group.items" ng-show="isGroupShown(group)">
+          <ion-item class="item-accordion" ng-repeat="item in group.items" ng-show="isGroupShown(group)">
             {{item}}
-          </ion-item> -->
+          </ion-item>
         </div>
       </ion-list>
 
     </ion-content>
   </ion-content>
-</ion-view>
+</ion-view> -->

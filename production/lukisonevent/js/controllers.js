@@ -160,46 +160,14 @@ angular.module('starter')
               detail.UPDATE_AT      = $rootScope.tanggalwaktuharini;
               detail.UPDATE_BY      = 1;
 
-              OrderService.CreateOrder(detail)
+              OrderService.CreateOrder(detail,$scope.menu_items)
               .then (function(response)
               {
-                  $scope.ID = response.ID;
                   $window.localStorage.removeItem('product-order');
                   $window.localStorage.removeItem('jumlah-item');
                   $rootScope.jumlahitemdikeranjang = 0;
+                  $state.go('main.orders',{},{location:'replace'});
                   
-              })
-              .then (function (response)
-              {
-                  angular.forEach($scope.menu_items,function(value,key)
-                  {
-                    if(angular.isDefined(value.quantity))
-                    {
-                        var detailproduct = {};
-                        detailproduct.KD_PRODUCT  = value.KD_PRODUCT;
-                        detailproduct.JLH_ITEM    = value.quantity;
-                        detailproduct.HARGA_ITEM  = 1000;
-                        detailproduct.KD_ORDER    = $scope.ID;
-                        detailproduct.CREATE_AT   = $rootScope.tanggalwaktuharini;
-                        detailproduct.CREATE_BY   = 1;
-                        detailproduct.UPDATE_AT   = $rootScope.tanggalwaktuharini;
-                        detailproduct.UPDATE_BY   = 1;
-
-                        OrderDetailService.CreateOrderDetail(detailproduct)
-                        .then (function(response)
-                        {
-                            console.log(response);
-                        },
-                        function (error)
-                        {
-                          console.log(error);
-                        });
-                    }
-                  });
-              })
-              .then (function (response)
-              {
-                $location.path('/main/orders');
               },
               function (error)
               {
@@ -218,7 +186,13 @@ angular.module('starter')
 
 .controller('RangkingCtrl', function($scope, $state, $http, $ionicPopup, AuthService,$interval,$timeout) 
 {
-  $scope.groups = [{name: "Satu"},{name:"Dua"},{name:"Tiga"},{name:"Empat"},{name:"Lima"}];
+  $scope.groups = [
+                    {name:"Mitra Sejati",gambar:'arya.jpg',spent:20000000,qty:2000,order:10},
+                    {name:"Teman Sejati",gambar:'daenerys.jpg',spent:30000000,qty:3000,order:20},
+                    {name:"Sahabat Sejati",gambar:'tyrion.jpg',spent:40000000,qty:4000,order:30},
+                    {name:"Rekan Sejati",gambar:'logo.png',spent:50000000,qty:5000,order:40},
+                    {name:"Konco Sejati",gambar:'profile-bg.jpg',spent:60000000,qty:6000,order:50}
+                  ];
   // for (var i=0; i<5; i++) 
   // {
   //   $scope.groups[i] = {name: i};
@@ -319,8 +293,36 @@ angular.module('starter')
     }
 })
 
-.controller('OrderCtrl', function($window,$rootScope,$scope, $state, $http, $interval, $ionicPopup, AuthService,orders) 
+.controller('OrderCtrl', function($window,$rootScope,$scope, $state, $http, $interval, $ionicPopup, AuthService,OrderService) 
 {
 
-  $scope.orders = orders;
+    $scope.doRefresh = function() 
+    {
+      OrderService.GetOrders()
+      .then (function (response)
+      {
+        $scope.$broadcast('scroll.refreshComplete');
+        $scope.orders = response;
+        console.log($scope.orders);
+      },
+      function (error)
+      {
+
+      });
+    };
+    $scope.doRefresh();
+})
+
+.controller('OrdersDetailsCtrl', function($window,$rootScope,$scope, $state, $http, $interval, $ionicPopup, AuthService,OrderDetailService,$stateParams) 
+{
+    var IDORDERS = $stateParams.id;
+    OrderDetailService.GetOrderDetailsByIdOrders(IDORDERS)
+    .then (function(response)
+    {
+        $scope.ordersdetails = response;
+    },
+    function (error)
+    {
+
+    })
 });

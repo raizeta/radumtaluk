@@ -75,8 +75,6 @@ angular.module('starter', ['ionic','ionic-material'])
 
     $rootScope.sum = function(items, prop)
     {
-        console.log(items);
-        console.log(prop);
         return items.reduce( function(a, b)
         {
             if(b[prop] == undefined)
@@ -89,6 +87,7 @@ angular.module('starter', ['ionic','ionic-material'])
             }
         }, 0);
     };
+
     
 })
 
