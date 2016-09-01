@@ -113,7 +113,7 @@ angular.module('starter')
 
 })
 
-.controller('CartCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,ProductService,OrderService,OrderDetailService) 
+.controller('CartCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, $location, AuthService,ProductService,OrderService,OrderDetailService) 
 {
   if($window.localStorage.getItem('product-order'))
   {
@@ -146,7 +146,7 @@ angular.module('starter')
           {
               var detail = {};
               var total = $rootScope.sum($scope.menu_items, 'quantity');
-              var rand  = (Math.ceil(Math.random() * 9));
+              var rand  = (Math.ceil(Math.random() * 9999));
               detail.NO_RESIORDER   = 'MES.' + $rootScope.hanyatanggalharini + rand;
               detail.TGL_ORDER      = $rootScope.tanggalwaktuharini;
               detail.CUST_KD        = 'CUST.MES.001';
@@ -163,6 +163,14 @@ angular.module('starter')
               OrderService.CreateOrder(detail)
               .then (function(response)
               {
+                  $scope.ID = response.ID;
+                  $window.localStorage.removeItem('product-order');
+                  $window.localStorage.removeItem('jumlah-item');
+                  $rootScope.jumlahitemdikeranjang = 0;
+                  
+              })
+              .then (function (response)
+              {
                   angular.forEach($scope.menu_items,function(value,key)
                   {
                     if(angular.isDefined(value.quantity))
@@ -171,7 +179,7 @@ angular.module('starter')
                         detailproduct.KD_PRODUCT  = value.KD_PRODUCT;
                         detailproduct.JLH_ITEM    = value.quantity;
                         detailproduct.HARGA_ITEM  = 1000;
-                        detailproduct.KD_ORDER    = response.ID;
+                        detailproduct.KD_ORDER    = $scope.ID;
                         detailproduct.CREATE_AT   = $rootScope.tanggalwaktuharini;
                         detailproduct.CREATE_BY   = 1;
                         detailproduct.UPDATE_AT   = $rootScope.tanggalwaktuharini;
@@ -188,10 +196,10 @@ angular.module('starter')
                         });
                     }
                   });
-                  $window.localStorage.removeItem('product-order');
-                  $window.localStorage.removeItem('jumlah-item');
-                  $rootScope.jumlahitemdikeranjang = 0;
-                  $state.go('main.shop');
+              })
+              .then (function (response)
+              {
+                $location.path('/main/orders');
               },
               function (error)
               {
@@ -208,25 +216,24 @@ angular.module('starter')
   
 })
 
-.controller('RangkingCtrl', function($scope, $state, $http, $ionicPopup, AuthService,$interval) {
-  $scope.groups = [];
-  for (var i=0; i<5; i++) 
-  {
-    $scope.groups[i] = 
-    {
-      name: i,
-      items: []
-    };
+.controller('RangkingCtrl', function($scope, $state, $http, $ionicPopup, AuthService,$interval,$timeout) 
+{
+  $scope.groups = [{name: "Satu"},{name:"Dua"},{name:"Tiga"},{name:"Empat"},{name:"Lima"}];
+  // for (var i=0; i<5; i++) 
+  // {
+  //   $scope.groups[i] = {name: i};
 
-    for (var j=0; j<3; j++) 
-    {
-      $scope.groups[i].items.push('Pembelian-' + (j + 1) + ' = ' + j);
-    }
-  }
+    // for (var j=0; j<3; j++) 
+    // {
+    //   $scope.groups[i].items.push('Pembelian-' + (j + 1) + ' = ' + j);
+    // }
+  // }
 
   $scope.shuffle = function shuffleArray(array) 
   {
-    for (var i = array.length - 1; i > 0; i--) {
+    
+    for (var i = array.length - 1; i > 0; i--) 
+    {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
         array[i] = array[j];
@@ -235,10 +242,34 @@ angular.module('starter')
     return array;
   }
 
-  $interval(function() 
+  
+  var arraysplice =[];
+  $interval(function()
   {
-    $scope.shuffle($scope.groups);
-  },3000);
+      var rand1  = (Math.ceil(Math.random() * 4));
+      var rand2  = (Math.ceil(Math.random() * 4));
+      arraysplice = $scope.groups.splice(rand1, 1);
+      $timeout(function()
+      {
+        // $scope.groups.push(arraysplice[0]);
+        var rand1  = (Math.ceil(Math.random() * 4));
+        var rand2  = (Math.ceil(Math.random() * 4));
+        $scope.groups.splice(rand1,0,arraysplice[0])
+      },1000);
+  },15000);
+  
+  // $timeout(function()
+  // {
+  //   $scope.groups.push(arraysplice[0]);
+  // },1000);
+
+
+
+
+  // $interval(function() 
+  // {
+  //   $scope.shuffle($scope.groups);
+  // },3000);
   
   /*
    * if given group is the selected group, deselect it
@@ -288,16 +319,8 @@ angular.module('starter')
     }
 })
 
-.controller('OrderCtrl', function($window,$rootScope,$scope, $state, $http, $ionicPopup, AuthService,OrderService) 
+.controller('OrderCtrl', function($window,$rootScope,$scope, $state, $http, $interval, $ionicPopup, AuthService,orders) 
 {
-    OrderService.GetOrders()
-    .then (function (response)
-    {
-      $scope.orders = response;
-      console.log(response);
-    },
-    function (error)
-    {
-      console.log(error);
-    }); 
+
+  $scope.orders = orders;
 });

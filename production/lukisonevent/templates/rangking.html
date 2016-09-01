@@ -1,17 +1,17 @@
 <ion-view view-title="Ranking" name="dashboard-view">
   <ion-content class="padding">
       <ion-list>
-        <div class="item card-item chat-item item-remove-animate" ng-repeat="group in groups">
+        <div class="item rank-item" ng-repeat="group in groups">
           <ion-item class="item-stable"
                     ng-click="toggleGroup(group)"
                     ng-class="{active: isGroupShown(group)}">
               <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
             &nbsp;
-            Peringkat {{$index + 1 }} Outlet {{group.name + 1}}
+            Peringkat {{$index + 1 }} Outlet {{group.name}}
           </ion-item>
-          <ion-item class="item-accordion" ng-repeat="item in group.items" ng-show="isGroupShown(group)">
+<!--           <ion-item class="item-accordion" ng-repeat="item in group.items" ng-show="isGroupShown(group)">
             {{item}}
-          </ion-item>
+          </ion-item> -->
         </div>
       </ion-list>
 

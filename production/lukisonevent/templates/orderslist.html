@@ -1,7 +1,7 @@
-<ion-view view-title="Orders Area" name="orders-view" cache-view="false">
+<ion-view view-title="Orders Area" name="orders-view">
   	<ion-content class="padding">
-        <div class="list chat-item item-remove-animate" ng-repeat="order in orders">
-            <a href="#/main/details/{{order.ID}}" class="item item-avatar item-icon-right">
+        <div class="list chat-item item-remove-animate" ng-repeat="order in orders | orderBy:TGL_ORDER :true">
+            <a ui-sref="app.friends" class="item item-avatar item-icon-right">
                 <img src="img/tyrion.jpg" class="icon">
                 <h2>{{order.NO_RESIORDER}}</h2>
                 <p>Rp. {{order.TOTAL_ORDER|number}}</p>

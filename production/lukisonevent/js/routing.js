@@ -53,6 +53,14 @@ angular.module('starter')
           templateUrl: 'templates/orders.html',
           controller: 'OrderCtrl'
         }
+    },
+    resolve: 
+    {
+        orders: function ($q,OrderService) 
+        {
+            var orders = OrderService.GetOrders();
+            return orders
+        }
     }
   })
 
