@@ -52,7 +52,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     var tanggalinventory        = $filter('date')(new Date(),'yyyy-MM-dd');
 
     $scope.zoomvalue = 17;
-    var geocoder = new google.maps.Geocoder;    
+    var geocoder = new google.maps.Geocoder;
+
     LocationService.GetGpsLocation()
     .then (function (responsegps)
     {
@@ -62,7 +63,8 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     function (error)
     {
         alert("GPS Tidak Hidup");
-    });
+    });   
+
 
     $scope.CUST_MAP_LAT                 = resolveagendabyidserver.MAP_LAT;
     $scope.CUST_MAP_LNG                 = resolveagendabyidserver.MAP_LNG;
@@ -146,7 +148,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             alert("Gagal Set Check In Ke Server");
         });           
     };
-    $scope.checkin();
+    $timeout(function()
+    {
+        $scope.checkin();
+    },5000)
+
     // ####################################################################################################
     // CHECK STATUS GAMBAR START GAMBAR END DENGAN PRODUCT EXPIRED
     // ####################################################################################################

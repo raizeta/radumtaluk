@@ -1,10 +1,10 @@
 myAppModule.factory('LocationService', function ($q) {
 
-  var currentLocation = {latitude: "",longitude: ""};
-  var options = {enableHighAccuracy: true,maximumAge:0};
-
   var GetGpsLocation = function () 
   {
+      var currentLocation = {};
+      var options = {timeout: 10000, enableHighAccuracy: false};
+
       var deferred = $q.defer();
       navigator.geolocation.getCurrentPosition(
       function (options) 
@@ -49,6 +49,9 @@ myAppModule.factory('LocationService', function ($q) {
 
   var WatchGpsLocation = function () 
   {
+      var currentLocation = {};
+      var options = {timeout: 10000, enableHighAccuracy: false};
+      
       var d = $q.defer();
       navigator.geolocation.watchPosition(
       function (options) 

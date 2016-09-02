@@ -41,8 +41,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         {
             alert("GPS Error Kode " + data.statusgps);
         }
-    });
+    });  
 
+    
     document.addEventListener("deviceready", function () 
     {
         var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ?";

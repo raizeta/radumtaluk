@@ -28,7 +28,8 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
     function (error)
     {
         alert("Gagal Mendapatkan Data GPS Location");
-    });
+    });   
+
     
     AbsensiSqliteServices.getAbsensi(tanggalplan, auth.id)
     .then(function(result) 
