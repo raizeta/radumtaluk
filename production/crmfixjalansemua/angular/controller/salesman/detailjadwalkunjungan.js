@@ -54,16 +54,16 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     $scope.zoomvalue = 17;
     var geocoder = new google.maps.Geocoder;
 
-    LocationService.GetGpsLocation()
-    .then (function (responsegps)
+    var options = {maximumAge: 3000,timeout: 5000, enableHighAccuracy: false};
+    navigator.geolocation.getCurrentPosition(function (result) 
     {
-        $scope.googlemaplat     = responsegps.latitude;    //get from gps
-        $scope.googlemaplong    = responsegps.longitude;  
+        $scope.googlemaplat       = result.coords.latitude;
+        $scope.googlemaplong      = result.coords.longitude;
     },
-    function (error)
+    function(err)
     {
-        alert("GPS Tidak Hidup");
-    });   
+        alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
+    },options);
 
 
     $scope.CUST_MAP_LAT                 = resolveagendabyidserver.MAP_LAT;
@@ -126,32 +126,34 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             {
                 alert("Gagal Update Status Check In Ke Server");
             });
-
-            var updateCHECKIN_TIME  = checkintime;
-            var updateSTSCHECK_IN   = 1;
-            var updateLAG           = $scope.googlemaplong;
-            var updateLAT           = $scope.googlemaplat;
-
-            var queryupdateagenda = 'UPDATE Agenda SET CHECKIN_TIME = ?, STSCHECK_IN = ?, LAG = ?, LAT = ? WHERE ID_SERVER = ?';
-            $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKIN_TIME,updateSTSCHECK_IN,updateLAG,updateLAT,ID_DETAIL])
-            .then(function(result) 
-            {
-                console.log("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
-            },
-            function(error) 
-            {
-                alert("Update Agenda Check In Gagal Di Update Di Local: " + error.message);
-            });
         },
         function (error)
         {
             alert("Gagal Set Check In Ke Server");
+            
+        });
+
+        var updateCHECKIN_TIME      = checkintime;
+        var updateSTSCHECK_IN       = 1;
+        var updateLAG               = $scope.googlemaplong;
+        var updateLAT               = $scope.googlemaplat;
+
+        var queryupdateagenda = 'UPDATE Agenda SET CHECKIN_TIME = ?, STSCHECK_IN = ?, LAG = ?, LAT = ? WHERE ID_SERVER = ?';
+        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKIN_TIME,updateSTSCHECK_IN,updateLAG,updateLAT,ID_DETAIL])
+        .then(function(result) 
+        {
+            console.log("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
+        },
+        function(error) 
+        {
+            alert("Update Agenda Check In Gagal Di Update Di Local: " + error.message);
         });           
     };
+    
     $timeout(function()
     {
         $scope.checkin();
-    },5000)
+    },5000);
 
     // ####################################################################################################
     // CHECK STATUS GAMBAR START GAMBAR END DENGAN PRODUCT EXPIRED
@@ -177,6 +179,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     .then (function(response)
     {
         $scope.salesaktivitas = response;
+        
     },
     function (error)
     {
@@ -582,7 +585,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                 {
                     alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
                 }); 
-
             }); 
         } 
     };
@@ -645,27 +647,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     // ####################################################################################################
     // GET DATA BARANG UNTUK EXPIRED FUNCTION
     //#####################################################################################################
-    // ExpiredService.setExpiredAction(ID_DETAIL)
-    // .then (function (databarangexpired)
-    // {
-    //     var arrayobjectdatabarang = resolveobjectbarangsqlite;
-    //     var arrayhanyakodebarang = [];
-
-    //     angular.forEach(arrayobjectdatabarang, function(value, key)
-    //     {
-    //         arrayhanyakodebarang.push(value.KD_BARANG);
-    //     });
-
-    //     var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
-
-    //     $scope.barangexpired   = [];
-
-    //     angular.forEach(x, function(value, key)
-    //     {
-    //         var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
-    //         $scope.barangexpired.push(existingFilter);
-    //     });
-    // });
     ExpiredSqliteServices.getSqliteExpired(ID_DETAIL)
     .then (function (databarangexpired)
     {
@@ -818,17 +799,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     // ####################################################################################################
     // SUMMARY FUNCTION
     //#####################################################################################################
-    //Server Using API
-    // $scope.summary = function()
-    // {
-    //     $scope.loadingcontent = true;
-    //     SummaryService.datasummarypercustomer(PLAN_TGL_KUNJUNGAN,CUST_ID,auth.id)
-    //     .then(function (data)
-    //     {
-    //         $scope.BarangSummary = data.InventorySummary;
-    //         $scope.loadingcontent = false;
-    //     });
-    // };
     //Local Using Sqlite
     $scope.summarycustomer = function()
     {

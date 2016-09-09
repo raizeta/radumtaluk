@@ -15,20 +15,17 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         window.location.href = "index.html";
     }
 
-    LocationService.GetGpsLocation()
-    .then (function (responsegps)
+    var options = {maximumAge: 0,timeout: 5000, enableHighAccuracy: false};
+    navigator.geolocation.getCurrentPosition(function (result) 
     {
-        $scope.googlemaplat     = responsegps.latitude;    //get from gps
-        $scope.googlemaplong    = responsegps.longitude;
-        if(responsegps.statusgps != "Bekerja")
-        {
-            alert("GPS Error Kode " + responsegps.statusgps);
-        }  
+        $scope.googlemaplat     = result.coords.latitude;
+        $scope.googlemaplong    = result.coords.longitude;
     },
-    function (error)
+    function(err)
     {
-        alert("Gagal Mendapatkan Data GPS Location");
-    });   
+        alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
+    },options);
+
 
     
     AbsensiSqliteServices.getAbsensi(tanggalplan, auth.id)

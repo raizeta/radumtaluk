@@ -30,18 +30,17 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         $scope.activehistory = "active";
     }
 
-    LocationService.GetGpsLocation()
-    .then(function(data)
+    var options = {maximumAge: 0,timeout: 5000, enableHighAccuracy: false};
+    navigator.geolocation.getCurrentPosition(function (result) 
     {
-        $scope.datagpslocation = data;
-        $scope.gpslat   = data.latitude;
-        $scope.gpslong  = data.longitude;
-        
-        if(data.statusgps != "Bekerja")
-        {
-            alert("GPS Error Kode " + data.statusgps);
-        }
-    });  
+        $scope.gpslat       = result.coords.latitude;
+        $scope.gpslong      = result.coords.longitude;
+    },
+    function(err)
+    {
+        alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
+    },options);
+
 
     
     document.addEventListener("deviceready", function () 
@@ -95,10 +94,14 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
 
                     var longitude1      = $scope.gpslat;
                     var latitude1       = $scope.gpslong;
-                    
-                    var longitude2      = customer.MAP_LNG;
-                    var latitude2       = customer.MAP_LAT;
 
+                    var longitude2      = undefined;
+                    var latitude2       = undefined;
+                    if(customer.MAP_LNG != null && customer.MAP_LAT != null)
+                    {
+                        longitude2      = customer.MAP_LNG;
+                        latitude2       = customer.MAP_LAT;
+                    }
                     var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
                     //var roundjarak      = $filter('setDecimal')(jarak,0);
                     if(jarak < 1000)
@@ -245,9 +248,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                     AgendaSqliteServices.getCheckinCheckoutStatus(tanggalplan,auth.id)
                     .then (function (response)
                     {
-                        console.log(response);
-                        console.log(customer.ID);
-                        
                         if(response.length == 0)
                         {
                             var lanjutcheckin = confirm("Yakin Check In Di Customer " + customer.CUST_NM +"?");

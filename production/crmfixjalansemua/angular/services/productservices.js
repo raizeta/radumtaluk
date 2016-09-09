@@ -60,7 +60,7 @@ function($rootScope,$http, $q, $window, $cordovaSQLite)
 				            var newKD_BARANG 	= value.KD_BARANG;
 				            var newNM_BARANG 	= value.NM_BARANG;
 				            var newIMAGE_LOCAL 	= value.KD_BARANG;
-				            var newIMAGE_BASE64 = null;
+				            var newIMAGE_BASE64 = value.IMAGE;
 
 				            var queryinsertbarang = 'INSERT INTO Brgpenjualan (ID_SERVER,KD_BARANG,NM_BARANG,IMAGE_LOCAL,IMAGE_BASE64) VALUES (?,?,?,?,?)';
 	                        $cordovaSQLite.execute($rootScope.db,queryinsertbarang,[newID_SERVER,newKD_BARANG,newNM_BARANG,newIMAGE_LOCAL,newIMAGE_BASE64])

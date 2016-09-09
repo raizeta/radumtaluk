@@ -68,7 +68,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         }
     });
 
-    var options = {timeout: 10000, enableHighAccuracy: false};
+    
 
     $rootScope.seriliazeobject = function(objecttoserialize)
     {
@@ -95,6 +95,7 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         return result;
     }
     
+    var options = {timeout: 10000, enableHighAccuracy: false};
     $rootScope.starttrack = function()
     {
         navigator.geolocation.getCurrentPosition(
