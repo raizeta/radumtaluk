@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HelpController", ["$rootScope","$scope", "$location","$http","auth","$window","ModalService","$filter","Datetimecountdown", 
-function ($rootScope,$scope, $location, $http,auth,$window,ModalService,$filter,Datetimecountdown) 
+myAppModule.controller("HelpController", ["$rootScope","$scope", "$location","$http","auth","$window","ModalService","$filter","Datetimecountdown","Util","$interval", 
+function ($rootScope,$scope, $location, $http,auth,$window,ModalService,$filter,Datetimecountdown,Util,$interval) 
 {   
     $scope.activehelp  = "active";
     $scope.userInfo = auth;
@@ -261,6 +261,26 @@ function ($rootScope,$scope, $location, $http,auth,$window,ModalService,$filter,
         });   
     };
     $scope.showmodal();
+    
+    var future = new Date(2016,9-1,13,19,31,0);
+    var stop = $interval(function () 
+    {
+        var diff;
+        diff = Math.floor((future.getTime() - new Date().getTime()) / 1000);
+        $scope.countdown = $rootScope.convertwaktu(diff);
+        if(diff < 1)
+        {
+        	$scope.stopFight();
+        }
+    }, 1000);
+	$scope.stopFight = function() 
+	{
+          if (angular.isDefined(stop)) 
+          {
+            $interval.cancel(stop);
+            stop = undefined;
+          }
+    };
 }]);
 
 myAppModule.controller('EstimasiController', ['$rootScope','$scope', '$http','$element', 'title', 'close',"$filter",

@@ -5,7 +5,11 @@
   <span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16,position:'fixed'}"></span>
   <section class="content">
     <div class="row">
-      
+      <div class="col-md-12">
+        <button class="btn btn-primary btn-block btn-flat">{{countdowns}}</button>
+      </div>
+    </div>
+    <div class="row">
       <div ng-cloack class="tabsdemoStaticTabs">
         <md-content class="md-padding">
           <md-tabs md-dynamic-height md-border-bottom class="md-accent" >

@@ -1,10 +1,8 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService","ExpiredSqliteServices","LamaKunjunganSqliteServices",
-function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService,ExpiredSqliteServices,LamaKunjunganSqliteServices) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService","ExpiredSqliteServices","LamaKunjunganSqliteServices","$interval",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService,ExpiredSqliteServices,LamaKunjunganSqliteServices,$interval) 
 {
-    
-
     var url = $rootScope.linkurl;
     if(resolveconfigradiussqlite)
     {
@@ -87,15 +85,37 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     LamaKunjunganSqliteServices.getLamaKunjungan(ID_DETAIL)
     .then (function (response)
     {
-        var x = response[0].WAKTU_MASUK;
-        var y = response[0].WAKTU_KELUAR;
-        alert("Waktu Masuk" + x);
-        alert("Waktu Keluar" + y);
+        alert("Sukses Load Lama Kunjungan");
+        var x                   = response[0].WAKTU_MASUK;
+        var waktukeluar         = response[0].WAKTU_KELUAR;
+        var future = new Date(2016,9-1,14,0,20,0);
+        var stopinterval = $interval(function () 
+        {
+            var diff;
+            diff = Math.floor((future.getTime() - new Date().getTime()) / 1000);
+            $scope.countdowns = $rootScope.convertwaktu(diff);
+            if(diff < 1)
+            {
+                $scope.stopFight();
+                alert("Waktu Kunjungan Habis");
+            }
+        }, 1000);
+        $scope.stopFight = function() 
+        {
+            if (angular.isDefined(stopinterval)) 
+            {
+                $interval.cancel(stopinterval);
+                stopinterval = undefined;
+            }
+        };
     },
     function (error)
     {
-        alert("Gagal Menyimpan Lama Kunjungan Ke Database");
-    });
+        alert("Gagal Mendapatkan Lama Kunjungan Ke Database");
+    });    
+
+    
+    
     //#####################################################################################################
     // CHECK-IN FUNCTION
     //#####################################################################################################
@@ -261,6 +281,14 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     detail.NM_BARANG                = namaproduct;
                     detail.POS                      = 'ANDROID';
                     detail.USER_ID                  = auth.id;
+                    if(inputValue == 0)
+                    {
+                        detail.SO_QTY                   = -1;
+                    }
+                    else
+                    {
+                       detail.SO_QTY                   = inputValue; 
+                    }
                     detail.SO_QTY                   = inputValue;
                     detail.ID_GROUP                 = ID_GROUP;
                     detail.WAKTU_INPUT_INVENTORY    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');

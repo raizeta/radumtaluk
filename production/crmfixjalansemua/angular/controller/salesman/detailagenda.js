@@ -296,12 +296,13 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                         }
 
                                         var newID_AGENDA    = customer.ID;
-                                        var newWAKTU_MASUK  = waktumasuk;
-                                        var newWAKTU_KELUAR = waktukeluar;
+                                        var newWAKTU_MASUK  = $filter('date')(waktumasuk,'yyyy-MM-dd HH:mm:ss');
+                                        var newWAKTU_KELUAR = $filter('date')(waktukeluar,'yyyy-MM-dd HH:mm:ss');
                                         var isitable            = [newID_AGENDA,newWAKTU_MASUK,newWAKTU_KELUAR];
                                         LamaKunjunganSqliteServices.setLamaKunjungan(isitable)
                                         .then (function (response)
                                         {
+                                            alert("Berhasil Di Simpan");
                                             $location.path('/detailjadwalkunjungan/' + customer.ID);
                                         },
                                         function (error)
