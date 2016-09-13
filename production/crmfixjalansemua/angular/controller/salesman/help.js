@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HelpController", ["$rootScope","$scope", "$location","$http","auth","$window", 
-function ($rootScope,$scope, $location, $http,auth,$window) 
+myAppModule.controller("HelpController", ["$rootScope","$scope", "$location","$http","auth","$window","ModalService","$filter","Datetimecountdown", 
+function ($rootScope,$scope, $location, $http,auth,$window,ModalService,$filter,Datetimecountdown) 
 {   
     $scope.activehelp  = "active";
     $scope.userInfo = auth;
@@ -207,11 +207,95 @@ function ($rootScope,$scope, $location, $http,auth,$window)
 	};
 
 	$scope.addSlide();
+	$scope.tanggalkurang 		= 'radumta';
 
+	$scope.showmodal = function(barang,index) 
+    {
+        ModalService
+        .showModal(
+        {
+          templateUrl: "angular/partial/salesman/estimasimodal.html",
+          controller: "EstimasiController",
+          inputs: 
+          {
+            title: 'Estimasi Lama Kunjungan'
+          }
+        })
+        .then(function(modal) 
+        {
+            modal.element.modal(function ()
+            {
+                alert("Button OK Klick");
+            });
+            modal.close.then(function(result) 
+            {
+            	var waktumasuk  = result.list[0].waktumasuk;
 
+            	var lamajam		= result.list[0].jam;
+            	var lamamenit	= result.list[0].menit;
 
+            	var tahunmasuk 		= $filter('date')(waktumasuk,'yyyy');
+            	var bulanmasuk 		= $filter('date')(waktumasuk,'MM');
+            	var tanggalmasuk    = $filter('date')(waktumasuk,'dd');
+            	var jammasuk 		= $filter('date')(waktumasuk,'HH');
+    			var menitmasuk 		= $filter('date')(waktumasuk,'mm');
+
+    			var hitungmenit = parseInt(lamamenit) + parseInt(menitmasuk);
+    			var hitungjam  	= parseInt(jammasuk) + parseInt(lamajam);
+
+    			var waktukeluar = new Date(tahunmasuk,bulanmasuk - 1,tanggalmasuk,0,0,0);
+            	if(hitungmenit / 60 > 1)
+            	{
+            		var jamx 		= hitungjam + 1;
+            		var menitx 		= hitungmenit % 60;
+            		waktukeluar.setHours(jamx);
+            		waktukeluar.setMinutes(menitx );
+            	}
+            	else
+            	{
+            		waktukeluar.setHours(hitungjam);
+            		waktukeluar.setMinutes(hitungmenit);
+            	}
+            	console.log($filter('date')(waktukeluar,'yyyy-MM-dd HH:mm:ss'));
+            });
+        });   
+    };
+    $scope.showmodal();
 }]);
 
+myAppModule.controller('EstimasiController', ['$rootScope','$scope', '$http','$element', 'title', 'close',"$filter",
+function($rootScope,$scope, $http,$element, title, close,$filter) 
+{
+   $scope.title = title;
+    var myDate 		= new Date();
+    var tahun 		= $filter('date')(myDate,'yyyy');
+    var bulan 		= $filter('date')(myDate,'MM');
+    var tanggal 	= $filter('date')(myDate,'dd');
+    var jam 		= $filter('date')(myDate,'HH');
+    var menit 		= $filter('date')(myDate,'mm');
+
+	$scope.list = [];
+    var result = {};
+    result.waktumasuk  = new Date();
+    result.jam 			= 0;
+    result.menit 		= 30;
+    $scope.list.push(result);
+
+	$scope.close = function() 
+	{
+	    close({list:$scope.list,title:$scope.title}, 500); // close, but give 500ms for bootstrap to animate
+	};
+
+	$scope.cancel = function() 
+	{
+		$element.modal('hide');
+	};
+
+	$scope.qtychange = function()
+	{
+		alert("radumta");
+	}
+}]);
 
 
 

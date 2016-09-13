@@ -1,8 +1,10 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService","ExpiredSqliteServices",
-function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService,ExpiredSqliteServices) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaBarcodeScanner","$cordovaCamera","$cordovaCapture","apiService","singleapiService","ngToast","$mdDialog","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","resolveconfigradiussqlite","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ConfigradiusService","ExpiredSqliteServices","LamaKunjunganSqliteServices",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaBarcodeScanner,$cordovaCamera,$cordovaCapture,apiService,singleapiService,ngToast,$mdDialog,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,resolveconfigradiussqlite,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ConfigradiusService,ExpiredSqliteServices,LamaKunjunganSqliteServices) 
 {
+    
+
     var url = $rootScope.linkurl;
     if(resolveconfigradiussqlite)
     {
@@ -81,7 +83,19 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     var latitudecustomer                = DEFAULT_CUST_LAT;
 
     var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,longitudecustomer,latitudecustomer);
-
+    // ####################GET FROM SQLITE LAMA KUNJUNGAN
+    LamaKunjunganSqliteServices.getLamaKunjungan(ID_DETAIL)
+    .then (function (response)
+    {
+        var x = response[0].WAKTU_MASUK;
+        var y = response[0].WAKTU_KELUAR;
+        alert("Waktu Masuk" + x);
+        alert("Waktu Keluar" + y);
+    },
+    function (error)
+    {
+        alert("Gagal Menyimpan Lama Kunjungan Ke Database");
+    });
     //#####################################################################################################
     // CHECK-IN FUNCTION
     //#####################################################################################################

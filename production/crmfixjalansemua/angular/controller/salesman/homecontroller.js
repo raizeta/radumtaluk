@@ -273,7 +273,6 @@ function ($rootScope,$scope, $location, $http, authService, auth,$window,NgMap,L
         alert("Sales Track Detail Per User Error");
         $scope.loadingcontent  = false;
     });
-
 }]);
 
 

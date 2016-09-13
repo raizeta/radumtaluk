@@ -31,3 +31,10 @@ myAppModule.filter('myDateFormat', function myDateFormat($filter){
     return $filter('date')(tempdate, "dd-MMMM-yyyy HH:mm:ss");
   }
 });
+
+myAppModule.filter('durationview', ['datetime', function (datetime) {
+    return function (input, css) {
+        var duration = datetime.duration(input);
+        return duration.days + "d:" + duration.hours + "h:" + duration.minutes + "m:" + duration.seconds + "s";
+    };
+}]);
