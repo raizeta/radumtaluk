@@ -70,6 +70,11 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             {
                 var resultsot2type = SOT2Services.getSOT2Type();
                 return $q.when(resultsot2type);
+            },
+            resolveconfigrentang: function($q,configurationService)
+            {
+                var resultrentang = configurationService.getConfigRadius();
+                return $q.when(resultrentang);
             }
         }
     });

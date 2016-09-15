@@ -5,9 +5,8 @@
     <section class="content">
         <div class="row">
           <div class="col-md-12 col-sm-6 col-xs-12" >
-            <ng-map zoom="17" center="{{lat}},{{long}}" style="display:block; width:100%; height:700px">
+            <ng-map zoom="11" center="-6.229337,106.6585016" style="display:block; width:100%; height:700px">
                 <marker position="{{lat}}, {{long}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
-
                 <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}" draggable="true" icon='http://google-maps-icons.googlecode.com/files/factory.png' 
                 on-dragend="doSth(customer)"></marker>
             </ng-map>

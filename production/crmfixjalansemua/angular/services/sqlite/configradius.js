@@ -49,7 +49,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     { 
         var globalurl       = getUrl();
         var deferred        = $q.defer();
-        var url = globalurl + "/configurations";
+        var url = globalurl + "/configurations/search?statusaktif=1";
         var method ="GET";
         $http({method:method, url:url,cache:true})
         .success(function(response) 

@@ -1,9 +1,20 @@
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services","LamaKunjunganSqliteServices","ModalService",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services,LamaKunjunganSqliteServices,ModalService)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services","LamaKunjunganSqliteServices","ModalService","resolveconfigrentang",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services,LamaKunjunganSqliteServices,ModalService,resolveconfigrentang)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
     var idsalesman = auth.id;
+    if(resolveconfigrentang)
+    {
+        angular.forEach(resolveconfigrentang,function(value,key)
+        {
+            if(value.note == 'RENTANGKUNJUNGAN')
+            {
+                $scope.configrentangkunjungan = value.valueradius;
+            }
+        });
+    }
+
     $scope.data = 
     {
       selectedIndex: 0,
@@ -29,17 +40,15 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     {
         $scope.activehistory = "active";
     }
-
-    var options = {maximumAge: 0,timeout: 5000, enableHighAccuracy: false};
-    navigator.geolocation.getCurrentPosition(function (result) 
+    
+    var options = {maximumAge:Infinity,timeout:60000, enableHighAccuracy: false};
+    var geocoder = new google.maps.Geocoder;
+    LocationService.GetGpsLocation(options)
+    .then(function(data)
     {
-        $scope.gpslat       = result.coords.latitude;
-        $scope.gpslong      = result.coords.longitude;
-    },
-    function(err)
-    {
-        alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
-    },options);
+        $scope.gpslat   = data.latitude;
+        $scope.gpslong  = data.longitude;
+    });
 
     document.addEventListener("deviceready", function () 
     {
@@ -250,68 +259,43 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                             var lanjutcheckin = confirm("Yakin Check In Di Customer " + customer.CUST_NM +"?");
                             if (lanjutcheckin == true) 
                             {
-                                ModalService.showModal(
+                                var waktumasuk      = new Date();
+                                var tahunmasuk      = $filter('date')(waktumasuk,'yyyy');
+                                var bulanmasuk      = $filter('date')(waktumasuk,'MM');
+                                var tanggalmasuk    = $filter('date')(waktumasuk,'dd');
+                                var jammasuk        = $filter('date')(waktumasuk,'HH');
+                                var menitmasuk      = $filter('date')(waktumasuk,'mm');
+
+                                var rentangwaktu    = $scope.configrentangkunjungan;
+                                var hitungmenit = parseInt(menitmasuk) + parseInt(rentangwaktu);
+                                var hitungjam   = parseInt(jammasuk);
+
+                                var waktukeluar = new Date(tahunmasuk,bulanmasuk - 1,tanggalmasuk,0,0,0);
+                                if(hitungmenit / 60 > 1)
                                 {
-                                  templateUrl: "angular/partial/salesman/estimasimodal.html",
-                                  controller: "EstimasiController",
-                                  inputs: 
-                                  {
-                                    title: 'Estimasi Lama Kunjungan'
-                                  }
-                                })
-                                .then(function(modal) 
+                                    var jamx        = hitungjam + 1;
+                                    var menitx      = hitungmenit % 60;
+                                    waktukeluar.setHours(jamx);
+                                    waktukeluar.setMinutes(menitx );
+                                }
+                                else
                                 {
-                                    modal.element.modal(function ()
-                                    {
-                                        alert("Button OK Klick");
-                                    });
-                                    modal.close.then(function(result) 
-                                    {
-                                        var waktumasuk  = result.list[0].waktumasuk;
-
-                                        var lamajam     = result.list[0].jam;
-                                        var lamamenit   = result.list[0].menit;
-
-                                        var tahunmasuk      = $filter('date')(waktumasuk,'yyyy');
-                                        var bulanmasuk      = $filter('date')(waktumasuk,'MM');
-                                        var tanggalmasuk    = $filter('date')(waktumasuk,'dd');
-                                        var jammasuk        = $filter('date')(waktumasuk,'HH');
-                                        var menitmasuk      = $filter('date')(waktumasuk,'mm');
-
-                                        var hitungmenit = parseInt(lamamenit) + parseInt(menitmasuk);
-                                        var hitungjam   = parseInt(jammasuk) + parseInt(lamajam);
-
-                                        var waktukeluar = new Date(tahunmasuk,bulanmasuk - 1,tanggalmasuk,0,0,0);
-                                        if(hitungmenit / 60 > 1)
-                                        {
-                                            var jamx        = hitungjam + 1;
-                                            var menitx      = hitungmenit % 60;
-                                            waktukeluar.setHours(jamx);
-                                            waktukeluar.setMinutes(menitx );
-                                        }
-                                        else
-                                        {
-                                            waktukeluar.setHours(hitungjam);
-                                            waktukeluar.setMinutes(hitungmenit);
-                                        }
-
-                                        var newID_AGENDA    = customer.ID;
-                                        var newWAKTU_MASUK  = $filter('date')(waktumasuk,'yyyy-MM-dd HH:mm:ss');
-                                        var newWAKTU_KELUAR = $filter('date')(waktukeluar,'yyyy-MM-dd HH:mm:ss');
-                                        var isitable            = [newID_AGENDA,newWAKTU_MASUK,newWAKTU_KELUAR];
-                                        LamaKunjunganSqliteServices.setLamaKunjungan(isitable)
-                                        .then (function (response)
-                                        {
-                                            alert("Berhasil Di Simpan");
-                                            $location.path('/detailjadwalkunjungan/' + customer.ID);
-                                        },
-                                        function (error)
-                                        {
-                                            alert("Gagal Menyimpan Lama Kunjungan Ke Database");
-                                        });
-                                        
-                                    });
-                                });    
+                                    waktukeluar.setHours(hitungjam);
+                                    waktukeluar.setMinutes(hitungmenit);
+                                }
+                                var newID_AGENDA    = customer.ID;
+                                var newWAKTU_MASUK  = $filter('date')(waktumasuk,'yyyy-MM-dd HH:mm:ss');
+                                var newWAKTU_KELUAR = $filter('date')(waktukeluar,'yyyy-MM-dd HH:mm:ss');
+                                var isitable            = [newID_AGENDA,newWAKTU_MASUK,newWAKTU_KELUAR];
+                                LamaKunjunganSqliteServices.setLamaKunjungan(isitable)
+                                .then (function (response)
+                                {
+                                    $location.path('/detailjadwalkunjungan/' + customer.ID);
+                                },
+                                function (error)
+                                {
+                                    alert("Gagal Menyimpan Lama Kunjungan Ke Database Local");
+                                });   
                             }
                         }
                         else

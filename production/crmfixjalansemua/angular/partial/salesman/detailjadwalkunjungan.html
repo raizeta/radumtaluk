@@ -6,7 +6,7 @@
   <section class="content">
     <div class="row">
       <div class="col-md-12">
-        <button class="btn btn-primary btn-block btn-flat">{{countdowns}}</button>
+        <button class="btn btn-primary btn-block btn-flat">Tombol Checkout Akan Muncul Dalam {{countdowns}}</button>
       </div>
     </div>
     <div class="row">
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="box-body" style="display: block;">
                                       <div class="timeline-body" ng-show="salesactivity.status.show">
-                                        <img ng-repeat="barang in salesactivity.products" src="asset/graph/{{barang.KD_BARANG}}.png" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty($parent.$index,barang,$index,salesactivity)">
+                                      	<img ng-repeat="barang in salesactivity.products" data-ng-src="data:image/png;base64,{{barang.IMAGE_BASE64}}" width="80" height="80" class="img-circle" id="{{$index}}" ng-click="updateinventoryqty($parent.$index,barang,$index,salesactivity)">
                                       </div>
                                     </div>
                                 </div>
@@ -71,7 +71,7 @@
                                     </div>
                                     <div class="box-body" style="display: block;">
                                       <div class="timeline-body" ng-show="statusbarangexpired.show">
-                                        <img ng-repeat="barang in barangexpired" src="asset/graph/{{barang.KD_BARANG}}.png"  class="img-circle" id="{{$index}}" ng-click="showmodal(barang,$index)">
+                                        <img ng-repeat="barang in barangexpired" data-ng-src="data:image/png;base64,{{barang.IMAGE_BASE64}}"  class="img-circle" id="{{$index}}" ng-click="showmodal(barang,$index)">
                                       </div>
                                     </div>
                                 </div>
@@ -112,7 +112,7 @@
                                 </div>
                               </div>
                             </li>
-                            <li class="time-label">
+                            <li class="time-label" ng-show="showbuttoncheckout">
                               <span class="bg-red">
                                   <a href="" ng-click="checkout(checkouttanggal,checkoutcustomer)">CheckOut Action</a>
                               </span>
@@ -128,7 +128,7 @@
             <md-tab id="tab2">
               <md-tab-label>MAP {{customer.CUST_KD}}</md-tab-label>
               <md-tab-body>
-                  <ng-map zoom="15" center="{{googlemaplat}},{{googlemaplong}}" style="display:block; width:100%; height:400px" scrollwheel="false">
+                  <ng-map zoom="11" center="-6.229337,106.6585016" style="display:block; width:100%; height:400px" scrollwheel="false">
                       <marker position="{{googlemaplat}},{{googlemaplong}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
                       <marker position="{{CUST_MAP_LAT}}, {{CUST_MAP_LNG}}"  draggable="false" icon='http://google-maps-icons.googlecode.com/files/factory.png'></marker>

@@ -8,16 +8,38 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     {
         if(resolveconfigradiussqlite.length > 0)
         {
-            var sortedConfigRadius = _.sortBy( resolveconfigradiussqlite, 'valueradius' ).reverse();
-            $scope.configjarak = sortedConfigRadius[0].valueradius;
+            // var sortedConfigRadius = _.sortBy( resolveconfigradiussqlite, 'valueradius' ).reverse();
+            // $scope.configjarak = sortedConfigRadius[0].valueradius;
+            angular.forEach(resolveconfigradiussqlite,function(value,key)
+            {
+                if(value.note == 'CHECKIN')
+                {
+                    $scope.configjarak = value.valueradius;
+                }
+                else if(value.note == 'RENTANGKUNJUNGAN')
+                {
+                    $scope.configrentangkunjungan = value.valueradius;
+                }
+            });
         }
         else
         {
             ConfigradiusService.getConfigRadiusFromServer()
             .then (function (response)
             {
-                var sortedConfigRadius = _.sortBy(response, 'valueradius' ).reverse();
-                $scope.configjarak = sortedConfigRadius[0].valueradius;
+                // var sortedConfigRadius = _.sortBy(response, 'valueradius' ).reverse();
+                // $scope.configjarak = sortedConfigRadius[0].valueradius;
+                angular.forEach(response,function(value,key)
+                {
+                    if(value.note == 'CHECKIN')
+                    {
+                        $scope.configjarak = value.valueradius;
+                    }
+                    else if(value.note == 'RENTANGKUNJUNGAN')
+                    {
+                        $scope.configrentangkunjungan = value.valueradius;
+                    }
+                });
             },
             function (error)
             {
@@ -51,20 +73,15 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     var tanggalsekarang         = $filter('date')(new Date(),'yyyy-MM-dd');
     var tanggalinventory        = $filter('date')(new Date(),'yyyy-MM-dd');
 
-    $scope.zoomvalue = 17;
+    $scope.zoomvalue = 10;
+    var options = {maximumAge:Infinity,timeout:60000, enableHighAccuracy: false};
     var geocoder = new google.maps.Geocoder;
-
-    var options = {maximumAge: 3000,timeout: 5000, enableHighAccuracy: false};
-    navigator.geolocation.getCurrentPosition(function (result) 
+    LocationService.GetGpsLocation(options)
+    .then(function(data)
     {
-        $scope.googlemaplat       = result.coords.latitude;
-        $scope.googlemaplong      = result.coords.longitude;
-    },
-    function(err)
-    {
-        alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
-    },options);
-
+    	$scope.googlemaplat   = data.latitude;
+    	$scope.googlemaplong  = data.longitude;
+    });
 
     $scope.CUST_MAP_LAT                 = resolveagendabyidserver.MAP_LAT;
     $scope.CUST_MAP_LNG                 = resolveagendabyidserver.MAP_LNG;
@@ -85,29 +102,45 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     LamaKunjunganSqliteServices.getLamaKunjungan(ID_DETAIL)
     .then (function (response)
     {
-        alert("Sukses Load Lama Kunjungan");
-        var x                   = response[0].WAKTU_MASUK;
-        var waktukeluar         = response[0].WAKTU_KELUAR;
-        var future = new Date(2016,9-1,14,0,20,0);
-        var stopinterval = $interval(function () 
-        {
-            var diff;
-            diff = Math.floor((future.getTime() - new Date().getTime()) / 1000);
-            $scope.countdowns = $rootScope.convertwaktu(diff);
-            if(diff < 1)
-            {
-                $scope.stopFight();
-                alert("Waktu Kunjungan Habis");
-            }
-        }, 1000);
-        $scope.stopFight = function() 
-        {
-            if (angular.isDefined(stopinterval)) 
-            {
-                $interval.cancel(stopinterval);
-                stopinterval = undefined;
-            }
-        };
+    	if(response.length > 0)
+		{
+	    	var x                   = response[0].WAKTU_MASUK;
+	        var y                   = $filter('date')(response[0].WAKTU_KELUAR,'yyyy-MM-dd HH:mm:ss');
+	        var waktukeluar         = new Date(y);
+	        var tahun = waktukeluar.getFullYear();
+	        var bulan = waktukeluar.getMonth();
+	        var tanggal = waktukeluar.getDate();
+	        var jam		= waktukeluar.getHours();
+	        var menit	= waktukeluar.getMinutes();
+	        var detik	= waktukeluar.getSeconds();
+	 
+	        var future = new Date(tahun,bulan,tanggal,jam,menit,detik);
+	        console.log(future);
+	        var stopinterval = $interval(function () 
+	        {
+	            var diff;
+	            diff = Math.floor((future.getTime() - new Date().getTime()) / 1000);
+	            $scope.countdowns = $rootScope.convertwaktu(diff);
+	            if(diff < 1)
+	            {
+	                $scope.showbuttoncheckout = true;
+	            	$scope.stopFight();
+	                alert("Kamu Sudah Bisa Checkout");
+	            }
+	        }, 1000);
+	        $scope.stopFight = function() 
+	        {
+	            if (angular.isDefined(stopinterval)) 
+	            {
+	                $interval.cancel(stopinterval);
+	                stopinterval = undefined;
+	            }
+	        };
+		}
+    	else
+		{
+    		$scope.showbuttoncheckout = true;
+		}
     },
     function (error)
     {
@@ -289,7 +322,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     {
                        detail.SO_QTY                   = inputValue; 
                     }
-                    detail.SO_QTY                   = inputValue;
                     detail.ID_GROUP                 = ID_GROUP;
                     detail.WAKTU_INPUT_INVENTORY    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
 
@@ -382,7 +414,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     //#####################################################################################################
     $scope.starttakeapicture = function()
     {
-        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
+    	var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
         if(jarak > $scope.configjarak)
         {
             // sweetAlert("Oops...", "Kamu Sedang Tidak Di Dalam Radius!", "error");
@@ -556,79 +588,126 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     //#####################################################################################################
     // CHECK-OUT FUNCTION
     //#####################################################################################################
+    // $scope.checkout = function(waktupaksakeluar)
     $scope.checkout = function()
     {
-        var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,$scope.CUST_MAP_LNG,$scope.CUST_MAP_LAT);
-        if(jarak > $scope.configjarak)
+    	// if(waktupaksakeluar)
+    	// {
+     //    	$scope.loadingcontent = true;
+
+     //        var checkouttime = waktupaksakeluar;
+     //        var detail={};
+     //        detail.CHECKOUT_LAT              = $scope.googlemaplat;
+     //        detail.CHECKOUT_LAG              = $scope.googlemaplong;
+     //        detail.CHECKOUT_TIME             = checkouttime;
+     //        detail.UPDATE_BY                 = auth.id;
+
+     //        CheckOutService.setCheckoutAction(ID_DETAIL,detail)
+     //        .then(function(data)
+     //        {
+     //            var statuskunjungan = {};
+     //            statuskunjungan.CHECK_OUT = 1;
+
+     //            CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
+     //            .then(function(data,status)
+     //            {
+     //                sweet.show({
+     //                                title: 'Success!',
+     //                                text: 'Kamu Berhasil Checkout',
+     //                                timer: 1000,
+     //                                showConfirmButton: false
+     //                            });
+                    
+     //                $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
+     //            },
+     //            function (error)
+     //            {
+     //                alert("Update Status Check Out Ke Server Gagal.Try Again");
+     //            });
+     //        },
+     //        function (error)
+     //        {
+     //            alert("Update Check Out SCDL Detail Ke Server Gagal.Try Again");
+     //        });
+
+     //        var updateCHECKOUT_TIME  = checkouttime;
+     //        var updateSTSCHECK_OUT      = 1;
+
+     //        var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, STSCHECK_OUT = ? WHERE ID_SERVER = ?';
+     //        $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
+     //        .then(function(result) 
+     //        {
+     //            console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
+     //        },
+     //        function(error) 
+     //        {
+     //            alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
+     //        });
+    	// }
+       
+    	sweet.show({
+            title: 'Checkout',
+            text: 'Apakah Kamu Yakin Untuk Checkout?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#DD6B55',
+            confirmButtonText: 'Yes',
+            closeOnConfirm: true
+        }, 
+        function() 
         {
-            alert("Di Luar Radius");
-            // sweetAlert("Oops...", "Out Of Ranges!", "error");
-        }
-        else
-        {
-            sweet.show({
-                title: 'Checkout',
-                text: 'Apakah Kamu Yakin Untuk Checkout?',
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes',
-                closeOnConfirm: true
-            }, 
-            function() 
+            $scope.loadingcontent = true;
+
+            var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+            var detail={};
+            detail.CHECKOUT_LAT              = $scope.googlemaplat;
+            detail.CHECKOUT_LAG              = $scope.googlemaplong;
+            detail.CHECKOUT_TIME             = checkouttime;
+            detail.UPDATE_BY                 = auth.id;
+
+            CheckOutService.setCheckoutAction(ID_DETAIL,detail)
+            .then(function(data)
             {
-                $scope.loadingcontent = true;
+                var statuskunjungan = {};
+                statuskunjungan.CHECK_OUT = 1;
 
-                var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                var detail={};
-                detail.CHECKOUT_LAT              = $scope.googlemaplat;
-                detail.CHECKOUT_LAG              = $scope.googlemaplong;
-                detail.CHECKOUT_TIME             = checkouttime;
-                detail.UPDATE_BY                 = auth.id;
-
-                CheckOutService.setCheckoutAction(ID_DETAIL,detail)
-                .then(function(data)
+                CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
+                .then(function(data,status)
                 {
-                    var statuskunjungan = {};
-                    statuskunjungan.CHECK_OUT = 1;
-
-                    CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
-                    .then(function(data,status)
-                    {
-                        sweet.show({
-                                        title: 'Success!',
-                                        text: 'Kamu Berhasil Checkout',
-                                        timer: 1000,
-                                        showConfirmButton: false
-                                    });
-                        
-                        $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
-                    },
-                    function (error)
-                    {
-                        alert("Update Status Check Out Ke Server Gagal.Try Again");
-                    });
+                    sweet.show({
+                                    title: 'Success!',
+                                    text: 'Kamu Berhasil Checkout',
+                                    timer: 1000,
+                                    showConfirmButton: false
+                                });
+                    
+                    $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
                 },
                 function (error)
                 {
-                    alert("Update Check Out SCDL Detail Ke Server Gagal.Try Again");
+                    alert("Update Status Check Out Ke Server Gagal.Try Again");
                 });
+            },
+            function (error)
+            {
+                alert("Update Check Out SCDL Detail Ke Server Gagal.Try Again");
+            });
 
-                var updateCHECKOUT_TIME  = checkouttime;
-                var updateSTSCHECK_OUT      = 1;
+            var updateCHECKOUT_TIME  = checkouttime;
+            var updateSTSCHECK_OUT      = 1;
 
-                var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, STSCHECK_OUT = ? WHERE ID_SERVER = ?';
-                $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
-                .then(function(result) 
-                {
-                    console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
-                },
-                function(error) 
-                {
-                    alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
-                }); 
+            var queryupdateagenda = 'UPDATE Agenda SET CHECKOUT_TIME = ?, STSCHECK_OUT = ? WHERE ID_SERVER = ?';
+            $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
+            .then(function(result) 
+            {
+                console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
+            },
+            function(error) 
+            {
+                alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
             }); 
-        } 
+        });
+
     };
     //#####################################################################################################
     // NOTE KUNJUNGAN FUNCTION

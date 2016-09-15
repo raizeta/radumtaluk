@@ -378,10 +378,9 @@ function ($rootScope,$http,$location,LocationService,$window,ngToast,authService
         t -= minutes * 60;
         seconds = t % 60;
         return [
-                    days + 'd',
-                    hours + 'h',
-                    minutes + 'm',
-                    seconds + 's'
+                    hours + ' Jam',
+                    minutes + ' Menit',
+                    seconds + ' Detik'
                 ].join(' ');
     }
 

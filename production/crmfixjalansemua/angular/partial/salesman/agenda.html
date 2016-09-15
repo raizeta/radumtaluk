@@ -30,7 +30,7 @@
             <md-tab id="tab2">
               <md-tab-label>MAP</md-tab-label>
               <md-tab-body>
-                  <ng-map zoom="17" center="{{gpslat}},{{gpslong}}" style="display:block; width:100%; height:400px">
+                  <ng-map zoom="11" center="-6.229337,106.6585016" style="display:block; width:100%; height:700px">
                       <marker position="{{gpslat}}, {{gpslong}}" on-click="toggleBounce()" animation="BOUNCE" draggable="false"></marker>
 
                       <marker ng-repeat="customer in customers" position="{{customer.MAP_LAT}}, {{customer.MAP_LNG}}"  draggable="false" icon='asset/admin/dist/img/factory.png'></marker>

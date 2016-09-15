@@ -15,18 +15,14 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         window.location.href = "index.html";
     }
 
-    var options = {maximumAge: 0,timeout: 5000, enableHighAccuracy: false};
-    navigator.geolocation.getCurrentPosition(function (result) 
+    var options = {maximumAge:Infinity,timeout:60000, enableHighAccuracy: false};
+    var geocoder = new google.maps.Geocoder;
+    LocationService.GetGpsLocation(options)
+    .then(function(data)
     {
-        $scope.googlemaplat     = result.coords.latitude;
-        $scope.googlemaplong    = result.coords.longitude;
-    },
-    function(err)
-    {
-        alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
-    },options);
-
-
+        $scope.googlemaplat   = data.latitude;
+        $scope.googlemaplong  = data.longitude;
+    });
     
     AbsensiSqliteServices.getAbsensi(tanggalplan, auth.id)
     .then(function(result) 

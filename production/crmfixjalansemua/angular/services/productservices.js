@@ -34,7 +34,6 @@ function($rootScope,$http, $q, $window, $cordovaSQLite)
 		            product.NM_BARANG 		= result.rows.item(i).NM_BARANG;
 		            product.IMAGE_LOCAL 	= result.rows.item(i).IMAGE_LOCAL;
 		            product.IMAGE_BASE64 	= result.rows.item(i).IMAGE_BASE64;
-
 		            resultbarang.push(product);
                 }
                 deferred.resolve(resultbarang);
@@ -78,7 +77,7 @@ function($rootScope,$http, $q, $window, $cordovaSQLite)
 				            product.KD_BARANG 		= value.KD_BARANG;
 				            product.NM_BARANG 		= value.NM_BARANG;
 				            product.IMAGE_LOCAL 	= value.IMAGE_LOCAL;
-				            product.IMAGE_BASE64 	= value.IMAGE_BASE64;
+				            product.IMAGE_BASE64 	= value.IMAGE;
 				            
 				            resultbarang.push(product);
 				        });

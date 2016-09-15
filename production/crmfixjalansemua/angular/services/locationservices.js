@@ -2,21 +2,22 @@ myAppModule.factory('LocationService', function ($q) {
 
   var GetGpsLocation = function () 
   {
-      var currentLocation = {};
       var options = {timeout: 10000, enableHighAccuracy: false};
 
       var deferred = $q.defer();
       navigator.geolocation.getCurrentPosition(
       function (options) 
       {
-          currentLocation.latitude    = options.coords.latitude;
+    	  var currentLocation = {};
+    	  currentLocation.latitude    = options.coords.latitude;
           currentLocation.longitude   = options.coords.longitude;
           currentLocation.statusgps   = "Bekerja";
           deferred.resolve(currentLocation);
       },
       function(err)
       {
-          if(err.code == 1 || err.code == "1")
+    	  var currentLocation = {};
+    	  if(err.code == 1 || err.code == "1")
           {
             currentLocation.latitude    = 0;
             currentLocation.longitude   = 0;

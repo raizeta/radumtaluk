@@ -15,7 +15,7 @@ function($http, $q, $window,$cordovaSQLite)
 	{ 
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "/configurations";
+		var url = globalurl + "/configurations/search?statusaktif=1";
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -24,7 +24,7 @@ function($http, $q, $window,$cordovaSQLite)
             {
                 deferred.resolve([]);
             }
-            else if(angular.isDefined(response.Salesmanabsensi))
+            else if(angular.isDefined(response.Configuration))
             {
                 deferred.resolve(response.Configuration); 
             }
@@ -41,7 +41,7 @@ function($http, $q, $window,$cordovaSQLite)
 	{ 
 		var globalurl 		= getUrl();
 		var deferred 		= $q.defer();
-		var url = globalurl + "/configurations";
+		var url = globalurl + "/configurations/search?statusaktif=1";
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -52,7 +52,7 @@ function($http, $q, $window,$cordovaSQLite)
             }
             else if(angular.isDefined(response.Configuration))
             {
-                deferred.resolve(response); 
+                deferred.resolve(response.Configuration); 
             }
         })
         .error(function(err,status)
