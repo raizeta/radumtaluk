@@ -260,8 +260,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,ModalService,$filter,
             });
         });   
     };
-    $scope.showmodal();
-    
+
     var future = new Date(2016,9-1,13,19,31,0);
     var stop = $interval(function () 
     {

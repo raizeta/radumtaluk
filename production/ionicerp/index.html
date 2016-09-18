@@ -9,10 +9,10 @@
     <title></title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/animate-custom.css" rel="stylesheet">
-    <link href="css/image-custom.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/animate.css" rel="stylesheet">
+    <link href="assets/css/animate-custom.css" rel="stylesheet">
+    <link href="assets/css/image-custom.css" rel="stylesheet">
 
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
@@ -25,14 +25,35 @@
     <script src="cordova.js"></script>
 
     <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
-    <script src="js/factory.js"></script>
-    <script src="js/constants.js"></script>
-    <script src="js/routing.js"></script>
+    <script src="apps/module/app.js"></script>
+    <script src="apps/a_layout/controllers/layout.js"></script>
+    <script src="apps/a_layout/routings/layout.js"></script>
+
+    <script src="apps/a_secured/controllers/secured.js"></script>
+    <script src="apps/a_secured/routings/secured.js"></script>
+
+    <script src="apps/a_beritaacara/controllers/beritaacara.js"></script>
+    <script src="apps/a_beritaacara/routings/beritaacara.js"></script>
+
+    <script src="apps/a_purchase/controllers/purchase.js"></script>
+    <script src="apps/a_purchase/routings/purchase.js"></script>
+
+    <script src="apps/a_charts/controllers/charts.js"></script>
+    <script src="apps/a_charts/routings/charts.js"></script>
+
+    <script src="apps/x_factory/scm/product.js"></script>
+    <script src="apps/x_factory/secured/login.js"></script>
+    <script src="apps/x_services/utils.js"></script>
+    <script src="apps/x_directives/focus.js"></script>
+    <script src="apps/x_directives/slidingtabs.js"></script>
+
+    <script src="apps/z_fusioncharts/fusioncharts.js"></script>
+    <script src="apps/z_fusioncharts/angular-fusioncharts.js"></script>
+    
+    <script src="apps/module/constants.js"></script>
     <script src="lib/angular-mocks/angular-mocks.js"></script>
     <script src="lib/underscore/underscore.js"></script>
+
   </head>
   <body ng-app="starter" ng-controller="AppCtrl">
     <ion-nav-view cache-view="false"></ion-nav-view>

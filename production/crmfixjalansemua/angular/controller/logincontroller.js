@@ -81,7 +81,7 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
             }
             else if(err == 'jaringan')
             {
-                alert("Koneksi Internet Diperlukan.Pastikan Sinyal dan Paket Data Anda.");
+                alert("Koneksi Internet Diperlukan.Pastikan Sinyal dan Paket Data Anda Ada.");
                 $scope.user.username    = "";
                 $scope.user.password    = "";
                 focus('focusUsername');

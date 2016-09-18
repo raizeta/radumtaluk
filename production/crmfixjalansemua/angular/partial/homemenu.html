@@ -52,6 +52,11 @@
           <i class="fa fa-th"></i> <span>HELP</span>
         </a>
       </li>
+      <li ng-class="activeconfig" ng-if="(userInfo.accessid != 1)">
+        <a href="#/configuration">
+          <i class="fa fa-th"></i> <span>CONFIG</span>
+        </a>
+      </li>
     </ul>
   </section>
 </aside>

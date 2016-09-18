@@ -79,7 +79,6 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                 })
                 .error(function(err)
                 {
-                    alert("Gagal Mendapatkan Data Barang Expired Dari Server");
                     deferred.reject(err);
                 });
             }

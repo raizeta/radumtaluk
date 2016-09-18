@@ -1,19 +1,31 @@
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services","LamaKunjunganSqliteServices","ModalService","resolveconfigrentang",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services,LamaKunjunganSqliteServices,ModalService,resolveconfigrentang)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services","LamaKunjunganSqliteServices","ModalService","configurationService",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services,LamaKunjunganSqliteServices,ModalService,configurationService)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
     var idsalesman = auth.id;
-    if(resolveconfigrentang)
+
+    configurationService.getConfigRadius()
+    .then(function (response)
     {
-        angular.forEach(resolveconfigrentang,function(value,key)
+        angular.forEach(response,function(value,key)
         {
+            if(value.note == 'CHECKIN')
+            {
+                $scope.configjarak = value.valueradius;
+            }
             if(value.note == 'RENTANGKUNJUNGAN')
             {
                 $scope.configrentangkunjungan = value.valueradius;
             }
         });
-    }
+    },
+    function(error)
+    {
+        $scope.configjarak = 5000000;
+        $scope.configrentangkunjungan = 1;
+        alert("Config Radius Error");
+    });
 
     $scope.data = 
     {
@@ -41,7 +53,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         $scope.activehistory = "active";
     }
     
-    var options = {maximumAge:Infinity,timeout:60000, enableHighAccuracy: false};
+    var options = {maximumAge:3000,timeout:60000, enableHighAccuracy: false};
     var geocoder = new google.maps.Geocoder;
     LocationService.GetGpsLocation(options)
     .then(function(data)
@@ -387,31 +399,4 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     };
 }]);
 
-myAppModule.controller('EstimasiController', ['$rootScope','$scope', '$http','$element', 'title', 'close',"$filter",
-function($rootScope,$scope, $http,$element, title, close,$filter) 
-{
-
-    $scope.title = title;
-    $scope.list = [];
-    var result = {};
-    result.waktumasuk  = new Date();
-    result.jam          = 0;
-    result.menit        = 30;
-    $scope.list.push(result);
-
-    $scope.close = function() 
-    {
-        close({list:$scope.list,title:$scope.title}, 500); // close, but give 500ms for bootstrap to animate
-    };
-
-    $scope.cancel = function() 
-    {
-        $element.modal('hide');
-    };
-
-    $scope.qtychange = function()
-    {
-        alert("radumta");
-    }
-}]);
 

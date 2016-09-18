@@ -15,7 +15,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         window.location.href = "index.html";
     }
 
-    var options = {maximumAge:Infinity,timeout:60000, enableHighAccuracy: false};
+    var options = {maximumAge:3000,timeout:60000, enableHighAccuracy: false};
     var geocoder = new google.maps.Geocoder;
     LocationService.GetGpsLocation(options)
     .then(function(data)

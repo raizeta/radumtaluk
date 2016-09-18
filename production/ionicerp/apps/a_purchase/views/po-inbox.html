@@ -1,0 +1,27 @@
+<ion-view view-title="INBOX PO">
+  <ion-content class="padding">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-list>
+            <div class="card">
+                <a  ui-sref="main.po.inboxdetail({id:1})" class="item item-avatar item-icon-right">
+                    <img src="assets/img/daenerys.jpg">
+                    <h2>Daenerys Targaryen</h2>
+                    <p>Dragon mommy</p>
+                    <i class="icon ion-chatbubble muted"></i>
+                </a>
+                <a  ui-sref="main.po.inboxdetail({id:2})" class="item item-avatar item-icon-right">
+                    <img src="assets/img/arya.jpg">
+                    <h2>Arya Stark</h2>
+                    <p>Is Chuck Norris' fear</p>
+                    <i class="icon ion-chatbubble muted"></i>
+                </a>
+                <a  ui-sref="main.po.inboxdetail({id:3})" class="item item-avatar item-icon-right">
+                    <img src="assets/img/tyrion.jpg">
+                    <h2>Tyrion Lannister</h2>
+                    <p>B.A.M.F. imp</p>
+                    <i class="icon ion-chatbubble muted"></i>
+                </a>
+            </div>
+        </ion-list>
+  </ion-content>
+</ion-view>

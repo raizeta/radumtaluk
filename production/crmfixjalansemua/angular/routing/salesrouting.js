@@ -70,11 +70,50 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             {
                 var resultsot2type = SOT2Services.getSOT2Type();
                 return $q.when(resultsot2type);
-            },
-            resolveconfigrentang: function($q,configurationService)
+            }
+        }
+    });
+
+    $routeProvider.when('/detailjadwalkunjungan/:iddetailkunjungan',
+    {
+        templateUrl : 'angular/partial/salesman/detailjadwalkunjungan.html',
+        controller  : 'DetailJadwalKunjunganController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
             {
-                var resultrentang = configurationService.getConfigRadius();
-                return $q.when(resultrentang);
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            },
+            resolveobjectbarangsqlite: function($q,ProductService)
+            {
+                var resultobjectbarangsqlite = ProductService.GetDataBarangsSqlite();
+                return resultobjectbarangsqlite;
+            },
+            resolvesot2type: function($q,SOT2Services)
+            {
+                var resultsot2type = SOT2Services.getSOT2Type();
+                return resultsot2type;
+            },
+            resolveagendabyidserver: function($q,AgendaSqliteServices,$route)
+            {
+                var ID_SERVER              = $route.current.params.iddetailkunjungan;
+                var resultagendabyidserver = AgendaSqliteServices.getAgendaByIdServer(ID_SERVER);
+                return resultagendabyidserver;
             }
         }
     });
@@ -113,56 +152,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
-    
-    $routeProvider.when('/detailjadwalkunjungan/:iddetailkunjungan',
-    {
-        templateUrl : 'angular/partial/salesman/detailjadwalkunjungan.html',
-        controller  : 'DetailJadwalKunjunganController',
-        resolve: 
-        {
-            auth: function ($q, authService,$location) 
-            {
-                var userInfo = authService.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            },
-            resolveconfigradiussqlite: function($q,ConfigradiusService)
-            {
-                var resolveconfigradius = ConfigradiusService.getConfigradiusSqlite();
-                return $q.when(resolveconfigradius);
-            },
-            resolveobjectbarangsqlite: function($q,ProductService)
-            {
-                var resultobjectbarangsqlite = ProductService.GetDataBarangsSqlite();
-                return resultobjectbarangsqlite;
-            },
-            resolvesot2type: function($q,SOT2Services)
-            {
-                var resultsot2type = SOT2Services.getSOT2Type();
-                return resultsot2type;
-            },
-            resolveagendabyidserver: function($q,AgendaSqliteServices,$route)
-            {
-                var ID_SERVER              = $route.current.params.iddetailkunjungan;
-                var resultagendabyidserver = AgendaSqliteServices.getAgendaByIdServer(ID_SERVER);
-                return resultagendabyidserver;
-            }
-        }
-    });
-    
+
     $routeProvider.when('/outcase',
     {
         templateUrl : 'angular/partial/salesman/outcase.html',
@@ -237,6 +227,34 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
     {
         templateUrl : 'angular/partial/salesman/help.html',
         controller  : 'HelpController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/configuration',
+    {
+        templateUrl : 'angular/partial/salesman/configuration.html',
+        controller  : 'ConfigurationController',
         resolve: 
         {
             auth: function ($q, authService,$location) 
@@ -373,8 +391,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
     
-    
-
     $routeProvider.when('/dblocal',
     {
         templateUrl : 'angular/partial/salesman/dblocal.html',

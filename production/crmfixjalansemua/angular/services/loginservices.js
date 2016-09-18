@@ -15,7 +15,6 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet","$rootScope",
         return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
     }
 
-
     var login = function(username,password,uuid)
     {
         var urla = geturl();
@@ -79,11 +78,14 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet","$rootScope",
         })
         .error(function(err,status)
         {
-            if(angular.isDefined(err.code))
+            if(err)
             {
-                if(err.code == 8 || err.code =='8')
+                if(angular.isDefined(err.code))
                 {
-                    deferred.reject("username_salah");
+                    if(err.code == 8 || err.code =='8')
+                    {
+                        deferred.reject("username_salah");
+                    }
                 }
             }
             else
@@ -214,12 +216,15 @@ myAppModule.factory('authService', ["$http","$q","$window","sweet","$rootScope",
         })
         .error(function(err,status)
         {
-            if(angular.isDefined(err.code))
+            if(err)
             {
-                if(err.code == 8 || err.code =='8')
+                if(angular.isDefined(err.code))
                 {
-                    deferred.reject("username_salah");
-                }
+                    if(err.code == 8 || err.code =='8')
+                    {
+                        deferred.reject("username_salah");
+                    }
+                }   
             }
             else
             {

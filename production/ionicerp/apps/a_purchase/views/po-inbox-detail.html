@@ -1,0 +1,18 @@
+<ion-view view-title="INBOX DETAIL">
+  <ion-content class="has-footer" padding="true">
+		    <div class="list ">
+            <ion-toggle ng-repeat="item in settingsList" ng-model="item.checked" ng-checked="item.checked">
+              {{ item.text }} (Rp. {{item.harga|number}} X {{item.quantity}})</br>
+              <span>Sub : Rp. {{(item.harga)*(item.quantity)|number}}</span>
+            </ion-toggle>
+            <div class="button-bar">
+              <button type="submit" class="button button-block button-assertive">
+                <i class="icon ion-close-round"></i>
+              </button>
+              <button type="submit" class="button button-block button-positive">
+                <i class="icon ion-checkmark-round"></i>
+              </button>
+            </div>
+        </div>
+  </ion-content>
+</ion-view>
