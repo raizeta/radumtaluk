@@ -30,7 +30,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     var setGagalGambar = function (isitable)
     {
        var deferred = $q.defer();
-       var queryinsertgagalgambar = 'INSERT INTO GagalGambar (ID_AGENDA,ID_CUSTOMER,WAKTU_GAMBAR,TYPE_GAMBAR,ISI_GAMBAR,ISONSERVER) VALUES (?,?,?,?,?,?)';
+       var queryinsertgagalgambar = 'INSERT INTO GagalGambar (ID_AGENDA,USER_ID,ID_CUSTOMER,WAKTU_GAMBAR,TYPE_GAMBAR,ISI_GAMBAR,ISONSERVER) VALUES (?,?,?,?,?,?,?)';
         $cordovaSQLite.execute($rootScope.db,queryinsertgagalgambar,isitable)
         .then(function(result) 
         {

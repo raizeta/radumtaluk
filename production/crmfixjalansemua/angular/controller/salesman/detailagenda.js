@@ -24,7 +24,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
     {
         $scope.configjarak = 5000000;
         $scope.configrentangkunjungan = 1;
-        alert("Config Radius Error");
     });
 
     $scope.data = 
@@ -306,7 +305,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 },
                                 function (error)
                                 {
-                                    alert("Gagal Menyimpan Lama Kunjungan Ke Database Local");
+                                    console.log("Gagal Menyimpan Lama Kunjungan Ke Database Local");
                                 });   
                             }
                         }

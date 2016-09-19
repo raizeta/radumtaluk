@@ -131,7 +131,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
             AbsensiSqliteServices.setAbsensi(isitable)
             .then (function (response)
             {
-                var lanjutkeagenda = confirm("Absensi Sukses Disimpan Di Local.Lanjut Ke Agenda?");
+                var lanjutkeagenda = confirm("Absensi Sukses Disimpan.Lanjut Ke Agenda?");
                 if (lanjutkeagenda == true) 
                 {
                     $location.path("/agenda/" + tanggalplan);
@@ -143,7 +143,7 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
             },
             function (error)
             {
-                alert("Gagal Menyimpan Absensi Ke Local " + error.message);
+                console.log("Gagal Menyimpan Absensi Ke Local " + error.message);
                 $scope.loadingcontent = false;
             });
         }, 

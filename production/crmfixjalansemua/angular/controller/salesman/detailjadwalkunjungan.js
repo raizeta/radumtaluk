@@ -1,7 +1,7 @@
 //http://localhost/radumta_folder/production/crmprod/#/detailjadwalkunjungan/212
 //angular/partial/salesman/detailcustomer.html
-myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaCamera","$cordovaCapture","ngToast","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ExpiredSqliteServices","LamaKunjunganSqliteServices","$interval","GagalCheckSqliteServices","GagalGambarSqliteServices","configurationService",
-function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaCamera,$cordovaCapture,ngToast,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ExpiredSqliteServices,LamaKunjunganSqliteServices,$interval,GagalCheckSqliteServices,GagalGambarSqliteServices,configurationService) 
+myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaCamera","$cordovaCapture","ngToast","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ExpiredSqliteServices","LamaKunjunganSqliteServices","$interval","GagalCheckSqliteServices","GagalGambarSqliteServices","configurationService","GagalActionService",
+function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaCamera,$cordovaCapture,ngToast,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ExpiredSqliteServices,LamaKunjunganSqliteServices,$interval,GagalCheckSqliteServices,GagalGambarSqliteServices,configurationService,GagalActionService) 
 {
     var url = $rootScope.linkurl;
 
@@ -18,7 +18,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     },
     function(error)
     {
-        alert("Config Radius Error");
+        console.log("Config Radius Error");
     });         
 
     var statusaction={};
@@ -77,7 +77,6 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     LamaKunjunganSqliteServices.getLamaKunjungan(ID_DETAIL)
     .then (function (response)
     {
-    	$scope.showbuttoncheckout = true;
         if(response.length > 0)
 		{
 	    	var x                   = response[0].WAKTU_MASUK;
@@ -99,8 +98,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
 	            if(diff < 1)
 	            {
 	                $scope.showbuttoncheckout = true;
+                    $scope.buttoncountdown    = false;  
 	            	$scope.stopFight();
-	                alert("Kamu Sudah Bisa Checkout");
+	                console.log("Kamu Sudah Bisa Checkout");
 	            }
 	        }, 1000);
 	        $scope.stopFight = function() 
@@ -169,23 +169,24 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         },
         function (error)
         {
-            alert("Check In Error");
+            console.log("Check In Error");
             var newID_AGENDA         = ID_DETAIL;
+            var newUSER_ID           = auth.id;
             var newID_CUSTOMER       = CUST_ID;
             var newWAKTU_CHECK       = checkintime;
             var newTYPE_CHECK        = 'CHECK_IN';
             var newPOS_LAT           = $scope.googlemaplat;
             var newPOS_LAG           = $scope.googlemaplong;
             var newISONSERVER        = 0;
-            var isitable =[newID_AGENDA,newID_CUSTOMER,newWAKTU_CHECK,newTYPE_CHECK,newPOS_LAT,newPOS_LAG,newISONSERVER];
+            var isitable =[newID_AGENDA,newUSER_ID,newID_CUSTOMER,newWAKTU_CHECK,newTYPE_CHECK,newPOS_LAT,newPOS_LAG,newISONSERVER];
             GagalCheckSqliteServices.setGagalCheck(isitable)
             .then (function (response)
             {
-                alert("Sukses Menyimpan Gagal Check Ke Local");
+                console.log("Sukses Menyimpan Gagal Check Ke Local");
             },
             function (error)
             {
-                alert("Gagal Menyimpan Gagal Check Ke Database Local");
+                console.log("Gagal Menyimpan Gagal Check Ke Database Local");
             });
         });
 
@@ -198,11 +199,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKIN_TIME,updateSTSCHECK_IN,updateLAG,updateLAT,ID_DETAIL])
         .then(function(result) 
         {
-            alert("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
+            console.log("Terimakasih. Agenda Check In Berhasil Di Update Di Local");
         },
         function(error) 
         {
-            alert("Update Agenda Check In Gagal Di Update Di Local: " + error.message);
+            console.log("Update Agenda Check In Gagal Di Update Di Local: " + error.message);
         });           
     };
     $timeout(function()
@@ -337,7 +338,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     }, 
                     function(error) 
                     {
-                        alert("SOT2 Gagal Disimpan Ke Local: " + error.message);
+                        console.log("SOT2 Gagal Disimpan Ke Local: " + error.message);
                     });
 
                     $scope.salesaktivitas[parentindex].products.splice(index, 1);
@@ -360,7 +361,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         },
                         function (error)
                         {
-                            alert("Gagal Menyimpan Status Inventory Ke Server");
+                            console.log("Gagal Menyimpan Status Inventory Ke Server");
                             $scope.loadingcontent = false;
                         });
 
@@ -372,7 +373,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                         },
                         function(error) 
                         {
-                            alert("Error. Agenda Status " + titledialog + " Gagal Di Update Di Local");
+                            console.log("Error. Agenda Status " + titledialog + " Gagal Di Update Di Local");
                         });
                     }
 
@@ -430,7 +431,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     }, 
                     function(err) 
                     {
-                        alert("Gagal Update Status Start Picture");
+                        console.log("Gagal Update Status Start Picture");
                     });
 
                     var updateSTSSTART_PIC  = 1;
@@ -442,7 +443,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     },
                     function(error) 
                     {
-                        alert("Agenda Start Pic Gagal Di Update Di Local: " + error.message);
+                        console.log("Agenda Start Pic Gagal Di Update Di Local: " + error.message);
                     });
                     $scope.loadingcontent = false;
                 }, 
@@ -455,20 +456,21 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
 
                     $scope.loadingcontent = false;
                     var newID_AGENDA         = ID_DETAIL;
+                    var newUSER_ID           = auth.id;
                     var newID_CUSTOMER       = CUST_ID;
                     var newWAKTU_GAMBAR      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                     var newTYPE_GAMBAR       = 'START_PIC';
                     var newISI_GAMBAR        = imageData;
                     var newISONSERVER        = 0;
-                    var isitable =[newID_AGENDA,newID_CUSTOMER,newWAKTU_GAMBAR,newTYPE_GAMBAR,newISI_GAMBAR,newISONSERVER];
+                    var isitable =[newID_AGENDA,newUSER_ID,newID_CUSTOMER,newWAKTU_GAMBAR,newTYPE_GAMBAR,newISI_GAMBAR,newISONSERVER];
                     GagalGambarSqliteServices.setGagalGambar(isitable)
                     .then (function (response)
                     {
-                        alert("Sukses Menyimpan Gagal Gambar Ke Local");
+                        console.log("Sukses Menyimpan Gagal Gambar Ke Local");
                     },
                     function (error)
                     {
-                        alert("Gagal Menyimpan Gagal Check Ke Database Local");
+                        console.log("Gagal Menyimpan Gagal Check Ke Database Local");
                     });
                 });
             }, 
@@ -543,7 +545,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     },
                     function(error) 
                     {
-                        alert("Agenda End Pic Gagal Di Update Di Local: " + error.message);
+                        console.log("Agenda End Pic Gagal Di Update Di Local: " + error.message);
                     });
 
                     $scope.loadingcontent = false;
@@ -557,20 +559,21 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     $scope.statusendpicture             = statusendpicture;
                     
                     var newID_AGENDA         = ID_DETAIL;
+                    var newUSER_ID           = auth.id;
                     var newID_CUSTOMER       = CUST_ID;
                     var newWAKTU_GAMBAR      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                     var newTYPE_GAMBAR       = 'END_PIC';
                     var newISI_GAMBAR        = imageData;
                     var newISONSERVER        = 0;
-                    var isitable =[newID_AGENDA,newID_CUSTOMER,newWAKTU_GAMBAR,newTYPE_GAMBAR,newISI_GAMBAR,newISONSERVER];
+                    var isitable =[newID_AGENDA,newUSER_ID,newID_CUSTOMER,newWAKTU_GAMBAR,newTYPE_GAMBAR,newISI_GAMBAR,newISONSERVER];
                     GagalGambarSqliteServices.setGagalGambar(isitable)
                     .then (function (response)
                     {
-                        alert("Sukses Menyimpan Gagal Gambar Ke Local");
+                        console.log("Sukses Menyimpan Gagal Gambar Ke Local");
                     },
                     function (error)
                     {
-                        alert("Gagal Menyimpan Gagal Check Ke Database Local");
+                        console.log("Gagal Menyimpan Gagal Check Ke Database Local");
                     });   
                 }); 
             }, 
@@ -606,29 +609,48 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     var l = response.rows.length;
                     for (var i=0; i < l; i++) 
                     {
-                        alert(response.rows.item(i).ID);
+                        var detail          = {};
+                        detail.ID_AGENDA    = response.rows.item(i).ID_AGENDA;
+                        detail.USER_ID      = response.rows.item(i).USER_ID;
+                        detail.ID_CUSTOMER  = response.rows.item(i).ID_CUSTOMER;
+                        detail.WAKTU_CHECK  = response.rows.item(i).WAKTU_CHECK;
+                        detail.TYPE_CHECK   = response.rows.item(i).TYPE_CHECK;
+                        detail.POS_LAT      = response.rows.item(i).POS_LAT;
+                        detail.POS_LAG      = response.rows.item(i).POS_LAG;
+                        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                        detail.CREATE_BY    = auth.id;
+
                         var ISONSERVER = 1;
                         var ID = response.rows.item(i).ID;
                         var isitable = [ISONSERVER,ID];
-                        GagalCheckSqliteServices.updateGagalCheck(isitable)
-                        .then (function (response)
+
+                        GagalActionService.setGagalCheck(detail)
+                        .then(function (response)
                         {
-                            alert("Sukses Gagal Check Set 1");
+                            GagalCheckSqliteServices.updateGagalCheck(isitable)
+                            .then (function (response)
+                            {
+                                console.log("Sukses Update Gagal Check Status");
+                            },
+                            function (error)
+                            {
+                                console.log("Gagal Menyimpan Gagal Check Status 1");
+                            });
                         },
                         function (error)
                         {
-                            alert("Gagal Menyimpan Gagal Check Status 1");
+                            console.log(error);
                         });
                     }
                 }
                 else
                 {
-                    alert("Gagal Checkin Di Local Kosong");
+                    console.log("Gagal Checkin Di Local Kosong");
                 }
             },
             function (error)
             {
-                alert("Gagal Get Data Gagal Check Dari Local");
+                console.log("Gagal Get Data Gagal Check Dari Local");
             });
             
             GagalGambarSqliteServices.getGagalGambar(ID_DETAIL)
@@ -639,28 +661,46 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
                     var l = response.rows.length;
                     for (var i=0; i < l; i++) 
                     {
+                        var detail          = {};
+                        detail.ID_AGENDA    = response.rows.item(i).ID_AGENDA;
+                        detail.USER_ID      = response.rows.item(i).USER_ID;
+                        detail.ID_CUSTOMER  = response.rows.item(i).ID_CUSTOMER;
+                        detail.WAKTU_GAMBAR = response.rows.item(i).WAKTU_GAMBAR;
+                        detail.TYPE_GAMBAR  = response.rows.item(i).TYPE_GAMBAR;
+                        detail.ISI_GAMBAR   = response.rows.item(i).ISI_GAMBAR;
+                        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                        detail.CREATE_BY    = auth.id;
+
                         var ISONSERVER = 1;
                         var ID = response.rows.item(i).ID;
                         var isitable = [ISONSERVER,ID];
-                        GagalGambarSqliteServices.updateGagalGambar(isitable)
-                        .then (function (response)
+                        GagalActionService.setGagalGambar(detail)
+                        .then(function (response)
                         {
-                            alert("Sukses Gagal Gambar Set 1");
+                            GagalGambarSqliteServices.updateGagalGambar(isitable)
+                            .then (function (response)
+                            {
+                                console.log("Sukses Gagal Gambar Set 1");
+                            },
+                            function (error)
+                            {
+                                console.log("Gagal Menyimpan Gagal Gambar Status 1");
+                            });
                         },
                         function (error)
                         {
-                            alert("Gagal Menyimpan Gagal Gambar Status 1");
-                        });
+                            console.log(error);
+                        });     
                     }
                 }
                 else
                 {
-                    alert("Gagal Gambar Di Local Kosong");
+                    console.log("Gagal Gambar Di Local Kosong");
                 }
             },
             function (error)
             {
-                alert("Gagal Get Data Gagal Gambar Dari Local");
+                console.log("Gagal Get Data Gagal Gambar Dari Local");
             });
 
             var checkouttime = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
@@ -673,24 +713,26 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             CheckOutService.setCheckoutAction(ID_DETAIL,detail)
             .then(function(data)
             {
+                sweet.show({
+                                title: 'Success!',
+                                text: 'Kamu Berhasil Checkout',
+                                timer: 1000,
+                                showConfirmButton: false
+                            });
+                $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
+
                 var statuskunjungan = {};
                 statuskunjungan.CHECK_OUT = 1;
 
                 CheckOutService.updateCheckoutStatus($scope.idstatuskunjunganresponse,statuskunjungan)
                 .then(function(data,status)
                 {
-                    sweet.show({
-                                    title: 'Success!',
-                                    text: 'Kamu Berhasil Checkout',
-                                    timer: 1000,
-                                    showConfirmButton: false
-                                });
-                    
-                    $timeout($location.path('/agenda/'+ PLAN_TGL_KUNJUNGAN),1000);
+                  console.log(data);  
                 },
                 function (error)
                 {
-                    alert("Update Status Check Out Ke Server Gagal.Try Again");
+                    console.log("Update Status Check Out Ke Server Gagal.Try Again");
+                    $scope.loadingcontent = false;
                 });
             },
             function (error)
@@ -706,11 +748,11 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             $cordovaSQLite.execute($rootScope.db, queryupdateagenda, [updateCHECKOUT_TIME,updateSTSCHECK_OUT,ID_DETAIL])
             .then(function(result) 
             {
-                alert("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
+                console.log("Terimakasih. Agenda Check Out Berhasil Di Update Di Local");
             },
             function(error) 
             {
-                alert("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
+                console.log("Update Agenda Check Out Gagal Di Update Di Local: " + error.message);
             }); 
         });
     };
@@ -733,7 +775,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     },
     function (error)
     {
-        alert("Error Mendapatkan Sales Memo Dari Server");
+        console.log("Error Mendapatkan Sales Memo Dari Server");
         $scope.messageskunjungandisabled = false;
     });
 
@@ -944,6 +986,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             $scope.loadingcontent  = false;
         });
     };
+
     $scope.lastvisitsummary = function()
     {
         $scope.loadingcontent = true;

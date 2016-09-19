@@ -30,7 +30,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     var setGagalCheck = function (isitable)
     {
        var deferred = $q.defer();
-       var queryinsertgagalcheck = 'INSERT INTO GagalCheck (ID_AGENDA,ID_CUSTOMER,WAKTU_CHECK,TYPE_CHECK,POS_LAT,POS_LAG,ISONSERVER) VALUES (?,?,?,?,?,?,?)';
+       var queryinsertgagalcheck = 'INSERT INTO GagalCheck (ID_AGENDA,USER_ID,ID_CUSTOMER,WAKTU_CHECK,TYPE_CHECK,POS_LAT,POS_LAG,ISONSERVER) VALUES (?,?,?,?,?,?,?,?)';
         $cordovaSQLite.execute($rootScope.db,queryinsertgagalcheck,isitable)
         .then(function(result) 
         {

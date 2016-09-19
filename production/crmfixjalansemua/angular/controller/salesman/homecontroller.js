@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout","ManagerService","LocationService", 
-function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,ManagerService,LocationService) 
+myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout","ManagerService","LocationService","GagalActionService", 
+function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,ManagerService,LocationService,GagalActionService) 
 {   
     $scope.activehome = "active";
     // alert($rootScope.devicemodel);
