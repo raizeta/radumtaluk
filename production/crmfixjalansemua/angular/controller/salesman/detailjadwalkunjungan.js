@@ -79,38 +79,44 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     {
         if(response.length > 0)
 		{
-	    	var x                   = response[0].WAKTU_MASUK;
-	        var y                   = $filter('date')(response[0].WAKTU_KELUAR,'yyyy-MM-dd HH:mm:ss');
-	        var waktukeluar         = new Date(y);
-	        var tahun = waktukeluar.getFullYear();
-	        var bulan = waktukeluar.getMonth();
-	        var tanggal = waktukeluar.getDate();
-	        var jam		= waktukeluar.getHours();
-	        var menit	= waktukeluar.getMinutes();
-	        var detik	= waktukeluar.getSeconds();
-	 
-	        var future = new Date(tahun,bulan,tanggal,jam,menit,detik);
-	        var stopinterval = $interval(function () 
-	        {
-	            var diff;
-	            diff = Math.floor((future.getTime() - new Date().getTime()) / 1000);
-	            $scope.countdowns = $rootScope.convertwaktu(diff);
-	            if(diff < 1)
-	            {
-	                $scope.showbuttoncheckout = true;
-                    $scope.buttoncountdown    = false;  
-	            	$scope.stopFight();
-	                console.log("Kamu Sudah Bisa Checkout");
-	            }
-	        }, 1000);
-	        $scope.stopFight = function() 
-	        {
-	            if (angular.isDefined(stopinterval)) 
-	            {
-	                $interval.cancel(stopinterval);
-	                stopinterval = undefined;
-	            }
-	        };
+            var y                   = $filter('date')(response[0].WAKTU_KELUAR,'yyyy-MM-dd HH:mm:ss');
+            if(y != undefined || y != null)
+            {
+                var waktukeluar         = new Date(y);
+                var tahun = waktukeluar.getFullYear();
+                var bulan = waktukeluar.getMonth();
+                var tanggal = waktukeluar.getDate();
+                var jam     = waktukeluar.getHours();
+                var menit   = waktukeluar.getMinutes();
+                var detik   = waktukeluar.getSeconds();
+         
+                var future = new Date(tahun,bulan,tanggal,jam,menit,detik);
+                var stopinterval = $interval(function () 
+                {
+                    var diff;
+                    diff = Math.floor((future.getTime() - new Date().getTime()) / 1000);
+                    $scope.countdowns = $rootScope.convertwaktu(diff);
+                    if(diff < 1)
+                    {
+                        $scope.showbuttoncheckout = true;
+                        $scope.buttoncountdown    = false;  
+                        $scope.stopFight();
+                        console.log("Kamu Sudah Bisa Checkout");
+                    }
+                }, 1000);
+                $scope.stopFight = function() 
+                {
+                    if (angular.isDefined(stopinterval)) 
+                    {
+                        $interval.cancel(stopinterval);
+                        stopinterval = undefined;
+                    }
+                };  
+            }
+            else
+            {
+                $scope.showbuttoncheckout = true;  
+            }   
 		}
     	else
 		{
