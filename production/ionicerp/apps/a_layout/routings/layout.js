@@ -5,13 +5,29 @@ angular.module('starter')
   $stateProvider
   .state('main', 
   {
-    url: '/',
+    url: '/main',
     abstract: true,
     templateUrl: 'apps/a_layout/views/main.html',
+    resolve:
+    {
+        auth: function ($q, SecuredFac,$injector,$location) 
+        {
+            var userInfo = SecuredFac.getUserInfo();
+            if(userInfo)
+            {
+                return $q.when(userInfo);
+            }
+            else 
+            {
+                $location.path("/auth/login");
+                $apply();
+            }
+        }  
+    }
   })
   .state('main.dashboard', 
   {
-    url: 'main/dashboard',
+    url: '/dashboard',
     views: 
     {
         'dashboard-tab': 
@@ -20,8 +36,8 @@ angular.module('starter')
           controller: 'DashboardCtrl'
         }
     }
+     
   })
-
   $urlRouterProvider.otherwise(function ($injector, $location) 
   {
     var $state = $injector.get("$state");

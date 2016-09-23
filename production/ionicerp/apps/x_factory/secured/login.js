@@ -62,6 +62,7 @@ angular.module('starter')
                             gambar:gambar
                         };
                         deferred.resolve(userInfo);
+                        $window.localStorage.setItem("profile", JSON.stringify(userInfo));
                     }
                     else
                     {
@@ -92,8 +93,22 @@ angular.module('starter')
 
         return deferred.promise;
     }
+    var getUserInfo = function() 
+    {
+        return userInfo;
+    }
+    
+    var init = function() 
+    {
+        if(window.localStorage.getItem("profile")) 
+        {
+            userInfo = JSON.parse($window.localStorage.getItem("profile"));
+        }
+    }
+    init();
 
 	return{
             Login:Login,
+            getUserInfo:getUserInfo
         }
 });

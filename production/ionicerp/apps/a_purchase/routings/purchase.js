@@ -3,7 +3,7 @@ angular.module('starter')
 {
     $stateProvider.state('main.po', 
     {
-      url: 'main/po',
+      url: '/po',
       abstract:true,
       views: 
       {

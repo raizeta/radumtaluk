@@ -3,7 +3,7 @@ angular.module('starter')
 {
     $stateProvider.state('main.charts', 
     {
-      url: 'main/charts',
+      url: '/charts',
       abstract:true,
       views: 
       {

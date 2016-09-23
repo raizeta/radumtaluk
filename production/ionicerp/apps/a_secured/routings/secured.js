@@ -1,29 +1,42 @@
 angular.module('starter')
 .config(function ($stateProvider, $urlRouterProvider, USER_ROLES,$ionicConfigProvider,$ionicConfigProvider) 
 {
-    $stateProvider
-    .state('auth', 
+
+    $stateProvider.state('auth', 
     {
-      url: '/',
+      url: '/auth',
       templateUrl: 'apps/a_secured/views/mainlogin.html',
       abstract:true,
-    })
-    .state('auth.login', 
+      
+    });
+    $stateProvider.state('auth.login', 
     {
-      url: 'auth/login',
+      url: '/login',
       views: 
       {
           'login-tab': 
           {
             templateUrl: 'apps/a_secured/views/login.html',
             controller: 'LoginCtrl',
-            parent: "main",
           }
+      },
+      resolve:
+      {
+          auth: function ($q,SecuredFac,$location) 
+          {
+              var userInfo=SecuredFac.getUserInfo();
+              if(userInfo)
+              {
+                  $location.path("/main/dashboard");
+                  $apply();
+              }
+          }
+
       }
-    })
-    .state('auth.register', 
+    });
+    $stateProvider.state('auth.register', 
     {
-      url: 'auth/register',
+      url: '/register',
       views: 
       {
           'register-tab': 
