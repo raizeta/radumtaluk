@@ -1,5 +1,5 @@
 angular.module('starter')
-.config(function ($stateProvider, $urlRouterProvider, USER_ROLES,$ionicConfigProvider,$ionicConfigProvider) 
+.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider) 
 {
   $ionicConfigProvider.views.maxCache(0);
   $stateProvider
@@ -35,7 +35,8 @@ angular.module('starter')
           templateUrl: 'apps/a_layout/views/dashboard.html',
           controller: 'DashboardCtrl'
         }
-    }
+    },
+
      
   })
   $urlRouterProvider.otherwise(function ($injector, $location) 

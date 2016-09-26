@@ -1,15 +1,20 @@
 <ion-view view-title="INBOX DETAIL">
   <ion-content class="has-footer" padding="true">
 		    <div class="list ">
+            <div class="button-bar">
+              <button type="submit" class="button button-block button-positive">
+                  Rp {{total|number}}
+              </button>
+            </div>
             <ion-toggle ng-repeat="item in settingsList" ng-model="item.checked" ng-change="toggleChange(item)">
               {{ item.text }} (Rp. {{item.harga|number}} X {{item.quantity}})</br>
               <span>Sub : Rp. {{(item.harga)*(item.quantity)|number}}</span>
             </ion-toggle>
             <div class="button-bar">
-              <button type="submit" class="button button-block button-assertive">
+              <button type="submit" class="button button-block button-assertive" ng-click="confirmasi('reject')">
                 <i class="icon ion-close-round"></i>
               </button>
-              <button type="submit" class="button button-block button-positive">
+              <button type="submit" class="button button-block button-positive" ng-click="confirmasi('aprove')">
                 <i class="icon ion-checkmark-round"></i>
               </button>
             </div>

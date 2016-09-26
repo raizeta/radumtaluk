@@ -1,5 +1,5 @@
 angular.module('starter')
-.config(function ($stateProvider, $urlRouterProvider, USER_ROLES,$ionicConfigProvider,$ionicConfigProvider) 
+.config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider) 
 {
 
     $stateProvider.state('auth', 
