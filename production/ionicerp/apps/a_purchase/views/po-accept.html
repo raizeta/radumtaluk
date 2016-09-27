@@ -3,7 +3,7 @@
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <ion-list>
             <div class="card">
-                <a  ng-repeat="item in purchaselist" ui-sref="main.po.inboxdetail({id:item.id})" class="item item-avatar item-icon-right">
+                <a  ng-repeat="item in purchaselist" ui-sref="main.po.acceptdetail({id:item.id})" class="item item-avatar item-icon-right">
                     <img src="{{item.gambar}}">
                     <h2>{{item.nopo}}</h2>
                     <p>{{item.createat}}</p>

@@ -1,12 +1,15 @@
-<ion-view view-title="HISTORY DETAIL">
-  <ion-content class="padding">
-		    <div class="list">
-                <a  class="item item-avatar item-icon-right">
-                    <img src="assets/img/daenerys.jpg">
-                    <h2>Daenerys Targaryen</h2>
-                    <p>Dragon mommy</p>
-                    <i class="icon ion-chatbubble muted"></i>
-                </a>
+<ion-view view-title="ACCEPT PO DETAIL">
+  <ion-content class="has-footer" padding="true">
+	    <div class="list ">
+            <div class="button-bar">
+              <button type="submit" class="button button-block button-positive">
+                  Rp {{total|number}}
+              </button>
+            </div>
+            <ion-toggle ng-repeat="item in settingsList" ng-model="item.checked" ng-disabled="true">
+              {{ item.text }} (Rp. {{item.harga|number}} X {{item.quantity}})</br>
+              <span>Sub : Rp. {{(item.harga)*(item.quantity)|number}}</span>
+            </ion-toggle>
         </div>
   </ion-content>
 </ion-view>

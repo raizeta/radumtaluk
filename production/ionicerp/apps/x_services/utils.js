@@ -39,11 +39,12 @@ angular.module('starter')
 
         return result;
     }
+
     var SumPriceQtyWithCondition = function(items,price,qty,condition)
     {
         return items.reduce( function(a, b)
         {
-            if(b[condition])
+            if(b[condition] == true)
             {
               if(b[price] == undefined || b[qty] == undefined)
               {
@@ -53,6 +54,10 @@ angular.module('starter')
               {
                   return a + (b[price] * b[qty]);
               }
+            }
+            else
+            {
+                return a + 0;
             }
             
         }, 0);
@@ -85,13 +90,21 @@ angular.module('starter')
             }
         }, 0);
     }
-    
+    var JarakDuaTitik = function(longitude1,latitude1,longitude2,latitude2)
+    {
+        var thetalong      = (longitude1 - longitude2)*(Math.PI / 180); 
+        var thetalat       = (latitude1 - latitude2)*(Math.PI / 180);
+        var a = 0.5 - Math.cos(thetalat)/2 + Math.cos(latitude1 * Math.PI / 180) * Math.cos(latitude2 * Math.PI / 180) * (1 - Math.cos(thetalong))/2;
+        var jarak = 12742 * Math.asin(Math.sqrt(a)) * 1000;
+        return jarak;
+    }
     return {
       ArrayChunk:ArrayChunk,
       ApiUrl:ApiUrl,
       SumPriceQtyWithCondition:SumPriceQtyWithCondition,
       SerializeObject:SerializeObject,
       SumPriceWithQty:SumPriceWithQty,
-      SumJustPriceOrQty:SumJustPriceOrQty
+      SumJustPriceOrQty:SumJustPriceOrQty,
+      JarakDuaTitik:JarakDuaTitik
     };
 });

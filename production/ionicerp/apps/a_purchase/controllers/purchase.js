@@ -1,49 +1,80 @@
 
 angular.module('starter')
- .controller('PurchaseCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService) 
+ .controller('PurchaseCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,StorageService) 
 {
-    $scope.purchaselist = 
-    [
-        { id:1,nopo: "PO.LG.2016.01.0001", gambar:"assets/img/daenerys.jpg",createat:"2016-02-22",harga:1000,qty:20},
-        { id:2,nopo: "PO.LG.2016.01.0002", gambar:"assets/img/daenerys.jpg",createat:"2016-02-22",harga:1000,qty:20},
-        { id:3,nopo: "PO.LG.2016.01.0003", gambar:"assets/img/daenerys.jpg",createat:"2016-02-22",harga:1000,qty:20}
-    ];
-    var sumresult   = UtilService.SumPriceWithQty($scope.purchaselist,'harga','qty');   //60000
-    var sumharga    = UtilService.SumJustPriceOrQty($scope.purchaselist,'harga');       //3000
-    var sumqty      = UtilService.SumJustPriceOrQty($scope.purchaselist,'qty');         //60
+
+})
+
+.controller('PurchaseInboxCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,UtilService,StorageService) 
+{
+	$ionicLoading.show
+    ({
+        template: 'Loading...'
+    });
+    $timeout(function()
+	{
+		$ionicLoading.hide();
+	},500);
     
+    var x                   = StorageService.get('id_po');
+    $scope.purchaselist     = StorageService.get('purchase'); 
+    if(x)
+    {
+        var existpo             = _.findIndex($scope.purchaselist , { id:parseInt(x.id)});
+        $timeout(function()
+        {
+            var y = $scope.purchaselist.splice(existpo, 1);
+            StorageService.set('purchase',$scope.purchaselist);
+            StorageService.destroy('id_po');
+            if(x.status_aprove)
+            {
+                var aproveitem = StorageService.get('purchase-aprove');
+                if(aproveitem)
+                {
+                    aproveitem.push(y[0]);
+                    StorageService.set('purchase-aprove',aproveitem);   
+                }
+                else
+                {
+                    StorageService.set('purchase-aprove',y);   
+                } 
+            }
+            else
+            {
+                var rejectitem = StorageService.get('purchase-reject');
+                if(aproveitem)
+                {
+                    rejectitem.push(y[0]);
+                    StorageService.set('purchase-reject',rejectitem);   
+                }
+                else
+                {
+                    StorageService.set('purchase-reject',y);   
+                } 
+            }
+        },2000);    
+    }
 })
-.controller('PurchaseInboxCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading) 
+.controller('PurchaseInboxDetailCtrl', function($window,$timeout,$rootScope,$stateParams,$scope,$state,$ionicPopup,$ionicLoading,UtilService,StorageService) 
 {
-	$ionicLoading.show
+    $ionicLoading.show
     ({
         template: 'Loading...'
     });
     $timeout(function()
 	{
 		$ionicLoading.hide();
-	},3000);
-})
-.controller('PurchaseInboxDetailCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,UtilService) 
-{
-	$ionicLoading.show
-    ({
-        template: 'Loading...'
-    });
-    $timeout(function()
-	{
-		$ionicLoading.hide();
-	},3000);
+	},500);
     $scope.settingsList = 
     [
-        { text: "Wireless", harga:12000,quantity:20,checked: true },
-        { text: "GPS", harga:12000,quantity:20,checked: true },
-        { text: "Bluetooth", harga:12000,quantity:20,checked: true },
-        { text: "Wireless", harga:12000,quantity:20,checked: true },
-        { text: "GPS", harga:12000,quantity:20,checked: true },
-        { text: "Bluetooth", harga:12000,quantity:20,checked: true },
-        { text: "Wireless", harga:12000,quantity:20,checked: true },
-        { text: "GPS", harga:12000,quantity:20,checked: true }
+        { id_detail:1,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: true },
+        { id_detail:2,id_po:1,text: "GPS", harga:12000,quantity:20,checked: true },
+        { id_detail:3,id_po:1,text: "Bluetooth", harga:12000,quantity:20,checked: true },
+        { id_detail:4,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: true },
+        { id_detail:5,id_po:1,text: "GPS", harga:12000,quantity:20,checked: true },
+        { id_detail:6,id_po:1,text: "Bluetooth", harga:12000,quantity:20,checked: true },
+        { id_detail:7,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: true },
+        { id_detail:8,id_po:1,text: "GPS", harga:12000,quantity:20,checked: true }
     ];
     $scope.total    = UtilService.SumPriceWithQty($scope.settingsList,'harga','quantity','checked');
     $scope.toggleChange = function(item) 
@@ -71,17 +102,51 @@ angular.module('starter')
             }
             else
             {
-                alert("PO Sudah Di Aprove");
+                var confirmPopup = $ionicPopup.confirm
+                ({
+                    title: 'Aprove',
+                    template: 'Are You Sure To Aprove This PO?',
+                    cancelText:'Cancel',
+                    cancelType:'button-assertive',
+                });
+
+                confirmPopup.then(function(res) 
+                {
+                    if(res) 
+                    {
+                        var detail = {id:$stateParams.id,'status_aprove':true};
+                        StorageService.set('id_po',detail);
+                        $state.go('main.po.inbox');
+                    } 
+               });
             }  
         }
         else
         {
-            alert("Apakah Kamu Yakin Me Reject PO Ini?");
+
+                var confirmPopup = $ionicPopup.confirm
+                ({
+                    title: 'Aprove',
+                    template: 'Are You Sure To Reject This PO?',
+                    cancelText:'Cancel',
+                    cancelType:'button-assertive',
+                });
+
+                confirmPopup.then(function(res)
+                {
+                    if(res) 
+                    {
+                        var detail = {id:$stateParams.id,'status_aprove':false};
+                        StorageService.set('id_po',detail);
+                        $state.go('main.po.inbox');
+                    }
+                });
+            
         }
     }
     
 })
-.controller('PurchaseAcceptCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading) 
+.controller('PurchaseAcceptCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,StorageService) 
 {
 	$ionicLoading.show
     ({
@@ -90,9 +155,11 @@ angular.module('starter')
     $timeout(function()
 	{
 		$ionicLoading.hide();
-	},3000);
+	},500);
+    $scope.purchaselist     = StorageService.get('purchase-aprove');
+    console.log($scope.purchaselist);
 })
-.controller('PurchaseAcceptDetailCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading) 
+.controller('PurchaseAcceptDetailCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService) 
 {
 	$ionicLoading.show
     ({
@@ -101,9 +168,22 @@ angular.module('starter')
     $timeout(function()
 	{
 		$ionicLoading.hide();
-	},3000);
+	},500);
+    var settingsList = 
+    [
+        { id_detail:1,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: false },
+        { id_detail:2,id_po:1,text: "GPS", harga:12000,quantity:20,checked: true },
+        { id_detail:3,id_po:1,text: "Bluetooth", harga:12000,quantity:20,checked: false },
+        { id_detail:4,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: true },
+        { id_detail:5,id_po:1,text: "GPS", harga:12000,quantity:20,checked: false },
+        { id_detail:6,id_po:1,text: "Bluetooth", harga:12000,quantity:20,checked: true },
+        { id_detail:7,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: false },
+        { id_detail:8,id_po:1,text: "GPS", harga:12000,quantity:20,checked: true }
+    ];
+    $scope.settingsList = _.sortBy( settingsList, 'checked' ).reverse();
+    $scope.total    = UtilService.SumPriceQtyWithCondition(settingsList,'harga','quantity','checked');
 })
-.controller('PurchaseRejectCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading) 
+.controller('PurchaseRejectCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,StorageService) 
 {
 	$ionicLoading.show
     ({
@@ -112,9 +192,10 @@ angular.module('starter')
     $timeout(function()
 	{
 		$ionicLoading.hide();
-	},3000);
+	},500);
+    $scope.purchaselist     = StorageService.get('purchase-reject');
 })
-.controller('PurchaseRejectDetailCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading) 
+.controller('PurchaseRejectDetailCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService) 
 {
 	$ionicLoading.show
     ({
@@ -123,5 +204,18 @@ angular.module('starter')
     $timeout(function()
 	{
 		$ionicLoading.hide();
-	},3000);
+	},500);
+    var settingsList = 
+    [
+        { id_detail:1,id_po:1,text: "Wireless", harga:1000,quantity:10,checked: false },
+        { id_detail:2,id_po:1,text: "GPS", harga:2000,quantity:20,checked: true },
+        { id_detail:3,id_po:1,text: "Bluetooth", harga:3000,quantity:30,checked: false },
+        { id_detail:4,id_po:1,text: "Wireless", harga:4000,quantity:40,checked: true },
+        { id_detail:5,id_po:1,text: "GPS", harga:5000,quantity:50,checked: false },
+        { id_detail:6,id_po:1,text: "Bluetooth", harga:6000,quantity:60,checked: true },
+        { id_detail:7,id_po:1,text: "Wireless", harga:7000,quantity:70,checked: false },
+        { id_detail:8,id_po:1,text: "GPS", harga:8000,quantity:80,checked: true }
+    ];
+    $scope.settingsList = _.sortBy(settingsList, 'checked' ).reverse();
+    $scope.total    = UtilService.SumPriceQtyWithCondition(settingsList,'harga','quantity','checked');
 });
