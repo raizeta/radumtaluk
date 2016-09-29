@@ -2,6 +2,11 @@
   <ion-content class="padding">
         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
         <ion-list>
+            <div class="button-bar" ng-if="purchaselist.length < 1">
+                <button type="submit" class="button button-block button-positive">
+                  Belum Ada PO Yang Di Reject
+                </button>
+            </div>
             <div class="card">
                 <a  ng-repeat="item in purchaselist" ui-sref="main.po.rejectdetail({id:item.id})" class="item item-avatar item-icon-right">
                     <img src="{{item.gambar}}">

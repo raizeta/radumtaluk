@@ -13,8 +13,6 @@ function($rootScope,$http, $q, $window,$filter)
 		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
 	}
 
-	
-
 	var detailkunjungan = function(iduser,idcustomer,tanggal)
 	{
 		var globalurl = geturl();
@@ -181,6 +179,7 @@ function($rootScope,$http, $q, $window,$filter)
         });
         return deferred.promise; 
     }
+
     var singledetailkunjunganprosedur = function(userInfo,groupcustomer,tanggalplan,resolvegpslocation)
     {
         var globalurl = geturl();

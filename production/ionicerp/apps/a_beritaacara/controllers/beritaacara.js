@@ -1,4 +1,3 @@
-
 angular.module('starter')
  .controller('BaCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading) 
 {

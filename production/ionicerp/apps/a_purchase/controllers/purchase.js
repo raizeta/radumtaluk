@@ -126,7 +126,7 @@ angular.module('starter')
 
                 var confirmPopup = $ionicPopup.confirm
                 ({
-                    title: 'Aprove',
+                    title: 'Reject',
                     template: 'Are You Sure To Reject This PO?',
                     cancelText:'Cancel',
                     cancelType:'button-assertive',
