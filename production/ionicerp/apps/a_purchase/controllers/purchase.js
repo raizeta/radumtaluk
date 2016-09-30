@@ -5,7 +5,7 @@ angular.module('starter')
 
 })
 
-.controller('PurchaseInboxCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,UtilService,StorageService) 
+.controller('PurchaseInboxCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,UtilService,StorageService) 
 {
 	$ionicLoading.show
     ({
@@ -54,6 +54,39 @@ angular.module('starter')
             }
         },2000);    
     }
+    $ionicModal.fromTemplateUrl('apps/a_purchase/views/purchasemodal.html', 
+    {
+        scope: $scope
+    })
+    .then(function(modal) 
+    {
+        $scope.newUser = {ppn:'20 %',supliers:"PT.ZETA SHOP",email:'radumta@gmail.com',etd:'4 Hari'};
+        $scope.modal = modal;
+    });
+    $scope.openModal = function() 
+    {
+        
+        $scope.modal.show();
+    };
+    $scope.closeModal = function() 
+    {
+        $scope.modal.hide();
+    };
+    // Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function() 
+    {
+        $scope.modal.remove();
+    });
+    // Execute action on hide modal
+    $scope.$on('modal.hidden', function() 
+    {
+        // Execute action
+    });
+    // Execute action on remove modal
+    $scope.$on('modal.removed', function() 
+    {
+        // Execute action
+    });
 })
 .controller('PurchaseInboxDetailCtrl', function($window,$timeout,$rootScope,$stateParams,$scope,$state,$ionicPopup,$ionicLoading,UtilService,StorageService) 
 {

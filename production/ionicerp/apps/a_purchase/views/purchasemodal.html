@@ -1,0 +1,27 @@
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">Purchase Detail</h1>
+    <button class="button button-clear" ng-click="closeModal()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
+  <ion-content class="padding">
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">PPN 21</span>
+        <input ng-model="newUser.ppn" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Supliers</span>
+        <input ng-model="newUser.supliers" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input ng-model="newUser.email" type="text">
+      </label>
+      <label class="item item-input">
+        <span class="input-label">ETD</span>
+        <input ng-model="newUser.etd" type="text">
+      </label>
+      <button class="button button-full button-assertive" ng-click="closeModal()">Close</button>
+    </div>
+  </ion-content>
+</ion-modal-view>

@@ -1,21 +1,23 @@
 <ion-view view-title="INBOX PO">
   <ion-content class="padding">
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-        <ion-list>
-            <div class="button-bar" ng-if="purchaselist.length < 1">
-              <button type="submit" class="button button-block button-positive">
-                  PO Baru Kosong
-              </button>
-            </div>
-            <div class="card">
-                <a  ng-repeat="item in purchaselist" ui-sref="main.po.inboxdetail({id:item.id})" class="item item-avatar item-icon-right chat-item item-remove-animate">
-                    <img src="{{item.gambar}}">
-                    <h2>{{item.nopo}}</h2>
-                    <p>{{item.createat}}</p>
-                    <p>{{item.harga}}</p>
-                    <i class="icon ion-chatbubble muted"></i>
-                </a>
-            </div>
-        </ion-list>
+      <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+      <div class="button-bar" ng-if="purchaselist.length < 1">
+          <button type="submit" class="button button-block button-positive">
+            Belum Ada PO Yang Baru
+          </button>
+      </div>
+      <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
+          <ion-item class="item-avatar item-icon-right" ng-repeat="datateman in purchaselist" type="item-text-wrap" >
+              <img ng-src="{{datateman.gambar}}">
+              <h2>{{datateman.nopo}}
+                  <br> 
+                  <font size="2" color="gray" >{{datateman.createat}}</font>
+                  <br> 
+                  <font size="2" color="gray" >{{datateman.harga}}</font>
+              </h2>
+              <ion-delete-button class="ion-ios-plus-outline" ng-click="modal.show();"></ion-delete-button>
+              <ion-reorder-button class="ion-arrow-right-a" ui-sref="main.po.inboxdetail({id:item.id})"></ion-reorder-button>
+          </ion-item>
+      </ion-list>
   </ion-content>
 </ion-view>
