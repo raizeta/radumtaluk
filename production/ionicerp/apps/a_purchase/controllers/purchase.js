@@ -60,7 +60,19 @@ angular.module('starter')
     })
     .then(function(modal) 
     {
-        $scope.newUser = {ppn:'20 %',supliers:"PT.ZETA SHOP",email:'radumta@gmail.com',etd:'4 Hari'};
+        $scope.newUser = {
+                            ppn:'20 %',
+                            discount:'50 %',
+                            supliers:"PT.ZETA SHOP",
+                            email:'radumta@gmail.com',
+                            etd:'2016-04-07',
+                            eta:'2016-04-07',
+                            biling:'PT.LUKISON GROUP',
+                            shiping:'PT.LUKISON GROUP',
+                            deliverycost:'0',
+                            toptype:'Cash on Delivey',
+                            topduration:'30 Days',
+                        };
         $scope.modal = modal;
     });
     $scope.openModal = function() 
@@ -109,7 +121,7 @@ angular.module('starter')
         { id_detail:7,id_po:1,text: "Wireless", harga:12000,quantity:20,checked: true },
         { id_detail:8,id_po:1,text: "GPS", harga:12000,quantity:20,checked: true }
     ];
-    $scope.total    = UtilService.SumPriceWithQty($scope.settingsList,'harga','quantity','checked');
+    $scope.total        = UtilService.SumPriceWithQty($scope.settingsList,'harga','quantity','checked');
     $scope.toggleChange = function(item) 
     {
         if(item.checked)
@@ -156,24 +168,23 @@ angular.module('starter')
         }
         else
         {
+            var confirmPopup = $ionicPopup.confirm
+            ({
+                title: 'Reject',
+                template: 'Are You Sure To Reject This PO?',
+                cancelText:'Cancel',
+                cancelType:'button-assertive',
+            });
 
-                var confirmPopup = $ionicPopup.confirm
-                ({
-                    title: 'Reject',
-                    template: 'Are You Sure To Reject This PO?',
-                    cancelText:'Cancel',
-                    cancelType:'button-assertive',
-                });
-
-                confirmPopup.then(function(res)
+            confirmPopup.then(function(res)
+            {
+                if(res) 
                 {
-                    if(res) 
-                    {
-                        var detail = {id:$stateParams.id,'status_aprove':false};
-                        StorageService.set('id_po',detail);
-                        $state.go('main.po.inbox');
-                    }
-                });
+                    var detail = {id:$stateParams.id,'status_aprove':false};
+                    StorageService.set('id_po',detail);
+                    $state.go('main.po.inbox');
+                }
+            });
             
         }
     }

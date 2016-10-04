@@ -20,9 +20,9 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
 
         $scope.loginLoading = true;
         $scope.disableInput = true;
-        $scope.user = angular.copy(user);
-    	var username = $scope.user.username;
-    	var password	= $scope.user.password;
+        $scope.user           = angular.copy(user);
+    	var username          = $scope.user.username;
+    	var password	      = $scope.user.password;
         
 
         // authService.loginwithuuid(username, password,$scope.deviceuuid)

@@ -66,6 +66,7 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
         function (error)
         {
             alert("Gagal Mendapatkan Customer Dari Server");
+            $scope.loadingcontent  = false;
         });
     };
     $scope.getcustomers();
@@ -109,7 +110,7 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
                     detail.TGL          = $filter('date')(new Date(),'yyyy-MM-dd')
                     detail.CUST_ID      = customer.CUST_KD;
                     detail.USER_ID      = auth.id;
-                    detail.NOTE         = customer.MGRS;
+                    detail.NOTE         = customer.MGRS; //MGRS = Managers
                     detail.STATUS_CASE  = 1;
                     detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
                     detail.CREATE_BY    = auth.id;

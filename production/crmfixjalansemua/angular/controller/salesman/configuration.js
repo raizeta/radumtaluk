@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("ConfigurationController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","configurationService","$cordovaSQLite","ProductService","WhosyncService", 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationService,$cordovaSQLite,ProductService,WhosyncService) 
+myAppModule.controller("ConfigurationController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","configurationService","$cordovaSQLite","ProductService","WhosyncService","OutCaseService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationService,$cordovaSQLite,ProductService,WhosyncService,OutCaseService) 
 {   
     $scope.activeconfig  = "active";
     $scope.userInfo = auth;
@@ -43,6 +43,10 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
             if(value.note == 'SYNCALL')
             {
                 $scope.showbuttonall = true;
+            }
+            if(value.note == 'SYNCOUTOFCASE')
+            {
+                $scope.showbuttonoutofcase = true;
             }
         });
     },
@@ -225,6 +229,57 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         },false);
         var TYPE_SYNC = 'SOT2TYPE';
         $scope.whosync(TYPE_SYNC);  
+    }
+    $scope.OutofCase = function()
+    {
+        alert("Agenda Out of Case Berhasil Ditambahkan");
+        $scope.showbuttonoutofcase = false;
+        $scope.loadingcontent = true;
+        var detail = {};
+        detail.TGL1         = $filter('date')(new Date(),'yyyy-MM-dd');
+        detail.TGL2         = $filter('date')(new Date(),'yyyy-MM-dd');
+        detail.SCDL_GROUP   = 'OUTOFCASE';
+        detail.USER_ID      = auth.id;
+        detail.NOTE         = 'OUTOFCASE';
+        detail.STATUS       = 1;
+        detail.CREATE_BY    = auth.id;
+        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        detail.UPDATE_BY    = auth.id;
+        detail.STT_UBAH     = 1;
+        detail.UPDATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+
+        OutCaseService.SetHeaderOutOfCases(detail)
+        .then (function (response)
+        {
+            var newID_SERVER        = response.ID;
+            var newTGL1             = response.TGL1;
+            var newSCDL_GROUP       = response.SCDL_GROUP;
+            var newUSER_ID          = response.USER_ID;
+            var newNOTE             = response.NOTE;
+            var newSTATUS_HEADER    = response.STATUS;
+
+            var queryinsertscdlheader = 'INSERT INTO Scdlheader (ID_SERVER,TGL1,SCDL_GROUP,USER_ID,NOTE,STATUS_HEADER) VALUES (?,?,?,?,?,?)';
+            $cordovaSQLite.execute($rootScope.db,queryinsertscdlheader,[newID_SERVER,newTGL1,newSCDL_GROUP,newUSER_ID,newNOTE,newSTATUS_HEADER])
+            .then(function(result) 
+            {
+                console.log("SCDL Header Berhasil Disimpan Di Local!");
+            }, 
+            function(error) 
+            {
+                alert("SCDL Header Gagal Disimpan Ke Local: " + error.message);
+            });
+
+            var TYPE_SYNC = 'ADDOUTOFCASE';
+            $scope.whosync(TYPE_SYNC);
+        },
+        function (error)
+        {
+            alert("Gagal Menyimpan Agenda Out OF Case");
+        })
+        .finally(function()
+        {
+            $scope.loadingcontent = false;  
+        });     
     }
     $scope.sinkronall = function()
     {

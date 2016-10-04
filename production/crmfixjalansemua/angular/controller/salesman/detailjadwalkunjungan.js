@@ -3,8 +3,8 @@
 myAppModule.controller("DetailJadwalKunjunganController", ["$rootScope","$scope", "$location","$http","auth","$window","$routeParams","NgMap","LocationService","$cordovaCamera","$cordovaCapture","ngToast","$filter","sweet","ModalService","SummaryService","ProductService","CheckInService","CheckOutService","InventoryService","JadwalKunjunganService","GambarService","ExpiredService","$timeout","LastVisitCustomerService","SalesAktifitas","$cordovaSQLite","resolveobjectbarangsqlite","resolvesot2type","resolveagendabyidserver","SOT2Services","ExpiredSqliteServices","LamaKunjunganSqliteServices","$interval","GagalCheckSqliteServices","GagalGambarSqliteServices","configurationService","GagalActionService",
 function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,LocationService,$cordovaCamera,$cordovaCapture,ngToast,$filter,sweet,ModalService,SummaryService,ProductService,CheckInService,CheckOutService,InventoryService,JadwalKunjunganService,GambarService,ExpiredService,$timeout,LastVisitCustomerService,SalesAktifitas,$cordovaSQLite,resolveobjectbarangsqlite,resolvesot2type,resolveagendabyidserver,SOT2Services,ExpiredSqliteServices,LamaKunjunganSqliteServices,$interval,GagalCheckSqliteServices,GagalGambarSqliteServices,configurationService,GagalActionService) 
 {
+    $scope.buttoncountdown    = true;
     var url = $rootScope.linkurl;
-
     configurationService.getConfigRadius()
     .then(function (response)
     {
@@ -73,6 +73,10 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
     var latitudecustomer                = DEFAULT_CUST_LAT;
 
     var jarak = $rootScope.jaraklokasi($scope.googlemaplong,$scope.googlemaplat,longitudecustomer,latitudecustomer);
+    if(!jarak)
+    {
+        jarak = 0;
+    }
     // ####################GET FROM SQLITE LAMA KUNJUNGAN
     LamaKunjunganSqliteServices.getLamaKunjungan(ID_DETAIL)
     .then (function (response)
@@ -115,17 +119,20 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             }
             else
             {
-                $scope.showbuttoncheckout = true;  
+                $scope.showbuttoncheckout = true;
+                $scope.buttoncountdown    = false;  
             }   
 		}
     	else
 		{
     		$scope.showbuttoncheckout = true;
+            $scope.buttoncountdown    = false;
 		}
     },
     function (error)
     {
         $scope.showbuttoncheckout = true;
+        $scope.buttoncountdown    = false;
         alert("Gagal Mendapatkan Lama Kunjungan Ke Database");
     });    
     //#####################################################################################################
@@ -212,6 +219,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             console.log("Update Agenda Check In Gagal Di Update Di Local: " + error.message);
         });           
     };
+    
     $timeout(function()
     {
         $scope.checkin();

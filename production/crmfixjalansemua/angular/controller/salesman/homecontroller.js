@@ -1,12 +1,8 @@
 'use strict';
-myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout","ManagerService","LocationService","GagalActionService", 
-function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,ManagerService,LocationService,GagalActionService) 
+myAppModule.controller("HomeController", ["$q","$rootScope","$scope", "$location","$http","auth","$window","apiService","ngToast","sweet","$filter","$timeout","ManagerService","LocationService","GagalActionService","OutCaseService",
+function ($q,$rootScope,$scope, $location, $http,auth,$window,apiService,ngToast,sweet,$filter,$timeout,ManagerService,LocationService,GagalActionService,OutCaseService) 
 {   
     $scope.activehome = "active";
-    // alert($rootScope.devicemodel);
-    // alert($rootScope.deviceplatform);
-    // alert($rootScope.deviceuuid);
-    // alert($rootScope.deviceversion);
     $scope.loadingcontent  = true;
     $scope.userInfo = auth;
 	$scope.logout = function () 

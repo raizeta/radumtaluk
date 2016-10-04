@@ -14,15 +14,17 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-
-    var options = {maximumAge:3000,timeout:60000, enableHighAccuracy: false};
-    var geocoder = new google.maps.Geocoder;
-    LocationService.GetGpsLocation(options)
-    .then(function(data)
+    document.addEventListener("deviceready", function () 
     {
-        $scope.googlemaplat   = data.latitude;
-        $scope.googlemaplong  = data.longitude;
-    });
+        var options = {maximumAge:3000,timeout:60000, enableHighAccuracy: false};
+        var geocoder = new google.maps.Geocoder;
+        LocationService.GetGpsLocation(options)
+        .then(function(data)
+        {
+            $scope.googlemaplat   = data.latitude;
+            $scope.googlemaplong  = data.longitude;
+        });
+    },false);
     
     AbsensiSqliteServices.getAbsensi(tanggalplan, auth.id)
     .then(function(result) 

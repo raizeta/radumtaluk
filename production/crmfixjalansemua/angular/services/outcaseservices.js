@@ -40,8 +40,37 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise; 
     }
+    var SetHeaderOutOfCases = function(detail)
+    {
+        var globalurl = getUrl();
+        var deferred = $q.defer();
+
+        var result              = $rootScope.seriliazeobject(detail);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(globalurl + "/jadwalkunjungans",serialized,config)
+        .success(function(data,status,headers,config) 
+        {
+            deferred.resolve(data);
+        })
+        .error(function(err,status)
+        {
+            if (status === 404)
+            {
+                deferred.reject(err);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+
+        });
+        return deferred.promise; 
+    }
 
 	return{
-            SetOutOfCases:SetOutOfCases
+            SetOutOfCases:SetOutOfCases,
+            SetHeaderOutOfCases:SetHeaderOutOfCases
 		}
 }]);
