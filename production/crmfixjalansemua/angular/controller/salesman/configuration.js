@@ -1,6 +1,6 @@
 'use strict';
-myAppModule.controller("ConfigurationController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","configurationService","$cordovaSQLite","ProductService","WhosyncService","OutCaseService", 
-function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationService,$cordovaSQLite,ProductService,WhosyncService,OutCaseService) 
+myAppModule.controller("ConfigurationController", ["$rootScope","$scope", "$location","$http","auth","$window","$filter","configurationService","$cordovaSQLite","ProductService","WhosyncService","OutCaseService","JadwalKunjunganService", 
+function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationService,$cordovaSQLite,ProductService,WhosyncService,OutCaseService,JadwalKunjunganService) 
 {   
     $scope.activeconfig  = "active";
     $scope.userInfo = auth;
@@ -53,6 +53,33 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
     function (error)
     {
         alert("Configuration Dari Server Error");
+    });
+
+    var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
+    var queryscdlheaderhariini = 'SELECT * FROM Scdlheader WHERE USER_ID = ? AND TGL1 = ?';
+    $cordovaSQLite.execute($rootScope.db, queryscdlheaderhariini, [auth.id,tanggalsekarang])
+    .then(function(result) 
+    {
+        if (result.rows.length > 0) 
+        {
+            $scope.showbuttonoutofcase = false;
+        }
+        else
+        {
+            $scope.showbuttonoutofcase = true;
+        }  
+    });
+    JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalsekarang)
+    .then (function (responselisthistory)
+    {
+        if(angular.isArray(responselisthistory))
+        {
+            $scope.showbuttonoutofcase = true;
+        }
+        else
+        {
+            $scope.showbuttonoutofcase = false;      
+        }
     });
     
     $scope.whosync = function(typesync)
@@ -230,9 +257,10 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         var TYPE_SYNC = 'SOT2TYPE';
         $scope.whosync(TYPE_SYNC);  
     }
+    
     $scope.OutofCase = function()
     {
-        alert("Agenda Out of Case Berhasil Ditambahkan");
+        
         $scope.showbuttonoutofcase = false;
         $scope.loadingcontent = true;
         var detail = {};
@@ -251,6 +279,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         OutCaseService.SetHeaderOutOfCases(detail)
         .then (function (response)
         {
+            alert("Agenda Out of Case Berhasil Ditambahkan");
             var newID_SERVER        = response.ID;
             var newTGL1             = response.TGL1;
             var newSCDL_GROUP       = response.SCDL_GROUP;
@@ -281,6 +310,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
             $scope.loadingcontent = false;  
         });     
     }
+
     $scope.sinkronall = function()
     {
          $scope.sinkronproduct();
