@@ -33,8 +33,6 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         return deferred.promise;
     }
     
-
-    
 	return{
             setWhoSync:setWhoSync
 		}

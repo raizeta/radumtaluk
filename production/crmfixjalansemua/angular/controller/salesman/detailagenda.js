@@ -277,9 +277,17 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var jammasuk        = $filter('date')(waktumasuk,'HH');
                                 var menitmasuk      = $filter('date')(waktumasuk,'mm');
 
-                                var rentangwaktu    = $scope.configrentangkunjungan;
-                                var hitungmenit = parseInt(menitmasuk) + parseInt(rentangwaktu);
-                                var hitungjam   = parseInt(jammasuk);
+                                var rentangwaktu;
+                                if(angular.isNumber($scope.configrentangkunjungan))
+                                {
+                                    rentangwaktu    = $scope.configrentangkunjungan;  
+                                }
+                                else
+                                {
+                                    rentangwaktu    = 1;
+                                }
+                                var hitungmenit     = parseInt(menitmasuk) + parseInt(rentangwaktu);
+                                var hitungjam       = parseInt(jammasuk);
 
                                 var waktukeluar = new Date(tahunmasuk,bulanmasuk - 1,tanggalmasuk,0,0,0);
                                 if(hitungmenit / 60 > 1)

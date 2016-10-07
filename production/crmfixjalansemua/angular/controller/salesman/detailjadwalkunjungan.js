@@ -87,12 +87,12 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
             if(y != undefined || y != null)
             {
                 var waktukeluar         = new Date(y);
-                var tahun = waktukeluar.getFullYear();
-                var bulan = waktukeluar.getMonth();
-                var tanggal = waktukeluar.getDate();
-                var jam     = waktukeluar.getHours();
-                var menit   = waktukeluar.getMinutes();
-                var detik   = waktukeluar.getSeconds();
+                var tahun               = waktukeluar.getFullYear();
+                var bulan               = waktukeluar.getMonth();
+                var tanggal             = waktukeluar.getDate();
+                var jam                 = waktukeluar.getHours();
+                var menit               = waktukeluar.getMinutes();
+                var detik               = waktukeluar.getSeconds();
          
                 var future = new Date(tahun,bulan,tanggal,jam,menit,detik);
                 var stopinterval = $interval(function () 

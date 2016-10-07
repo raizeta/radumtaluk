@@ -206,5 +206,4 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
             $scope.loadingcontent = false;
         } 
     } 
-
 }]);
