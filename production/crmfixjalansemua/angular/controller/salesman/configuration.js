@@ -88,8 +88,8 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         detail.USER_ID      = auth.id;
         detail.TANGGAL_SYNC = $filter('date')(new Date(),'yyyy-MM-dd');
         detail.TYPE_SYNC    = typesync;
-        detail.WAKTU_SYNC   = $filter('date')(new Date(),'yyyy-MM-dd HH:ss');
-        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:ss');
+        detail.WAKTU_SYNC   = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
         detail.CREATE_BY    = auth.id;
         WhosyncService.setWhoSync(detail)
         .then(function (response)

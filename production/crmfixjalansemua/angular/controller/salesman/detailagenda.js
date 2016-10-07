@@ -201,7 +201,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                         alert("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
                                     });
                                 });
-                                $scope.customers = responseagendatoday;
+                                $scope.customers        = responseagendatoday;
                                 $scope.loadingcontent   = false;  
                             }
                             else
