@@ -1,22 +1,16 @@
-<ion-view view-title="PO REJECT DETAIL">
-    <ion-content class="has-footer has-tabs-top" padding="true">
-<!--         <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher> -->
-        <div class="list ">
+<ion-view view-title="REJECT-PO DETAIL">
+  <ion-content class="has-header has-footer" padding="true">
+      <div class="list ">
             <div class="button-bar">
               <button type="submit" class="button button-block button-positive">
-                  Rp {{total|number}}
+                  Rp. {{total|number}} From Rp. {{totalall|number}}
               </button>
             </div>
-            <ion-toggle ng-repeat="item in settingsList" ng-model="item.checked" ng-disabled="true">
-              {{ item.text }} (Rp. {{item.harga|number}} X {{item.quantity}})</br>
-              <span>Sub : Rp. {{(item.harga)*(item.quantity)|number}}</span>
+            <ion-toggle ng-repeat="item in purchaselist" ng-model="item.checked" ng-disabled="true">
+              {{ item.KD_BARANG }}</br>
+              <span>Rp. {{item.HARGA|number}} X {{item.QTY}}</span></br>
+              <span>Rp. {{(item.HARGA)*(item.QTY)|number}}</span>
             </ion-toggle>
         </div>
-<!--         <ion-infinite-scroll
-                if="!noMoreItemsAvailable"
-                on-infinite="loadMore(10)"
-                icon="ion-loading-c"
-                distance="1%">
-        </ion-infinite-scroll> -->
-    </ion-content>
+  </ion-content>
 </ion-view>

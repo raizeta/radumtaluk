@@ -31,7 +31,20 @@ angular.module('starter')
               'po-inbox': {
                   templateUrl: "apps/a_purchase/views/po-inbox-detail.html",
                   controller:'PurchaseInboxDetailCtrl'
-              }
+              },
+          },
+          resolve: 
+          {
+            resPurchaceList: function ($stateParams,$q,PurchaseDetailFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseDetailFac.SearchPurchaseDetails(KD_PO);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
           }
     });
     $stateProvider.state('main.po.accept', 
@@ -52,6 +65,19 @@ angular.module('starter')
                   templateUrl: "apps/a_purchase/views/po-accept-detail.html",
                   controller:'PurchaseAcceptDetailCtrl'
               }
+          },
+          resolve: 
+          {
+            resPurchaceList: function ($stateParams,$q,PurchaseDetailFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseDetailFac.SearchPurchaseDetails(KD_PO);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
           }
     });
     $stateProvider.state('main.po.reject', 
@@ -72,6 +98,19 @@ angular.module('starter')
                   templateUrl: "apps/a_purchase/views/po-reject-detail.html",
                   controller:'PurchaseRejectDetailCtrl'
               }
+          },
+          resolve: 
+          {
+            resPurchaceList: function ($stateParams,$q,PurchaseDetailFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseDetailFac.SearchPurchaseDetails(KD_PO);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
           }
     });
 });
