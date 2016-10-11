@@ -12,10 +12,10 @@
               <span>Rp. {{(item.HARGA)*(item.QTY)|number}}</span>
             </ion-toggle>
             <div class="button-bar">
-              <button type="submit" class="button button-block button-assertive" ng-click="confirmasi('reject')">
+              <button type="submit" class="button button-block button-assertive" ng-click="confirmasi(['reject',purchaselist[0]])">
                 <i class="icon ion-close-round"></i>
               </button>
-              <button type="submit" class="button button-block button-positive" ng-click="confirmasi('aprove')">
+              <button type="submit" class="button button-block button-positive" ng-click="confirmasi(['aprove',purchaselist[0]])">
                 <i class="icon ion-checkmark-round"></i>
               </button>
             </div>

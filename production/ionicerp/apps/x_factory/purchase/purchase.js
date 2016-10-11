@@ -1,5 +1,5 @@
 angular.module('starter')
-.factory('PurchaseFac',function($rootScope,$http,$q,$window,UtilService)
+.factory('PurchaseFac',function($rootScope,$http,$q,$window,UtilService,ArrayObjectService)
 {
 	var globalurl 		= UtilService.ApiUrl();
 	var SearchPurchases = function(statuscode)
@@ -7,10 +7,11 @@ angular.module('starter')
 		var deferred 		= $q.defer();
 		var url = globalurl + "/lgerp/purchaseorders/search?STATUS=" + statuscode;
 		var method ="GET";
-		$http({method:method, url:url,cache:true})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-	        deferred.resolve(response.PurchaseOrder);
+	        var result = ArrayObjectService.UniqueObjectUnderscore(response.PurchaseOrder,'KD_PO');
+	        deferred.resolve(result);
         })
         .error(function(err,status)
         {
@@ -96,27 +97,29 @@ angular.module('starter')
 
         return deferred.promise;  
     }
-    var UpdatePurchase = function($id)
+    var UpdatePurchase = function($idpurchase,statusaprove)
     {
-		var deferred 		= $q.defer();
-		var url = globalurl + "/lgerp/purchaseorders/" + $id;
-		var method ="PUT";
-		$http({method:method, url:url,cache:false})
-        .success(function(response) 
+		var detail = {NOTE:'Update By Radumta Using Android'};
+		if(statusaprove === 'aprove')
+		{
+			detail.STATUS = 107;
+		}
+		else
+		{
+			detail.STATUS = 108;
+		}
+		var deferred 	= $q.defer();
+		var url 		= globalurl + "/lgerp/purchaseorders/" + $idpurchase;
+
+		var serialize 	= UtilService.SerializeObject(detail);
+		var serialized 	= serialize.serialized;
+        var config		= serialize.config;
+
+		$http.put(url,serialized,config)
+        .success(function(data,status, headers, config) 
         {
-	        deferred.resolve(response);
-        })
-        .error(function(err,status)
-        {
-			if (status === 404)
-			{
-	        	deferred.resolve([]);
-	      	}
-	      	else	
-      		{
-	        	deferred.reject(err);
-	      	}
-        });	
+            deferred.resolve(data);
+        })	
 
         return deferred.promise;  
     }

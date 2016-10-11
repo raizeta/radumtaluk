@@ -1,30 +1,17 @@
-
 angular.module('starter')
  .controller('PurchaseCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,StorageService,PurchaseFac) 
 {
 
 })
-
-.controller('PurchaseInboxCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,UtilService,StorageService,PurchaseFac) 
+.controller('PurchaseInboxCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,UtilService,StorageService,resPurchace,ArrayObjectService) 
 {
-	$ionicLoading.show
-    ({
-        template: 'Loading...'
-    });
-    $timeout(function()
-	{
-		$ionicLoading.hide();
-	},500);
-    PurchaseFac.SearchPurchases(103)
-    .then (function (response)
+    $scope.purchaselist = resPurchace;
+    var spliceitem = StorageService.get('splice-item');
+    var itemsplice = _.findIndex($scope.purchaselist, {KD_PO:spliceitem});
+    if(itemsplice > -1)
     {
-        $scope.purchaselist     = response;
-        
-    },
-    function (error)
-    {
-
-    });
+        $scope.purchaselist.splice(itemsplice,1); 
+    }
 
     $scope.openModal = function(item) 
     {
@@ -44,18 +31,11 @@ angular.module('starter')
     {
         $scope.modal.hide();
     };
+
 })
-.controller('PurchaseInboxDetailCtrl', function($window,$timeout,$rootScope,$stateParams,$scope,$state,$ionicPopup,$ionicLoading,UtilService,StorageService,PurchaseDetailFac,resPurchaceList) 
+.controller('PurchaseInboxDetailCtrl', function($window,$timeout,$rootScope,$stateParams,$scope,$state,$ionicPopup,$ionicLoading,UtilService,StorageService,PurchaseDetailFac,resPurchaceList,PurchaseFac) 
 {
     var KD_PO = $stateParams.id;
-    $ionicLoading.show
-    ({
-        template: 'Loading...'
-    });
-    $timeout(function()
-	{
-		$ionicLoading.hide();
-	},500);
 
     $scope.purchaselist     = resPurchaceList;
     $rootScope.total        = UtilService.SumPriceQtyWithCondition($scope.purchaselist,'HARGA','QTY','checked');
@@ -76,8 +56,10 @@ angular.module('starter')
             console.log("Purchase Berhasil Di Update");
         });
     };
-    $scope.confirmasi = function(statusaprove)
+    $scope.confirmasi = function(data)
     {
+        var statusaprove        = data[0];
+        var purchase            = data[1].KD_PO;
         if(statusaprove === 'aprove')
         {
             if($scope.total == 0)
@@ -98,9 +80,13 @@ angular.module('starter')
                 {
                     if(res) 
                     {
-                        var detail = {id:$stateParams.id,'status_aprove':true};
-                        StorageService.set('id_po',detail);
-                        $state.go('main.po.inbox');
+                        PurchaseFac.UpdatePurchase(purchase,statusaprove)
+                        .then (function (response)
+                        {
+                            $state.go('main.po.inbox');
+                            StorageService.set('splice-item',purchase);
+                        });
+                        
                     } 
                });
             }  
@@ -119,30 +105,20 @@ angular.module('starter')
             {
                 if(res) 
                 {
-                    var detail = {id:$stateParams.id,'status_aprove':false};
-                    StorageService.set('id_po',detail);
-                    $state.go('main.po.inbox');
+                    PurchaseFac.UpdatePurchase(purchase,statusaprove)
+                    .then (function (response)
+                    {
+                        $state.go('main.po.inbox');
+                        StorageService.set('splice-item',purchase);
+                    });
                 }
             });  
         }
     }
 })
-.controller('PurchaseAcceptCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,$ionicModal,PurchaseFac) 
+.controller('PurchaseAcceptCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,$ionicModal,resPurchace) 
 {
-	$ionicLoading.show
-    ({
-        template: 'Loading...'
-    });
-
-    PurchaseFac.SearchPurchases(102)
-    .then (function (response)
-    {
-        $scope.purchaselist     = response;
-    })
-    .finally(function()
-    {
-        $ionicLoading.hide();   
-    });
+	$scope.purchaselist = resPurchace;
 
     $scope.openModal = function(item) 
     {
@@ -169,21 +145,9 @@ angular.module('starter')
     $rootScope.total        = UtilService.SumPriceQtyWithCondition($scope.purchaselist,'HARGA','QTY','checked');
     $rootScope.totalall     = UtilService.SumPriceWithQty($scope.purchaselist,'HARGA','QTY');
 })
-.controller('PurchaseRejectCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,$ionicModal,StorageService,PurchaseFac) 
+.controller('PurchaseRejectCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,$ionicModal,StorageService,resPurchace) 
 {
-	$ionicLoading.show
-    ({
-        template: 'Loading...'
-    });
-    PurchaseFac.SearchPurchases(102)
-    .then (function (response)
-    {
-        $scope.purchaselist     = response;
-    })
-    .finally(function()
-    {
-        $ionicLoading.hide();   
-    });
+	$scope.purchaselist = resPurchace;
 
     $scope.openModal = function(item) 
     {

@@ -22,6 +22,19 @@ angular.module('starter')
                   templateUrl: "apps/a_purchase/views/po-inbox.html",
                   controller:'PurchaseInboxCtrl'
               }
+          },
+          resolve: 
+          {
+            resPurchace: function ($stateParams,$q,PurchaseFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseFac.SearchPurchases(0);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
           }
     });
     $stateProvider.state('main.po.inboxdetail', 
@@ -55,6 +68,19 @@ angular.module('starter')
                   templateUrl: "apps/a_purchase/views/po-accept.html",
                   controller:'PurchaseAcceptCtrl'
               }
+          },
+          resolve: 
+          {
+            resPurchace: function ($stateParams,$q,PurchaseFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseFac.SearchPurchases(107);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
           }
     });
     $stateProvider.state('main.po.acceptdetail', 
@@ -88,6 +114,19 @@ angular.module('starter')
                   templateUrl: "apps/a_purchase/views/po-reject.html",
                   controller:'PurchaseRejectCtrl'
               }
+          },
+          resolve: 
+          {
+            resPurchace: function ($stateParams,$q,PurchaseFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseFac.SearchPurchases(108);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
           }
     });
     $stateProvider.state('main.po.rejectdetail', 

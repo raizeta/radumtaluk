@@ -26,9 +26,19 @@ angular.module('starter')
         return resultunique;
     }
 
+    var UniqueObjectUnderscore = function(list,property) 
+    {
+        var uniqueList = _.uniq(list, function(item,key) 
+        { 
+            return item[property];
+        });
+        return uniqueList;
+    }
+
    return {
         DiffTwoArrayObject:DiffTwoArrayObject,
-        UniqueObjectInArray:UniqueObjectInArray
+        UniqueObjectInArray:UniqueObjectInArray,
+        UniqueObjectUnderscore:UniqueObjectUnderscore
 
    }
 });

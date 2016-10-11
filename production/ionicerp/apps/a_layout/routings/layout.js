@@ -36,8 +36,6 @@ angular.module('starter')
           controller: 'DashboardCtrl'
         }
     },
-
-     
   })
   $urlRouterProvider.otherwise(function ($injector, $location) 
   {
