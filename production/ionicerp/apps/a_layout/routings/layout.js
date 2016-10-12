@@ -20,7 +20,7 @@ angular.module('starter')
             else 
             {
                 $location.path("/auth/login");
-                $apply();
+                console.log();
             }
         }  
     }
@@ -35,13 +35,15 @@ angular.module('starter')
           templateUrl: 'apps/a_layout/views/dashboard.html',
           controller: 'DashboardCtrl'
         }
-    },
+    }
   })
+
   $urlRouterProvider.otherwise(function ($injector, $location) 
   {
     var $state = $injector.get("$state");
     $state.go("main.dashboard");
   });
+
   $ionicConfigProvider.tabs.position('bottom');
   $ionicConfigProvider.navBar.alignTitle('center');
 });

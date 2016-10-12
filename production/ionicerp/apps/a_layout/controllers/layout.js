@@ -7,13 +7,16 @@ angular.module('starter')
   $scope.profile = profile;
   $scope.logout = function() 
   {
-    $state.go('login');
+      StorageService.destroy('profile');
+      $state.go('auth.login',{},{reload: true});
   };
   
 })
 
-.controller('DashboardCtrl', function($window,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,ProductService,ArrayObjectService) 
+.controller('DashboardCtrl', function($window,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,ProductService,ArrayObjectService,StorageService,auth) 
 {
+    var profile = StorageService.get('profile');
+    $scope.profile = profile;
     var menus = [];
     menus.push({src: "assets/img/img/200x200/chart.jpg",link:"#/main/charts/sales",judul:"Chart"});
     menus.push({src: "assets/img/img/200x200/money.png",link:"",judul:"SCM"});

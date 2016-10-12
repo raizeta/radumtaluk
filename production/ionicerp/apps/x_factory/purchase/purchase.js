@@ -31,7 +31,7 @@ angular.module('starter')
 		var deferred 		= $q.defer();
 		var url = globalurl + "/lgerp/purchaseorders";
 		var method ="GET";
-		$http({method:method, url:url,cache:true})
+		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
 	        deferred.resolve(response.PurchaseOrder);
