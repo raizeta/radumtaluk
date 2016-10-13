@@ -29,7 +29,7 @@ angular.module('starter')
             {
                 
                 var KD_PO = $stateParams.id;
-                var data  = PurchaseFac.SearchPurchases(0);
+                var data  = PurchaseFac.SearchPurchases(101);
                 if(data)
                 {
                   return $q.when(data);

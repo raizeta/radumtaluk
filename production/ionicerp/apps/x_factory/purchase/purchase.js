@@ -108,6 +108,8 @@ angular.module('starter')
 		{
 			detail.STATUS = 108;
 		}
+		detail.SIG3_NM 	= 'Stephen Surya Djaja';
+		detail.SIG3_TGL	= $rootScope.tanggalwaktuharini;
 		var deferred 	= $q.defer();
 		var url 		= globalurl + "/lgerp/purchaseorders/" + $idpurchase;
 
