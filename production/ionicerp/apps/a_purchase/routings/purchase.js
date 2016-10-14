@@ -152,4 +152,50 @@ angular.module('starter')
             }
           }
     });
+    $stateProvider.state('main.po.progress', 
+    {
+          url: "/progress",
+          views: {
+              'po-progress': {
+                  templateUrl: "apps/a_purchase/views/po-progress.html",
+                  controller:'PurchaseProgressCtrl'
+              }
+          },
+          resolve: 
+          {
+            resPurchace: function ($stateParams,$q,PurchaseFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseFac.SearchPurchases(108);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
+          }
+    });
+    $stateProvider.state('main.po.progressdetail', 
+    {
+          url: "/progressdetail/:id",
+          views: {
+              'po-progress': {
+                  templateUrl: "apps/a_purchase/views/po-progress-detail.html",
+                  controller:'PurchaseProgressDetailCtrl'
+              }
+          },
+          resolve: 
+          {
+            resPurchaceList: function ($stateParams,$q,PurchaseDetailFac) 
+            {
+                
+                var KD_PO = $stateParams.id;
+                var data  = PurchaseDetailFac.SearchPurchaseDetails(KD_PO);
+                if(data)
+                {
+                  return $q.when(data);
+                }
+            }
+          }
+    });
 });

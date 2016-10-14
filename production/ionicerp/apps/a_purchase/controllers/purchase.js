@@ -172,4 +172,33 @@ angular.module('starter')
     $scope.purchaselist     = resPurchaceList;
     $rootScope.total        = UtilService.SumPriceQtyWithCondition($scope.purchaselist,'HARGA','QTY','checked');
     $rootScope.totalall     = UtilService.SumPriceWithQty($scope.purchaselist,'HARGA','QTY');
+})
+
+.controller('PurchaseProgressCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,$ionicModal,StorageService,resPurchace) 
+{
+    $scope.purchaselist = resPurchace;
+
+    $scope.openModal = function(item) 
+    {
+        $ionicModal.fromTemplateUrl('apps/a_purchase/views/purchasemodal.html', 
+        {
+            scope: $scope
+        })
+        .then(function(modal) 
+        {
+            $scope.detailpurchase   = item;
+            $scope.modal            = modal;
+            $scope.modal.show();
+        }); 
+    };
+    $scope.closeModal = function() 
+    {
+        $scope.modal.hide();
+    };
+})
+.controller('PurchaseProgressDetailCtrl', function($window,$rootScope,$scope,UtilService,resPurchaceList) 
+{
+    $scope.purchaselist     = resPurchaceList;
+    $rootScope.total        = UtilService.SumPriceQtyWithCondition($scope.purchaselist,'HARGA','QTY','checked');
+    $rootScope.totalall     = UtilService.SumPriceWithQty($scope.purchaselist,'HARGA','QTY');
 });
