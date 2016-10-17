@@ -9,13 +9,12 @@
           Belum Ada Komentar
         </button>
     </div>
-    <div class="list">
+    <div class="list" style="align:justify;white-space: normal;">
       <a class="item item-avatar" ng-repeat="item in mdlkomentars">
-        <img ng-src="assets/img/daenerys.jpg">
+        <img ng-src="data:image/png;base64,{{item.EMP_IMG}}">
         <h2>{{ item.CREATED_BY }}</h2>
-        <small>@{{ item.ID_USER }}</small>
-        <small class="time"> {{ item.CREATED_AT | formatTwitterDate}}</small>
-        <p>{{item.CHAT}}</p>
+        <small class="time"> {{ item.CREATED_AT}}({{ item.CREATED_AT | formatTwitterDate}})</small>
+        <p ng-bind-html="item.CHAT"></p>
       </a>
     </div>
   </ion-content>

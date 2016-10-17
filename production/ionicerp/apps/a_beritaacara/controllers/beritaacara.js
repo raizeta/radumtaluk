@@ -30,9 +30,10 @@ angular.module('starter')
         $state.go('main.ba.inboxdetail',{id:item.KD_BERITA},{reload:false});
     }
 })
-.controller('BaInboxDetailCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,$ionicScrollDelegate,StorageService,BeritaAcaraKomentarFac) 
+.controller('BaInboxDetailCtrl', function($window,$filter,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,$ionicScrollDelegate,StorageService,BeritaAcaraKomentarFac) 
 {
-	$ionicLoading.show
+	var users = $scope.profile;
+    $ionicLoading.show
     ({
         template: 'Loading...'
     });
@@ -83,14 +84,17 @@ angular.module('starter')
         d = d.toLocaleTimeString().replace(/:\d+ /, ' ');
         var detail = {};
         detail.CHAT         = $scope.data.message;
-        detail.CREATED_AT   = '2016-12-12 12:12:12';
-        detail.CREATED_BY   = 'Radumta Sitepu';
+        detail.CREATED_AT   = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        detail.CREATED_BY   = users.username;
+        detail.EMP_IMG      = users.gambar;
         detail.ID_USER      = '9876543210';
         detail.KD_BERITA    = '1234567890';
         detail.STATUS       = 1;
-        detail.UPDATED_AT   = '2016-12-12 12:12:12';
-        $scope.mdlkomentars.push(detail);
-
+        detail.UPDATED_AT   = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        if(detail.CHAT.length > 0)
+        {
+            $scope.mdlkomentars.push(detail);  
+        }
         delete $scope.data.message;
         $ionicScrollDelegate.scrollBottom(true);
     };

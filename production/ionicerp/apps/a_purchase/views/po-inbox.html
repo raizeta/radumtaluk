@@ -8,12 +8,12 @@
       </div>
       <ion-list show-Delete = "!data.showDelete" show-Reorder = "!data.showReorder">
           <ion-item class="item-avatar item-icon-right" ng-repeat="item in purchaselist" type="item-text-wrap" >
-              <img ng-src="assets/img/logo.png">
+              <img ng-src="data:image/png;base64,{{item.IMG_BASE64}}">
               <h2>{{item.KD_PO}}
                   <br> 
                   <font size="2" color="gray" >{{item.CREATE_AT}}</font>
                   <br> 
-                  <font size="2" color="gray" >{{item.CREATE_BY}}</font>
+                  <font size="2" color="gray" >{{item.CREATE_NM}}</font>
               </h2>
               <ion-delete-button class="ion-ios-plus-outline" ng-click="openModal(item);"></ion-delete-button>
               <ion-reorder-button class="ion-arrow-right-a" ui-sref="main.po.inboxdetail({id:item.KD_PO})"></ion-reorder-button>

@@ -7,7 +7,7 @@
               </button>
             </div>
             <ion-toggle ng-repeat="item in purchaselist" ng-model="item.checked" ng-disabled="true">
-              {{ item.KD_BARANG }}</br>
+              {{ item.NM_BARANG }}</br>
               <span>Rp. {{item.HARGA|number}} X {{item.QTY}}</span></br>
               <span>Rp. {{(item.HARGA)*(item.QTY)|number}}</span>
             </ion-toggle>

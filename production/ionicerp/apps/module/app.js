@@ -1,4 +1,4 @@
-angular.module('starter', ['ionic','ng-fusioncharts','angular.filter','twitterFeed.filters'])
+angular.module('starter', ['ionic','ng-fusioncharts','angular.filter','twitterFeed.filters','ngSanitize'])
 
 .run(function($ionicPlatform,$rootScope, $state,$window,$filter,StorageService) 
 {

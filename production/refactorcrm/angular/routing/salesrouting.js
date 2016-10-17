@@ -197,33 +197,33 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
-    $routeProvider.when('/configuration',
-    {
-        templateUrl : 'angular/partial/salesman/configuration.html',
-        controller  : 'ConfigurationController',
-        resolve: 
-        {
-            auth: function ($q, LoginFac,$location) 
-            {
-                var userInfo = LoginFac.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
+    // $routeProvider.when('/configuration',
+    // {
+    //     templateUrl : 'angular/partial/salesman/configuration.html',
+    //     controller  : 'ConfigurationController',
+    //     resolve: 
+    //     {
+    //         auth: function ($q, LoginFac,$location) 
+    //         {
+    //             var userInfo = LoginFac.getUserInfo();
+    //             if(userInfo)
+    //             {
+    //                if (userInfo.rulename === 'SALESMAN') 
+    //                 {
+    //                     return $q.when(userInfo);
+    //                 }
+    //                 else
+    //                 {
+    //                     $location.path('/error/404');
+    //                 } 
+    //             }
+    //             else 
+    //             {
+    //                 $location.path('/');
+    //             }
+    //         }
+    //     }
+    // });
 
     $routeProvider.when('/setposition',
     {
@@ -253,61 +253,61 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
         }
     });
 
-    $routeProvider.when('/salestrack',
-    {
-        templateUrl : 'angular/partial/salesman/salestrack.html',
-        controller  : 'SalesTrackController',
-        resolve: 
-        {
-            auth: function ($q, LoginFac,$location) 
-            {
-                var userInfo = LoginFac.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
+    // $routeProvider.when('/salestrack',
+    // {
+    //     templateUrl : 'angular/partial/salesman/salestrack.html',
+    //     controller  : 'SalesTrackController',
+    //     resolve: 
+    //     {
+    //         auth: function ($q, LoginFac,$location) 
+    //         {
+    //             var userInfo = LoginFac.getUserInfo();
+    //             if(userInfo)
+    //             {
+    //                if (userInfo.rulename === 'SALESMAN') 
+    //                 {
+    //                     return $q.when(userInfo);
+    //                 }
+    //                 else
+    //                 {
+    //                     $location.path('/error/404');
+    //                 } 
+    //             }
+    //             else 
+    //             {
+    //                 $location.path('/');
+    //             }
+    //         }
+    //     }
+    // });
 
-    $routeProvider.when('/salestrack/:idsalesman',
-    {
-        templateUrl : 'angular/partial/salesman/salestrackperuser.html',
-        controller  : 'SalesTrackPerUserController',
-        resolve: 
-        {
-            auth: function ($q, LoginFac,$location) 
-            {
-                var userInfo = LoginFac.getUserInfo();
-                if(userInfo)
-                {
-                   if (userInfo.rulename === 'SALESMAN') 
-                    {
-                        return $q.when(userInfo);
-                    }
-                    else
-                    {
-                        $location.path('/error/404');
-                    } 
-                }
-                else 
-                {
-                    $location.path('/');
-                }
-            }
-        }
-    });
+    // $routeProvider.when('/salestrack/:idsalesman',
+    // {
+    //     templateUrl : 'angular/partial/salesman/salestrackperuser.html',
+    //     controller  : 'SalesTrackPerUserController',
+    //     resolve: 
+    //     {
+    //         auth: function ($q, LoginFac,$location) 
+    //         {
+    //             var userInfo = LoginFac.getUserInfo();
+    //             if(userInfo)
+    //             {
+    //                if (userInfo.rulename === 'SALESMAN') 
+    //                 {
+    //                     return $q.when(userInfo);
+    //                 }
+    //                 else
+    //                 {
+    //                     $location.path('/error/404');
+    //                 } 
+    //             }
+    //             else 
+    //             {
+    //                 $location.path('/');
+    //             }
+    //         }
+    //     }
+    // });
 
     $routeProvider.when('/detailcustomer/:idcustomer/:idtanggal',
     {

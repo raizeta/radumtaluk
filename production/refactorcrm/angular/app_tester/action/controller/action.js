@@ -10,9 +10,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-
-	
-
+    
     $scope.zoomvalue = 10;
     var watchOptions    = {timeout :1000,enableHighAccuracy: false};
     var watch           = $cordovaGeolocation.watchPosition(watchOptions);

@@ -1,0 +1,36 @@
+<div class="modal fade">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{title}}</h4>
+      </div>
+      <div class="modal-body bg-grey">
+        <form class="form-horizontal" role="form">
+          <fieldset class="scheduler-border">
+            <legend class="scheduler-border"> ED Prioritas</legend>
+            <div class="form-group">
+              <label for="age" class="col-sm-2 control-label">KD PRODUCT</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" ng-model="list.KD_BARANG" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="age" class="col-sm-2 control-label">Status Display</label>
+              <div class="col-sm-10">
+                <select class="form-control" name="STATUS" ng-model="list.STATUS" convert-to-number>
+                      <option value='1'>Enabled</option>
+                      <option value='0'>Disabled</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+      <div class="modal-footer bg-aqua">
+        <button type="button" ng-click="close()" class="btn btn-primary" data-dismiss="modal">OK</button>
+        <button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

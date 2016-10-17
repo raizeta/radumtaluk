@@ -7,18 +7,29 @@
         <span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16, position:'fixed'}"></span>
         <div class="col-md-12">
         	<div class="timeline-item" >
-                <div class="box">
-                    <div class="box-header">
-                      <h3 class="box-title">LIST PRODUCT</h3>
+              <div class="box">
+                  <div class="box-header">
+                    <h3 class="box-title">LIST PRODUCT ACTIVE</h3>
+                  </div>
+                  <div class="box-body" style="display: block;">
+                    <div class="timeline-body">
+                    	<img ng-repeat="item in productsactive" data-ng-src="data:image/png;base64,{{item.IMAGE}}" width="80" height="80" class="img-circle" ng-click="showmodal(item,1)">
                     </div>
-                    <div class="box-body" style="display: block;">
-                      <div class="timeline-body">
-                      	<img ng-repeat="item in products" data-ng-src="data:image/png;base64,{{item.IMAGE}}" width="80" height="80" class="img-circle">
-                      </div>
-                    </div>
-                </div>
+                  </div>
               </div>
+              <div class="box">
+                  <div class="box-header">
+                    <h3 class="box-title">LIST PRODUCT NON-ACTIVE</h3>
+                  </div>
+                  <div class="box-body" style="display: block;">
+                    <div class="timeline-body">
+                      <img ng-repeat="item in productsnonactive" data-ng-src="data:image/png;base64,{{item.IMAGE}}" width="80" height="80" class="img-circle" ng-click="showmodal(item,0)">
+                    </div>
+                  </div>
+              </div>
+          </div>
         </div>
+      </div>
     </section>
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>

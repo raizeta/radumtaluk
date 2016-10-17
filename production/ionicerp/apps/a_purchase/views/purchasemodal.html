@@ -48,7 +48,8 @@
 
       <label class="item item-input">
         <span class="input-label">NOTE</span>
-        <input ng-model="detailpurchase.NOTE" type="text">
+        <!-- <input ng-model="detailpurchase.NOTE" type="text"> -->
+        <textarea ng-bind-html="detailpurchase.NOTE" rows="5"></textarea>
       </label>
       <label class="item item-input">
         <span class="input-label">PAJAK</span>

@@ -3,7 +3,7 @@ angular.module('starter')
 {
     var ApiUrl = function()
     {
-      return "http://api.labtest2.int";
+      return "http://api.lukisongroup.com";
     }
     var ArrayChunk = function (arr, size) 
     {

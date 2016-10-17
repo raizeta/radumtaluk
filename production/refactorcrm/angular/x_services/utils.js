@@ -98,6 +98,15 @@ myAppModule.service('UtilService', function($q, $http)
         var jarak = 12742 * Math.asin(Math.sqrt(a)) * 1000;
         return jarak;
     }
+
+    var getTotalHariDalamSebulan = function(tanggalplan)
+    {
+      var date    = new Date(tanggalplan);
+      var year    = date.getFullYear();
+      var month   = date.getMonth() + 1;
+      return new Date(year,month,0).getDate(); 
+    } 
+
     return {
       ArrayChunk:ArrayChunk,
       ApiUrl:ApiUrl,
@@ -105,6 +114,7 @@ myAppModule.service('UtilService', function($q, $http)
       SerializeObject:SerializeObject,
       SumPriceWithQty:SumPriceWithQty,
       SumJustPriceOrQty:SumJustPriceOrQty,
-      JarakDuaTitik:JarakDuaTitik
+      JarakDuaTitik:JarakDuaTitik,
+      getTotalHariDalamSebulan:getTotalHariDalamSebulan
     };
 });

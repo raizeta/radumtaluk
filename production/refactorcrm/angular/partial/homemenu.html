@@ -26,7 +26,7 @@
           <i class="fa fa-th"></i> <span>SET POSITION</span>
         </a>
       </li>
-      <li ng-class="activesalestrack" ng-if="(userInfo.accessid == 1)">
+      <li ng-class="activesalestrack" ng-if="(userInfo.accessid != 1)">
         <a href="#/salestrack">
           <i class="fa fa-th"></i> <span>SLS TRACK</span>
         </a>
@@ -61,9 +61,9 @@
           <i class="fa fa-th"></i> <span>HELP</span>
         </a>
       </li>
-      <li ng-class="activeconfig" ng-if="(userInfo.accessid != 1)">
-        <a href="#/configuration">
-          <i class="fa fa-th"></i> <span>CONFIG</span>
+      <li ng-class="activesetting" ng-if="(userInfo.accessid != 1)">
+        <a href="#/setting">
+          <i class="fa fa-th"></i> <span>SETTING</span>
         </a>
       </li>
     </ul>

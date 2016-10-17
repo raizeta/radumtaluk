@@ -73,59 +73,11 @@ function ($rootScope,$http,$location,LocationFac,$window,$q,$filter,$cordovaDevi
         }
     });
 
-
-    var options = {timeout: 10000, enableHighAccuracy: false};
-    $rootScope.starttrack = function()
-    {
-        navigator.geolocation.getCurrentPosition(
-        function (options) 
-        {
-            
-            var userauth = $window.sessionStorage["userInfo"];
-            $rootScope.authen = JSON.parse(userauth);
-
-            $rootScope.lat = options.coords.latitude;
-            $rootScope.long = options.coords.longitude;
-
-            var detail ={};
-            detail.USER_ID = $rootScope.authen.username;
-            detail.LAT=$rootScope.lat;
-            detail.LAG=$rootScope.long;
-
-            var result  = $rootScope.seriliazeobject(detail);
-            var serialized  = result.serialized;
-            var config      = result.config;
-                
-            $http.post("http://api.lukisongroup.com/master/trackers",serialized,config)
-            .success(function(data,status, headers, config) 
-            {
-                //ngToast.create('Detail Telah Berhasil Di Update');
-            })
-
-            .finally(function()
-            {
-                $rootScope.loading = false;  
-            });
-        },
-        function(err)
-        {
-          alert("GPS Tidak Hidup.Hidupkan GPS Untuk Menikmati Fitur Ini");
-        });
-    }
-
     $rootScope.tanggalharini = $filter('date')(new Date(),'yyyy-MM-dd');
     var tanggal = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
     var tanggalmulai = $filter('date')(new Date(),'yyyy-MM-dd 05:00:00');
     var tanggalakhir = $filter('date')(new Date(),'yyyy-MM-dd 23:59:59');
 
-
-    if( (tanggal > tanggalmulai) && (tanggal < tanggalakhir))
-    {
-        setInterval(function() 
-        {
-            $rootScope.starttrack();
-        }, 300000);
-    }
 
     $rootScope.cekstatusbarang = function(statusvalue)
     {
@@ -281,7 +233,6 @@ myAppModule.config(function($httpProvider,ngToastProvider,$mdThemingProvider,usS
         verticalPosition:   'bottom',  //top,center
         maxNumber: 3 // 0 for unlimited
     });
-
 });
 
 
