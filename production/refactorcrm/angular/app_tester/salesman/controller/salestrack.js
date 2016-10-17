@@ -36,44 +36,70 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Uti
     $scope.events   	= [];
     for(var i=0; i < totalday; i++)
     {
-		console.log(tanggalsekarang);
 		var responsetanggal     = new Date(tahunmasuk,bulanmasuk - 1,i + 1);
 		var stringresponse		= $filter('date')(responsetanggal,'yyyy-MM-dd')
-		if(responsetanggal.getDay() != 2)
-		{
-			var data                = {};
-	        data.title              = 'ABSENSI';
-	        data.start              = stringresponse;
-	        data.allDay             = true;
-	        data.url                = "#/salestrack/" + stringresponse;
-	        if(stringresponse > tanggalsekarang)
-	        {
-	          data.color = '#378006';  
-	        }
-	        else if(stringresponse < tanggalsekarang)
-	        {
-	            data.color = '#dd4b39';
-	        }
-	        else if(stringresponse == tanggalsekarang)
-	        {
-	            data.color = '#ff4bcc';
-	        }
-	        $scope.events.push(data);	
-		}
+		// if(responsetanggal.getDay() != 2) //jika hari tidak hari selasa maka push ke array
+		var data                = {};
+        data.title              = 'ABSENSI';
+        data.start              = stringresponse;
+        data.allDay             = true;
+        data.url                = "#/salestrack/" + stringresponse;
+        if(stringresponse > tanggalsekarang)
+        {
+          data.color = '#378006';  
+        }
+        else if(stringresponse < tanggalsekarang)
+        {
+            data.color = '#dd4b39';
+        }
+        else if(stringresponse == tanggalsekarang)
+        {
+            data.color = '#ff4bcc';
+        }
+        $scope.events.push(data);	
+
     }
     $scope.eventSources = [$scope.events];
 });
 
 myAppModule.controller("SalesTrackDetailController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,UtilService) 
+function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac) 
 {
-	$scope.activesalestrack = "active";
-    $scope.userInfo = auth;
-	$scope.logout = function () 
+	var idtanggal              = $routeParams.idtanggal;
+    $scope.activesalestrack = "active";
+    $scope.userInfo         = auth;
+    var tanggalplan         = $filter('date')(idtanggal,'yyyy-MM-dd');
+	$scope.logout  = function () 
     { 
         $scope.userInfo = null;
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
+    SalesTrackFac.getSalesTrackAbsensi(tanggalplan)
+    .then(function(response)
+    {
+        $scope.salestracks = response;
+    });
 });
 
+myAppModule.controller("SalesTrackDetailUserController",
+function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac) 
+{
+    var idtanggal               = $routeParams.idtanggal;
+    var iduser                  = $routeParams.iduser;
+    $scope.activesalestrack     = "active";
+    $scope.userInfo             = auth;
+    var tanggalplan             = $filter('date')(idtanggal,'yyyy-MM-dd');
+    $scope.logout  = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+    SalesTrackFac.getSalesTrack(tanggalplan,iduser)
+    .then(function(response)
+    {
+        console.log(response);
+        $scope.salestracks = response;
+    });
+});

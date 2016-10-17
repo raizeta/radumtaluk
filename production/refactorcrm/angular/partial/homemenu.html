@@ -16,11 +16,7 @@
           <i class="fa fa-th"></i> <span>HOME</span>
         </a>
       </li>
-      <li ng-class="activeabsensi">
-        <a href="#/absen">
-          <i class="fa fa-th"></i> <span>ABSENSI</span>
-        </a>
-      </li>
+      
       <li ng-class="activesetposition" ng-if="(userInfo.accessid == 1)">
         <a href="#/setposition">
           <i class="fa fa-th"></i> <span>SET POSITION</span>
@@ -39,6 +35,11 @@
       <li ng-class="activesalesman" ng-if="(userInfo.accessid != 1)">
         <a href="#/salesman">
           <i class="fa fa-th"></i> <span>LIST SALESMAN</span>
+        </a>
+      </li>
+      <li ng-class="activeabsensi">
+        <a href="#/absen">
+          <i class="fa fa-th"></i> <span>ABSENSI</span>
         </a>
       </li>
       <li ng-class="activeagendatoday" ng-if="(userInfo.accessid != 1)">

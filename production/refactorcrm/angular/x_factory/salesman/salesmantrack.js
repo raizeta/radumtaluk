@@ -1,25 +1,15 @@
 'use strict';
-myAppModule.factory('SalesTrackServices', ["$rootScope","$http","$q","$filter","$window","LocationService",
-function($rootScope,$http, $q, $filter, $window,LocationService)
+myAppModule.factory('SalesTrackFac',
+function($http,$q,UtilService)
 {
-	var getUrl = function()
-	{
-		return "http://api.lukisongroup.com/master";
-	}
-	var gettoken = function()
-	{
-		return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-	}
-
-    var getSalesTracks= function(tanggalplan)
+    var getSalesTracksByDate = function(tanggalplan)
     {
-        var url = getUrl();
-        var deferred = $q.defer();
-
-        $http.get(url + "/salestracks/search?TGL=" + tanggalplan)
+        var getUrl          = UtilService.ApiUrl();
+        var deferred        = $q.defer();
+        var url             = getUrl + "master/salestracks/search?TGL=" + tanggalplan
+        $http.get(url)
         .success(function(data,status,headers,config) 
         {
-            console.log(data);
             var salestracks   = [];
             _.each(data['Sales Track'], function(executes) 
             {
@@ -69,14 +59,12 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
     
     var getSalesTrack= function(tanggalplan,salesmanid)
     {
-        console.log(tanggalplan);
-        var url = getUrl();
-        var deferred = $q.defer();
+        var url         = UtilService.ApiUrl();
+        var deferred    = $q.defer();
 
-        $http.get(url + "/salestrackperusers/search?TGL=" + tanggalplan + "&USER_ID=" + salesmanid)
+        $http.get(url + "master/salestrackperusers/search?TGL=" + tanggalplan + "&USER_ID=" + salesmanid)
         .success(function(data,status,headers,config) 
         {
-            console.log(data);
             var salestracks   = [];
             _.each(data.SalesTrackPerUser, function(executes) 
             {
@@ -119,9 +107,32 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         });
         return deferred.promise;
     }
+    var getSalesTrackAbsensi = function(tanggalplan)
+    {
+        var url         = UtilService.ApiUrl();
+        var deferred    = $q.defer();
 
+        $http.get(url + "master/salesmanabsensis/search?TGL=" + tanggalplan)
+        .success(function(data,status,headers,config) 
+        {
+            deferred.resolve(data.Salesmanabsensi)
+        })
+        .error(function(err,status)
+        {
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+        });
+        return deferred.promise;
+    }
 	return{
-            getSalesTracks:getSalesTracks,
-            getSalesTrack:getSalesTrack
+            getSalesTracksByDate:getSalesTracksByDate,
+            getSalesTrack:getSalesTrack,
+            getSalesTrackAbsensi:getSalesTrackAbsensi
 		}
-}]);
+});

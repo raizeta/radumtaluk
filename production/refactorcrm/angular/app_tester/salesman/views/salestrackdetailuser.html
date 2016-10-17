@@ -9,19 +9,19 @@
           <div class="panel-body table-responsive">
             <table class="table table-hover table-striped table-bordered">
               <thead>
-                <th class="bg-aqua">NAMA SALES</th>
-                <th class="bg-aqua">ABSENSI MASUK</td>
-                <th class="bg-aqua">ABSENSI KELUAR</th>
+                <th class="bg-aqua">CUSTOMERS</th>
+                <th class="bg-aqua">CHECK IN</td>
+                <th class="bg-aqua">CHECK OUT</th>
               </thead>
               <tbody>
                 <tr ng-repeat="salestrack in salestracks">
                   <td>
-                    <a href="#/salestrack/{{salestrack.TGL}}/{{salestrack.USER_ID}}">
-                      {{salestrack.USER_NM}}
+                    <a href="#/salestrack/{{salestrack.USER_ID}}">
+                      {{salestrack.CUST_NM}}
                     </a>
                   </td>
-                  <td>{{salestrack.WAKTU_MASUK}}</td>
-                  <td>{{salestrack.WAKTU_KELUAR}}</td>
+                  <td>{{salestrack.CHECKIN_TIME}}</td>
+                  <td>{{salestrack.CHECKOUT_TIME}}</td>
                 </tr>
               </tbody>
              </table>
