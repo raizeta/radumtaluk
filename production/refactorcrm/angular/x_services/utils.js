@@ -105,7 +105,17 @@ myAppModule.service('UtilService', function($q, $http)
       var year    = date.getFullYear();
       var month   = date.getMonth() + 1;
       return new Date(year,month,0).getDate(); 
-    } 
+    }
+    var SqliteToArray = function(sqliteresult)
+    {
+    	var panjang = sqliteresult.rows.length;
+    	var response = [];
+		for(var i=0; i < panjang; i++)
+		{
+			response.push(sqliteresult.rows.item(i));
+		}
+		return response;
+    }
 
     return {
       ArrayChunk:ArrayChunk,
@@ -115,6 +125,7 @@ myAppModule.service('UtilService', function($q, $http)
       SumPriceWithQty:SumPriceWithQty,
       SumJustPriceOrQty:SumJustPriceOrQty,
       JarakDuaTitik:JarakDuaTitik,
-      getTotalHariDalamSebulan:getTotalHariDalamSebulan
+      getTotalHariDalamSebulan:getTotalHariDalamSebulan,
+      SqliteToArray:SqliteToArray
     };
 });

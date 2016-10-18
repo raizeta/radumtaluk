@@ -26,10 +26,10 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                     $location.path('/');
                 }
             },
-            rescalendar: function($q,ListKunjunganFac,LoginFac)
+            rescalendar: function($q,CalendarCombFac,LoginFac)
             {
                 var auth            = LoginFac.getUserInfo();
-                var calendaragenda  = ListKunjunganFac.GetAllAgendaByUser(auth);
+                var calendaragenda  = CalendarCombFac.GetAgendaCombine(auth);
                 return calendaragenda;
             }            
         }

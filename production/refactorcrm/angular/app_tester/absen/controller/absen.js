@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("AbsenController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,LocationFac,AbsensiFac) 
+function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,LocationFac,AbsensiFac,AbsensiCombFac) 
 {   
 	$scope.activeabsensi = "active";
     $scope.userInfo = auth;
@@ -22,7 +22,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Loc
         $scope.googlemaplong  = data.longitude;
     });
     
-    AbsensiFac.getAbsensi(auth,tanggalplan)
+    AbsensiCombFac.getAbsensiCombine(auth,tanggalplan)
     .then(function(responseabsensi)
     {
         $scope.responseabsen = responseabsensi;
@@ -32,14 +32,16 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Loc
         }
         else
         {
-            if($scope.responseabsen.STATUS == 0)
+        	var idserverabsensi         = responseabsensi.ID_SERVER;
+            var statusabsensi           = responseabsensi.STATUS_ABSENSI;
+            if(statusabsensi == 0)
             {
-                $scope.showbuttonabsensikeluar = true;
-                $scope.idabsensi = responseabsensi.ID;
+                $scope.showbuttonabsensikeluar  = true;
+                $scope.idabsensi                = idserverabsensi;
             }
-            else if($scope.responseabsen.STATUS == 1)
+            else
             {
-                $scope.showbuttonnotifiabsen = true;
+                $scope.showbuttonnotifiabsen = true;   
             }  
         }  
     },
@@ -53,20 +55,11 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Loc
         $scope.showbuttonabsensimasuk   = false;
         $scope.loadingcontent = true;
 
-        var detail = {};
-        detail.TGL              = tanggalplan;
-        detail.USER_ID          = auth.id;
-        detail.USER_NM          = auth.username;
-        detail.WAKTU_MASUK      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-        detail.LATITUDE_MASUK   = $scope.googlemaplat;
-        detail.LONG_MASUK       = $scope.googlemaplong;
-        detail.CREATE_BY        = auth.id;
-        detail.CREATE_AT        = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-
-        AbsensiFac.setAbsensi(detail)
+        AbsensiCombFac.setAbsensiCombine(auth,tanggalplan,$scope.googlemaplat,$scope.googlemaplong)
         .then (function (response)
         {
-            $scope.showbuttonabsensikeluar = true;
+            $scope.showbuttonabsensikeluar  = true;
+            $scope.idabsensi                = response.ID_SERVER;
         }, 
         function (error)
         {
@@ -87,15 +80,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Loc
         var yakinabsenkeluar = confirm("Yakin Untuk Absen Keluar?");
         if (yakinabsenkeluar == true) 
         {
-            var detail = {};
-            detail.WAKTU_KELUAR      = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            detail.LATITUDE_KELUAR   = $scope.googlemaplat;
-            detail.LONG_KELUAR       = $scope.googlemaplong;
-            detail.UPDATE_BY         = auth.id;
-            detail.UPDATE_AT         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            detail.STATUS            = 1;
-
-            AbsensiFac.updateAbsensi($scope.idabsensi,detail)
+            AbsensiCombFac.updateAbsensiCombine(auth,$scope.idabsensi,$scope.googlemaplat,$scope.googlemaplong)
             .then (function (response)
             {
                 alert("Terimakasih. Absensi Keluar Berhasil"); 

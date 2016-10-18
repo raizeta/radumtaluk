@@ -1,21 +1,37 @@
 'use strict';
-myAppModule.factory('AbsensiSqliteServices', ["$rootScope","$http","$q","$filter","$window","$cordovaSQLite",
-function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
+myAppModule.factory('AbsensiSqliteFac',
+function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
 {
-    var getUrl = function()
+    var getAbsensiByTglAndUser  = function (auth,tanggalplan)
     {
-        return "http://api.lukisongroup.com/master";
-    }
-    var gettoken = function()
-    {
-        return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
-    }
-
-    var getAbsensi = function (tanggalplan,userid)
-    {
-        var deferred = $q.defer();
-        var queryabsensi = 'SELECT * FROM Absensi WHERE TGL = ? AND USER_ID = ?';
+        var userid          = auth.id;
+        var deferred        = $q.defer();
+        var queryabsensi    = 'SELECT * FROM Absensi WHERE TGL = ? AND USER_ID = ?';
         $cordovaSQLite.execute($rootScope.db, queryabsensi, [tanggalplan, userid])
+        .then(function(result) 
+        {
+        	if(result.rows.length > 0)
+    		{
+        		var response = UtilService.SqliteToArray(result);
+            	deferred.resolve(response);
+    		}
+        	else
+    		{
+        		deferred.resolve([]);
+    		}
+        	
+        },
+        function (error)
+        {
+            deferred.rejected(error); 
+        });
+        return deferred.promise;
+    }
+    var getAbsensis         = function ()
+    {
+        var deferred        = $q.defer();
+        var queryabsensi    = 'SELECT * FROM Absensi';
+        $cordovaSQLite.execute($rootScope.db, queryabsensi,[])
         .then(function(result) 
         {
             deferred.resolve(result);
@@ -27,10 +43,10 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         return deferred.promise;
     }
     
-    var setAbsensi = function (isitable)
+    var setAbsensi              = function (isitable)
     {
-       var deferred = $q.defer();
-       var queryinsertabsensi = 'INSERT INTO Absensi (ID_SERVER,TGL,USER_ID,USER_NM,WAKTU_MASUK,WAKTU_KELUAR,STATUS_ABSENSI,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?)';
+        var deferred             = $q.defer();
+        var queryinsertabsensi   = 'INSERT INTO Absensi (ID_SERVER,TGL,USER_ID,USER_NM,WAKTU_MASUK,WAKTU_KELUAR,STATUS_ABSENSI,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?)';
         $cordovaSQLite.execute($rootScope.db,queryinsertabsensi,isitable)
         .then(function(result) 
         {
@@ -45,8 +61,8 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
 
     var updateAbsensi = function (isitable)
     {
-        var deferred = $q.defer();
-        var queryupdateabsensi = 'UPDATE Absensi SET WAKTU_KELUAR = ?, STATUS_ABSENSI = ?, ISON_SERVER = ? WHERE ID_SERVER = ?';
+        var deferred            = $q.defer();
+        var queryupdateabsensi  = 'UPDATE Absensi SET WAKTU_KELUAR = ?, STATUS_ABSENSI = ?, ISON_SERVER = ? WHERE ID_SERVER = ?';
         $cordovaSQLite.execute($rootScope.db,queryupdateabsensi,isitable)
         .then(function(result) 
         {
@@ -61,8 +77,8 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
 
     var getAbsensiStatus = function (tanggalplan,userid)
     {
-        var deferred = $q.defer();
-        var queryabsensi = 'SELECT * FROM Absensi WHERE TGL = ? AND USER_ID = ?';
+        var deferred        = $q.defer();
+        var queryabsensi    = 'SELECT * FROM Absensi WHERE TGL = ? AND USER_ID = ?';
         $cordovaSQLite.execute($rootScope.db, queryabsensi, [tanggalplan, userid])
         .then(function(result) 
         {
@@ -89,9 +105,10 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     }
 
     return{
-            getAbsensi:getAbsensi,
+            getAbsensiByTglAndUser:getAbsensiByTglAndUser,
+            getAbsensis:getAbsensis,
             setAbsensi:setAbsensi,
             updateAbsensi:updateAbsensi,
             getAbsensiStatus:getAbsensiStatus
         }
-}]);
+});

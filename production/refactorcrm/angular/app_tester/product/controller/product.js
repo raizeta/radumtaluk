@@ -1,23 +1,26 @@
 'use strict';
 myAppModule.controller("ProductController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,ProductFac,ModalService) 
+function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,ProductCombFac,ProductFac,ModalService) 
 {   
-    $scope.activeproduct   = "active";
-    $scope.userInfo     = auth;
-	$scope.logout       = function () 
+    $scope.activeproduct    = "active";
+    $scope.userInfo         = auth;
+    $scope.loadingcontent   = true;
+	$scope.logout           = function () 
     { 
         $scope.userInfo = null;
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-    ProductFac.GetSearchProductsAll()
+    
+    ProductCombFac.getProductCombine()
     .then(function(response)
     {
         $scope.productsactive       = [];
         $scope.productsnonactive    = [];
         angular.forEach(response,function(value,key)
         {
-            if(value.STATUS === 1)
+            // console.log(value.IMAGE);
+        	if(value.STATUS === 1)
             {
               $scope.productsactive.push(value);  
             }
@@ -33,11 +36,12 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Pro
     })
     .finally(function()
 	{
-
+        $scope.loadingcontent = false;
 	});
 
     $scope.showmodal = function(item,oldstatus) 
     {
+        $scope.loadingcontent = true;
         ModalService
         .showModal(
         {
@@ -71,7 +75,9 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Pro
                         var x            = $scope.productsnonactive.splice(productindex,1)[0]; 
                         $scope.productsactive.push(x);  
                     }
-                    ProductFac.UpdateProduct(result.list.ID,result.list.STATUS)
+
+                    var ID_PRODUCT = result.list.ID;
+                    ProductCombFac.UpdateProductCombine(ID_PRODUCT,result.list.STATUS)
                     .then(function(response)
                     {
                         console.log("Products Berhasil Di Update");
@@ -79,6 +85,10 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Pro
                     function(error)
                     {
                         alert("Products Gagal Di Update.Try Again");
+                    })
+                    .finally(function()
+                    {
+                        $scope.loadingcontent = false;
                     });
                 }
             });

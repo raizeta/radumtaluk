@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("CalendarController",
-function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,ListKunjunganFac,rescalendar)
+function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,rescalendar)
 {
     $scope.activecalendar = "active";
     $scope.userInfo         = auth;

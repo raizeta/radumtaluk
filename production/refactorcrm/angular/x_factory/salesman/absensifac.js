@@ -27,7 +27,7 @@ function($rootScope,$http,$q,$filter,$window,UtilService)
             }
             else if(angular.isDefined(response.Salesmanabsensi))
             {
-                deferred.resolve(response.Salesmanabsensi[0]); 
+                deferred.resolve(response.Salesmanabsensi); 
             }
         })
         .error(function(err,status)
