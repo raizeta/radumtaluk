@@ -60,7 +60,7 @@ function($rootScope,$http,$q,$filter,$window,UtilService)
             }
             else
             {
-               deferred.resolve(response.JadwalKunjungan[0]); 
+               deferred.resolve(response.JadwalKunjungan); 
             }
         })
         .error(function(err,status)
@@ -78,13 +78,13 @@ function($rootScope,$http,$q,$filter,$window,UtilService)
         return deferred.promise;
     }
 
-	var GetSingleDetailKunjunganProsedur = function(auth,groupcustomer,tanggalplan,gpslongitude,gpslatitude)
+	var GetSingleDetailKunjunganProsedur = function(auth,tanggalplan,SCDL_GROUP)
     {
         var idsalesman      = auth.id;
         
         var globalurl   = UtilService.ApiUrl();
         var deferred    = $q.defer();
-        var url         = globalurl + "master/statuskunjunganprosedurs/search?USER_ID="+ idsalesman +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + groupcustomer;
+        var url         = globalurl + "master/statuskunjunganprosedurs/search?USER_ID="+ idsalesman +"&TGL=" + tanggalplan + "&SCDL_GROUP=" + SCDL_GROUP;
         var method      = "GET";
         $http({method:method, url:url,cache:false})
         .success(function(response,status,headers,config) 

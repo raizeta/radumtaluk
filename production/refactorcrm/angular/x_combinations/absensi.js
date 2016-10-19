@@ -19,22 +19,26 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,AbsensiSqliteFac,AbsensiFac)
                 {
                     if(responseserver.length > 0)
                     {
-                        var newID_SERVER        = responseserver[0].ID;
+                        var newID               = responseserver[0].ID;
                         var newTGL              = responseserver[0].TGL;
                         var newUSER_ID          = auth.id;
                         var newUSER_NM          = auth.username;
                         var newWAKTU_MASUK      = responseserver[0].WAKTU_MASUK;
+                        var newLATITUDE_MASUK   = responseserver[0].LATITUDE_MASUK;
+                        var newLONG_MASUK       = responseserver[0].LONG_MASUK;
                         var newWAKTU_KELUAR     = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-                        var newSTATUS_ABSENSI   = responseserver[0].STATUS;
+                        var newLATITUDE_KELUAR  = responseserver[0].LATITUDE_KELUAR;
+                        var newLONG_KELUAR      = responseserver[0].LONG_KELUAR;
+                        var newSTATUS           = responseserver[0].STATUS;
                         var newISON_SERVER      = 1;
 
-                        var isitable            = [newID_SERVER,newTGL,newUSER_ID,newUSER_NM,newWAKTU_MASUK,newWAKTU_KELUAR,newSTATUS_ABSENSI,newISON_SERVER];
+                        var isitable            = [newID,newTGL,newUSER_ID,newUSER_NM,newWAKTU_MASUK,newLATITUDE_MASUK,newLONG_MASUK,newWAKTU_KELUAR,newLATITUDE_KELUAR,newLONG_KELUAR,newSTATUS,newISON_SERVER];
                         AbsensiSqliteFac.setAbsensi(isitable)
                         .then (function (response)
                         {
                         	console.log("Sukses Save Absensi To Local");
-                        	deferred.resolve(response);
                         });
+                        deferred.resolve(responseserver[0]);
                     }
                     else
                 	{

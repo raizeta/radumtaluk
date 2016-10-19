@@ -29,7 +29,7 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             rescalendar: function($q,CalendarCombFac,LoginFac)
             {
                 var auth            = LoginFac.getUserInfo();
-                var calendaragenda  = CalendarCombFac.GetAgendaCombine(auth);
+                var calendaragenda  = CalendarCombFac.GetCalendarCombine(auth);
                 return calendaragenda;
             }            
         }

@@ -47,7 +47,6 @@ function($rootScope,$http,$q,$filter,$window,UtilService)
             {
                 deferred.reject(err);
             }
-
         });
         return deferred.promise; 
     }

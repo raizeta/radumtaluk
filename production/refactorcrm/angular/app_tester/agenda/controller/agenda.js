@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("AgendaController",
-function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout,$cordovaGeolocation,ListKunjunganFac,OutOfCaseFac)
+function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout,$cordovaGeolocation,CalendarCombFac,AgendaCombFac,ListKunjunganFac,OutOfCaseFac)
 {
     $scope.userInfo         = auth;
     var tanggalsekarang     = $filter('date')(new Date(),'yyyy-MM-dd');
@@ -35,8 +35,8 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
         $scope.gpslong  = gpslong;
         console.log(gpslat + " " + gpslong);
     });
-
-    ListKunjunganFac.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+    
+    CalendarCombFac.GetCalendarByUserAndDateCombine(auth,tanggalplan)
     .then(function(response)
     {
         if(response.length == 0)
@@ -48,8 +48,8 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
         }
         else
         {
-            var idgroupcustomer         = response.SCDL_GROUP;
-            ListKunjunganFac.GetSingleDetailKunjunganProsedur(auth,idgroupcustomer,tanggalplan,$scope.gpslong,$scope.gpslat)
+            var SCDL_GROUP         = response.SCDL_GROUP;
+            AgendaCombFac.GetCalendarCombine(auth,tanggalplan,SCDL_GROUP)
             .then(function (responseagendatoday) 
             {
                 if(responseagendatoday.length > 0)
@@ -69,11 +69,7 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
             {
                 $scope.loadingcontent   = false;  
             });  
-        }      
-    },
-    function (error)
-    {
-        alert("Gagal Mendapathari Data Agenda Today Dari Server");
+        }
     });
 
     $scope.OutofCase = function()
@@ -101,7 +97,6 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
             {
                 $location.path('/outofcase');
             }
-
         },
         function (error)
         {

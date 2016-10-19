@@ -41,7 +41,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Pro
 
     $scope.showmodal = function(item,oldstatus) 
     {
-        $scope.loadingcontent = true;
+        // $scope.loadingcontent = true;
         ModalService
         .showModal(
         {

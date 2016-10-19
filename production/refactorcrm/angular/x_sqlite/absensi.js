@@ -19,7 +19,6 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
     		{
         		deferred.resolve([]);
     		}
-        	
         },
         function (error)
         {
@@ -46,7 +45,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
     var setAbsensi              = function (isitable)
     {
         var deferred             = $q.defer();
-        var queryinsertabsensi   = 'INSERT INTO Absensi (ID_SERVER,TGL,USER_ID,USER_NM,WAKTU_MASUK,WAKTU_KELUAR,STATUS_ABSENSI,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?)';
+        var queryinsertabsensi   = 'INSERT INTO Absensi (ID,TGL,USER_ID,USER_NM,WAKTU_MASUK,LATITUDE_MASUK,LONG_MASUK,WAKTU_KELUAR,LATITUDE_KELUAR,LONG_KELUAR,STATUS,ISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
         $cordovaSQLite.execute($rootScope.db,queryinsertabsensi,isitable)
         .then(function(result) 
         {
@@ -62,7 +61,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
     var updateAbsensi = function (isitable)
     {
         var deferred            = $q.defer();
-        var queryupdateabsensi  = 'UPDATE Absensi SET WAKTU_KELUAR = ?, STATUS_ABSENSI = ?, ISON_SERVER = ? WHERE ID_SERVER = ?';
+        var queryupdateabsensi  = 'UPDATE Absensi SET WAKTU_KELUAR = ?, LATITUDE_KELUAR = ?, LONG_KELUAR = ?, STATUS = ?, ISON_SERVER = ? WHERE ID = ?';
         $cordovaSQLite.execute($rootScope.db,queryupdateabsensi,isitable)
         .then(function(result) 
         {

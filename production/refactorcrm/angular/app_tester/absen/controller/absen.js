@@ -25,15 +25,14 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Loc
     AbsensiCombFac.getAbsensiCombine(auth,tanggalplan)
     .then(function(responseabsensi)
     {
-        $scope.responseabsen = responseabsensi;
-        if($scope.responseabsen.length == 0)
+        if( (angular.isArray(responseabsensi)) && (responseabsensi.length == 0))
         {
             $scope.showbuttonabsensimasuk = true;
         }
         else
         {
-        	var idserverabsensi         = responseabsensi.ID_SERVER;
-            var statusabsensi           = responseabsensi.STATUS_ABSENSI;
+        	var idserverabsensi         = responseabsensi.ID;
+            var statusabsensi           = responseabsensi.STATUS;
             if(statusabsensi == 0)
             {
                 $scope.showbuttonabsensikeluar  = true;
@@ -59,7 +58,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,Loc
         .then (function (response)
         {
             $scope.showbuttonabsensikeluar  = true;
-            $scope.idabsensi                = response.ID_SERVER;
+            $scope.idabsensi                = response.ID;
         }, 
         function (error)
         {

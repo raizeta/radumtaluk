@@ -1,10 +1,10 @@
 'use strict';
 myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
 {
-    $routeProvider.when('/action/:idagenda',
+    $routeProvider.when('/home',
     {
-        templateUrl : 'angular/app_tester/action/views/action.html',
-        controller  : 'ActionController',
+        templateUrl : 'angular/app_tester/home/views/home.html',
+        controller  : 'HomeController',
         resolve: 
         {
             auth: function ($q,LoginFac,$location) 
@@ -25,16 +25,6 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
-            },
-            productcomb: function($q,ProductCombFac)
-            {
-                var resultobjectbarangsqlite = ProductCombFac.getProductCombine();
-                return resultobjectbarangsqlite;
-            },
-            activitascom: function($q,ActivitasCombFac)
-            {
-                var resultactivitas = ActivitasCombFac.GetActivitasCombine();
-                return resultactivitas;
             }
         }
     });	

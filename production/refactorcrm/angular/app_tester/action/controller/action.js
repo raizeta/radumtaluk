@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("ActionController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaCamera,LocationFac,CameraService) 
+function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaCamera,LocationFac,CameraService,productcomb,activitascom) 
 {   
     $scope.activehome = "active";
     $scope.userInfo = auth;
@@ -26,7 +26,12 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         $scope.googlemaplong        = gpslong;
         console.log(gpslat + " " + gpslong);
     });
-
+    
+    angular.forEach(activitascom,function(value,key)
+    {
+        console.log(value.SO_TYPE);
+    });
+    
     $scope.checkin = function()
     {
         var checkintime         = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
@@ -49,6 +54,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             console.log("Check In Error");
         });           
     };
+    
     $scope.starttakeapicture = function()
     {
         document.addEventListener("deviceready", function () 

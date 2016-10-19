@@ -26,6 +26,30 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
         return deferred.promise;
     }
 
+    var GetCalendarByUserAndDate = function (auth,tanggalplan)
+    {
+        var deferred = $q.defer();
+        var querycalendar = "SELECT * FROM Scdlheader WHERE USER_ID = ? AND TGL1=?";
+        $cordovaSQLite.execute($rootScope.db, querycalendar, [auth.id,tanggalplan])
+        .then(function(result) 
+        {            
+            if (result.rows.length > 0) 
+            {
+                var response = UtilService.SqliteToArray(result);
+                deferred.resolve(response);
+            }
+            else
+            {
+                deferred.resolve([]);
+            }
+        },
+        function (error)
+        {
+            deferred.rejected(error);
+        });
+        return deferred.promise;
+    }
+
     var SetCalendar = function (datacalendar)
     {
         var deferred            = $q.defer();
@@ -49,6 +73,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
     }
     return{
             GetCalendarByUser:GetCalendarByUser,
+            GetCalendarByUserAndDate:GetCalendarByUserAndDate,
             SetCalendar:SetCalendar
         }
 });

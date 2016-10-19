@@ -50,7 +50,7 @@ myAppModule.factory('CustomerFac',function($http,$q,$window,UtilService)
         });
         return deferred.promise;
 	}
-	var GetCustomers = function(idcustomer)
+	var GetCustomers = function()
 	{
 		var globalurl 	= UtilService.ApiUrl();
 		var deferred 	= $q.defer();
@@ -59,7 +59,7 @@ myAppModule.factory('CustomerFac',function($http,$q,$window,UtilService)
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-		  	deferred.resolve(response);
+		  	deferred.resolve(response.Customer);
         })
         .error(function()
         {

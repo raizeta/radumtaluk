@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("CalendarController",
-function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,rescalendar)
+function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,rescalendar,CalendarCombFac)
 {
     $scope.activecalendar = "active";
     $scope.userInfo         = auth;
@@ -11,7 +11,7 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,rescalendar)
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-
+    
     $scope.uiConfig = 
     {
       calendar:
@@ -54,9 +54,44 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,rescalendar)
             data.color = '#ff4bcc';
         }
         $scope.events.push(data);
-    });  
-
+    });
+      
+    var calendarhariini     = _.findWhere(rescalendar,{TGL1:tanggalsekarang});
+    if(!calendarhariini)
+    {
+        CalendarCombFac.GetCalendarByUserAndDateCombine(auth,tanggalsekarang)
+        .then(function(response)
+        {
+            if(angular.isArray(response) && response.length == 0)
+            {
+                alert("Belum Ada Jadwal Untuk Hari Ini");  
+            }
+            else
+            {
+                var responsetanggal     = response.TGL1;
+                var data                = {};
+                data.title              = response.NOTE;
+                data.start              = new Date(responsetanggal);
+                data.allDay             = true;
+                data.url                = "#/agenda/" + responsetanggal;
+                if(responsetanggal > tanggalsekarang)
+                {
+                  data.color = '#378006';  
+                }
+                else if(responsetanggal < tanggalsekarang)
+                {
+                    data.color = '#dd4b39';
+                }
+                else if(responsetanggal == tanggalsekarang)
+                {
+                    data.color = '#ff4bcc';
+                }
+                $scope.events.push(data);
+            }
+        });
+    }
     $scope.eventSources = [$scope.events];
+
 
 });
 

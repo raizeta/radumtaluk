@@ -2,7 +2,7 @@
 myAppModule.factory('ActivitasFac',
 function($rootScope,$http,$q,UtilService)
 {
-	var getAktivitas = function()
+	var GetAktivitas = function()
     {
         var getUrl          = UtilService.ApiUrl();
         var deferred        = $q.defer();
@@ -33,6 +33,6 @@ function($rootScope,$http,$q,UtilService)
     }
 
 	return{
-            getAktivitas:getAktivitas
+            GetAktivitas:GetAktivitas
 		}
 });
