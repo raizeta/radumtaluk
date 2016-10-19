@@ -12,16 +12,20 @@
                 <th class="bg-aqua">CUSTOMERS</th>
                 <th class="bg-aqua">CHECK IN</td>
                 <th class="bg-aqua">CHECK OUT</th>
+                <th class="bg-aqua">LAMA KUNJUNGAN</th>
+
               </thead>
               <tbody>
-                <tr ng-repeat="salestrack in salestracks">
+                <tr ng-repeat="salestrack in salestracks | orderBy:'CHECKOUT_TIME'">
                   <td>
-                    <a href="#/salestrack/{{salestrack.USER_ID}}">
+                    <a href="#/salestrack/{{tanggalplanurl}}/{{salestrack.USER_ID}}/{{salestrack.CUST_KD}}">
                       {{salestrack.CUST_NM}}
                     </a>
                   </td>
-                  <td>{{salestrack.CHECKIN_TIME}}</td>
-                  <td>{{salestrack.CHECKOUT_TIME}}</td>
+                  <td ng-if="salestrack.CHECKIN_TIME">{{salestrack.CHECKIN_TIME }}</td>
+                  <td ng-if="salestrack.CHECKIN_TIME == null">TIDAK DIKETAHUI</td>
+                  <td>{{salestrack.CHECKOUT_TIME }}</td>
+                  <td>{{salestrack | getDiff}}</td>
                 </tr>
               </tbody>
              </table>

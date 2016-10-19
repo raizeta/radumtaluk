@@ -38,3 +38,53 @@ myAppModule.filter('durationview', ['datetime', function (datetime) {
         return duration.days + "d:" + duration.hours + "h:" + duration.minutes + "m:" + duration.seconds + "s";
     };
 }]);
+
+myAppModule.filter("getDiff", function() 
+{
+  return function(time) 
+  {
+    if(time.CHECKIN_TIME && time.CHECKOUT_TIME )
+    {
+        var startDate = new Date(time.CHECKIN_TIME);
+        var endDate = new Date(time.CHECKOUT_TIME);
+        var milisecondsDiff = endDate - startDate;
+        if(milisecondsDiff > 0)
+        {
+            return Math.floor(milisecondsDiff/(1000*60*60)).toLocaleString(undefined, {minimumIntegerDigits: 2}) + ":" + (Math.floor(milisecondsDiff/(1000*60))%60).toLocaleString(undefined, {minimumIntegerDigits: 2})  + ":" + (Math.floor(milisecondsDiff/1000)%60).toLocaleString(undefined, {minimumIntegerDigits: 2}) ;
+        }
+        else
+        {
+            return 'TIDAK DIKETAHUI';    
+        }
+    }
+    else
+    {
+        return 'TIDAK DIKETAHUI';
+    }
+  }
+});
+
+myAppModule.filter("getDiffAbsen", function() 
+{
+  return function(time) 
+  {
+    if(time.WAKTU_MASUK && time.WAKTU_KELUAR )
+    {
+        if(angular.isDate(new Date(time.WAKTU_MASUK)) && angular.isDate(new Date(time.WAKTU_KELUAR)))
+        {
+            var startDate = new Date(time.WAKTU_MASUK);
+            var endDate = new Date(time.WAKTU_KELUAR);
+            var milisecondsDiff = endDate - startDate;
+            return Math.floor(milisecondsDiff/(1000*60*60)).toLocaleString(undefined, {minimumIntegerDigits: 2}) + ":" + (Math.floor(milisecondsDiff/(1000*60))%60).toLocaleString(undefined, {minimumIntegerDigits: 2})  + ":" + (Math.floor(milisecondsDiff/1000)%60).toLocaleString(undefined, {minimumIntegerDigits: 2}) ;
+        }
+        else
+        {
+            return 'TIDAK DIKETAHUI';    
+        }
+    }
+    else
+    {
+        return 'TIDAK DIKETAHUI';
+    }
+  }
+});

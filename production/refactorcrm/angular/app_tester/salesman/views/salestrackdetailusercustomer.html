@@ -1,0 +1,49 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper" class="ng-cloak">
+  <span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16, position:'fixed'}"></span>
+<section class="content">
+                    <div class="row" >
+                      <div class="col-md-12">
+                        <div class="panel panel-danger">
+                          <div class="panel-body table-responsive">
+                             <table class="table table-hover table-striped table-bordered">
+                              <thead>
+                                <th class="bg-aqua">Product</td>
+                                <th class="bg-aqua">STOCK</th>
+                                <!-- <th class="bg-aqua">Sell Out</th>
+                                <th class="bg-aqua">Sell In</th> -->
+                                <th class="bg-aqua">RETURN</th>
+                                <th class="bg-aqua">REQUEST</th>
+                                
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat="barangsummary in BarangSummary">
+                                  <td>{{barangsummary.NAME_ITEM}}</td>
+                                  <td ng-if="barangsummary.STOCK != -1">
+                                    {{barangsummary.STOCK}}
+                                  </td>
+                                  <td ng-if="barangsummary.STOCK == -1">
+                                    OUT OF STOCK
+                                  </td>
+                                  <!-- <td>{{barangsummary.SELL_OUT}}</td>
+                                  <td>{{barangsummary.SELL_IN}}</td> -->
+                                  <td>{{barangsummary.RETURN_INV}}</td>
+                                  <td>{{barangsummary.REQUEST_INV}}</td>
+                                  
+                                </tr>
+                                <!-- <tr>
+                                  <td>Total</td>
+                                  <td>{{totalstockqty}}</td>
+                                  <td>{{totalsellout}}</td>
+                                  <td>{{totalsellin}}</td>
+                                </tr> -->
+                              </tbody>
+                             </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section><!-- /.content -->
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>

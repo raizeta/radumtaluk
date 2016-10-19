@@ -90,6 +90,7 @@ function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac)
     $scope.activesalestrack     = "active";
     $scope.userInfo             = auth;
     var tanggalplan             = $filter('date')(idtanggal,'yyyy-MM-dd');
+    $scope.tanggalplanurl       = tanggalplan;
     $scope.logout  = function () 
     { 
         $scope.userInfo = null;
@@ -101,5 +102,29 @@ function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac)
     {
         console.log(response);
         $scope.salestracks = response;
+    });
+});
+
+myAppModule.controller("SalesTrackDetailUserCustomerController",
+function ($scope,$location,$window,$filter,$routeParams,auth,SummaryService) 
+{
+    var idtanggal               = $routeParams.idtanggal;
+    var iduser                  = $routeParams.iduser;
+    var CUST_ID                 = $routeParams.idcustomer;
+    $scope.activesalestrack     = "active";
+    $scope.userInfo             = auth;
+    var tanggalplan             = $filter('date')(idtanggal,'yyyy-MM-dd');
+    $scope.logout  = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+    SummaryService.datasummarypercustomer(idtanggal,CUST_ID,iduser)
+    .then(function (data)
+    {
+        $scope.BarangSummary = data.InventorySummary;
+        $scope.loading = false;
+        console.log($scope.BarangSummary);
     });
 });
