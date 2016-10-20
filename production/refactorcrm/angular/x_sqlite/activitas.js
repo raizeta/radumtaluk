@@ -2,7 +2,6 @@
 myAppModule.factory('ActivitasSqliteFac',
 function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
 {
-
     var GetActivitas        = function()
     {
         var deferred = $q.defer();

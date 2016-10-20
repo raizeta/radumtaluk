@@ -110,13 +110,39 @@ myAppModule.service('UtilService', function($q, $http)
     {
     	var panjang = sqliteresult.rows.length;
     	var response = [];
-		for(var i=0; i < panjang; i++)
-		{
-			response.push(sqliteresult.rows.item(i));
-		}
-		return response;
+  		for(var i=0; i < panjang; i++)
+  		{
+  			response.push(sqliteresult.rows.item(i));
+  		}
+		  return response;
     }
 
+    var SetGambarCheckinCheckout = function(dataagenda)
+    {
+        var datadariagenda = dataagenda;
+        var databaru = [];
+        angular.forEach(datadariagenda, function(value, key) 
+        {
+            alert(value.STSCHECK_IN);
+            if(value.STSCHECK_IN  == 0 || value.STSCHECK_IN  == null)
+            {
+                value.imagecheckout = "asset/admin/dist/img/normal.jpg";
+            }
+            else
+            {
+                if((value.STSCHECK_OUT  == 1))
+                {
+                    value.imagecheckout = "asset/admin/dist/img/customer.jpg";
+                }
+                else
+                {
+                    value.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
+                } 
+            }
+            databaru.push(value);
+        });
+        return databaru;
+    }
     return {
       ArrayChunk:ArrayChunk,
       ApiUrl:ApiUrl,
@@ -126,6 +152,7 @@ myAppModule.service('UtilService', function($q, $http)
       SumJustPriceOrQty:SumJustPriceOrQty,
       JarakDuaTitik:JarakDuaTitik,
       getTotalHariDalamSebulan:getTotalHariDalamSebulan,
-      SqliteToArray:SqliteToArray
+      SqliteToArray:SqliteToArray,
+      SetGambarCheckinCheckout:SetGambarCheckinCheckout
     };
 });

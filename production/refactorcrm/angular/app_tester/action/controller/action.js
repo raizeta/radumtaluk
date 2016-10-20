@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("ActionController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaCamera,sweet,ngToast,LocationFac,CameraService,productcomb,activitascom,StorageService,ActivitasProductService,GambarFac,CheckInFac,CheckOutFac) 
+function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaCamera,sweet,ngToast,LocationFac,CameraService,productcomb,activitascom,StorageService,ActivitasProductService,GambarFac,CheckInFac,CheckinSqliteFac,CheckOutFac,ActionMemoFac) 
 {   
     $scope.activehome = "active";
     $scope.userInfo = auth;
@@ -54,7 +54,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
     }
     $scope.checkstatusgambarstartendexpired();
 
-    $scope.checkin = function()
+    $scope.checkin = function(ID_DETAIL)
     {
         var datacheckin             = {};
         datacheckin.LAT             = $scope.googlemaplat;
@@ -64,18 +64,25 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         datacheckin.CREATE_BY       = auth.id;
         datacheckin.CREATE_AT       = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
         datacheckin.STATUS          = 1;
+        datacheckin.ID              = ID_DETAIL;
 
-        CheckInFac.SetCheckinAction(ID_DETAIL,datacheckin)
+        CheckInFac.SetCheckinAction(datacheckin)
         .then(function(data)
         {
             ngToast.create('Anda Berhasil Check In');
         },
         function (error)
         {
-            console.log("Check In Error");
+            alert("Check In Error.Try Again");
+        });
+
+        CheckinSqliteFac.SetCheckin(datacheckin).
+        then(function(response)
+        {
+            console.log("Check In Berhasil Disimpan Di Local");
         });           
     };
-    $scope.checkin();
+    $scope.checkin(ID_DETAIL);
 
     $scope.starttakeapicture = function()
     {
@@ -171,57 +178,54 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             }
         });
     }
+
     $scope.endtakeapicture = function()
     {
-        document.addEventListener("deviceready", function () 
+        var options = {
+            quality: 50,
+            destinationType: Camera.DestinationType.DATA_URL,
+            sourceType: Camera.PictureSourceType.CAMERA,
+            allowEdit: false,
+            encodingType: Camera.EncodingType.JPEG,
+            targetWidth: 500,
+            targetHeight: 500,
+            popoverOptions: CameraPopoverOptions,
+            saveToPhotoAlbum: false,
+            correctOrientation:true
+          };
+        
+        $cordovaCamera.getPicture(options)
+        .then(function(imageData) 
         {
-            var options = {
-                quality: 50,
-                destinationType: Camera.DestinationType.DATA_URL,
-                sourceType: Camera.PictureSourceType.CAMERA,
-                allowEdit: false,
-                encodingType: Camera.EncodingType.JPEG,
-                targetWidth: 500,
-                targetHeight: 500,
-                popoverOptions: CameraPopoverOptions,
-                saveToPhotoAlbum: false,
-                correctOrientation:true
-              };
-              
-            $cordovaCamera.getPicture(options)
-            .then(function(imageData) 
+            $scope.loadingcontent = true;
+
+            var gambarkunjungan={};
+            gambarkunjungan.IMG_NM_END      = "gambar end";
+            gambarkunjungan.IMG_DECODE_END  = imageData;
+            gambarkunjungan.TIME_END        = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+            gambarkunjungan.ID_DETAIL       = ID_DETAIL;
+            gambarkunjungan.UPDATE_BY       = auth.id;
+
+            GambarFac.setEndGambarAction(ID_DETAIL,gambarkunjungan)
+            .then(function (data)
             {
-                $scope.loadingcontent = true;
-                var timeimageend = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-
-
-                var gambarkunjungan={};
-                gambarkunjungan.IMG_NM_END      = "gambar end";
-                gambarkunjungan.IMG_DECODE_END  = imageData;
-                gambarkunjungan.TIME_END        = timeimageend;
-                gambarkunjungan.ID_DETAIL       = ID_DETAIL;
-                gambarkunjungan.UPDATE_BY       = auth.id;
-
-                GambarFac.setEndGambarAction(ID_DETAIL,gambarkunjungan)
-                .then(function (data)
-                {
-                    ngToast.create('Gambar Telah Berhasil Di Update');
-                    var statusendpicture                = {};
-                    statusendpicture.bgcolor            = "bg-green";
-                    statusendpicture.icon               = "fa fa-check bg-green";
-                    $scope.statusendpicture             = statusendpicture;
-                }, 
-                function (error) 
-                {
-                    console.log("Gagal Menyimpan Gagal Check Ke Database Local");
-                })
-                .finally(function()
-                {
-                    $scope.loadingcontent = false;
-                }); 
-            });
-        }, false);
+                ngToast.create('Gambar Telah Berhasil Di Update');
+                var statusendpicture                = {};
+                statusendpicture.bgcolor            = "bg-green";
+                statusendpicture.icon               = "fa fa-check bg-green";
+                $scope.statusendpicture             = statusendpicture;
+            }, 
+            function (error) 
+            {
+                console.log("Gagal Menyimpan Gagal Check Ke Database Local");
+            })
+            .finally(function()
+            {
+                $scope.loadingcontent = false;
+            }); 
+        });
     }
+    
     $scope.checkout = function()
     {
         sweet.show({
@@ -241,8 +245,8 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             datacheckout.CHECKOUT_LAG              = $scope.googlemaplong;
             datacheckout.CHECKOUT_TIME             = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
             datacheckout.UPDATE_BY                 = auth.id;
-
-            CheckOutFac.SetCheckoutAction(ID_DETAIL,datacheckout)
+            datacheckout.ID                        = ID_DETAIL;
+            CheckOutFac.SetCheckoutAction(datacheckout)
             .then(function(data)
             {
                 sweet.show({
@@ -263,7 +267,69 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             .finally(function()
             {
                $scope.loadingcontent = false; 
+            });
+            CheckinSqliteFac.SetCheckout(datacheckout)
+            .then(function(responselocal)
+            {
+                console.log("Checkout Berhasil Disimpan Di Local");
             }); 
+        });
+    }
+    $scope.getsalesmemo = function(ID_DETAIL)
+    {
+        ActionMemoFac.GetMemo(ID_DETAIL)
+        .then (function (responsesalesmemo)
+        {
+            if(angular.isArray(responsesalesmemo))
+            {
+                $scope.messageskunjungandisabled = false;
+            }
+            else
+            {
+                $scope.salesmanmemo                 = responsesalesmemo;
+                $scope.statusmessageskunjungan      = responsesalesmemo;
+                $scope.messageskunjungandisabled    = responsesalesmemo.messageskunjungandisabled;
+            }
+        },
+        function (error)
+        {
+            console.log("Error Mendapatkan Sales Memo Dari Server");
+            $scope.messageskunjungandisabled = false;
+        });        
+    }
+    //$scope.getsalesmemo(ID_DETAIL);
+
+    $scope.submitFormSalesMemo = function(formsalesmanmemo)
+    {
+        $scope.loadingcontent           = true;
+
+        var salesmanmemo = {};
+        salesmanmemo.ID_DETAIL          = currentagenda.ID;
+        salesmanmemo.KD_CUSTOMER        = currentagenda.CUST_ID;
+        salesmanmemo.NM_CUSTOMER        = currentagenda.CUST_NM;
+        salesmanmemo.TGL                = $filter('date')(new Date(),'yyyy-MM-dd');
+
+        salesmanmemo.ISI_MESSAGES       = formsalesmanmemo.ISI_MESSAGES
+        salesmanmemo.ID_USER            = auth.id;
+        salesmanmemo.NM_USER            = auth.username;
+        salesmanmemo.STATUS_MESSAGES    = "URGENT";
+        salesmanmemo.CREATE_AT          = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        salesmanmemo.CREATE_BY          = auth.id;
+
+        SalesAktifitas.setMemoSalesAktifitas(salesmanmemo)
+        .then (function (responsesalesmemo)
+        {
+            $scope.statusmessageskunjungan      = responsesalesmemo;
+            $scope.messageskunjungandisabled    = responsesalesmemo.messageskunjungandisabled;
+            ngToast.create('Memo Kunjungan Berhasil Di Save');
+        },
+        function (error)
+        {
+            alert("Memo Status Kunjungan Gagal Di Save Di Server");
+        })
+        .finally(function()
+        {
+            $scope.loadingcontent = false;
         });
     }
     
