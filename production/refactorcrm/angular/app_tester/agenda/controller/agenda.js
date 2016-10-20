@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("AgendaController",
-function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout,$cordovaGeolocation,CalendarCombFac,AgendaCombFac,ListKunjunganFac,OutOfCaseFac)
+function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout,$cordovaGeolocation,CalendarCombFac,AgendaCombFac,ListKunjunganFac,OutOfCaseFac,StorageService)
 {
     $scope.userInfo         = auth;
     var tanggalsekarang     = $filter('date')(new Date(),'yyyy-MM-dd');
@@ -76,20 +76,8 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
     {
         $scope.showbuttonoutofcase = false;
         $scope.loadingcontent = true;
-        var detail = {};
-        detail.TGL1         = $filter('date')(new Date(),'yyyy-MM-dd');
-        detail.TGL2         = $filter('date')(new Date(),'yyyy-MM-dd');
-        detail.SCDL_GROUP   = 'OUTOFCASE';
-        detail.USER_ID      = auth.id;
-        detail.NOTE         = 'OUTOFCASE';
-        detail.STATUS       = 1;
-        detail.CREATE_BY    = auth.id;
-        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-        detail.UPDATE_BY    = auth.id;
-        detail.STT_UBAH     = 1;
-        detail.UPDATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
 
-        OutOfCaseFac.SetHeaderOutOfCases(detail)
+        OutOfCaseFac.SetHeaderOutOfCases(auth)
         .then (function (response)
         {
             var berhasil = confirm("Tambahkan Customer?");
@@ -107,6 +95,7 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
             $scope.loadingcontent = false;  
         });     
     }
+    
     $scope.detailjadwalkunjungan = function(agenda)
     {
         if(tanggalplan < tanggalsekarang)
@@ -119,6 +108,7 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
         }
         else if(tanggalplan == tanggalsekarang)
         {
+            StorageService.set('currentagenda',agenda);
             $location.path('/action/' + agenda.ID);
         }
     }

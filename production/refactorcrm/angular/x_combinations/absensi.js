@@ -70,16 +70,20 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,AbsensiSqliteFac,AbsensiFac)
         AbsensiFac.setAbsensi(detail)
         .then(function(responseserver)
         {
-            var newID_SERVER        = responseserver.ID;
+            var newID               = responseserver.ID;
             var newTGL              = responseserver.TGL;
-            var newUSER_ID          = auth.id;
-            var newUSER_NM          = auth.username;
+            var newUSER_ID          = responseserver.USER_ID;
+            var newUSER_NM          = responseserver.USER_NM;
             var newWAKTU_MASUK      = responseserver.WAKTU_MASUK;
-            var newWAKTU_KELUAR     = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-            var newSTATUS_ABSENSI   = 0;
+            var newLATITUDE_MASUK   = responseserver.LATITUDE_MASUK;
+            var newLONG_MASUK       = responseserver.LONG_MASUK;
+            var newWAKTU_KELUAR     = responseserver.WAKTU_KELUAR;
+            var newLATITUDE_KELUAR  = responseserver.LATITUDE_KELUAR;
+            var newLONG_KELUAR      = responseserver.LONG_KELUAR;
+            var newSTATUS           = 0;
             var newISON_SERVER      = 1;
 
-            var isitable            = [newID_SERVER,newTGL,newUSER_ID,newUSER_NM,newWAKTU_MASUK,newWAKTU_KELUAR,newSTATUS_ABSENSI,newISON_SERVER];
+            var isitable            = [newID,newTGL,newUSER_ID,newUSER_NM,newWAKTU_MASUK,newLATITUDE_MASUK,newLONG_MASUK,newWAKTU_KELUAR,newLATITUDE_KELUAR,newLONG_KELUAR,newSTATUS,newISON_SERVER];
             AbsensiSqliteFac.setAbsensi(isitable)
             .then (function (response)
             {
@@ -109,7 +113,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,AbsensiSqliteFac,AbsensiFac)
         .then (function (responseserver)
         {
             var updateISON_SERVER       = 1;
-            var isitable                = [detail.UPDATE_AT, detail.STATUS, updateISON_SERVER,idabsensi];
+            var isitable                = [detail.WAKTU_KELUAR, detail.LATITUDE_KELUAR,detail.LONG_KELUAR,detail.STATUS, updateISON_SERVER,idabsensi];
             AbsensiSqliteFac.updateAbsensi(isitable)
             .then (function (response)
             {

@@ -263,7 +263,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,$routeParams,NgMap,Lo
         var titledialog = idinventorys.DIALOG_TITLE;
         var sotype      = idinventorys.ID;
         
-        namaproduct = barang.NM_BARANG;
+        var namaproduct = barang.NM_BARANG;
         sweet.show(
         {
             title: titledialog,

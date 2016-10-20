@@ -38,8 +38,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,ActivitasSqliteFac,Activitas
         })
         return deferred.promise;
     }
-    
-            
+        
     return{
             GetActivitasCombine:GetActivitasCombine
         }

@@ -23,10 +23,24 @@ function($rootScope,$http,$q,$filter,$window,UtilService)
         });
         return deferred.promise; 
     }
-    var SetHeaderOutOfCases = function(detail)
+    var SetHeaderOutOfCases = function(auth)
     {
         var globalurl           = UtilService.ApiUrl();
         var deferred            = $q.defer();
+
+        var detail = {};
+        
+        detail.TGL1         = $filter('date')(new Date(),'yyyy-MM-dd');
+        detail.TGL2         = $filter('date')(new Date(),'yyyy-MM-dd');
+        detail.SCDL_GROUP   = 'OUTOFCASE';
+        detail.USER_ID      = auth.id;
+        detail.NOTE         = 'OUTOFCASE';
+        detail.STATUS       = 1;
+        detail.CREATE_BY    = auth.id;
+        detail.CREATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        detail.UPDATE_BY    = auth.id;
+        detail.STT_UBAH     = 1;
+        detail.UPDATE_AT    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
 
         var result              = UtilService.SerializeObject(detail);
         var serialized          = result.serialized;
