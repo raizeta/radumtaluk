@@ -43,7 +43,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
         function(error) 
         {
             console.log("Activitas Gagal Disimpan Ke Local: " + error.message);
-            deferred.rejected(error);
+            deferred.reject(error);
         });
         return deferred.promise;   
     }

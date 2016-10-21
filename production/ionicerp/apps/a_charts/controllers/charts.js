@@ -1,12 +1,21 @@
-
 angular.module('starter')
- .controller('ChartsCtrl', function($window,$timeout,$rootScope,$scope, $state,$ionicPopup,$ionicLoading) 
+ .controller('ChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,UtilService,MenuService) 
 {
-
+    var menus = [];
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"#/main/products",judul:"Products"});
+    menus.push({src: "assets/img/img/200x200/money.png",link:"#/main/customers",judul:"Customers"});
+    menus.push({src: "assets/img/img/200x200/meeting.png",link:"#/main/supliers",judul:"Supliers"});
+    menus.push({src: "assets/img/img/200x200/hrm.png",link:"#/main/purchases",judul:"Purchases"});
+    menus.push({src: "assets/img/img/200x200/hrm.png",link:"#/main/sales",judul:"Sales"});
+    menus.push({src: "assets/img/img/200x200/hrm.png",link:"#/main/spg",judul:"SPG"});
+    $scope.menus = UtilService.ArrayChunk(menus,4);
+    $rootScope.sidemenu = MenuService.ChartsMenu();
 })
-.controller('ChartsSalesCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading) 
+
+.controller('ChartProductsCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService) 
 {
-	$ionicLoading.show
+	$rootScope.sidemenu = MenuService.ChartsMenu();
+    $ionicLoading.show
     ({
         template: 'Loading...'
     });
@@ -211,20 +220,22 @@ angular.module('starter')
       conversionChart.render();
     });
 })
-.controller('ChartsEmployesCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading) 
+
+.controller('ChartCustomersCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService) 
 {
-	$ionicLoading.show
+    $rootScope.sidemenu = MenuService.ChartsMenu();
+    $ionicLoading.show
     ({
         template: 'Loading...'
     });
     $timeout(function()
-	{
-		$ionicLoading.hide();
-	},3000);
-	$scope.myDataSource =
+    {
+        $ionicLoading.hide();
+    },3000);
+    $scope.myDataSource =
     {
         "chart": {
-            "caption": "Week Employes",
+            "caption": "Week Sales ",
             "numberprefix": "",
             "plotgradientcolor": "",
             "bgcolor": "FFFFFF",
@@ -378,17 +389,44 @@ angular.module('starter')
             }
         ]
     };
-
     FusionCharts.ready(function() 
     {
       var conversionChart = new FusionCharts(
       {
         type: 'msline',
-        renderAt: 'chart-employes',
+        renderAt: 'chart-salesdaily',
         width: "100%",
         dataFormat: 'json',
         dataSource: $scope.myDataSource
       });
+
+      conversionChart.render();
+    });
+    FusionCharts.ready(function() 
+    {
+      var conversionChart = new FusionCharts(
+      {
+        type: 'msline',
+        renderAt: 'chart-salesweekly',
+        width: "100%",
+        dataFormat: 'json',
+        dataSource: $scope.myDataSource
+      });
+
+      conversionChart.render();
+    });
+    FusionCharts.ready(function() 
+    {
+      var conversionChart = new FusionCharts(
+      {
+        type: 'msline',
+        renderAt: 'chart-salesmonthly',
+        width: "100%",
+        dataFormat: 'json',
+        dataSource: $scope.myDataSource
+      });
+
       conversionChart.render();
     });
 });
+

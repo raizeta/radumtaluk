@@ -10,27 +10,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,AgendaSqliteFac,ListKunjunga
     	{
     		if(angular.isArray(responselocal) && responselocal.length > 0)
     		{                
-                var databaru = [];
-                angular.forEach(responselocal, function(value, key) 
-                {
-                    alert(value.STSCHECK_IN);
-                    if(value.STSCHECK_IN  == 0 || value.STSCHECK_IN  == null)
-                    {
-                        value.imagecheckout = "asset/admin/dist/img/normal.jpg";
-                    }
-                    else
-                    {
-                        if((value.STSCHECK_OUT  == 1))
-                        {
-                            value.imagecheckout = "asset/admin/dist/img/customer.jpg";
-                        }
-                        else
-                        {
-                            value.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
-                        } 
-                    }
-                    databaru.push(value);
-                });
+                var databaru = UtilService.SetGambarCheckinCheckout(responselocal);
                 deferred.resolve(databaru);
     		}
     		else
@@ -40,28 +20,12 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,AgendaSqliteFac,ListKunjunga
     			{
                     if(angular.isArray(responseserver) && responseserver.length > 0)
     				{
-    					var databaru = [];
-                        angular.forEach(responseserver,function(value,key)
-    					{
-    						AgendaSqliteFac.SetAgenda(value);
-                            alert(value.STSCHECK_IN);
-                            if(value.STSCHECK_IN  == 0 || value.STSCHECK_IN  == null)
-                            {
-                                value.imagecheckout = "asset/admin/dist/img/normal.jpg";
-                            }
-                            else
-                            {
-                                if((value.STSCHECK_OUT  == 1))
-                                {
-                                    value.imagecheckout = "asset/admin/dist/img/customer.jpg";
-                                }
-                                else
-                                {
-                                    value.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
-                                } 
-                            }
-                            databaru.push(value);
-    					});
+    					angular.forEach(responseserver,function(value,key)
+                        {
+                            AgendaSqliteFac.SetAgenda(value);
+                        });
+                        
+                        var databaru = UtilService.SetGambarCheckinCheckout(responseserver);
                         deferred.resolve(databaru);
     				}
     				else

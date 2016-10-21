@@ -32,7 +32,7 @@ myAppModule.factory('ActionMemoFac',function($http,$q,UtilService)
     
     var GetMemo = function(ID_DETAIL)
     {
-        var url         = UtilService.ApiUrl()();
+        var url         = UtilService.ApiUrl();
         var deferred    = $q.defer();
 
         $http.get(url + "master/messageskunjungans/search?ID_DETAIL=" + ID_DETAIL)

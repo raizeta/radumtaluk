@@ -58,7 +58,7 @@ function($rootScope,$http, $q, $window, $cordovaSQLite,UtilService)
         },
         function(error) 
         {
-            deferred.rejected(error);
+            deferred.reject(error);
         });
         return deferred.promise; 
     }

@@ -21,7 +21,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
         },
         function (error)
         {
-            deferred.rejected(error);
+            deferred.reject(error);
         });
         return deferred.promise;
     }
@@ -45,7 +45,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
         },
         function (error)
         {
-            deferred.rejected(error);
+            deferred.reject(error);
         });
         return deferred.promise;
     }

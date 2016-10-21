@@ -25,7 +25,14 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
                 {
                     $location.path('/');
                 }
-            }            
+            },
+            ResolveAbsensi: function($q,$filter,LoginFac,AbsensiCombFac)
+            {
+                var tanggalplan             = $filter('date')(new Date(),'yyyy-MM-dd');
+                var auth                    = LoginFac.getUserInfo();
+                var resolvestatusabsensi    = AbsensiCombFac.getAbsensiCombine(auth,tanggalplan)
+                return resolvestatusabsensi;
+            },            
         }
     });
 }]);

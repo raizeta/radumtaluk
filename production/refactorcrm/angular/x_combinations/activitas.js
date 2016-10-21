@@ -32,7 +32,7 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,ActivitasSqliteFac,Activitas
                 },
                 function(error)
                 {
-                    deferred.rejected(error);
+                    deferred.reject(error);
                 });
             }
         })

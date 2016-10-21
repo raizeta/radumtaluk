@@ -17,7 +17,7 @@
       <ion-tab title="Purchase" icon="ion-social-usd-outline" href="#/main/po/inbox">
         <ion-nav-view name="po-tab"></ion-nav-view>
       </ion-tab>
-      <ion-tab title="Charts" icon="ion-pie-graph" href="#/main/charts/sales">
+      <ion-tab title="Charts" icon="ion-pie-graph" href="#/main/charts">
         <ion-nav-view name="charts-tab"></ion-nav-view>
       </ion-tab>
       <ion-tab title="BA" icon="icon ion-android-people" href="#/main/ba/inbox">
@@ -42,10 +42,10 @@
         <h2>{{profile.username}}</h2>
       </div>
       <ion-list>
-        <ion-item item-type="item-icon-left" nav-clear menu-close href="#/main/dashboard">
-          Dashboard
+        <ion-item item-type="item-icon-left" ng-repeat="item in sidemenu" nav-clear menu-close href="{{item.link}}">
+          {{item.judul}}
         </ion-item>
-        <ion-item item-type="item-icon-left" nav-clear menu-close href="#/main/po/inbox">
+<!--         <ion-item item-type="item-icon-left" nav-clear menu-close href="#/main/po/inbox">
           Purchase
         </ion-item>
         <ion-item item-type="item-icon-left" nav-clear menu-close href="#/main/ba/inbox">
@@ -53,11 +53,11 @@
         </ion-item>
         <ion-item item-type="item-icon-left" nav-clear menu-close ng-click="logout()">
           Logout
-        </ion-item>
+        </ion-item> -->
       </ion-list>
     </ion-content>
   </ion-side-menu>
-  <ion-side-menu side="right">
+<!--   <ion-side-menu side="right">
     <ion-header-bar class="bar-assertive">
       <h1 class="title">LUKISON GROUP</h1>
     </ion-header-bar>
@@ -77,6 +77,5 @@
         </ion-item>
       </ion-list>
     </ion-content>
-
-  </ion-side-menu>
+  </ion-side-menu> -->
 </ion-side-menus>

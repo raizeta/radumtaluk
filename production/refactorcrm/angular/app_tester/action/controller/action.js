@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("ActionController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaCamera,sweet,ngToast,LocationFac,CameraService,productcomb,activitascom,StorageService,ActivitasProductService,GambarFac,CheckInFac,CheckinSqliteFac,CheckOutFac,ActionMemoFac) 
+function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaSQLite,$cordovaCamera,sweet,ngToast,LocationFac,CameraService,productcomb,activitascom,StorageService,ActivitasProductService,GambarFac,CheckInFac,CheckinSqliteFac,CheckOutFac,ActionMemoFac,PhtoSqliteFac) 
 {   
     $scope.activehome = "active";
     $scope.userInfo = auth;
@@ -12,7 +12,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
     }
     
     $scope.zoomvalue = 10;
-    var watchOptions    = {timeout :1000,enableHighAccuracy: false};
+    var watchOptions    = {timeout :10000,enableHighAccuracy: false};
     var watch           = $cordovaGeolocation.watchPosition(watchOptions);
     watch.then(null,function(err) 
     {
@@ -76,11 +76,16 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             alert("Check In Error.Try Again");
         });
 
-        CheckinSqliteFac.SetCheckin(datacheckin).
-        then(function(response)
+        CheckinSqliteFac.SetCheckin(datacheckin)
+        .then(function(response)
         {
             console.log("Check In Berhasil Disimpan Di Local");
-        });           
+        },
+        function(error)
+        {
+            console.log(error);
+        });
+      
     };
     $scope.checkin(ID_DETAIL);
 
@@ -119,6 +124,11 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             .finally(function()
             {
                 $scope.loadingcontent = false;
+            });
+            PhtoSqliteFac.SetPhotoStart(ID_DETAIL)
+            .then(function(responselocal)
+            {
+                console.log("Status Photo Start Berhasil Disimpan Di Local");
             });
         });
     }
@@ -181,19 +191,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
 
     $scope.endtakeapicture = function()
     {
-        var options = {
-            quality: 50,
-            destinationType: Camera.DestinationType.DATA_URL,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            allowEdit: false,
-            encodingType: Camera.EncodingType.JPEG,
-            targetWidth: 500,
-            targetHeight: 500,
-            popoverOptions: CameraPopoverOptions,
-            saveToPhotoAlbum: false,
-            correctOrientation:true
-          };
-        
+        var options = CameraService.GetCameraOption();
         $cordovaCamera.getPicture(options)
         .then(function(imageData) 
         {
@@ -222,6 +220,12 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             .finally(function()
             {
                 $scope.loadingcontent = false;
+            });
+
+            PhtoSqliteFac.SetPhotoEnd(ID_DETAIL)
+            .then(function(responselocal)
+            {
+                console.log("Status Photo End Berhasil Disimpan Di Local");
             }); 
         });
     }
@@ -283,6 +287,11 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             if(angular.isArray(responsesalesmemo))
             {
                 $scope.messageskunjungandisabled = false;
+                var statusaction={};
+                statusaction.bgcolor="bg-aqua";
+                statusaction.icon="fa fa-close bg-aqua";
+                statusaction.show = false;
+                $scope.statusmessageskunjungan  = statusaction;
             }
             else
             {
@@ -297,7 +306,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             $scope.messageskunjungandisabled = false;
         });        
     }
-    //$scope.getsalesmemo(ID_DETAIL);
+    $scope.getsalesmemo(ID_DETAIL);
 
     $scope.submitFormSalesMemo = function(formsalesmanmemo)
     {
@@ -316,7 +325,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         salesmanmemo.CREATE_AT          = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
         salesmanmemo.CREATE_BY          = auth.id;
 
-        SalesAktifitas.setMemoSalesAktifitas(salesmanmemo)
+        ActionMemoFac.SetMemo(salesmanmemo)
         .then (function (responsesalesmemo)
         {
             $scope.statusmessageskunjungan      = responsesalesmemo;
@@ -332,6 +341,28 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             $scope.loadingcontent = false;
         });
     }
+
+    ExpiredSqliteServices.getSqliteExpired(ID_DETAIL)
+    .then (function (databarangexpired)
+    {
+        var arrayobjectdatabarang = resolveobjectbarangsqlite;
+        var arrayhanyakodebarang = [];
+
+        angular.forEach(arrayobjectdatabarang, function(value, key)
+        {
+            arrayhanyakodebarang.push(value.KD_BARANG);
+        });
+
+        var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
+
+        $scope.barangexpired   = [];
+
+        angular.forEach(x, function(value, key)
+        {
+            var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
+            $scope.barangexpired.push(existingFilter);
+        });
+    });
     
 });
 

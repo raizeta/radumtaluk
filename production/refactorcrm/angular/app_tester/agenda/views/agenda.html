@@ -177,7 +177,8 @@
                                 <tr align="center">
                                   <th class="bg-aqua">NAMA CUSTOMER</th>
                                   <th class="bg-aqua">CHECK-IN TIME</th>
-                                  <th class="bg-aqua">CHECK-OUT TIME<th>
+                                  <th class="bg-aqua">CHECK-OUT TIME</th>
+                                  <th class="bg-aqua">LAMA KJGN</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -192,6 +193,7 @@
                                   <td ng-if="(customer.CHECKIN_TIME != null && customer.CHECKOUT_TIME == null)">
                                     BELUM CHECK-OUT
                                   </td>
+                                  <td>{{customer | getDiff}}</td>
                                 </tr>
                               </tbody>
                              </table>

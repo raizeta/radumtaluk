@@ -6,8 +6,6 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
     var SetCheckin = function(datacheckin)
     {
         var deferred = $q.defer();
-        return deferred.promise;
-
         var LAG                      = datacheckin.LAG;  //GPS LAT LOCATION
         var LAT                      = datacheckin.LAT; //GPS LNG LOCATION
         var CHECKIN_TIME             = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
@@ -20,10 +18,12 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
         .then(function(result) 
         {
             deferred.resolve(result);
+            console.log(result);
         },
         function(error) 
         {
-            deferred.rejected(error);
+            deferred.reject(error);
+            console.log(error);
         });
         return deferred.promise; 
 
@@ -32,8 +32,6 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
     var SetCheckout = function(datacheckout)
     {
         var deferred = $q.defer();
-        return deferred.promise;
-
         var CHECKOUT_TIME            = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');  
         var STSCHECK_OUT             = 1; 
         var ID                       = datacheckout.ID;
@@ -44,10 +42,12 @@ function($rootScope,$http,$q,$filter,$cordovaSQLite,UtilService)
         .then(function(result) 
         {
             deferred.resolve(result);
+            console.log("Checkout Berhasil Di Update");
         },
         function(error) 
         {
-            deferred.rejected(error);
+            deferred.reject(error);
+            console.log(error);
         });
         return deferred.promise; 
 

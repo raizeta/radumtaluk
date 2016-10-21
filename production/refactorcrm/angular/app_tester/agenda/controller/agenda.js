@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("AgendaController",
-function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout,$cordovaGeolocation,CalendarCombFac,AgendaCombFac,ListKunjunganFac,OutOfCaseFac,StorageService)
+function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout,$cordovaGeolocation,CalendarCombFac,AgendaCombFac,ListKunjunganFac,OutOfCaseFac,StorageService,ResolveAbsensi,AgendaSqliteFac)
 {
     $scope.userInfo         = auth;
     var tanggalsekarang     = $filter('date')(new Date(),'yyyy-MM-dd');
@@ -108,8 +108,50 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$routeParams,$timeout
         }
         else if(tanggalplan == tanggalsekarang)
         {
-            StorageService.set('currentagenda',agenda);
-            $location.path('/action/' + agenda.ID);
+            if(ResolveAbsensi.STATUS == 0)
+            {
+                if(agenda.STSCHECK_OUT == 1 || agenda.STSCHECK_OUT == "1")
+                {
+                    alert("Kamu Sudah Check Out");
+                }
+                else
+                {
+                    AgendaSqliteFac.GetCheckInStatus(auth,tanggalplan)
+                    .then(function(responsecheckin)
+                    {
+                        if(angular.isArray(responsecheckin) && responsecheckin.length > 0)
+                        {
+                            if(responsecheckin[0].ID == agenda.ID)
+                            {
+                                StorageService.set('currentagenda',agenda);
+                                $location.path('/action/' + agenda.ID);
+                            }
+                            else
+                            {
+                                alert("Double Checkin Dilarang");
+                            }
+                        }
+                        else
+                        {
+                            var lanjutcheckin = confirm("Yakin Check In Di Customer " + agenda.CUST_NM +"?");
+                            if (lanjutcheckin == true) 
+                            {
+                                StorageService.set('currentagenda',agenda);
+                                $location.path('/action/' + agenda.ID);
+                            }
+                              
+                        }
+                    });   
+                }      
+            }
+            else if(ResolveAbsensi.STATUS == 1)
+            {
+                alert("Sudah Absen Keluar");
+            }
+            else
+            {
+                alert("Lakukan Absen Masuk Terlebih Dahulu");
+            }
         }
     }
 });

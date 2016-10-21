@@ -86,7 +86,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         function (error)
         {
             alert("Gagal Mendapatkan Data Barang Expired Dari Local");
-            deferred.rejected(error); 
+            deferred.reject(error); 
         });
         return deferred.promise;
     }
@@ -116,7 +116,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         function (error)
         {
             alert("Gagal Save Barang Expired Ke Local");
-            deferred.rejected(error);
+            deferred.reject(error);
         });
 
         return deferred.promise;

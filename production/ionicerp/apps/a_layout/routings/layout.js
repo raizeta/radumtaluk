@@ -8,6 +8,7 @@ angular.module('starter')
     url: '/main',
     abstract: true,
     templateUrl: 'apps/a_layout/views/main.html',
+    controller: 'AppCtrl',
     resolve:
     {
         auth: function ($q, SecuredFac,$injector,$location) 

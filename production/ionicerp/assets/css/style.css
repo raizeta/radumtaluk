@@ -122,7 +122,7 @@
 }
 
 .app-icon {
-    background: rgba(0, 0, 0, 0) url(../img/logo.png) repeat scroll center center / cover;
+/*    background: rgba(0, 0, 0, 0) url(../img/screen.png) repeat scroll center center / cover;*/
     border-radius: 0%;
     height: 50px;
     margin: 0 auto;

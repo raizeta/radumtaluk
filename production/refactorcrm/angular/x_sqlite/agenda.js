@@ -42,8 +42,35 @@ function($rootScope,$http, $q, $filter,$cordovaSQLite,UtilService)
         var newCHECKIN_TIME             = dataagenda.CHECKIN_TIME;
         var newCHECKOUT_TIME            = dataagenda.CHECKOUT_TIME;
 
-        var newSTSCHECK_IN              = dataagenda.STSCHECK_IN;
-        var newSTSCHECK_OUT             = dataagenda.STSCHECK_OUT;
+        if(dataagenda.CHECKIN_TIME)
+        {
+            
+            if(dataagenda.CHECKOUT_TIME)
+            {
+               var newSTSCHECK_OUT          = 1;
+               var newSTSCHECK_IN           = 1; 
+            }
+            else
+            {
+                var newSTSCHECK_OUT         = 0;
+                var newSTSCHECK_IN          = 1;
+            }
+        }
+        else
+        {
+            if(dataagenda.CHECKOUT_TIME)
+            {
+                var newSTSCHECK_OUT          = 1;
+                var newSTSCHECK_IN           = 1;
+                var newCHECKIN_TIME          = dataagenda.CHECKOUT_TIME;
+            }
+            else
+            {
+                var newSTSCHECK_OUT          = 0;
+                var newSTSCHECK_IN           = 0;
+            }
+        }
+
         var newSTSINVENTORY_EXPIRED     = dataagenda.STSINVENTORY_EXPIRED;
         var newSTSINVENTORY_SELLIN      = dataagenda.STSINVENTORY_SELLIN;
         var newSTSINVENTORY_SELLOUT     = dataagenda.STSINVENTORY_SELLOUT;
@@ -73,8 +100,32 @@ function($rootScope,$http, $q, $filter,$cordovaSQLite,UtilService)
         return deferred.promise; 
     }
 
+    var GetCheckInStatus = function (auth,tanggalplan)
+    {
+        var deferred = $q.defer();
+        var queryagendatoday = "SELECT * FROM Agenda WHERE USER_ID = ? AND TGL = ? AND STSCHECK_IN = ? AND STSCHECK_OUT= ?";
+        $cordovaSQLite.execute($rootScope.db, queryagendatoday, [auth.id,tanggalplan,1,0])
+        .then(function(result) 
+        {
+            if(result.rows.length > 0)
+            {
+                var response = UtilService.SqliteToArray(result);
+                deferred.resolve(response);
+            }
+            else
+            {
+                deferred.resolve([]);
+            }
+        },
+        function(error)
+        {
+            deferred.reject(error);
+        });
+        return deferred.promise;
+    }
     return{
             GetAgendaByUserAndDate:GetAgendaByUserAndDate,
-            SetAgenda:SetAgenda
+            SetAgenda:SetAgenda,
+            GetCheckInStatus:GetCheckInStatus
         }
 });

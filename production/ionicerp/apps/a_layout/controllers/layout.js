@@ -10,27 +10,26 @@ angular.module('starter')
       StorageService.destroy('profile');
       $state.go('auth.login',{},{reload: true});
   };
+
   
 })
 
-.controller('DashboardCtrl', function($window,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,ProductService,ArrayObjectService,StorageService,auth) 
+.controller('DashboardCtrl', function($window,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,ProductService,ArrayObjectService,StorageService,auth,MenuService) 
 {
     var profile = StorageService.get('profile');
     $scope.profile = profile;
     var menus = [];
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"#/main/charts/sales",judul:"Chart"});
-    menus.push({src: "assets/img/img/200x200/money.png",link:"",judul:"SCM"});
-    menus.push({src: "assets/img/img/200x200/meeting.png",link:"",judul:"CRM"});
-    menus.push({src: "assets/img/img/200x200/meeting.png",link:"",judul:"HRM"});
-    menus.push({src: "assets/img/img/200x200/ro.png",link:"#/main/po/inbox",judul:"PO"});
-    menus.push({src: "assets/img/img/200x200/chat.png",link:"",judul:"Chat"});
-    menus.push({src: "assets/img/img/200x200/clubing.png",link:"#/main/ba/inbox",judul:"B.Acara"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"#/main/charts",judul:"Chart",keterangan:1});
+    menus.push({src: "assets/img/img/200x200/ro.png",link:"#/main/po/inbox",judul:"PO",keterangan:2});
+    menus.push({src: "assets/img/img/200x200/chat.png",link:"#/main/ba/inbox",judul:"B.Acara",keterangan:3});
+    menus.push({src: "assets/img/img/200x200/money.png",link:"",judul:"SCM",keterangan:'DEV'});
+    menus.push({src: "assets/img/img/200x200/meeting.png",link:"",judul:"CRM",keterangan:'DEV'});
+    menus.push({src: "assets/img/img/200x200/hrm.png",link:"",judul:"HRM",keterangan:'DEV'});
+    
+    // menus.push({src: "assets/img/img/200x200/chat.png",link:"",judul:"Chat"});
+    
     $scope.menus = UtilService.ArrayChunk(menus,4);
 
-    var anotherarray = [];
-    anotherarray.push({src: "assets/img/img/200x200/chart.jpg",link:"",judul:"Chart"});
-    anotherarray.push({src: "assets/img/img/200x200/money.png",link:"",judul:"SCM"});
-    anotherarray.push({src: "assets/img/img/200x200/money.png",link:"",judul:"SCM"});
-    var diffarray = ArrayObjectService.DiffTwoArrayObject(menus,anotherarray);
-    var unikarray = ArrayObjectService.UniqueObjectInArray(anotherarray);
+    $rootScope.sidemenu = MenuService.DashboardMenu();
+
 });

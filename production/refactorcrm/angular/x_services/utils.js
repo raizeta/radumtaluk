@@ -123,21 +123,35 @@ myAppModule.service('UtilService', function($q, $http)
         var databaru = [];
         angular.forEach(datadariagenda, function(value, key) 
         {
-            alert(value.STSCHECK_IN);
-            if(value.STSCHECK_IN  == 0 || value.STSCHECK_IN  == null)
+            if(value.CHECKIN_TIME)
             {
-                value.imagecheckout = "asset/admin/dist/img/normal.jpg";
+               if(value.CHECKOUT_TIME)
+               {
+                  value.imagecheckout = "asset/admin/dist/img/customer.jpg";
+                  value.STSCHECK_IN   = 1;
+                  value.STSCHECK_OUT  = 1;
+               }
+               else
+               {
+                  value.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
+                  value.STSCHECK_IN   = 1;
+                  value.STSCHECK_OUT  = 0;
+               }
             }
             else
             {
-                if((value.STSCHECK_OUT  == 1))
-                {
-                    value.imagecheckout = "asset/admin/dist/img/customer.jpg";
-                }
-                else
-                {
-                    value.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
-                } 
+               if(value.CHECKOUT_TIME)
+               {
+                  value.imagecheckout = "asset/admin/dist/img/customer.jpg";
+                  value.STSCHECK_IN   = 1;
+                  value.STSCHECK_OUT  = 1;
+               }
+               else
+               {
+                  value.imagecheckout = "asset/admin/dist/img/normal.jpg";
+                  value.STSCHECK_IN   = 0;
+                  value.STSCHECK_OUT  = 0;
+               }
             }
             databaru.push(value);
         });
