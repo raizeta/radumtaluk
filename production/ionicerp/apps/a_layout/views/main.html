@@ -42,7 +42,7 @@
         <h2>{{profile.username}}</h2>
       </div>
       <ion-list>
-        <ion-item item-type="item-icon-left" ng-repeat="item in sidemenu" nav-clear menu-close href="{{item.link}}">
+        <ion-item item-type="item-icon-left" ng-repeat="item in sidemenu" nav-clear menu-close ng-href="{{item.link}}">
           {{item.judul}}
         </ion-item>
 <!--         <ion-item item-type="item-icon-left" nav-clear menu-close href="#/main/po/inbox">

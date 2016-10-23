@@ -85,25 +85,4 @@ angular.module('starter')
           }
       }
     });
-    // $stateProvider.state('main.charts.products.sales', 
-    // {
-    //       url: "/sales",
-    //       views: {
-    //           'charts-sales': {
-    //               templateUrl: "apps/a_charts/views/charts-sales.html",
-    //               controller:'ChartsSalesCtrl'
-    //           }
-    //       }
-    // });
-    // $stateProvider.state('main.charts.employe', 
-    // {
-    //       url: "/employes",
-    //       views: {
-    //           'charts-employes': {
-    //               templateUrl: "apps/a_charts/views/charts-employes.html",
-    //               controller:'ChartsEmployesCtrl'
-    //           }
-    //       }
-    // });
-
 });

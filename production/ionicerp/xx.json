@@ -1,0 +1,14 @@
+				 var revenueChart = new FusionCharts({
+						"type": "bar3d",					
+						"renderAt": "chart-cust-parent",
+						"width": "100%",	
+						"height":"500%",	
+						"dataFormat": "json",
+						"dataSource": {
+				"chart": {"caption":"Summary Customers Parents","subCaption":"Children Count Details","xAxisName":"Parents","yAxisName":"Total Child ","theme":"fint","is2D":"0","showValues":"1","palettecolors":"#583e78,#008ee4,#f8bd19,#e44a00,#6baa01,#ff2e2e","bgColor":"#ffffff","showBorder":"0","showCanvasBorder":"0"}
+			,
+				"data": [{"label":"PT. Ramayana Lestari Sentosa Tbk.","value":"118"},{"label":"PT. Pertamina Retail","value":"104"},{"label":"PT. Lion Super Indo","value":"87"},{"label":"PT. Hero Supermarket Tbk.","value":"85"},{"label":"PT. Trans Retail Indonesia","value":"64"},{"label":"UNKNOWN","value":"29"},{"label":"PT. MOR","value":"24"},{"label":"PT. Aneka Citra Snack","value":"20"},{"label":"PT. LotteMart Indonesia","value":"15"},{"label":"Others","value":"14"},{"label":"PT. Swalayan Sukses Abadi (The FoodHall)","value":"14"},{"label":"Customer Demo","value":"13"},{"label":"All Fresh Fruit Store Indonesia","value":"10"},{"label":"PT. Koki Marketama","value":"5"},{"label":"PT. Mega Mahadana Hadiya","value":"5"},{"label":"PT. Rajawali Nusantara Indonesia (Persero)","value":"5"},{"label":"BENNY MART","value":"3"},{"label":"YOGYA Group (PT. Akur Pratama)","value":"3"},{"label":"PT. Food Hall Plaza Indo","value":"3"},{"label":"PT. AEON Indonesia","value":"2"}]	
+			}
+					});
+					revenueChart.render();
+				});
