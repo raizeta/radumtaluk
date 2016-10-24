@@ -1,17 +1,17 @@
 angular.module('starter')
-.factory('CustomerService',function($rootScope,$http, $q, $window,UtilService)
+.factory('CustomerFac',function($rootScope,$http, $q, $window,UtilService)
 {
 	var globalurl 		= UtilService.ApiUrl();
 
 	var GetCustomers = function()
     {
 		var deferred 		= $q.defer();
-		var url = globalurl + "";
+		var url = globalurl + "/master/customers";
 		var method ="GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-	        deferred.resolve(response);
+	        deferred.resolve(response.Customer);
         })
         .error(function(err,status)
         {

@@ -1,12 +1,13 @@
-<ion-view view-title="CHART SUPLIERS">
+<ion-modal-view>
+  <ion-header-bar class="bar bar-header bar-assertive">
+    <h1 class="title">SUPLIERS CHARTS</h1>
+    <button class="button button-clear" ng-click="closeModal()"><i class="icon ion-ios-close-outline"></i></button>
+  </ion-header-bar>
   <ion-content class="padding">
-        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
-        <ion-list>
-            <div id="chart-salesdaily"></div>
-            <div id="chart-salesweekly"></div>
-            <div id="chart-salesmonthly"></div>
-        </ion-list>
+    <ion-list>
+        <div id="chart-piramid"></div>
+    </ion-list>
   </ion-content>
-</ion-view>
+</ion-modal-view>
 
 

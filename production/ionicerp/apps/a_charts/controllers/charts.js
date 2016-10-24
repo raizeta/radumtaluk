@@ -1,17 +1,19 @@
 angular.module('starter')
- .controller('ChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,UtilService,MenuService) 
+ .controller('ChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,$cordovaGeolocation,NgMap,UtilService,MenuService,ChartsSalesFac,CustomerFac,ChartsPurchasesFac) 
 {
     var menus = [];
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModal()",judul:"Products"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModal()",judul:"Customers"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModal()",judul:"Supliers"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModal()",judul:"Purchases"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSales()",judul:"Sales"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModal()",judul:"SPG"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalMap()",judul:"MAP"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSales()",judul:"Sales-MD"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalPurchases()",judul:"Purchases"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalProducts()",judul:"Products"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalCustomers()",judul:"Customers"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSupliers()",judul:"Supliers"});
+    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSPG()",judul:"SPG"});
+    
     $scope.menus = UtilService.ArrayChunk(menus,4);
     $rootScope.sidemenu = MenuService.DashboardMenu();
 
-    $scope.openModal = function(item) 
+    $scope.openModalProducts = function(item) 
     {
         $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-products.html', 
         {
@@ -24,24 +26,52 @@ angular.module('starter')
             ({
                 template: 'Loading...'
             });
-            $scope.myDataSource =
+            
+            ChartsSalesFac.GetVisitStock()
+            .then(function (response)
             {
-                "chart": {"caption":"Summary Customers Parents","subCaption":"Children Count Details","xAxisName":"Parents","yAxisName":"Total Child ","theme":"fint","is2D":"0","showValues":"1","palettecolors":"#583e78,#008ee4,#f8bd19,#e44a00,#6baa01,#ff2e2e","bgColor":"#ffffff","showBorder":"0","showCanvasBorder":"0"},
-                "data": [{"label":"PT. Ramayana Lestari Sentosa Tbk.","value":"118"},{"label":"PT. Pertamina Retail","value":"104"},{"label":"PT. Lion Super Indo","value":"87"},{"label":"PT. Hero Supermarket Tbk.","value":"85"},{"label":"PT. Trans Retail Indonesia","value":"64"},{"label":"UNKNOWN","value":"29"},{"label":"PT. MOR","value":"24"},{"label":"PT. Aneka Citra Snack","value":"20"},{"label":"PT. LotteMart Indonesia","value":"15"},{"label":"Others","value":"14"},{"label":"PT. Swalayan Sukses Abadi (The FoodHall)","value":"14"},{"label":"Customer Demo","value":"13"},{"label":"All Fresh Fruit Store Indonesia","value":"10"},{"label":"PT. Koki Marketama","value":"5"},{"label":"PT. Mega Mahadana Hadiya","value":"5"},{"label":"PT. Rajawali Nusantara Indonesia (Persero)","value":"5"},{"label":"BENNY MART","value":"3"},{"label":"YOGYA Group (PT. Akur Pratama)","value":"3"},{"label":"PT. Food Hall Plaza Indo","value":"3"},{"label":"PT. AEON Indonesia","value":"2"}]
-            };
+                FusionCharts.ready(function() 
+                {
+                  var conversionChart = new FusionCharts(
+                  {
+                    type: 'msline',
+                    renderAt: 'chart-visit',
+                    width: "100%",
+                    dataFormat: 'json',
+                    dataSource: response.Visit
+                  });
 
-            FusionCharts.ready(function() 
+                  conversionChart.render();
+                });
+                $scope.modal            = modal;
+                $scope.modal.show();
+            },
+            function(error)
             {
-              var conversionChart = new FusionCharts(
-              {
-                type: 'bar3d',
-                renderAt: 'chart-salesdaily',
-                width: "100%",
-                dataFormat: 'json',
-                dataSource: $scope.myDataSource
-              });
+                console.log(error);
+                alert("Belum Ada Data Untuk Bulan Ini");
+            });
+            
 
-              conversionChart.render();
+            
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+            },3000);
+        });  
+    };
+    $scope.openModalCustomers = function(item) 
+    {
+        $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-customers.html', 
+        {
+            scope: $scope,
+            animation: 'fade-in-scale'
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
             });
 
             $scope.Piramid =
@@ -63,21 +93,45 @@ angular.module('starter')
               conversionChart.render();
             });
 
-            $scope.custkategori = 
+            $scope.modal            = modal;
+            $scope.modal.show();
+            $timeout(function()
             {
-                "chart": {"caption":"Summary Customers Category Detail","xAxisName":"Category Name","yAxisName":"Count ","theme":"fint","is2D":"0","showValues":"1","palettecolors":"#583e78,#008ee4,#f8bd19,#e44a00,#6baa01,#ff2e2e","bgColor":"#ffffff","showBorder":"0","showCanvasBorder":"0"},
-                "data": [{"label":"MODERN MTI","value":"40"},{"label":"MODERN NKA","value":"182"},{"label":"MODERN SUPERMARKET MEDIUM","value":"3"},{"label":"General  Hospital: Public Gen","value":"2"},{"label":"General  Grosir","value":"3"},{"label":"General  FRUIT & VEGETABLE","value":"2"},{"label":"General  CAR REPAIR","value":"0"},{"label":"General  University","value":"0"},{"label":"General  SELF SERVICE CAFETAR","value":"0"},{"label":"General  CAKE & PETISSERIE","value":"0"},{"label":"Horeca Company Canteen/Rest","value":"0"},{"label":"Horeca Hotel","value":"0"},{"label":"Horeca COFFEE / Snack Place","value":"0"},{"label":"Horeca FITNESS / GYMNASIUM","value":"0"},{"label":"Horeca High School","value":"0"},{"label":"Horeca Theme Restaurant","value":"0"}]   
-            }
+                $ionicLoading.hide();
+            },3000);
+        });  
+    };
+
+    $scope.openModalSupliers = function(item) 
+    {
+        $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-supliers.html', 
+        {
+            scope: $scope,
+            animation: 'fade-in-scale'
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
+            });
+
+            $scope.Piramid =
+            {
+                "chart": {"caption":"Summary Category Parent","alignCaptionWithCanvas":"2","theme":"fint","bgColor":"#ffffff","showBorder":"0","showCanvasBorder":"1","is2D":"0","showValues":"1","showLegend":"1","showPercentValues":"1"},
+                "data": [{"label":"MODERN","value":"224"},{"label":"General ","value":"7"},{"label":"Horeca","value":"0"},{"label":"Others","value":"0"}]  
+            };
             FusionCharts.ready(function() 
             {
               var conversionChart = new FusionCharts(
               {
-                type: 'column3d',
-                renderAt: 'chart-kategori',
+                type: 'pyramid',
+                renderAt: 'chart-piramid',
                 width: "100%",
                 dataFormat: 'json',
-                dataSource: $scope.custkategori
+                dataSource: $scope.Piramid
               });
+
               conversionChart.render();
             });
 
@@ -89,6 +143,78 @@ angular.module('starter')
             },3000);
         });  
     };
+
+    $scope.openModalPurchases = function(item) 
+    {
+        $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-purchases.html', 
+        {
+            scope: $scope,
+            animation: 'fade-in-scale'
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
+            });
+
+            ChartsPurchasesFac.GetPOPrice()
+            .then(function(response)
+            {
+                FusionCharts.ready(function() 
+                {
+                    var conversionChartPOPriceYear = new FusionCharts(
+                    {
+                        type: 'mscolumn3d',
+                        renderAt: 'chart-po-price-year',
+                        width: "100%",
+                        dataFormat: 'json',
+                        dataSource: response.PO_PriceYear
+                    });
+                    conversionChartPOPriceYear.render();
+
+                    var conversionChartPOQtyYear = new FusionCharts(
+                    {
+                        type: 'mscolumn3d',
+                        renderAt: 'chart-po-stock-year',
+                        width: "100%",
+                        dataFormat: 'json',
+                        dataSource: response.PO_StockYear
+                    });
+                    conversionChartPOQtyYear.render();
+
+                    var conversionChartPOStock = new FusionCharts(
+                    {
+                        type: 'mscolumn3d',
+                        renderAt: 'chart-po-stock',
+                        width: "100%",
+                        dataFormat: 'json',
+                        dataSource: response.PO_Stock
+                    });
+                    conversionChartPOStock.render();
+
+                    var conversionChartPOPrice = new FusionCharts(
+                    {
+                        type: 'mscolumn3d',
+                        renderAt: 'chart-po-price',
+                        width: "100%",
+                        dataFormat: 'json',
+                        dataSource: response.PO_Price
+                    });
+                    conversionChartPOPrice.render();
+                });
+
+                $scope.modal            = modal;
+                $scope.modal.show(); 
+            });
+            
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+            },3000);
+        });  
+    };
+
     $scope.openModalSales = function(item) 
     {
         $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-sales.html', 
@@ -103,6 +229,98 @@ angular.module('starter')
                 template: 'Loading...'
             });
 
+            ChartsSalesFac.GetVisitStock()
+            .then(function (response)
+            {
+                FusionCharts.ready(function() 
+                {
+                  var conversionChart = new FusionCharts(
+                  {
+                    type: 'msline',
+                    renderAt: 'chart-visit',
+                    width: "100%",
+                    dataFormat: 'json',
+                    dataSource: response.Visit
+                  });
+
+                  conversionChart.render();
+                });
+
+                FusionCharts.ready(function() 
+                {
+                  var conversionChart = new FusionCharts(
+                  {
+                    type: 'mscolumn3d',
+                    renderAt: 'chart-actionvisit',
+                    width: "100%",
+                    dataFormat: 'json',
+                    dataSource: response.ActionVisit
+                  });
+
+                  conversionChart.render();
+                });
+
+                FusionCharts.ready(function() 
+                {
+                  var conversionChart = new FusionCharts(
+                  {
+                    type: 'mscolumn3d',
+                    renderAt: 'chart-actionvisitrequest',
+                    width: "100%",
+                    dataFormat: 'json',
+                    dataSource: response.ActionVisitRequest
+                  });
+
+                  conversionChart.render();
+                });
+
+                FusionCharts.ready(function() 
+                {
+                  var conversionChart = new FusionCharts(
+                  {
+                    type: 'mscolumn3d',
+                    renderAt: 'chart-actionvisitsellout',
+                    width: "100%",
+                    dataFormat: 'json',
+                    dataSource: response.ActionVisitSellout
+                  });
+
+                  conversionChart.render();
+                });
+                $scope.modal            = modal;
+                $scope.modal.show();
+                $timeout(function()
+                {
+                    $ionicLoading.hide();
+                },3000);
+                
+            },
+            function(error)
+            {
+                console.log(error);
+                alert("Belum Ada Data Untuk Bulan Ini");
+                $ionicLoading.hide();
+            });
+
+                        
+            
+        });  
+    };
+
+    $scope.openModalSPG = function(item) 
+    {
+        $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-spg.html', 
+        {
+            scope: $scope,
+            animation: 'fade-in-scale'
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
+            });
+
             $scope.Piramid =
             {
                 "chart": {"caption":"Summary Category Parent","alignCaptionWithCanvas":"2","theme":"fint","bgColor":"#ffffff","showBorder":"0","showCanvasBorder":"1","is2D":"0","showValues":"1","showLegend":"1","showPercentValues":"1"},
@@ -130,6 +348,56 @@ angular.module('starter')
             },3000);
         });  
     };
+
+    $scope.openModalMap = function(item) 
+    {
+        $ionicModal.fromTemplateUrl('apps/a_charts/views/charts-map.html', 
+        {
+            scope: $scope,
+            animation: 'fade-in-scale'
+        })
+        .then(function(modal) 
+        {
+            $ionicLoading.show
+            ({
+                template: 'Loading...'
+            });
+
+            NgMap.getMap().then(function(map) 
+            {
+                $scope.map = map;
+            });
+
+            var options = {timeout: 10000, enableHighAccuracy: true};
+            $cordovaGeolocation.getCurrentPosition(options)
+            .then(function(position)
+            {
+                $scope.googlemaplat = position.coords.latitude;
+                $scope.googlemaplong = position.coords.longitude;
+            }, 
+            function(error)
+            {
+                console.log("Could not get location");
+            });
+            CustomerFac.GetCustomers()
+            .then(function(response)
+            {
+                $scope.customers = response;
+            });
+            $scope.showdetail = function(e,item)
+            {
+                $scope.selecteditem = item;
+                $scope.map.showInfoWindow('myInfoWindow', this);
+            }
+            $scope.modal            = modal;
+            $scope.modal.show();
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+            },3000);
+        });  
+    };
+
     $scope.closeModal = function() 
     {
         $scope.modal.remove();
