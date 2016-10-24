@@ -824,5 +824,81 @@ angular.module('starter')
 
       conversionChart.render();
     });
+})
+
+.controller('XXXCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService) 
+{
+    $rootScope.sidemenu = MenuService.ChartsMenu();
+    $ionicLoading.show
+    ({
+        template: 'Loading...'
+    });
+    ChartsSalesFac.GetVisitStock()
+    .then(function(response)
+    {
+        StorageService.set('chart-sale',response);
+        FusionCharts.ready(function() 
+        {
+          var conversionChart = new FusionCharts(
+          {
+            type: 'msline',
+            renderAt: 'chart-visit',
+            width: "100%",
+            dataFormat: 'json',
+            dataSource: response.Visit
+          });
+          conversionChart.render();
+        });
+        $ionicLoading.hide();
+    });
+    
+})
+.controller('YYYCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService) 
+{
+    $rootScope.sidemenu = MenuService.ChartsMenu();
+    
+    $ionicLoading.show
+    ({
+        template: 'Loading...'
+    });
+    var result = StorageService.get('chart-sale');
+    FusionCharts.ready(function() 
+    {
+        
+        var conversionChart = new FusionCharts(
+        {
+            type: 'mscolumn3d',
+            renderAt: 'chart-actionvisit',
+            width: "100%",
+            dataFormat: 'json',
+            dataSource: result.ActionVisit
+        });
+        conversionChart.render();
+    });
+    $ionicLoading.hide();
+    
+})
+.controller('ZZZCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService) 
+{
+    $rootScope.sidemenu = MenuService.ChartsMenu();
+    $ionicLoading.show
+    ({
+        template: 'Loading...'
+    });
+
+    var result = StorageService.get('chart-sale');
+    FusionCharts.ready(function() 
+    {
+      var conversionChart = new FusionCharts(
+      {
+        type: 'mscolumn3d',
+        renderAt: 'chart-actionvisitrequest',
+        width: "100%",
+        dataFormat: 'json',
+        dataSource: result.ActionVisitRequest
+      });
+      conversionChart.render();
+    });
+    
 });
 
