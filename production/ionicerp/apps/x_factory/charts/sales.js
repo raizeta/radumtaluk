@@ -2,10 +2,20 @@ angular.module('starter')
 .factory('ChartsSalesFac',function($rootScope,$http,$q,$filter,$window,UtilService,ArrayObjectService)
 {
 	var globalurl 		= UtilService.ApiUrl();
-	var GetVisitStock = function(statuscode)
+	var GetVisitStock = function(bulan)
     {
+		
 		var deferred 		= $q.defer();
-		var month 			= $filter('date')(new Date(),'MM');
+		var month;
+		if(bulan)
+		{
+			month 			= bulan;
+		}
+		else
+		{
+			month 			= $filter('date')(new Date(),'MM');	
+		}
+		
 		var getUrl 			= UtilService.ApiUrl();
 		var url 			= getUrl + "/chart/esmsalesmds?MONTH=" + month;
 		var method 			= "GET";

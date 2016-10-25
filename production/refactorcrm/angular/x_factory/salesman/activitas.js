@@ -1,6 +1,5 @@
 'use strict';
-myAppModule.factory('ActivitasFac',
-function($rootScope,$http,$q,UtilService)
+myAppModule.factory('ActivitasFac',function($rootScope,$http,$q,UtilService)
 {
 	var GetAktivitas = function()
     {

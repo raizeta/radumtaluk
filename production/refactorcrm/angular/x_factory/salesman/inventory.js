@@ -33,7 +33,28 @@ function($rootScope,$http,$q,UtilService)
         return deferred.promise;
     }
 
+    var SetInventoryAction = function(detail)
+    {
+        var url                 = UtilService.ApiUrl();
+        var deferred            = $q.defer();
+        var result              = UtilService.SerializeObject(detail);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(url + "master/productinventories",serialized,config)
+        .success(function(data,status,headers,config) 
+        {
+            deferred.resolve(data);
+        })
+        .error(function(err,status)
+        {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    }
+
 	return{
-            getInventoryByCustDateAndUser:getInventoryByCustDateAndUser
+            getInventoryByCustDateAndUser:getInventoryByCustDateAndUser,
+            SetInventoryAction:SetInventoryAction
 		}
 });

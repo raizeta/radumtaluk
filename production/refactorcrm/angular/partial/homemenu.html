@@ -32,11 +32,11 @@
           <i class="fa fa-th"></i> <span>LIST PRODUCT</span>
         </a>
       </li>
-      <li ng-class="activesalesman" ng-if="(userInfo.accessid != 1)">
+<!--       <li ng-class="activesalesman" ng-if="(userInfo.accessid != 1)">
         <a href="#/salesman">
           <i class="fa fa-th"></i> <span>LIST SALESMAN</span>
         </a>
-      </li>
+      </li> -->
       <li ng-class="activeabsensi">
         <a href="#/absen">
           <i class="fa fa-th"></i> <span>ABSENSI</span>
@@ -55,6 +55,11 @@
       <li ng-class="activecalendar" ng-if="(userInfo.accessid != 1)">
         <a href="#/calendar">
           <i class="fa fa-th"></i> <span>CALENDAR</span>
+        </a>
+      </li>
+      <li ng-class="activecalendar" ng-if="(userInfo.accessid != 1)">
+        <a href="#/summary">
+          <i class="fa fa-th"></i> <span>SUMMARY</span>
         </a>
       </li>
       <li ng-class="activehelp" ng-if="(userInfo.accessid != 1)">

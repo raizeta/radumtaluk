@@ -91,8 +91,6 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$timeout,rescalendar,
         });
     }
     $scope.eventSources = [$scope.events];
-
-
 });
 
 

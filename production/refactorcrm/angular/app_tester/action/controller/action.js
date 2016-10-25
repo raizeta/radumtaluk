@@ -1,6 +1,6 @@
 'use strict';
 myAppModule.controller("ActionController",
-function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaSQLite,$cordovaCamera,sweet,ngToast,LocationFac,CameraService,productcomb,activitascom,StorageService,ActivitasProductService,GambarFac,CheckInFac,CheckinSqliteFac,CheckOutFac,ActionMemoFac,PhtoSqliteFac) 
+function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$cordovaGeolocation,$cordovaSQLite,$cordovaCamera,sweet,ngToast,LocationFac,CameraService,productcomb,activitascom,StorageService,ActivitasProductService,GambarFac,CheckInFac,CheckinSqliteFac,CheckOutFac,ActionMemoFac,PhtoSqliteFac,InventoryCombFac) 
 {   
     $scope.activehome = "active";
     $scope.userInfo = auth;
@@ -35,6 +35,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
     var PLAN_TGL_KUNJUNGAN              = currentagenda.TGL;
     var CUST_ID                         = currentagenda.CUST_ID;
     var ID_GROUP                        = currentagenda.SCDL_GROUP;
+    var CUST_NM                         = currentagenda.CUST_NM;
     $scope.namacustomerdiview           = currentagenda.CUST_NM;
 
     $scope.salesaktivitas = ActivitasProductService.ActivitasProduct(activitascom,productcomb);
@@ -84,8 +85,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         function(error)
         {
             console.log(error);
-        });
-      
+        });  
     };
     $scope.checkin(ID_DETAIL);
 
@@ -139,11 +139,12 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         var titledialog = idinventorys.DIALOG_TITLE;
         var sotype      = idinventorys.ID;
         
-        var namaproduct = barang.NM_BARANG;
+        var KD_BARANG   = barang.KD_BARANG;
+        var NM_BARANG   = barang.NM_BARANG;
         sweet.show(
         {
             title: titledialog,
-            text: namaproduct,
+            text: NM_BARANG,
             type: 'input',
             showCancelButton: true,
             closeOnConfirm: true,
@@ -174,17 +175,53 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             
             else
             {
-                $scope.salesaktivitas[parentindex].products.splice(index, 1);
-                if($scope.salesaktivitas[parentindex].products.length == 0)
+                var detail={};
+                detail.TGL                      = PLAN_TGL_KUNJUNGAN;
+                detail.CUST_KD                  = CUST_ID;
+                detail.CUST_NM                  = CUST_NM;
+                detail.KD_BARANG                = KD_BARANG;
+                detail.NM_BARANG                = NM_BARANG;
+                if(inputValue == 0)
                 {
-                    var status={};
-                    status.bgcolor="bg-green";
-                    status.icon="fa fa-check bg-green";
-                    status.show = false;
-
-                    $scope.salesaktivitas[parentindex].status = status
+                    detail.SO_QTY               = -1;
                 }
-                $scope.$apply();
+                else
+                {
+                   detail.SO_QTY                = inputValue; 
+                }
+                detail.SO_TYPE                  = idinventory; //5:INVENTORY_STOCK, 6:INVENTORY_SELLIN, 7:INVENTORY_SELLOUT, 8:INVENTORY_RETURN,9:INVENTORY_REQUEST
+                detail.POS                      = 'ANDROID';
+                detail.USER_ID                  = auth.id;
+                detail.STATUS                   = 1;
+                detail.WAKTU_INPUT_INVENTORY    = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+                detail.ID_GROUP                 = ID_GROUP;
+
+                var DIALOG_TITLE                = titledialog;
+                InventoryCombFac.SetInventoryComb(detail,DIALOG_TITLE)
+                .then(function (result) 
+                {
+                    sweet.show({
+                                    title: 'Saved',
+                                    type: 'success',
+                                    timer: 2000,
+                                    showConfirmButton: false
+                                });
+                    $scope.salesaktivitas[parentindex].products.splice(index, 1);
+                    if($scope.salesaktivitas[parentindex].products.length == 0)
+                    {
+                        var status={};
+                        status.bgcolor="bg-green";
+                        status.icon="fa fa-check bg-green";
+                        status.show = false;
+
+                        $scope.salesaktivitas[parentindex].status = status
+                    }
+                },
+                function (error)
+                {
+                    alert("Gagal Menyimpan " + titledialog + " Ke Server");
+                    $scope.loadingcontent = false;
+                });
             }
         });
     }
@@ -279,6 +316,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
             }); 
         });
     }
+    
     $scope.getsalesmemo = function(ID_DETAIL)
     {
         ActionMemoFac.GetMemo(ID_DETAIL)
@@ -340,30 +378,7 @@ function ($q,$rootScope,$scope,$location,$http,auth,$window,$filter,$timeout,$co
         {
             $scope.loadingcontent = false;
         });
-    }
-
-    ExpiredSqliteServices.getSqliteExpired(ID_DETAIL)
-    .then (function (databarangexpired)
-    {
-        var arrayobjectdatabarang = resolveobjectbarangsqlite;
-        var arrayhanyakodebarang = [];
-
-        angular.forEach(arrayobjectdatabarang, function(value, key)
-        {
-            arrayhanyakodebarang.push(value.KD_BARANG);
-        });
-
-        var x           = $rootScope.diffbarang(arrayhanyakodebarang,databarangexpired);
-
-        $scope.barangexpired   = [];
-
-        angular.forEach(x, function(value, key)
-        {
-            var existingFilter = _.findWhere(arrayobjectdatabarang, { KD_BARANG: value.KD_BARANG });
-            $scope.barangexpired.push(existingFilter);
-        });
-    });
-    
+    } 
 });
 
 
