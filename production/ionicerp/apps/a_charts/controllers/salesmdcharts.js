@@ -1,11 +1,11 @@
 angular.module('starter')
 .controller('VisitChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$filter,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService) 
 {
-    $scope.example = {value: null};
+    $scope.example = {value: new Date()};
     $scope.onSearchChange = function()
     {
         console.log($scope.example);
-        var bulan = $filter('date')($scope.example.value,'MM');
+        var bulan = parseInt($filter('date')($scope.example.value,'MM'));
 
         $ionicLoading.show
         ({
@@ -29,6 +29,20 @@ angular.module('starter')
                   });
                   conversionChart.render();
                 });
+                $scope.showvisitchart = true;
+            },
+            function(error)
+            {
+                StorageService.destroy('chart-sale');
+                var conversionChart = new FusionCharts(
+                {
+                    type: 'msline',
+                    renderAt: 'chart-visit',
+                    width: "100%",
+                    dataFormat: 'json',
+                    dataSource: []
+                });
+                conversionChart.render();
             })
             .finally(function()
             {
@@ -50,17 +64,25 @@ angular.module('starter')
     {
         FusionCharts.ready(function() 
         {
-            
+            var dataSource;
+            if(!result)
+            {
+                dataSource = [];
+            }
+            else
+            {
+                dataSource = result.ActionVisit;
+            }
             var conversionChart = new FusionCharts(
             {
                 type: 'mscolumn3d',
                 renderAt: 'chart-actionvisit',
                 width: "100%",
                 dataFormat: 'json',
-                dataSource: result.ActionVisit
+                dataSource: dataSource
             });
             conversionChart.render();
-            $ionicLoading.hide(); 
+            $ionicLoading.hide();
         });  
     });
 })
@@ -111,6 +133,25 @@ angular.module('starter')
           conversionChart.render();
           $ionicLoading.hide();
         });   
+    });
+})
+
+.controller('ActionVisitMemoChartsCtrl', function($window,$timeout,$filter,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,SalesMemoFac) 
+{
+    var tanggalplan = $filter('date')(new Date(),'yyyy-MM-dd');
+    $ionicLoading.show
+    ({
+        template: 'Loading...'
+    })
+    .then(function()
+    {
+        SalesMemoFac.GetMemoByDate(tanggalplan)
+        .then(function(response)
+        {
+            console.log(response);
+            $scope.actionmemos = response;
+            $ionicLoading.hide();
+        });
     });
 });
 

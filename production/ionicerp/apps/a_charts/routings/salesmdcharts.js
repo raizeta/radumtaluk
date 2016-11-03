@@ -62,4 +62,17 @@ angular.module('starter')
           },
     });
 
+    $stateProvider.state('main.salesmd.actionvisitmemo', 
+    {
+          url: "/action-visit-memo",
+          views: 
+          {
+              'salesmd-action-visit-memo': 
+              {
+                  templateUrl: "apps/a_charts/views/sales-md/action-visit-memo.html",
+                  controller:'ActionVisitMemoChartsCtrl'
+              }
+          },
+    });
+
 });

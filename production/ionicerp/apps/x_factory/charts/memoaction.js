@@ -1,19 +1,17 @@
 angular.module('starter')
-.factory('ChartsPurchasesFac',function($rootScope,$http,$q,$filter,$window,UtilService,ArrayObjectService)
+.factory('SalesMemoFac',function($rootScope,$http,$q,$filter,$window,UtilService,ArrayObjectService)
 {
-	
-	var GetPOPrice = function(statuscode)
+
+	var GetMemoByDate = function(tanggalplan)
     {
-		var globalurl 		= UtilService.ApiUrl();
 		var deferred 		= $q.defer();
-		var month 			= $filter('date')(new Date(),'MM');
 		var getUrl 			= UtilService.ApiUrl();
-		var url 			= getUrl + "/chart/esmsuplierspos";
+		var url 			= getUrl + "/chart/esmsalesmdmemos/search?TGL=" + tanggalplan;
 		var method 			= "GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
         {
-	        deferred.resolve(response);
+	        deferred.resolve(response.Salesmemo);
         })
         .error(function(err,status)
         {
@@ -30,6 +28,6 @@ angular.module('starter')
     }
 
 	return{
-			GetPOPrice:GetPOPrice
+			GetMemoByDate:GetMemoByDate
 		}
 });

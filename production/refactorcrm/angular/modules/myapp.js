@@ -43,7 +43,24 @@ function ($rootScope,$http,$location,LocationFac,$window,$q,$filter,$cordovaDevi
         $rootScope.deviceplatform   = $cordovaDevice.getPlatform();
         $rootScope.deviceuuid       = $cordovaDevice.getUUID();
         $rootScope.deviceversion    = $cordovaDevice.getVersion();
+
+        var type                    = $cordovaNetwork.getNetwork();
+        alert("Type " + type);
+        var isOnline                = $cordovaNetwork.isOnline();
+        var isOffline               = $cordovaNetwork.isOffline();
+        $rootScope.$on('$cordovaNetwork:online', function(event, networkState)
+        {
+            var onlineState = networkState;
+            alert("Online");
+        });
+
+        $rootScope.$on('$cordovaNetwork:offline', function(event, networkState)
+        {
+          var offlineState = networkState;
+          alert("Offline");
+        });
     }, false);
+
 
 
     $rootScope.$on("$routeChangeStart", function (e, curr, prev,userInfo) 
@@ -63,8 +80,7 @@ function ($rootScope,$http,$location,LocationFac,$window,$q,$filter,$cordovaDevi
         {
             $rootScope.loading= false;
         }
-        $timeout(hideloading, 1000);
-        
+        $timeout(hideloading, 1000);    
     });
 
     $rootScope.$on("$routeChangeError", function (event, current, previous, eventObj) 

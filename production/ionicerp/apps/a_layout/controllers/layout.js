@@ -14,7 +14,8 @@ angular.module('starter')
   
 })
 
-.controller('DashboardCtrl', function($window,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,ProductService,ArrayObjectService,StorageService,auth,MenuService) 
+.controller('DashboardCtrl', 
+function($window,$rootScope,$scope, $state,$ionicPopup,$ionicLoading,UtilService,ProductService,ArrayObjectService,StorageService,auth,MenuService,DateService) 
 {
     var profile = StorageService.get('profile');
     $scope.profile = profile;
@@ -29,7 +30,8 @@ angular.module('starter')
     // menus.push({src: "assets/img/img/200x200/chat.png",link:"",judul:"Chat"});
     
     $scope.menus = UtilService.ArrayChunk(menus,4);
-
     $rootScope.sidemenu = MenuService.DashboardMenu();
+    var x = DateService.GetWeekOf('2016-10-27');
+    var y = DateService.GetDayOf('2016-10-27');
 
 });

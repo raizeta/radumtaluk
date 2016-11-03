@@ -2,11 +2,11 @@ angular.module('starter')
  .controller('ChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,$ionicModal,$cordovaGeolocation,NgMap,UtilService,MenuService,ChartsSalesFac,CustomerFac,ChartsPurchasesFac) 
 {
     var menus = [];
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalMap()",judul:"MAP"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSales()",judul:"Sales-MD"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalPurchases()",judul:"Purchases"});
+    // menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalMap()",judul:"MAP"});
+    // menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSales()",judul:"Sales-MD"});
+    // menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalPurchases()",judul:"Purchases"});
     menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalProducts()",judul:"Products"});
-    menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalCustomers()",judul:"Customers"});
+    // menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalCustomers()",judul:"Customers"});
     menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSupliers()",judul:"Supliers"});
     menus.push({src: "assets/img/img/200x200/chart.jpg",link:"openModalSPG()",judul:"SPG"});
     
@@ -92,7 +92,6 @@ angular.module('starter')
 
               conversionChart.render();
             });
-
             $scope.modal            = modal;
             $scope.modal.show();
             $timeout(function()
@@ -379,16 +378,35 @@ angular.module('starter')
             {
                 console.log("Could not get location");
             });
-            CustomerFac.GetCustomers()
+            CustomerFac.GetCustomersMap()
             .then(function(response)
             {
-                $scope.customers = response;
+                $scope.customers = response.CustMap;
+                $scope.icons     = response.icon;
+                var total = 0;
+                angular.forEach($scope.customers,function(value,key)
+                {
+                    if(value.STT_ONLINE == 1)
+                    {
+                        value.icons     = $scope.icons[1].MAP_ICON;
+                        value.animation = "BOUNCE";
+
+                    }
+                    else if(value.STT_ONLINE == 0)
+                    {
+                        value.icons     = $scope.icons[0].MAP_ICON;
+                    }
+
+                });
             });
+
             $scope.showdetail = function(e,item)
             {
                 $scope.selecteditem = item;
                 $scope.map.showInfoWindow('myInfoWindow', this);
+                $scope.customershow = true;
             }
+
             $scope.modal            = modal;
             $scope.modal.show();
             $timeout(function()

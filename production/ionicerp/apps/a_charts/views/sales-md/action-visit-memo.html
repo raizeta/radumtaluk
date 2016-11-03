@@ -1,0 +1,17 @@
+<ion-view view-title="HISTORY">
+  <ion-content class="padding">
+        <ion-refresher pulling-text="Pull to refresh..." on-refresh="doRefresh()"></ion-refresher>
+        <ion-list>
+            <div class="card">
+                <a  ng-repeat="item in actionmemos | orderBy:'NM_FIRST' " class="item item-avatar item-icon-right">
+                    <img data-ng-src="data:image/jpeg;base64,{{item.IMG_BASE64}}">
+                    <h2>{{item.NM_CUSTOMER}}</h2>
+                    <p>{{item.ISI_MESSAGES}}</p>
+                    <p>{{item.NM_FIRST}}</p>
+                    <p>{{item.CREATE_AT}}</p>
+                    <i class="icon ion-chatbubble muted"></i>
+                </a>
+            </div>
+        </ion-list>
+  </ion-content>
+</ion-view>
