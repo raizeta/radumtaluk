@@ -68,9 +68,10 @@ function($http,$q,UtilService)
             var salestracks   = [];
             _.each(data.SalesTrackPerUser, function(executes) 
             {
-                var salestrack = {};
-                salestrack.USER_ID = executes.USER_ID;
-                salestrack.salesman = executes.NM_FIRST;
+                var salestrack              = {};
+                salestrack.ID_SCDLDETAIL    = executes.ID_SCDLDETAIL;
+                salestrack.USER_ID          = executes.USER_ID;
+                salestrack.salesman         = executes.NM_FIRST;
                 salestrack.CUST_KD          = executes.CUST_KD;
                 salestrack.CUST_NM          = executes.CUST_NM;
                 if(executes.CHECKIN_TIME == null && executes.CHECKOUT_TIME == null)

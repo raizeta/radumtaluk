@@ -16,9 +16,10 @@ function($rootScope,$http, $q, $filter, $window, ProductService,SOT2Services)
         var globalurl       = getUrl();
         var deferred        = $q.defer();
 
-        var databarang      = resolveobjectbarang;
-        var salesaktivitas  = [];
+        var databarang = resolveobjectbarang;
+        var salesaktivitas = [];
         var i = 0;
+        
         angular.forEach(resolvesot2type, function(value, key)
         {
             SOT2Services.getSOT2Quantity(CUST_ID,PLAN_TGL_KUNJUNGAN,value.SO_ID)

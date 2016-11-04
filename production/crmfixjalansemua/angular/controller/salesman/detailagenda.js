@@ -17,13 +17,15 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
             if(value.note == 'RENTANGKUNJUNGAN')
             {
                 $scope.configrentangkunjungan = value.valueradius;
+                console.log($scope.configrentangkunjungan);
             }
         });
     },
     function(error)
     {
+        console.log("Lama Kunjungan Error");
         $scope.configjarak = 5000000;
-        $scope.configrentangkunjungan = 1;
+        $scope.configrentangkunjungan = 30;
     });
 
     $scope.data = 
@@ -61,186 +63,185 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
         $scope.gpslong  = data.longitude;
     });
 
-    document.addEventListener("deviceready", function () 
-    {
-        var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ?";
-        $cordovaSQLite.execute($rootScope.db, queryagendatoday, [tanggalplan, auth.id])
-        .then(function(result) 
-        {
-            if (result.rows.length > 0) 
-            {
-                $scope.customers = [];
-                var l = result.rows.length;
-                for (var i=0; i < l; i++) 
-                {
-                    var customer = {};
-                    customer.ID                         = result.rows.item(i).ID_SERVER;
-                    customer.CUST_ID                    = result.rows.item(i).CUST_ID;
-                    customer.CUST_NM                    = result.rows.item(i).CUST_NM;
-                    customer.MAP_LAT                    = result.rows.item(i).MAP_LAT;
-                    customer.MAP_LNG                    = result.rows.item(i).MAP_LNG;
-                    customer.TANGGAL                    = result.rows.item(i).TGL;
-                    customer.CHECKIN_TIME               = $filter('date')(result.rows.item(i).CHECKIN_TIME,'dd-MM-yyyy HH:mm:ss');
-                    customer.CHECKOUT_TIME              = $filter('date')(result.rows.item(i).CHECKOUT_TIME,'dd-MM-yyyy HH:mm:ss');
 
-                    customer.STSSTART_PIC               = result.rows.item(i).STSSTART_PIC;
-                    customer.STSEND_PIC                 = result.rows.item(i).STSEND_PIC;
-                    customer.STSCHECK_IN                = result.rows.item(i).STSCHECK_IN;
-                    customer.STSCHECK_OUT               = result.rows.item(i).STSCHECK_OUT;
-                    customer.STSINVENTORY_STOCK         = result.rows.item(i).STSINVENTORY_STOCK;
-                    customer.STSINVENTORY_SELLIN        = result.rows.item(i).STSINVENTORY_SELLIN;
-                    customer.STSINVENTORY_SELLOUT       = result.rows.item(i).STSINVENTORY_SELLOUT;
-                    customer.STSINVENTORY_EXPIRED       = result.rows.item(i).STSINVENTORY_EXPIRED;
-                    customer.STSINVENTORY_REQUEST       = result.rows.item(i).STSINVENTORY_REQUEST;
-                    customer.STSINVENTORY_RETURN        = result.rows.item(i).STSINVENTORY_RETURN;
-                    
-                    if(customer.STSCHECK_IN  == 0 || customer.STSCHECK_IN  == null)
+    var queryagendatoday = "SELECT * FROM Agenda WHERE TGL = ? AND USER_ID = ?";
+    $cordovaSQLite.execute($rootScope.db, queryagendatoday, [tanggalplan, auth.id])
+    .then(function(result) 
+    {
+        if (result.rows.length > 0) 
+        {
+            $scope.customers = [];
+            var l = result.rows.length;
+            for (var i=0; i < l; i++) 
+            {
+                var customer = {};
+                customer.ID                         = result.rows.item(i).ID_SERVER;
+                customer.CUST_ID                    = result.rows.item(i).CUST_ID;
+                customer.CUST_NM                    = result.rows.item(i).CUST_NM;
+                customer.MAP_LAT                    = result.rows.item(i).MAP_LAT;
+                customer.MAP_LNG                    = result.rows.item(i).MAP_LNG;
+                customer.TANGGAL                    = result.rows.item(i).TGL;
+                customer.CHECKIN_TIME               = $filter('date')(result.rows.item(i).CHECKIN_TIME,'dd-MM-yyyy HH:mm:ss');
+                customer.CHECKOUT_TIME              = $filter('date')(result.rows.item(i).CHECKOUT_TIME,'dd-MM-yyyy HH:mm:ss');
+
+                customer.STSSTART_PIC               = result.rows.item(i).STSSTART_PIC;
+                customer.STSEND_PIC                 = result.rows.item(i).STSEND_PIC;
+                customer.STSCHECK_IN                = result.rows.item(i).STSCHECK_IN;
+                customer.STSCHECK_OUT               = result.rows.item(i).STSCHECK_OUT;
+                customer.STSINVENTORY_STOCK         = result.rows.item(i).STSINVENTORY_STOCK;
+                customer.STSINVENTORY_SELLIN        = result.rows.item(i).STSINVENTORY_SELLIN;
+                customer.STSINVENTORY_SELLOUT       = result.rows.item(i).STSINVENTORY_SELLOUT;
+                customer.STSINVENTORY_EXPIRED       = result.rows.item(i).STSINVENTORY_EXPIRED;
+                customer.STSINVENTORY_REQUEST       = result.rows.item(i).STSINVENTORY_REQUEST;
+                customer.STSINVENTORY_RETURN        = result.rows.item(i).STSINVENTORY_RETURN;
+                
+                if(customer.STSCHECK_IN  == 0 || customer.STSCHECK_IN  == null)
+                {
+                    customer.imagecheckout = "asset/admin/dist/img/normal.jpg";
+                }
+                else
+                {
+                    if((customer.STSCHECK_OUT  == 1)||(customer.STSCHECK_OUT  == "1"))
                     {
-                        customer.imagecheckout = "asset/admin/dist/img/normal.jpg";
+                        customer.imagecheckout = "asset/admin/dist/img/customer.jpg";
                     }
                     else
                     {
-                        if((customer.STSCHECK_OUT  == 1)||(customer.STSCHECK_OUT  == "1"))
+                        customer.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
+                    } 
+                }
+
+                var longitude1      = $scope.gpslat;
+                var latitude1       = $scope.gpslong;
+
+                var longitude2      = undefined;
+                var latitude2       = undefined;
+                if(customer.MAP_LNG != null && customer.MAP_LAT != null)
+                {
+                    longitude2      = customer.MAP_LNG;
+                    latitude2       = customer.MAP_LAT;
+                }
+                var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
+                //var roundjarak      = $filter('setDecimal')(jarak,0);
+                if(jarak < 1000)
+                {
+                    customer.JARAKMETER = $filter('setDecimal')(jarak,0) + " meter";
+                }
+                else
+                {
+                    customer.JARAKMETER = $filter('setDecimal')(jarak/1000,1) + " km";
+                }
+                customer.JARAK            = $filter('setDecimal')(jarak/1000,0);
+
+
+                var totalstatus = customer.STSSTART_PIC + customer.STSEND_PIC + customer.STSCHECK_IN + customer.STSCHECK_OUT + customer.STSINVENTORY_STOCK + customer.STSINVENTORY_SELLIN + customer.STSINVENTORY_SELLOUT + customer.STSINVENTORY_EXPIRED + customer.STSINVENTORY_REQUEST + customer.STSINVENTORY_RETURN;
+                var persen = (totalstatus * 100)/10;
+                customer.persen = persen;
+                if(persen == 100)
+                {
+                    customer.wanted = true;
+                }
+                $scope.customers.push(customer);
+            }
+        }
+        else
+        {
+            JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
+            .then(function(response)
+            {
+                if(response.length == 0)
+                {
+                    alert("Belum Ada Agenda Hari Ini");
+                    $location.path('/history');
+                }
+                else
+                {
+                    var idgroupcustomer         = response.SCDL_GROUP;
+                    JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan,$scope.gpslong,$scope.gpslat)
+                    .then(function (responseagendatoday) 
+                    {
+                        if(responseagendatoday.length > 0)
                         {
-                            customer.imagecheckout = "asset/admin/dist/img/customer.jpg";
+                            angular.forEach(responseagendatoday, function(value, key)
+                            {
+                                var newID_SERVER                = value.ID;
+                                var newTGL                      = tanggalplan;
+                                var newUSER_ID                  = auth.id;
+                                var newCUST_ID                  = value.CUST_ID;
+                                var newCUST_NM                  = value.CUST_NM;
+                                var newLAG                      = $scope.gpslat;  //GPS LAT LOCATION
+                                var newLAT                      = $scope.gpslong; //GPS LNG LOCATION
+                                var newMAP_LAT                  = value.MAP_LAT; //ACTUAL LAT CUSTOMER DARI MASTER
+                                var newMAP_LNG                  = value.MAP_LNG; //ACTUAL LAG CUSTOMER DARI MASTER
+                                var newCHECKIN_TIME             = value.CHECKIN_TIME;
+                                var newCHECKOUT_TIME            = value.CHECKOUT_TIME;
+
+                                var newSTSCHECK_IN              = value.STSCHECK_IN;
+                                var newSTSCHECK_OUT             = value.STSCHECK_OUT;
+                                var newSTSINVENTORY_EXPIRED     = value.STSINVENTORY_EXPIRED;
+                                var newSTSINVENTORY_SELLIN      = value.STSINVENTORY_SELLIN;
+                                var newSTSINVENTORY_SELLOUT     = value.STSINVENTORY_SELLOUT;
+                                var newSTSINVENTORY_STOCK       = value.STSINVENTORY_STOCK;
+                                var newSTSINVENTORY_REQUEST     = value.STSINVENTORY_REQUEST;
+                                var newSTSINVENTORY_RETURN      = value.STSINVENTORY_RETURN;
+
+
+                                var newSTSSTART_PIC             = value.STSSTART_PIC;
+                                var newSTSEND_PIC               = value.STSEND_PIC;
+                                var newSCDL_GROUP               = idgroupcustomer;
+                                var newSTSISON_SERVER           = 1;
+
+                                var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,STSCHECK_IN,STSCHECK_OUT,STSINVENTORY_EXPIRED,STSINVENTORY_SELLIN,STSINVENTORY_SELLOUT,STSINVENTORY_STOCK,STSINVENTORY_REQUEST,STSINVENTORY_RETURN,STSSTART_PIC,STSEND_PIC,SCDL_GROUP,STSISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newSTSCHECK_IN,newSTSCHECK_OUT,newSTSINVENTORY_EXPIRED,newSTSINVENTORY_SELLIN,newSTSINVENTORY_SELLOUT,newSTSINVENTORY_STOCK,newSTSINVENTORY_REQUEST,newSTSINVENTORY_RETURN,newSTSSTART_PIC,newSTSEND_PIC,newSCDL_GROUP,newSTSISON_SERVER])
+                                .then(function(result) 
+                                {
+                                    console.log("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
+                                }, 
+                                function(error) 
+                                {
+                                    alert("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
+                                });
+                            });
+                            $scope.customers        = responseagendatoday;
+                            $scope.loadingcontent   = false;  
                         }
                         else
                         {
-                            customer.imagecheckout = "asset/admin/dist/img/customerlogo.jpg";
-                        } 
-                    }
-
-                    var longitude1      = $scope.gpslat;
-                    var latitude1       = $scope.gpslong;
-
-                    var longitude2      = undefined;
-                    var latitude2       = undefined;
-                    if(customer.MAP_LNG != null && customer.MAP_LAT != null)
+                            alert("Belum Ada Customer Di Server Yang Didaftarkan Untuk Group Ini");
+                        }
+                        
+                    },
+                    function (error)
                     {
-                        longitude2      = customer.MAP_LNG;
-                        latitude2       = customer.MAP_LAT;
-                    }
-                    var jarak           = $rootScope.jaraklokasi(longitude1,latitude1,longitude2,latitude2);
-                    //var roundjarak      = $filter('setDecimal')(jarak,0);
-                    if(jarak < 1000)
-                    {
-                        customer.JARAKMETER = $filter('setDecimal')(jarak,0) + " meter";
-                    }
-                    else
-                    {
-                        customer.JARAKMETER = $filter('setDecimal')(jarak/1000,1) + " km";
-                    }
-                    customer.JARAK            = $filter('setDecimal')(jarak/1000,0);
-
-
-                    var totalstatus = customer.STSSTART_PIC + customer.STSEND_PIC + customer.STSCHECK_IN + customer.STSCHECK_OUT + customer.STSINVENTORY_STOCK + customer.STSINVENTORY_SELLIN + customer.STSINVENTORY_SELLOUT + customer.STSINVENTORY_EXPIRED + customer.STSINVENTORY_REQUEST + customer.STSINVENTORY_RETURN;
-                    var persen = (totalstatus * 100)/10;
-                    customer.persen = persen;
-                    if(persen == 100)
-                    {
-                        customer.wanted = true;
-                    }
-                    $scope.customers.push(customer);
-                }
-            }
-            else
+                        var forcereload = confirm("Cors Agenda Error. Reload Again");
+                        if (forcereload == true) 
+                        {
+                            $scope.loadingcontent   = true;
+                            $timeout(function()
+                            {
+                                $window.location.reload();
+                            },10000);
+                        }
+                        else
+                        {
+                            $scope.loadingcontent   = false;
+                        }
+                    });  
+                }      
+            },
+            function (error)
             {
-                JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalplan)
-                .then(function(response)
-                {
-                    if(response.length == 0)
-                    {
-                        alert("Belum Ada Agenda Hari Ini");
-                        $location.path('/history');
-                    }
-                    else
-                    {
-                        var idgroupcustomer         = response.SCDL_GROUP;
-                        JadwalKunjunganService.GetSingleDetailKunjunganProsedur(idsalesman,idgroupcustomer,tanggalplan,$scope.gpslong,$scope.gpslat)
-                        .then(function (responseagendatoday) 
-                        {
-                            if(responseagendatoday.length > 0)
-                            {
-                                angular.forEach(responseagendatoday, function(value, key)
-                                {
-                                    var newID_SERVER                = value.ID;
-                                    var newTGL                      = tanggalplan;
-                                    var newUSER_ID                  = auth.id;
-                                    var newCUST_ID                  = value.CUST_ID;
-                                    var newCUST_NM                  = value.CUST_NM;
-                                    var newLAG                      = $scope.gpslat;  //GPS LAT LOCATION
-                                    var newLAT                      = $scope.gpslong; //GPS LNG LOCATION
-                                    var newMAP_LAT                  = value.MAP_LAT; //ACTUAL LAT CUSTOMER DARI MASTER
-                                    var newMAP_LNG                  = value.MAP_LNG; //ACTUAL LAG CUSTOMER DARI MASTER
-                                    var newCHECKIN_TIME             = value.CHECKIN_TIME;
-                                    var newCHECKOUT_TIME            = value.CHECKOUT_TIME;
-
-                                    var newSTSCHECK_IN              = value.STSCHECK_IN;
-                                    var newSTSCHECK_OUT             = value.STSCHECK_OUT;
-                                    var newSTSINVENTORY_EXPIRED     = value.STSINVENTORY_EXPIRED;
-                                    var newSTSINVENTORY_SELLIN      = value.STSINVENTORY_SELLIN;
-                                    var newSTSINVENTORY_SELLOUT     = value.STSINVENTORY_SELLOUT;
-                                    var newSTSINVENTORY_STOCK       = value.STSINVENTORY_STOCK;
-                                    var newSTSINVENTORY_REQUEST     = value.STSINVENTORY_REQUEST;
-                                    var newSTSINVENTORY_RETURN      = value.STSINVENTORY_RETURN;
-
-
-                                    var newSTSSTART_PIC             = value.STSSTART_PIC;
-                                    var newSTSEND_PIC               = value.STSEND_PIC;
-                                    var newSCDL_GROUP               = idgroupcustomer;
-                                    var newSTSISON_SERVER           = 1;
-
-                                    var queryinsertagendatoday = 'INSERT INTO Agenda (ID_SERVER,TGL,USER_ID,CUST_ID,CUST_NM,LAG,LAT,MAP_LAT,MAP_LNG,CHECKIN_TIME,CHECKOUT_TIME,STSCHECK_IN,STSCHECK_OUT,STSINVENTORY_EXPIRED,STSINVENTORY_SELLIN,STSINVENTORY_SELLOUT,STSINVENTORY_STOCK,STSINVENTORY_REQUEST,STSINVENTORY_RETURN,STSSTART_PIC,STSEND_PIC,SCDL_GROUP,STSISON_SERVER) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-                                    $cordovaSQLite.execute($rootScope.db,queryinsertagendatoday,[newID_SERVER,newTGL,newUSER_ID,newCUST_ID,newCUST_NM,newLAG,newLAT,newMAP_LAT,newMAP_LNG,newCHECKIN_TIME,newCHECKOUT_TIME,newSTSCHECK_IN,newSTSCHECK_OUT,newSTSINVENTORY_EXPIRED,newSTSINVENTORY_SELLIN,newSTSINVENTORY_SELLOUT,newSTSINVENTORY_STOCK,newSTSINVENTORY_REQUEST,newSTSINVENTORY_RETURN,newSTSSTART_PIC,newSTSEND_PIC,newSCDL_GROUP,newSTSISON_SERVER])
-                                    .then(function(result) 
-                                    {
-                                        console.log("Customer Untuk Agenda Today Berhasil Disimpan Di Local!");
-                                    }, 
-                                    function(error) 
-                                    {
-                                        alert("Customer Untuk Agenda Today Gagal Disimpan Ke Local: " + error.message);
-                                    });
-                                });
-                                $scope.customers        = responseagendatoday;
-                                $scope.loadingcontent   = false;  
-                            }
-                            else
-                            {
-                                alert("Belum Ada Customer Di Server Yang Didaftarkan Untuk Group Ini");
-                            }
-                            
-                        },
-                        function (error)
-                        {
-                            var forcereload = confirm("Cors Agenda Error. Reload Again");
-                            if (forcereload == true) 
-                            {
-                                $scope.loadingcontent   = true;
-                                $timeout(function()
-                                {
-                                    $window.location.reload();
-                                },10000);
-                            }
-                            else
-                            {
-                                $scope.loadingcontent   = false;
-                            }
-                        });  
-                    }      
-                },
-                function (error)
-                {
-                    alert("Gagal Mendapathari Data Agenda Today Dari Server");
-                });
-            }
-            $scope.loadingcontent  = false; 
-        },
-        function(error) 
-        {
-            $scope.loadingcontent  = false;
-            alert("Gagal Mendapatkan Data Dari Local Untuk Agenda Tanggal" + tanggalplan + ": " + error.message);
-        });
+                alert("Gagal Mendapathari Data Agenda Today Dari Server");
+            });
+        }
+        $scope.loadingcontent  = false; 
+    },
+    function(error) 
+    {
+        $scope.loadingcontent  = false;
+        alert("Gagal Mendapatkan Data Dari Local Untuk Agenda Tanggal" + tanggalplan + ": " + error.message);
     });
+
 
     $scope.detailjadwalkunjungan = function(customer)
     {
@@ -277,17 +278,9 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var jammasuk        = $filter('date')(waktumasuk,'HH');
                                 var menitmasuk      = $filter('date')(waktumasuk,'mm');
 
-                                var rentangwaktu;
-                                if(angular.isNumber($scope.configrentangkunjungan))
-                                {
-                                    rentangwaktu    = $scope.configrentangkunjungan;  
-                                }
-                                else
-                                {
-                                    rentangwaktu    = 1;
-                                }
-                                var hitungmenit     = parseInt(menitmasuk) + parseInt(rentangwaktu);
-                                var hitungjam       = parseInt(jammasuk);
+                                var rentangwaktu    = $scope.configrentangkunjungan;
+                                var hitungmenit = parseInt(menitmasuk) + parseInt(rentangwaktu);
+                                var hitungjam   = parseInt(jammasuk);
 
                                 var waktukeluar = new Date(tahunmasuk,bulanmasuk - 1,tanggalmasuk,0,0,0);
                                 if(hitungmenit / 60 > 1)

@@ -30,7 +30,7 @@ function($rootScope,$http, $q, $filter, $window,LocationService)
         {
             if (status === 404)
             {
-
+                deferred.reject(err);
             }
             else    
             {

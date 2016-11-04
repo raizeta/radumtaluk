@@ -33,6 +33,39 @@
         </div>
       </div>
     </div>
+    <div class="row" >
+      <div class="col-md-12">
+        <div class="panel panel-danger">
+          <div class="panel-body table-responsive">
+            <table class="table table-hover table-striped table-bordered">
+              <thead>
+                <th class="bg-aqua">CUSTOMERS</th>
+                <th class="bg-aqua">CHECK IN</td>
+                <th class="bg-aqua">CHECK OUT</th>
+              </thead>
+              <tbody>
+                <tr ng-repeat="salestrack in salestracks | orderBy:'CHECKOUT_TIME'">
+                  <td>
+                    <a href="#/salestrack/{{tanggalplanurl}}/{{salestrack.USER_ID}}/{{salestrack.CUST_KD}}">
+                      {{salestrack.CUST_NM}}
+                    </a>
+                  </td>
+                  <td ng-if="salestrack.CHECKIN_TIME">
+                    {{salestrack.CHECKIN_TIME }}
+                  </td>
+                  <td ng-if="salestrack.CHECKOUT_TIME != 'BLM CHECK OUT'">
+                    {{salestrack.CHECKOUT_TIME }}
+                  </td>
+                  <td ng-if="salestrack.CHECKOUT_TIME == 'BLM CHECK OUT'">
+                    <button class="btn btn-primary" ng-click="setcheckout(salestrack)">SET CHECKOUT</button>
+                  </td>
+                </tr>
+              </tbody>
+             </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </section><!-- /.content -->
 </div>
 <div ng-include="'angular/partial/foottemplate.html'"></div>

@@ -83,7 +83,7 @@ function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac)
 });
 
 myAppModule.controller("SalesTrackDetailUserController",
-function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac) 
+function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac,CheckOutFac) 
 {
     var idtanggal               = $routeParams.idtanggal;
     var iduser                  = $routeParams.iduser;
@@ -100,9 +100,46 @@ function ($scope,$location,$window,$filter,$routeParams,auth,SalesTrackFac)
     SalesTrackFac.getSalesTrack(tanggalplan,iduser)
     .then(function(response)
     {
-        console.log(response);
         $scope.salestracks = response;
     });
+
+    $scope.setcheckout = function(salestrack)
+    {
+        $scope.loadingcontent = true;
+        var ID_DETAIL                          = salestrack.ID_SCDLDETAIL;
+        var datacheckout                       = {};
+        datacheckout.CHECKOUT_LAT              = 0;
+        datacheckout.CHECKOUT_LAG              = 0;
+        datacheckout.CHECKOUT_TIME             = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
+        datacheckout.UPDATE_BY                 = iduser;
+        datacheckout.ID                        = ID_DETAIL;
+        CheckOutFac.SetCheckoutAction(datacheckout)
+        .then(function(data)
+        {
+            var datastatus = {};
+            datastatus.ID_DETAIL = ID_DETAIL;
+            datastatus.CHECK_OUT = 1;
+
+            CheckOutFac.UpdateCheckoutStatus(datastatus)
+            .then(function(data,status)
+            {
+              alert("Checkout Berhasil");  
+            },
+            function (error)
+            {
+                console.log("Update Status Check Out Ke Server Gagal.Try Again");
+                $scope.loadingcontent = false;
+            });
+        },
+        function (error)
+        {
+            alert("Update Check Out Server Gagal");
+        })
+        .finally(function()
+        {
+           $scope.loadingcontent = false; 
+        });
+    }
 });
 
 myAppModule.controller("SalesTrackDetailUserCustomerController",

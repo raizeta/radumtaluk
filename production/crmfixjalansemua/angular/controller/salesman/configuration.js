@@ -257,6 +257,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         var TYPE_SYNC = 'SOT2TYPE';
         $scope.whosync(TYPE_SYNC);  
     }
+    
     $scope.OutofCase = function()
     {
         
@@ -309,12 +310,10 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
             $scope.loadingcontent = false;  
         });     
     }
-    $scope.sinkronall = function()
+
+    $scope.populatelamakunjungan = function()
     {
-         $scope.sinkronproduct();
-         $scope.sinkronscdlkalender();
-         $scope.sinkronagenda();
-         $scope.sinkronabsensi();
+        alert("Indonesia");
     }          
 }]);
 
