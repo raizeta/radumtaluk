@@ -40,10 +40,6 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
             {
                 $scope.showbuttonsotype = true;
             }
-            if(value.note == 'SYNCALL')
-            {
-                $scope.showbuttonall = true;
-            }
             if(value.note == 'SYNCOUTOFCASE')
             {
                 $scope.showbuttonoutofcase = true;
@@ -257,7 +253,6 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         var TYPE_SYNC = 'SOT2TYPE';
         $scope.whosync(TYPE_SYNC);  
     }
-    
     $scope.OutofCase = function()
     {
         
@@ -309,12 +304,7 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         {
             $scope.loadingcontent = false;  
         });     
-    }
-
-    $scope.populatelamakunjungan = function()
-    {
-        alert("Indonesia");
-    }          
+    }  
 }]);
 
 

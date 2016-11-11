@@ -4,7 +4,6 @@ angular.module('starter')
 	var globalurl 		= UtilService.ApiUrl();
 	var GetVisitStock = function(bulan)
     {
-		
 		var deferred 		= $q.defer();
 		var month;
 		if(bulan)
@@ -37,8 +36,68 @@ angular.module('starter')
         });	
         return deferred.promise;  
     }
+    var GetSalesmans = function()
+    {
+        var getUrl          = UtilService.ApiUrl();
+        var deferred        = $q.defer();
+
+        var autouuid        = autouuid;
+        var urluuid         = getUrl + "/chart/esmsalesmdusers";
+        $http.get(urluuid)
+        .success(function(response,status, headers, config) 
+        {
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                }
+            }
+            else
+            {
+                deferred.resolve(response.SalesUser); 
+            }
+        })
+        .error(function(err)
+        {
+            deferred.reject("username_salah");
+        });
+
+        return deferred.promise;
+    }
+    var GetSalesmansPerUser = function(tanggal,userid)
+    {
+        var getUrl          = UtilService.ApiUrl();
+        var deferred        = $q.defer();
+
+        var autouuid        = autouuid;
+        var urluuid         = getUrl + "/chart/esmsalesmdusers/search?TGL="+tanggal+"&USER_ID=" + userid;
+        $http.get(urluuid)
+        .success(function(response,status, headers, config) 
+        {
+            if(angular.isDefined(response.statusCode))
+            {
+               if(response.statusCode == 404)
+                {
+                    deferred.resolve([]);
+                }
+            }
+            else
+            {
+                deferred.resolve(response); 
+            }
+        })
+        .error(function(err)
+        {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    }
 
 	return{
-			GetVisitStock:GetVisitStock
+			GetVisitStock:GetVisitStock,
+			GetSalesmans:GetSalesmans,
+            GetSalesmansPerUser:GetSalesmansPerUser
 		}
 });

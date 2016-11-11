@@ -62,6 +62,29 @@ angular.module('starter')
           },
     });
 
+    $stateProvider.state('main.salesmd.actionvisitkpi', 
+    {
+          url: "/action-visit-kpi",
+          views: 
+          {
+              'salesmd-action-visit-kpi': 
+              {
+                  templateUrl: "apps/a_charts/views/sales-md/action-visit-kpi.html",
+                  controller:'ActionVisitKpiCtrl'
+              }
+          },
+    });
+    $stateProvider.state('main.salesmd.kpidetail', 
+    {
+          url: "/action-visit-kpi/:id",
+          views: {
+              'salesmd-action-visit-kpi': {
+                  templateUrl: "apps/a_charts/views/sales-md/action-visit-kpi-detail.html",
+                  controller:'ActionVisitKpiDetailChartsCtrl'
+              },
+          }
+    });
+
     $stateProvider.state('main.salesmd.actionvisitmemo', 
     {
           url: "/action-visit-memo",

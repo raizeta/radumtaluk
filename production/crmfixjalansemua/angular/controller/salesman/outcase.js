@@ -1,5 +1,5 @@
-myAppModule.controller("OutCaseController", ["$rootScope","$scope", "$location","$http","$filter","$timeout","$window","auth","CustomerService","OutCaseService","JadwalKunjunganService","authService","$cordovaSQLite","resolvestatusabsensi","resolveagendatoday",
-function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,CustomerService,OutCaseService,JadwalKunjunganService,authService,$cordovaSQLite,resolvestatusabsensi,resolveagendatoday)
+myAppModule.controller("OutCaseController", ["$rootScope","$scope", "$location","$http","$filter","$timeout","$window","auth","CustomerCombFac","OutCaseService","JadwalKunjunganService","authService","$cordovaSQLite","resolvestatusabsensi","resolveagendatoday",
+function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,CustomerCombFac,OutCaseService,JadwalKunjunganService,authService,$cordovaSQLite,resolvestatusabsensi,resolveagendatoday)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
@@ -19,36 +19,18 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
     },
     function (error)
     {
-
+        alert("Manager Error.Keluar Lalu Masuk Lagi");
     });
-
-    $scope.customergroupchange = function()
-    {
-        $scope.loadingcontent  = true;
-        CustomerService.GetSingleGroupCustomer($scope.customer.ID)
-        .then(function (result) 
-        {
-            $scope.showcustomer           = true;
-            $scope.showusers 	          = true;
-            $scope.customers 	          = result.Customer;
-            $scope.loadingcontent  	      = false;
-            $scope.visible 		          = false;
-        },
-        function (error)
-        {
-            alert("Gagal Mendapat Group Customer Dari Server");
-        });
-    }
 
     $scope.getcustomers = function()
     {
         $scope.loadingcontent  = true;
-        CustomerService.GetCustomers()
+        CustomerCombFac.GetCustomerCombine()
         .then(function (result) 
         {
             var customerparents     = [];
             var customers           = [];
-            _.each(result.Customer, function(executes) 
+            _.each(result, function(executes) 
             {
                 if(executes.CUST_KD == executes.CUST_GRP)
                 {
@@ -61,12 +43,14 @@ function ($rootScope,$scope, $location, $http,$filter,$timeout,$window,auth,Cust
             });
             $scope.customeparents   = customerparents;
             $scope.customers        = customers;
-            $scope.loadingcontent  = false;
         },
         function (error)
         {
-            alert("Gagal Mendapatkan Customer Dari Server");
-            $scope.loadingcontent  = false;
+            alert("Gagal Mendapatkan Customer Dari Server.Try Again");
+        })
+        .finally(function()
+        {
+            $scope.loadingcontent  = false;   
         });
     };
     $scope.getcustomers();

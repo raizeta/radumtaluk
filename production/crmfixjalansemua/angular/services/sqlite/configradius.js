@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.factory('ConfigradiusService', ["$rootScope","$http","$q","$filter","$window","$cordovaSQLite",
+myAppModule.factory('ConfigradiusSqlite', ["$rootScope","$http","$q","$filter","$window","$cordovaSQLite",
 function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
 {
     var getUrl = function()
@@ -11,11 +11,12 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         return "?access-token=azLSTAYr7Y7TLsEAML-LsVq9cAXLyAWa";
     }
 
-    var getConfigradiusSqlite = function ()
+    var GetConfigradiusSqlite = function ()
     {
-        var deferred = $q.defer();
-        var queryconfigradius = 'SELECT * FROM Configradius';
-        $cordovaSQLite.execute($rootScope.db, queryconfigradius, [])
+        var deferred            = $q.defer();
+        var TGL                 = $filter('date')(new Date(),'yyyy-MM-dd');
+        var queryconfigradius   = 'SELECT * FROM Configradius WHERE TGL= ?';
+        $cordovaSQLite.execute($rootScope.db, queryconfigradius, [TGL])
         .then(function(result) 
         {
             if (result.rows.length > 0) 
@@ -45,7 +46,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
         return deferred.promise;
     }
     
-    var getConfigRadiusFromServer = function()
+    var GetConfigRadiusFromServer = function()
     { 
         var globalurl       = getUrl();
         var deferred        = $q.defer();
@@ -66,8 +67,9 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
                     var newCHECKIN          = value.checkin;
                     var newVALUERADIUS      = value.valueradius;
                     var newNOTE             = value.note;
-                    var isitable            = [newID_SERVER,newCHECKIN,newVALUERADIUS,newNOTE];
-                    var queryconfigradius = 'INSERT INTO Configradius (ID_SERVER,CHECKIN,VALUERADIUS,NOTE) VALUES (?,?,?,?)';
+                    var newTGL              = $filter('date')(new Date(),'yyyy-MM-dd');
+                    var isitable            = [newID_SERVER,newCHECKIN,newVALUERADIUS,newNOTE,newTGL];
+                    var queryconfigradius = 'INSERT INTO Configradius (ID_SERVER,CHECKIN,VALUERADIUS,NOTE,TGL) VALUES (?,?,?,?,?)';
                     $cordovaSQLite.execute($rootScope.db,queryconfigradius,isitable)
                     .then(function(result)
                     {
@@ -91,7 +93,7 @@ function($rootScope,$http, $q, $filter, $window,$cordovaSQLite)
     }
 
     return{
-            getConfigradiusSqlite:getConfigradiusSqlite,
-            getConfigRadiusFromServer:getConfigRadiusFromServer
+            GetConfigradiusSqlite:GetConfigradiusSqlite,
+            GetConfigRadiusFromServer:GetConfigRadiusFromServer
         }
 }]);

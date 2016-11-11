@@ -1,31 +1,50 @@
-myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","configurationService","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services","LamaKunjunganSqliteServices","ModalService","configurationService",
-function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,configurationService,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services,LamaKunjunganSqliteServices,ModalService,configurationService)
+myAppModule.controller("DetailAgendaController", ["$rootScope","$scope", "$location","$http","auth","$window","SummaryService","NgMap","LocationService","$filter","sweet","$routeParams","$timeout","JadwalKunjunganService","singleapiService","ConfigradiusSqlite","LastVisitService","$cordovaSQLite","AgendaSqliteServices","resolvestatusabsensi","resolveobjectbarangsqlite","resolvesot2type","SOT2Services","LamaKunjunganSqliteServices","ModalService","configurationService",
+function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,LocationService,$filter,sweet,$routeParams,$timeout,JadwalKunjunganService,singleapiService,ConfigradiusSqlite,LastVisitService,$cordovaSQLite,AgendaSqliteServices,resolvestatusabsensi,resolveobjectbarangsqlite,resolvesot2type,SOT2Services,LamaKunjunganSqliteServices,ModalService,configurationService)
 {
     $scope.userInfo = auth;
     $scope.loadingcontent  = true;
     var idsalesman = auth.id;
 
-    configurationService.getConfigRadius()
-    .then(function (response)
+    ConfigradiusSqlite.GetConfigradiusSqlite()
+    .then(function (responselocal)
     {
-        angular.forEach(response,function(value,key)
+        if(angular.isArray(responselocal) && responselocal.length > 0 )
         {
-            if(value.note == 'CHECKIN')
+            angular.forEach(responselocal,function(value,key)
             {
-                $scope.configjarak = value.valueradius;
-            }
-            if(value.note == 'RENTANGKUNJUNGAN')
+                if(value.note == 'CHECKIN')
+                {
+                    $scope.configjarak = value.valueradius;
+                }
+                if(value.note == 'RENTANGKUNJUNGAN')
+                {
+                    $scope.configrentangkunjungan = value.valueradius;
+                    console.log($scope.configrentangkunjungan);
+                }
+            });
+        }
+        else
+        {
+            ConfigradiusSqlite.GetConfigRadiusFromServer()
+            .then(function(responseserver)
             {
-                $scope.configrentangkunjungan = value.valueradius;
-                console.log($scope.configrentangkunjungan);
-            }
-        });
-    },
-    function(error)
-    {
-        console.log("Lama Kunjungan Error");
-        $scope.configjarak = 5000000;
-        $scope.configrentangkunjungan = 30;
+                if(angular.isArray(responseserver) && responseserver.length > 0 )
+                {
+                    angular.forEach(responseserver,function(value,key)
+                    {
+                        if(value.note == 'CHECKIN')
+                        {
+                            $scope.configjarak = value.valueradius;
+                        }
+                        if(value.note == 'RENTANGKUNJUNGAN')
+                        {
+                            $scope.configrentangkunjungan = value.valueradius;
+                            console.log($scope.configrentangkunjungan);
+                        }
+                    });
+                }
+            });
+        }
     });
 
     $scope.data = 
@@ -279,16 +298,15 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var menitmasuk      = $filter('date')(waktumasuk,'mm');
 
                                 var rentangwaktu    = $scope.configrentangkunjungan;
-                                var hitungmenit = parseInt(menitmasuk) + parseInt(rentangwaktu);
-                                var hitungjam   = parseInt(jammasuk);
-
+                                var hitungmenit = parseInt(menitmasuk,10) + parseInt(rentangwaktu);
+                                var hitungjam   = parseInt(jammasuk,10);
                                 var waktukeluar = new Date(tahunmasuk,bulanmasuk - 1,tanggalmasuk,0,0,0);
                                 if(hitungmenit / 60 > 1)
                                 {
                                     var jamx        = hitungjam + 1;
                                     var menitx      = hitungmenit % 60;
                                     waktukeluar.setHours(jamx);
-                                    waktukeluar.setMinutes(menitx );
+                                    waktukeluar.setMinutes(menitx);
                                 }
                                 else
                                 {
@@ -298,7 +316,7 @@ function ($rootScope,$scope, $location, $http,auth,$window,SummaryService,NgMap,
                                 var newID_AGENDA    = customer.ID;
                                 var newWAKTU_MASUK  = $filter('date')(waktumasuk,'yyyy-MM-dd HH:mm:ss');
                                 var newWAKTU_KELUAR = $filter('date')(waktukeluar,'yyyy-MM-dd HH:mm:ss');
-                                var isitable            = [newID_AGENDA,newWAKTU_MASUK,newWAKTU_KELUAR];
+                                var isitable        = [newID_AGENDA,newWAKTU_MASUK,newWAKTU_KELUAR];
                                 LamaKunjunganSqliteServices.setLamaKunjungan(isitable)
                                 .then (function (response)
                                 {

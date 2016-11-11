@@ -14,18 +14,16 @@ function ($q,$rootScope,$scope, $location, $http,auth,$window,$filter,$timeout,L
         $window.sessionStorage.clear();
         window.location.href = "index.html";
     }
-    document.addEventListener("deviceready", function () 
+
+    var options = {maximumAge:3000,timeout:60000, enableHighAccuracy: false};
+    var geocoder = new google.maps.Geocoder;
+    LocationService.GetGpsLocation(options)
+    .then(function(data)
     {
-        var options = {maximumAge:3000,timeout:60000, enableHighAccuracy: false};
-        var geocoder = new google.maps.Geocoder;
-        LocationService.GetGpsLocation(options)
-        .then(function(data)
-        {
-            $scope.googlemaplat   = data.latitude;
-            $scope.googlemaplong  = data.longitude;
-        });
-    },false);
-    
+        $scope.googlemaplat   = data.latitude;
+        $scope.googlemaplong  = data.longitude;
+    });
+
     AbsensiSqliteServices.getAbsensi(tanggalplan, auth.id)
     .then(function(result) 
     {
