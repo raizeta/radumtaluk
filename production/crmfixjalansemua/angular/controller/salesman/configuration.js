@@ -53,18 +53,22 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
 
     var tanggalsekarang = $filter('date')(new Date(),'yyyy-MM-dd');
     var queryscdlheaderhariini = 'SELECT * FROM Scdlheader WHERE USER_ID = ? AND TGL1 = ?';
-    $cordovaSQLite.execute($rootScope.db, queryscdlheaderhariini, [auth.id,tanggalsekarang])
-    .then(function(result) 
+    document.addEventListener("deviceready", function () 
     {
-        if (result.rows.length > 0) 
+        $cordovaSQLite.execute($rootScope.db, queryscdlheaderhariini, [auth.id,tanggalsekarang])
+        .then(function(result) 
         {
-            $scope.showbuttonoutofcase = false;
-        }
-        else
-        {
-            $scope.showbuttonoutofcase = true;
-        }  
-    });
+            if (result.rows.length > 0) 
+            {
+                $scope.showbuttonoutofcase = false;
+            }
+            else
+            {
+                $scope.showbuttonoutofcase = true;
+            }  
+        });
+    },false);
+
     JadwalKunjunganService.GetGroupCustomerByTanggalPlan(auth,tanggalsekarang)
     .then (function (responselisthistory)
     {
@@ -304,6 +308,36 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         {
             $scope.loadingcontent = false;  
         });     
+    }
+
+    $scope.SinkronCustomers = function()
+    {
+        var forcesinkron = confirm("Customer Akan Disinkronisasi. Kamu Yakin?");
+        if (forcesinkron == true) 
+        {
+            $scope.loadingcontent   = true;
+            document.addEventListener("deviceready", function () 
+            {
+                var querybarang = "delete from Customers";
+                $cordovaSQLite.execute($rootScope.db, querybarang, [])
+                .then(function(result) 
+                {
+                    alert("Customer Telah Berhasil Disinkronkan Dengan Server");
+                },
+                function(error) 
+                {
+                    alert("Customer Gagal Disinkronkan Dengan Server");
+                })
+                .finally(function()
+                {
+                    $scope.loadingcontent = false;  
+                });
+            },false);
+        }
+        else
+        {
+            $scope.loadingcontent   = false;
+        }    
     }  
 }]);
 

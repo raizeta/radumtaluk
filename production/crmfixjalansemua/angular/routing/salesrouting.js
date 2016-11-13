@@ -194,6 +194,34 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
+
+    $routeProvider.when('/noo',
+    {
+        templateUrl : 'angular/partial/salesman/noo.html',
+        controller  : 'NOOController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
     
     $routeProvider.when('/home',
     {

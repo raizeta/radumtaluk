@@ -26,8 +26,8 @@ function ($rootScope,$scope, $location, $window,authService,focus,$cordovaDevice
         
 
         // authService.loginwithuuid(username, password,$scope.deviceuuid)
-    	//authService.login(username, password,$scope.deviceuuid)
-        authService.loginwithuuid(username,password,$scope.deviceuuid)
+    	authService.login(username, password,$scope.deviceuuid)
+        // authService.loginwithuuid(username,password,$scope.deviceuuid)
         .then(function (result) 
         {
             if(result == "username_salah")
