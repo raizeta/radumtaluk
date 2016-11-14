@@ -1,5 +1,5 @@
 'use strict';
-myAppModule.factory('CustomerFac',function($http,$q,$window,UtilService)
+myAppModule.factory('CustomerFac',function($http,$q,$window,UtilService,StorageService)
 {
 	var GetGroupCustomers = function()
 	{
@@ -101,10 +101,80 @@ myAppModule.factory('CustomerFac',function($http,$q,$window,UtilService)
 
         return deferred.promise;
 	}
+    var GetLastCustomers = function()
+    {
+        var globalurl   = UtilService.ApiUrl();
+        var deferred    = $q.defer();
+        var url         = globalurl + "master/customerlasts";
+        var method      = "GET";
+        $http({method:method, url:url,cache:false})
+        .success(function(response) 
+        {
+            deferred.resolve(response.Customer);
+        })
+        .error(function()
+        {
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+        });
+
+        return deferred.promise;
+    }
+    var SetCustomers = function(detail)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();
+
+        var result              = UtilService.SerializeObject(detail);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(globalurl + "master/customers",serialized,config)
+        .success(function(data,status,headers,config) 
+        {
+            deferred.resolve(data);
+        })
+        .error(function(err)
+        {
+            deferred.reject(err);
+        });
+        
+        return deferred.promise;
+    }
+    var SetCustomersBerkas = function(detail)
+    {
+        var deferred            = $q.defer();
+        var globalurl           = UtilService.ApiUrl();
+
+        var result              = UtilService.SerializeObject(detail);
+        var serialized          = result.serialized;
+        var config              = result.config;
+
+        $http.post(globalurl + "master/customerberkas",serialized,config)
+        .success(function(data,status,headers,config) 
+        {
+            deferred.resolve(data);
+        })
+        .error(function(err)
+        {
+            deferred.reject(err);
+        });
+        
+        return deferred.promise;
+    }
 	return{
 			GetGroupCustomers:GetGroupCustomers,
 			GetSingleCustomer:GetSingleCustomer,
 			GetSingleGroupCustomer:GetSingleGroupCustomer,
-			GetCustomers:GetCustomers
+			GetCustomers:GetCustomers,
+            GetLastCustomers:GetLastCustomers,
+            SetCustomers:SetCustomers,
+            SetCustomersBerkas:SetCustomersBerkas
 		}
 });
