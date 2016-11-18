@@ -88,4 +88,17 @@ angular.module('starter')
               }
           },
     });
+
+    $stateProvider.state('main.customers.target', 
+    {
+          url: "/target",
+          views: 
+          {
+              'customers-target': 
+              {
+                  templateUrl: "apps/a_charts/views/customers/target.html",
+                  controller:'CustTargetChartsCtrl'
+              }
+          },
+    });
 });

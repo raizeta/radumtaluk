@@ -40,7 +40,16 @@ angular.module('starter')
                     dataFormat: 'json',
                     dataSource: response.CombLayerGeo
                 });
-                CombLayerGeo.render();    
+                CombLayerGeo.render(); 
+
+                var CustomerParent = new FusionCharts({
+                    type: 'column3d',
+                    renderAt: 'chart-customerparent',
+                    width: '100%',
+                    dataFormat: 'json',
+                    dataSource: response.CustomerParent
+                });
+                CustomerParent.render();   
             });
         });
 
@@ -219,6 +228,15 @@ angular.module('starter')
                         dataSource: response.TotalExpired
                     });
                     TotalExpired.render();
+
+                    var ExpiredAllYear = new FusionCharts({
+                        type: 'mscolumn3d',
+                        renderAt: 'chart-expiredallyear',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.ExpiredAllYear
+                    });
+                    ExpiredAllYear.render();
                 }); 
             })
             
@@ -498,4 +516,83 @@ angular.module('starter')
             $ionicLoading.hide();
         },500);
     }); 
-});
+})
+
+.controller('CustTargetChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$filter,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,ChartsCustomerFac) 
+{
+    $scope.example = {value: new Date()};
+    $scope.onSearchChange = function()
+    {
+        var tahunbulan = $filter('date')($scope.example.value,'yyyy-MM');
+
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
+        })
+        .then(function()
+        {
+
+            ChartsCustomerFac.GetCustomerTargetCharts(tahunbulan)
+            .then(function(response)
+            {
+                FusionCharts.ready(function () 
+                {
+                
+                    var TargetAllYear = new FusionCharts({
+                        type: 'mscolumn3d',
+                        renderAt: 'chart-target',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.TargetAllYear
+                    });
+                    TargetAllYear.render();
+
+                    var TotalSurplus = new FusionCharts({
+                        type: 'column3d',
+                        renderAt: 'chart-surplus',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.TotalSurplus
+                    });
+                    TotalSurplus.render();
+
+                    var ProductSurplus = new FusionCharts({
+                        type: 'column3d',
+                        renderAt: 'chart-productsurplus',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.ProductSurplus
+                    });
+                    ProductSurplus.render();
+                    
+                    var SubTotalSurplus = new FusionCharts({
+                        type: 'column3d',
+                        renderAt: 'chart-subtotalsurplus',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.SubTotalSurplus
+                    });
+                    SubTotalSurplus.render();
+
+
+                    var Final = new FusionCharts({
+                        type: 'column3d',
+                        renderAt: 'chart-final',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.Final
+                    });
+                    Final.render();
+
+                    
+                }); 
+            })
+            
+            $timeout(function()
+            {
+                $ionicLoading.hide();
+            },500);
+        });
+    }
+    $scope.onSearchChange();
+})

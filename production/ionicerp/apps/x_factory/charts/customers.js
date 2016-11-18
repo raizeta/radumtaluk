@@ -80,6 +80,32 @@ angular.module('starter')
         return deferred.promise;  
     }
 
+    var GetCustomerTargetCharts = function(tahunbulan)
+    {
+		var globalurl 		= UtilService.ApiUrl();
+		var deferred 		= $q.defer();
+		var getUrl 			= UtilService.ApiUrl();
+		var url 			= getUrl + "/chart/esmsalestargetcustomers?MONTH=" + tahunbulan;
+		var method 			= "GET";
+		$http({method:method, url:url,cache:false})
+        .success(function(response) 
+        {
+	        deferred.resolve(response);
+        })
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });	
+        return deferred.promise;  
+    }
+
     var GetCustomerKunjunganCharts = function(tahunbulan)
     {
 		var globalurl 		= UtilService.ApiUrl();
@@ -135,6 +161,7 @@ angular.module('starter')
 			GetCustomerCharts:GetCustomerCharts,
 			GetCustomerStockCharts:GetCustomerStockCharts,
 			GetCustomerExpiredCharts:GetCustomerExpiredCharts,
+			GetCustomerTargetCharts:GetCustomerTargetCharts,
 			GetCustomerKunjunganCharts:GetCustomerKunjunganCharts,
 			GetNewCustomerCharts:GetNewCustomerCharts
 		}
