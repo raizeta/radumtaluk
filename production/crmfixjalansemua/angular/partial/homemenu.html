@@ -47,6 +47,11 @@
           <i class="fa fa-th"></i> <span>N.O.O</span>
         </a>
       </li>
+      <li ng-class="activelistnoo" ng-if="(userInfo.accessid != 1)">
+        <a href="#/listnoo">
+          <i class="fa fa-th"></i> <span>LIST NOO</span>
+        </a>
+      </li>
       <li ng-class="activehistory" ng-if="(userInfo.accessid != 1)">
         <a href="#/history">
           <i class="fa fa-th"></i> <span>HISTORY</span>

@@ -222,6 +222,62 @@ myAppModule.config(['$routeProvider', function($routeProvider,$authProvider)
             }
         }
     });
+
+    $routeProvider.when('/listnoo',
+    {
+        templateUrl : 'angular/partial/salesman/listnoo.html',
+        controller  : 'ListNOOController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
+
+    $routeProvider.when('/berkasnoo/:idcustomer',
+    {
+        templateUrl : 'angular/partial/salesman/berkasnoo.html',
+        controller  : 'BerkasNOOController',
+        resolve: 
+        {
+            auth: function ($q, authService,$location) 
+            {
+                var userInfo = authService.getUserInfo();
+                if(userInfo)
+                {
+                   if (userInfo.rulename === 'SALESMAN') 
+                    {
+                        return $q.when(userInfo);
+                    }
+                    else
+                    {
+                        $location.path('/error/404');
+                    } 
+                }
+                else 
+                {
+                    $location.path('/');
+                }
+            }
+        }
+    });
     
     $routeProvider.when('/home',
     {
