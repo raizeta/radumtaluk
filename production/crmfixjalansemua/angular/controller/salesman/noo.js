@@ -31,58 +31,37 @@ function ($rootScope,$scope,$location,auth,$window,$filter,$cordovaCamera,$cordo
             customer.JOIN_DATE  = $filter('date')(new Date(),'yyyy-MM-dd');
             customer.STT_TOKO   = '1';
             customer.CREATED_BY = auth.username;
-            CustomerFac.GetLastCustomers()
-            .then(function(response)
-            {
-                var nomorurut = '';
-                if(angular.isArray(response) && response.length > 0)
+
+            CustomerFac.SetCustomers(customer) 
+            .then( function(response)
+            {                    
+                CustomerSqliteFac.SetCustomers(response)
+                .then(function(responselocal)
                 {
-                    var kode = response[0].CUST_KD;
-                    var split = kode.split(".");
-                    var kodes = Number(split[2]) + 1;
-                    var str = "" + kodes;
-                    var pad = "000000";
-                    nomorurut   = pad.substring(0, pad.length - str.length) + str;
-                }
-                customer.CUST_KD = "CUS" + "." + $filter('date')(new Date(),'yyyy') + "." +  nomorurut;
-                CustomerFac.SetCustomers(customer) 
-                .then( function(response)
-                {                    
-                    CustomerSqliteFac.SetCustomers(response)
-                    .then(function(responselocal)
+                    var lanjutlist = confirm("Customer NOO Sukses Disimpan.Lanjut Ke List?");
+                    if (lanjutlist == true) 
                     {
-                        var lanjutlist = confirm("Customer NOO Sukses Disimpan.Lanjut Ke List?");
-                        if (lanjutlist == true) 
-                        {
-                            $location.path("/listnoo");
-                        }
-                        else
-                        {
-                            $scope.customer = null;
-                        }
-                    },
-                    function(error)
+                        $location.path("/listnoo");
+                    }
+                    else
                     {
-                        alert("Gagal Menyimpan Ke Local");
-                    });  
+                        $scope.customer = null;
+                    }
                 },
                 function(error)
                 {
-                    alert("Customer Gagal Ditambahkan.Ulangi Lagi!");
-                })
-                .finally(function()
-                {
-                    $scope.loadingcontent = false;
-                });
+                    alert("Gagal Menyimpan Ke Local");
+                });  
             },
             function(error)
             {
-                alert("Last Customer Gagal.Ulangi Lagi!");
+                alert("Customer Gagal Ditambahkan.Ulangi Lagi!");
             })
             .finally(function()
             {
                 $scope.loadingcontent = false;
             });
+
         }       
     }
 });
@@ -91,6 +70,7 @@ myAppModule.controller("ListNOOController",
 function ($window,$timeout,$rootScope,$scope,$location,auth,$filter,StorageService,CustomerFac,CustomerSqliteFac,focus,ModalService) 
 {   
     $scope.userInfo = auth;
+    $scope.activelistnoo  = "active";
     $scope.logout = function () 
     { 
         $scope.userInfo = null;
@@ -114,6 +94,7 @@ function ($window,$timeout,$rootScope,$scope,$location,auth,$filter,StorageServi
     });
     $scope.showmodal = function(item) 
     {
+        console.log(item);
         ModalService
         .showModal(
         {
@@ -167,6 +148,15 @@ function ($window,$timeout,$rootScope,$scope,$location,auth,$filter,StorageServi
 myAppModule.controller('BerkasNOOController',
 function($window,$rootScope,$scope,$http,$filter,auth,$cordovaCamera,$cordovaCapture,StorageService,CustomerFac) 
 {
+    $scope.userInfo     = auth;
+    $scope.logout = function () 
+    { 
+        $scope.userInfo = null;
+        $window.sessionStorage.clear();
+        window.location.href = "index.html";
+    }
+    $scope.activelistnoo  = "active";
+    
     var statusaction        = {};
     statusaction.bgcolor    = "bg-aqua";
     statusaction.icon       = "fa fa-close bg-aqua";
@@ -178,13 +168,7 @@ function($window,$rootScope,$scope,$http,$filter,auth,$cordovaCamera,$cordovaCap
     $scope.statusFS1        = statusaction;
     $scope.statusFS2        = statusaction;
 
-    $scope.userInfo     = auth;
-    $scope.logout = function () 
-    { 
-        $scope.userInfo = null;
-        $window.sessionStorage.clear();
-        window.location.href = "index.html";
-    }
+    
     var berkasdata      = StorageService.get('berkasitem');
     $scope.customers    = berkasdata;
     $scope.loadingcontent = true;
@@ -287,6 +271,7 @@ function($rootScope,$scope, $http,$element, title, close,$filter)
 
     $scope.title        = title.CUST_NM;
     $scope.customer     = title;
+    console.log(title.ALAMAT_KIRIM);
     $scope.customer.KTP = Number(title.KTP);
     $scope.close = function() 
     {

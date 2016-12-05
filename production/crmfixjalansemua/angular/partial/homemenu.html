@@ -42,6 +42,11 @@
           <i class="fa fa-th"></i> <span>OUT CASE</span>
         </a>
       </li>
+      <li ng-class="activehistory" ng-if="(userInfo.accessid != 1)">
+        <a href="#/history">
+          <i class="fa fa-th"></i> <span>HISTORY</span>
+        </a>
+      </li>
       <li ng-class="activenoo" ng-if="(userInfo.accessid != 1)">
         <a href="#/noo">
           <i class="fa fa-th"></i> <span>N.O.O</span>
@@ -52,9 +57,9 @@
           <i class="fa fa-th"></i> <span>LIST NOO</span>
         </a>
       </li>
-      <li ng-class="activehistory" ng-if="(userInfo.accessid != 1)">
-        <a href="#/history">
-          <i class="fa fa-th"></i> <span>HISTORY</span>
+      <li ng-class="activekpi" ng-if="(userInfo.accessid != 1)">
+        <a href="#/kpi">
+          <i class="fa fa-th"></i> <span>KPI</span>
         </a>
       </li>
       <li ng-class="activehelp" ng-if="(userInfo.accessid != 1)">

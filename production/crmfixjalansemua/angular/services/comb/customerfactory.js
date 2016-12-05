@@ -223,7 +223,7 @@ myAppModule.factory('CustomerFac',function($http,$q,$window,UtilService,StorageS
     {
         var globalurl   = UtilService.ApiUrl();
         var deferred    = $q.defer();
-        var url         = globalurl + "master/customerberkas/search?CUST_KD=" + CUST_KD;
+        var url         = globalurl + "master/customerberkas?CUST_KD=" + CUST_KD;
         var method      = "GET";
         $http({method:method, url:url,cache:false})
         .success(function(response) 

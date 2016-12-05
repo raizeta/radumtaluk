@@ -26,6 +26,14 @@
                   <textarea name="ALAMAT" class="form-control" ng-model="customer.ALAMAT" required></textarea>
                   <p ng-show="customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine" class="help-block">AlamatTidak Boleh Kosong.</p>
                 </div>
+
+                <div class="form-group"  ng-class="{ 'has-error' : customerForm.ALAMAT_KIRIM.$invalid && !customerForm.ALAMAT_KIRIM.$pristine,'has-success':customerForm.ALAMAT_KIRIM.$valid  }">
+                <label>Alamat Pengiriman</label>
+                  <textarea name="ALAMAT_KIRIM" class="form-control" ng-model="customer.ALAMAT_KIRIM" required></textarea>
+                  <p ng-show="customerForm.ALAMAT_KIRIM.$invalid && !customerForm.ALAMAT_KIRIM.$pristine" class="help-block">
+                    Alamat Pengiriman Tidak Boleh Kosong.
+                  </p>
+                </div>
                 
                 <div class="form-group"  ng-class="{ 'has-error' : customerForm.TLP1.$invalid && !customerForm.TLP1.$pristine,'has-success':customerForm.TLP1.$valid  }">
                 <label>Customer Telpon Number</label>

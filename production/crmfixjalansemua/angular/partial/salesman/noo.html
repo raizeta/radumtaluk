@@ -7,13 +7,13 @@
       <div class="col-md-12">
         <div class="box box-danger">
           <div class="box-header">
-            <h3 class="box-title">Create New Customer</h3>
+            <h3 class="box-title"> Create New Customer</h3>
           </div>
           <span data-ng-show="loadingcontent" us-spinner="{radius:30,width:8,length:16,position:'fixed'}"></span>
           <form name="customerForm" ng-submit="submitForm(customer)" method="post" novalidate>
           <div class="box-body" >
             <fieldset class="scheduler-border">
-              <legend class="scheduler-border">Customer Identity</legend>
+              <legend class="scheduler-border"> Customer Identity</legend>
               <div class="form-group"  ng-class="{ 'has-error' : customerForm.KTP.$invalid && !customerForm.KTP.$pristine,'has-success':customerForm.KTP.$valid  }">
               <label>NO KTP</label>
                 <input type="number" name="KTP" class="form-control" ng-model="customer.KTP" required focus-on="focusUsername">
@@ -30,6 +30,14 @@
               <label>Alamat Customer</label>
                 <textarea name="ALAMAT" class="form-control" ng-model="customer.ALAMAT" required></textarea>
                 <p ng-show="customerForm.ALAMAT.$invalid && !customerForm.ALAMAT.$pristine" class="help-block">AlamatTidak Boleh Kosong.</p>
+              </div>
+
+              <div class="form-group" ng-class="{ 'has-error' : customerForm.ALAMAT_KIRIM.$invalid && !customerForm.ALAMAT_KIRIM.$pristine,'has-success':customerForm.ALAMAT_KIRIM.$valid  }">
+              <label>Alamat Pengiriman</label>
+                <textarea name="ALAMAT_KIRIM" class="form-control" ng-model="customer.ALAMAT_KIRIM" required></textarea>
+                <p ng-show="customerForm.ALAMAT_KIRIM.$invalid && !customerForm.ALAMAT_KIRIM.$pristine" class="help-block">
+                  Alamat Pengiriman Tidak Boleh Kosong.
+                </p>
               </div>
               
               <div class="form-group"  ng-class="{ 'has-error' : customerForm.TLP1.$invalid && !customerForm.TLP1.$pristine,'has-success':customerForm.TLP1.$valid  }">
@@ -51,6 +59,10 @@
                 <label>Customer SIUP</label>
                   <input type="text" name="SIUP" class="form-control" ng-model="customer.SIUP" required>
                   <p ng-show="customerForm.SIUP.$invalid && !customerForm.SIUP.$pristine" class="help-block">SIUP Tidak Boleh Kosong.</p>
+              </div>
+              <div class="form-group">
+              <label>NOTE Customer</label>
+                <textarea name="NOTE" class="form-control" ng-model="customer.NOTE"></textarea>
               </div>
             </fieldset>
           </div>

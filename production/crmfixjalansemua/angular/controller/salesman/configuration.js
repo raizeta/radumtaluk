@@ -44,6 +44,10 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
             {
                 $scope.showbuttonoutofcase = true;
             }
+            if(value.note == 'SYCNCUSTOMERS')
+            {
+                $scope.showbuttonsynccustomers = true;
+            }
         });
     },
     function (error)
@@ -316,12 +320,15 @@ function ($rootScope,$scope,$location,$http,auth,$window,$filter,configurationSe
         if (forcesinkron == true) 
         {
             $scope.loadingcontent   = true;
+            $scope.showbuttonsynccustomers = false;
             document.addEventListener("deviceready", function () 
             {
-                var querybarang = "delete from Customers";
-                $cordovaSQLite.execute($rootScope.db, querybarang, [])
+                var querycustomers = "delete from Customers";
+                $cordovaSQLite.execute($rootScope.db, querycustomers, [])
                 .then(function(result) 
                 {
+                    var TYPE_SYNC = 'CUSTOMERS';
+                    $scope.whosync(TYPE_SYNC);
                     alert("Customer Telah Berhasil Disinkronkan Dengan Server");
                 },
                 function(error) 

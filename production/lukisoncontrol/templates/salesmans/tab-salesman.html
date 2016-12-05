@@ -1,0 +1,12 @@
+<ion-view view-title="ABSENSI">
+  <ion-content>
+    <ion-list>
+      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="item in salesmans | orderBy:'USER_ID'" type="item-text-wrap" href="#/tab/salesman/{{item.USER_ID}}">
+        <img ng-src="img/adam.jpg">
+        <h2>{{item.USER_NM}}</h2>
+        <p>{{item.WAKTU_MASUK |date: 'dd/MM/yyyy'}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
