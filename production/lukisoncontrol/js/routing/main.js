@@ -9,38 +9,6 @@ angular.module('starter')
     templateUrl: 'templates/tabs.html'
   })
 
-
-
-  .state('tab.dash-noo', {
-    url: '/dash/noo',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/dashboard/tab-dash-noo.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-  .state('tab.dash-noo-user', {
-    url: '/dash/noo/:user',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/dashboard/tab-dash-noo-user.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
-  .state('tab.dash-ro', {
-    url: '/dash/ro',
-    views: {
-      'tab-dash': {
-        templateUrl: 'templates/dashboard/tab-dash-ro.html',
-        controller: 'DashCtrl'
-      }
-    }
-  })
-
-
   .state('tab.account', 
   {
       url: '/account',

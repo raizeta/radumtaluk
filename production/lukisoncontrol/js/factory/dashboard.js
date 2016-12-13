@@ -1,11 +1,11 @@
 angular.module('starter')
 .factory('DashboardFac',function($http,$q,$filter,UtilService)
 {
-    var GetDashboardChart = function(tanggalplan)
+    var GetDashboardChart = function(tanggalstart)
     {
         var getUrl          = UtilService.ApiUrl();
         var deferred        = $q.defer();
-        var url             = getUrl + "chart/esmsalescontrols";
+        var url             = getUrl + "chart/esmsalescontrols?TGLSTART="+ tanggalstart;
         $http.get(url)
         .success(function(data,status,headers,config) 
         {

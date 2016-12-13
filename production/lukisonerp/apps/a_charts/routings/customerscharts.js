@@ -64,6 +64,19 @@ angular.module('starter')
               }
           },
     });
+    $stateProvider.state('main.customers.requestlayergeo', 
+    {
+          url: "/requestlayergeo",
+          views: 
+          {
+              'customers-requestlayergeo': 
+              {
+                  templateUrl: "apps/a_charts/views/customers/requestlayergeo.html",
+                  controller:'CustRequestLayerGeoChartsCtrl'
+              }
+          },
+    });
+
     $stateProvider.state('main.customers.expiredlayergeo', 
     {
           url: "/expiredlayergeo",

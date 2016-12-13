@@ -26,7 +26,7 @@
           <i class="fa fa-th"></i> <span>SET POSITION</span>
         </a>
       </li>
-      <li ng-class="activesalestrack" ng-if="(userInfo.accessid == 1)">
+      <li ng-class="activesalestrack" ng-if="(userInfo.accessid != 1)">
         <a href="#/salestrack">
           <i class="fa fa-th"></i> <span>SLS TRACK</span>
         </a>
@@ -60,6 +60,11 @@
       <li ng-class="activekpi" ng-if="(userInfo.accessid != 1)">
         <a href="#/kpi">
           <i class="fa fa-th"></i> <span>KPI</span>
+        </a>
+      </li>
+      <li ng-class="activepivot" ng-if="(userInfo.accessid != 1)">
+        <a href="#/pivot">
+          <i class="fa fa-th"></i> <span>PIVOT</span>
         </a>
       </li>
       <li ng-class="activehelp" ng-if="(userInfo.accessid != 1)">

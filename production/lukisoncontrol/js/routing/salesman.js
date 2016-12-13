@@ -19,7 +19,6 @@ angular.module('starter')
         }
       }
     })
-
     .state('tab.salesman-detail-detail', {
       url: '/salesman/:salesmanid/:id',
       views: {
@@ -29,6 +28,4 @@ angular.module('starter')
         }
       }
     })
-
-
 });

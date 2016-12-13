@@ -1,7 +1,6 @@
 angular.module('starter')
 .config(function ($stateProvider, $urlRouterProvider,$ionicConfigProvider,$ionicConfigProvider) 
 {
-
     $stateProvider.state('auth', 
     {
       url: '/auth',

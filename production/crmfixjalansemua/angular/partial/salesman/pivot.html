@@ -1,0 +1,57 @@
+<div ng-include="'angular/partial/headtemplate.html'"></div>
+<div ng-include="'angular/partial/homemenu.html'"></div>
+<div class="content-wrapper" ng-model="gpslat">
+  <span data-ng-show="loadingcontent" us-spinner="{radius:30, width:8, length: 16, position:'fixed'}"></span>
+    <section class="content">
+      <div class="row">
+        <div class="col-md-12">
+          <form method="post" novalidate>
+              <label class="item item-input">
+                <input type="date" name="valuestart" ng-model="exampleForm.valuestart" required>
+              </label>
+              <label class="item item-input">
+                <span class="input-label">-</span>
+                <input type="date" name="valueend" ng-model="exampleForm.valueend" required>
+              </label>
+              <label class="item item-input" ng-click="SubmitForm(exampleForm)">
+                <span class="input-label" style="cursor:pointer">
+                  Submit
+                </span>
+              </label>
+          </form>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-danger">
+            <div class="panel-body table-responsive">
+              <table class="table table-bordered table-stripped">
+                  <thead>
+                    <th class="bg-aqua">NAMA CUST</th>
+                    <th class="bg-aqua">NAMA PRODUCT</td>
+                    <th class="bg-aqua" colspan=53>QTY KUNJUNGAN</th>
+                  </thead>
+                  <tbody>
+                    <tr ng-if="0" ng-repeat-start="stock in stockpivots" class="bg-aqua"></tr>
+                    <tr class="bg-success">
+                      <td rowspan="stok.PRODUCT.length">{{stock.CUST_NM}}</td>
+                      <td>{{stock.PRODUCT[0].NM_BARANG}}</td>
+                      <td ng-repeat-start="value in stock.PRODUCT[0].VALUE">{{value.QTY|number}}</td>
+                      <td ng-repeat-end style="display:none"></td>
+                    </tr>
+                    <tr ng-repeat="items in stock.PRODUCT" ng-if="!$first">
+                      <td></td>
+                      <td>{{items.NM_BARANG}}</td>
+                      <td ng-repeat-start="value in items.VALUE">{{value.QTY|number}}</td>
+                      <td ng-repeat-end style="display:none"> </td>
+                    </tr>
+                    <tr ng-if="0" ng-repeat-end></tr>
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+</div>
+<div ng-include="'angular/partial/foottemplate.html'"></div>

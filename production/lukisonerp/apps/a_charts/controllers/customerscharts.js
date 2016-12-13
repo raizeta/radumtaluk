@@ -40,7 +40,16 @@ angular.module('starter')
                     dataFormat: 'json',
                     dataSource: response.CombLayerGeo
                 });
-                CombLayerGeo.render(); 
+                CombLayerGeo.render();
+
+                var CombGeoParent = new FusionCharts({
+                    type: 'mscolumn3d',
+                    renderAt: 'chart-combgeoparent',
+                    width: '100%',
+                    dataFormat: 'json',
+                    dataSource: response.CustomerGeoParent
+                });
+                CombGeoParent.render(); 
 
                 var CustomerParent = new FusionCharts({
                     type: 'column3d',
@@ -62,29 +71,42 @@ angular.module('starter')
 })
 .controller('CustNewChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$filter,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,ChartsCustomerFac) 
 {
-    $scope.example = {value: new Date()};
+    var firstDay            = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    var lastDay             = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+    $scope.exampleForm      = {valuestart:firstDay,valueend:lastDay};
+
     $scope.onSearchChange = function()
     {
-        var tahunbulan = $filter('date')($scope.example.value,'yyyy-MM');
+        var tglstart    = $filter('date')($scope.exampleForm.valuestart,'yyyy-MM-dd');
+        var tglend      = $filter('date')($scope.exampleForm.valueend,'yyyy-MM-dd');
         $ionicLoading.show
         ({
           template: 'Loading...'
         })
         .then(function()
         {
-            ChartsCustomerFac.GetNewCustomerCharts(tahunbulan)
+            ChartsCustomerFac.GetNewCustomerCharts(tglstart,tglend)
             .then(function(response)
             {
                 FusionCharts.ready(function () 
                 {
-                    var ChartLayer = new FusionCharts({
+                    var ChartCustomerGeoLayer = new FusionCharts({
                         type: 'mscolumn3d',
                         renderAt: 'chart-layer',
                         width: '100%',
                         dataFormat: 'json',
                         dataSource: response.NewCustCombGeoLayer
                     });
-                    ChartLayer.render(); 
+                    ChartCustomerGeoLayer.render();
+
+                    var ChartCustomerGeoSales = new FusionCharts({
+                        type: 'column3d',
+                        renderAt: 'chart-geo-sales',
+                        width: '100%',
+                        dataFormat: 'json',
+                        dataSource: response.NewCustCombGeoSales
+                    });
+                    ChartCustomerGeoSales.render(); 
                 });
             });
 
@@ -95,6 +117,20 @@ angular.module('starter')
         });
     }
     $scope.onSearchChange();
+
+    $scope.SubmitForm = function(exampleForm)
+    {
+        var start       = exampleForm.valuestart;
+        var end         = exampleForm.valueend;
+        if(start > end)
+        {
+            alert("Tanggal End Harus Lebih Besar Dari Tanggal Start");
+        }
+        else
+        {
+            $scope.onSearchChange();  
+        }
+    }
     
 })
 .controller('CustKunjunganChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$filter,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,ChartsCustomerFac) 
@@ -181,6 +217,75 @@ angular.module('starter')
     });
 })
 
+.controller('CustRequestLayerGeoChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$filter,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,ChartsCustomerFac) 
+{
+    var firstDay            = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    var lastDay             = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+    $scope.exampleForm      = {valuestart:firstDay,valueend:lastDay};
+
+    $scope.onSearchChange = function()
+    {
+        var tglstart    = $filter('date')($scope.exampleForm.valuestart,'yyyy-MM-dd');
+        var tglend      = $filter('date')($scope.exampleForm.valueend,'yyyy-MM-dd');
+
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
+        })
+        .then(function()
+        {
+            ChartsCustomerFac.GetCustomerRequestCharts(tglstart,tglend)
+            .then(function(response)
+            {
+                FusionCharts.ready(function () 
+                {
+                    var geoRequestChart = new FusionCharts({
+                    type: 'mscolumn3d',
+                    renderAt: 'chart-requestgeo',
+                    width: '100%',
+                    dataFormat: 'json',
+                    dataSource: response.RequestPerGeo
+                    });
+                    geoRequestChart.render();
+
+                    var layerRequestChart = new FusionCharts({
+                    type: 'mscolumn3d',
+                    renderAt: 'chart-requestlayer',
+                    width: '100%',
+                    dataFormat: 'json',
+                    dataSource: response.RequestPerLayer
+                    });
+                    layerRequestChart.render();
+
+                    var TotalRequestChart = new FusionCharts({
+                    type: 'column3d',
+                    renderAt: 'chart-requesttotal',
+                    width: '100%',
+                    dataFormat: 'json',
+                    dataSource: response.RequestTotal
+                    });
+                    TotalRequestChart.render();
+                });
+                $ionicLoading.hide();
+            });
+        });
+    }
+    $scope.onSearchChange();
+
+    $scope.SubmitForm = function(exampleForm)
+    {
+        var start       = exampleForm.valuestart;
+        var end         = exampleForm.valueend;
+        if(start > end)
+        {
+            alert("Tanggal End Harus Lebih Besar Dari Tanggal Start");
+        }
+        else
+        {
+            $scope.onSearchChange();  
+        }
+    }
+})
 .controller('CustExpiredLayerGeoChartsCtrl', function($window,$timeout,$rootScope,$scope,$state,$filter,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,ChartsCustomerFac) 
 {
     $scope.example = {value: new Date()};

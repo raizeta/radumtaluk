@@ -54,6 +54,32 @@ angular.module('starter')
         return deferred.promise;  
     }
 
+    var GetCustomerRequestCharts = function(tglstart,tglend)
+    {
+		var globalurl 		= UtilService.ApiUrl();
+		var deferred 		= $q.defer();
+		var getUrl 			= UtilService.ApiUrl();
+		var url 			= getUrl + "/chart/esmsalesrequestcustomers?TGLSTART="+ tglstart +"&TGLEND="+ tglend;
+		var method 			= "GET";
+		$http({method:method, url:url,cache:false})
+        .success(function(response) 
+        {
+	        deferred.resolve(response);
+        })
+        .error(function(err,status)
+        {
+			if (status === 404)
+			{
+	        	deferred.resolve([]);
+	      	}
+	      	else	
+      		{
+	        	deferred.reject(err);
+	      	}
+        });	
+        return deferred.promise;  
+    }
+
     var GetCustomerExpiredCharts = function(tahunbulan)
     {
 		var globalurl 		= UtilService.ApiUrl();
@@ -132,12 +158,12 @@ angular.module('starter')
         return deferred.promise;  
     }
 
-    var GetNewCustomerCharts = function(tahunbulan)
+    var GetNewCustomerCharts = function(start,end)
     {
 		var globalurl 		= UtilService.ApiUrl();
 		var deferred 		= $q.defer();
 		var getUrl 			= UtilService.ApiUrl();
-		var url 			= getUrl + "/chart/esmsalesnewcustomers?MONTH=" + tahunbulan;
+		var url 			= getUrl + "/chart/esmsalesnewcustomers?TGLSTART=" + start + "&TGLEND=" + end;
 		var method 			= "GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 
@@ -160,6 +186,7 @@ angular.module('starter')
 	return{
 			GetCustomerCharts:GetCustomerCharts,
 			GetCustomerStockCharts:GetCustomerStockCharts,
+			GetCustomerRequestCharts:GetCustomerRequestCharts,
 			GetCustomerExpiredCharts:GetCustomerExpiredCharts,
 			GetCustomerTargetCharts:GetCustomerTargetCharts,
 			GetCustomerKunjunganCharts:GetCustomerKunjunganCharts,
