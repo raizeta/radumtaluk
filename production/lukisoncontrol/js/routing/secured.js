@@ -3,21 +3,32 @@ angular.module('starter')
 {
     $stateProvider.state('auth', 
     {
-      url: '/auth',
-      templateUrl: 'templates/secured/mainlogin.html',
-      abstract:true,
-      
+        url: '/auth',
+        templateUrl: 'templates/secured/mainlogin.html',
+        abstract:true,
     });
     $stateProvider.state('auth.login', 
     {
-      url: '/login',
-      views: 
-      {
-          'login-tab': 
-          {
-            templateUrl: 'templates/secured/login.html',
-            controller: 'LoginCtrl',
-          }
-      }
+        url: '/login',
+        views: 
+        {
+            'login-tab': 
+            {
+              templateUrl: 'templates/secured/login.html',
+              controller: 'LoginCtrl',
+            }
+        },
+        resolve:
+        {
+            auth: function ($q,SecuredFac,$location) 
+            {
+                var userInfo = SecuredFac.getUserInfo();
+                if(userInfo)
+                {
+                    $location.path("/main/dashboard");
+                    $apply();
+                }
+            }
+        }
     });
 });

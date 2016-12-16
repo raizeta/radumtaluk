@@ -1,26 +1,9 @@
 <ion-view view-title="VISIT DETAIL">
   <ion-content>
-    <div class="row" style="border-top: 1px solid #999;">
-      <div class="col col-50 " style="padding:1px;border-right:1px solid #999" >
-          <div class="item item-image" style="border-width: 0px; border-style: none;">
-          <img  ng-src="img/camera.jpg" width="100%" />
-          </div>
-      </div>
-      <div class="col col-50 " style="padding:1px;border-right:0px solid #999" >
-          <div class="item item-image" style="border-width: 0px; border-style: none;">
-          <img  ng-src="img/camera.jpg" width="100%" />
-          </div>
-      </div>
-    </div>
-    <div class="row" style="border-top: 1px solid #999;border-bottom: 1px solid #999;">
-      <div class="col col-50 " style="padding:1px;border-right:1px solid #999" >
-          <div class="item item-image" style="border-width: 0px; border-style: none;">
-          <img  ng-src="img/camera.jpg" width="100%" />
-          </div>
-      </div>
-      <div class="col col-50 " style="padding:1px;border-right:0px solid #999" >
-          <div class="item item-image" style="border-width: 0px; border-style: none;">
-          <img  ng-src="img/camera.jpg" width="100%" />
+    <div class="row" ng-repeat="(keys,items) in images" style="border-top: 1px solid #999;">
+      <div class="col col-50 " ng-repeat="(key,item) in items" style="padding:1px;border-right:1px solid #999" ng-click="ambilgambar(keys,key)">
+          <div class="item item-images" style="border-width: 0px; border-style: none;">
+          <img  data-ng-src="{{item.IMGBASE64}}" width="100%" />
           </div>
       </div>
     </div>

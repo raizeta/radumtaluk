@@ -1,8 +1,11 @@
 angular.module('starter')
-
-
-
-.controller('AccountCtrl', function($scope) 
+.controller('AppCtrl', function($rootScope,$scope, $state,StorageService) 
 {
-    $scope.settings = {enableFriends: true};
+  var profile = StorageService.get('profile');
+  $scope.profile = profile;
+  $scope.logout = function() 
+  {
+      StorageService.destroy('profile');
+      $state.go('auth.login',{},{reload: true});
+  };
 });

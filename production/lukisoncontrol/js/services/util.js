@@ -5,6 +5,7 @@ angular.module('starter')
     {
       return "http://api.lukisongroup.com/";
     }
+    
     var ArrayChunk = function (arr, size) 
     {
       var newArr = [];

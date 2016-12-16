@@ -1,5 +1,5 @@
-angular.module('starter', ['ionic','ngFitText'])
-.run(function($ionicPlatform) 
+angular.module('starter', ['ngCordova','ionic','ngFitText'])
+.run(function($ionicPlatform,$rootScope) 
 {
     $ionicPlatform.ready(function() 
     {
@@ -22,4 +22,22 @@ angular.module('starter', ['ionic','ngFitText'])
                       .handleNotificationOpened(notificationOpenedCallback)
                       .endInit();
     });
+
+    $rootScope.getCameraOptions = function()
+    {
+        
+        var options = {
+                quality: 50,
+                destinationType: Camera.DestinationType.DATA_URL,
+                sourceType: Camera.PictureSourceType.CAMERA,
+                allowEdit: false,
+                encodingType: Camera.EncodingType.JPEG,
+                targetWidth: 500,
+                targetHeight: 500,
+                popoverOptions: CameraPopoverOptions,
+                saveToPhotoAlbum: false,
+                correctOrientation:true
+              };
+        return options;
+    }
 });

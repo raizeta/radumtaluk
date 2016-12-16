@@ -47,7 +47,7 @@ angular.module('starter')
 	.then(function(response)
 	{
 		$ionicLoading.show({template: 'Loading...',duration: 3000});
-		var result = UtilService.ArrayChunk(response.CustomerCall,3);
+		var result = UtilService.ArrayChunk(response.CustomerCall,2);
 		$scope.datas = result;
 	});
 
