@@ -139,18 +139,26 @@ angular.module('starter')
 .controller('ActionVisitMemoChartsCtrl', function($window,$timeout,$filter,$rootScope,$scope,$state,$ionicPopup,$ionicLoading,MenuService,ChartsSalesFac,StorageService,SalesMemoFac) 
 {
     var tanggalplan = $filter('date')(new Date(),'yyyy-MM-dd');
+    var firstDay            = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+    var lastDay             = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0);
+
+    var tglstart    = $filter('date')(firstDay,'yyyy-MM-dd');
+    var tglend      = $filter('date')(lastDay,'yyyy-MM-dd');
+
     $ionicLoading.show
     ({
         template: 'Loading...'
     })
     .then(function()
     {
-        SalesMemoFac.GetMemoByDate(tanggalplan)
+        SalesMemoFac.GetMemoByDate(tglstart,tglend)
         .then(function(response)
         {
-            console.log(response);
             $scope.actionmemos = response;
-            $ionicLoading.hide();
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 3000});
         });
     });
 })

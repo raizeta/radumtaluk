@@ -2,11 +2,11 @@ angular.module('starter')
 .factory('SalesMemoFac',function($rootScope,$http,$q,$filter,$window,UtilService,ArrayObjectService)
 {
 
-	var GetMemoByDate = function(tanggalplan)
+	var GetMemoByDate = function(tanggalstart,tanggalend)
     {
 		var deferred 		= $q.defer();
 		var getUrl 			= UtilService.ApiUrl();
-		var url 			= getUrl + "/chart/esmsalesmdmemos/search?TGL=" + tanggalplan;
+		var url 			= getUrl + "/chart/esmsalesmdmemos/search?TGLSTART=" + tanggalstart + "&TGLEND=" + tanggalend;
 		var method 			= "GET";
 		$http({method:method, url:url,cache:false})
         .success(function(response) 

@@ -25,6 +25,17 @@ angular.module('starter')
               }
           },
     });
+    $stateProvider.state('tab.noo.new-detail', 
+    {
+          url: "/newdetail/:id",
+          views: {
+              'noo-new': {
+                  templateUrl: "templates/noo/noo-new-detail.html",
+                  controller:'NooNewDetailCtrl'
+              }
+          }
+    });
+
     $stateProvider.state('tab.noo.admin', 
     {
           url: "/admin",

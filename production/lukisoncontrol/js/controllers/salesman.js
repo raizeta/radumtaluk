@@ -2,11 +2,28 @@ angular.module('starter')
 .controller('SalesmanCtrl', function($scope,$filter,$ionicLoading,SalesTrackFac) 
 {
     var tanggalplan         = $filter('date')(new Date(),'yyyy-MM-dd');
-    SalesTrackFac.GetSalesTrackAbsensi(tanggalplan)
-    .then(function(response)
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
     {
-        $ionicLoading.show({template: 'Loading...',duration: 3000});
-        $scope.salesmans = response;
+        SalesTrackFac.GetSalesTrackAbsensi(tanggalplan)
+        .then(function(response)
+        {
+            if(angular.isArray(response))
+            {
+                $scope.salesmans = response; 
+            }
+            else
+            {
+                $scope.salesmans = []; 
+            }
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 500});  
+        });
     });
 
 })
@@ -15,12 +32,21 @@ angular.module('starter')
 {
     var tanggalplan         = $filter('date')(new Date(),'yyyy-MM-dd');
     var userid				= $stateParams.salesmanid;
-    
-    SalesTrackFac.GetSalesTrack(tanggalplan,userid)
-    .then(function(response)
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
     {
-    	$ionicLoading.show({template: 'Loading...',duration: 3000});
-        $scope.customers = response;
+        SalesTrackFac.GetSalesTrack(tanggalplan,userid)
+        .then(function(response)
+        {
+            $scope.customers = response;
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 500});
+        });
     });
 })
 

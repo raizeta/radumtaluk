@@ -1,21 +1,28 @@
 angular.module('starter')
 .factory('RoadSalesHeaderFac',function($http,$q,$filter,UtilService)
 {
-    var GetRoadSalesHeader = function(tanggalstart)
+    var GetRoadSalesHeader = function(tanggalstart,tanggalend,USER_ID)
     {
         var getUrl          = UtilService.ApiUrl();
         var deferred        = $q.defer();
-        var url             = getUrl + "master/roadsalesheaders";
+        var url             = getUrl + "master/roadsalesheaders/search?TGLSTART="+ tanggalstart + "&TGLEND="+ tanggalend + "&USER_ID=" + USER_ID;
         $http.get(url)
         .success(function(data,status,headers,config) 
         {
-            deferred.resolve(data.Roadsalesheader);
+            if(angular.isDefined(data.statusCode))
+            {
+                deferred.resolve([]);  
+            }
+            else
+            {
+                deferred.resolve(data.Roadsalesheader); 
+            }
         })
         .error(function(err,status)
         {
             if (status === 404)
             {
-                deferred.resolve([]);
+                
             }
             else    
             {

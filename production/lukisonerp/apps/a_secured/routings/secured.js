@@ -31,7 +31,6 @@ angular.module('starter')
                   $apply();
               }
           }
-
       }
     });
     $stateProvider.state('auth.register', 

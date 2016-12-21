@@ -1,28 +1,50 @@
 angular.module('starter')
-.controller('VisitCtrl', function($scope,$location,$filter,$ionicLoading,$ionicPopup,$ionicModal,$timeout,$cordovaGeolocation,RoadSalesListFac,RoadSalesHeaderFac) 
+.controller('VisitCtrl', function($scope,$location,$filter,$ionicLoading,$ionicPopup,$ionicModal,$timeout,$cordovaGeolocation,StorageService,RoadSalesListFac,RoadSalesHeaderFac) 
 {
-	
-    $ionicLoading.show
-    ({
-      template: 'Loading...'
-    })
-    .then(function()
+	var profile = StorageService.get('profile');
+    var firstDay            = new Date();
+    $scope.exampleForm      = {valuestart:firstDay};
+    $scope.onSearchChange = function()
     {
-        RoadSalesHeaderFac.GetRoadSalesHeader()
-        .then(function (response)
-        {
-            console.log(response);
-            $scope.datas = response;
-        },
-        function(error)
-        {
-            console.log(error);
+        var tglstart    = $filter('date')($scope.exampleForm.valuestart,'yyyy-MM-dd');
+        var tglend      = $filter('date')($scope.exampleForm.valuestart,'yyyy-MM-dd');
+
+        $ionicLoading.show
+        ({
+          template: 'Loading...'
         })
-        .finally(function()
+        .then(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 3000}); 
+            RoadSalesHeaderFac.GetRoadSalesHeader(tglstart,tglend,profile.id)
+            .then(function (response)
+            {
+                $scope.datas = response;
+            },
+            function(error)
+            {
+                console.log(error);
+            })
+            .finally(function()
+            {
+                $ionicLoading.show({template: 'Loading...',duration: 500}); 
+            });
         });
-    });
+    }
+    $scope.onSearchChange();
+
+    $scope.ChangeDate = function(exampleForm)
+    {
+        var start       = exampleForm.valuestart;
+        var today       = new Date();
+        if(start > today)
+        {
+            alert("Tanggal Yang Anda Pilih Tidak Bisa Lebih Besar Dari Tanggal Sekarang");
+        }
+        else
+        {
+            $scope.onSearchChange();  
+        }
+    }
 
     $scope.openModalMap = function(item) 
     {
@@ -43,7 +65,7 @@ angular.module('starter')
         })
         .then(function(modal) 
         {
-            $ionicLoading.show({template: 'Loading...',duration: 300});
+            $ionicLoading.show({template: 'Loading...',duration: 500});
             $scope.modal            = modal;
             $scope.modal.show();
         });  
@@ -75,8 +97,8 @@ angular.module('starter')
         
 
         roadsalesman.CREATED_AT     = $filter('date')(new Date(),'yyyy-MM-dd HH:mm:ss');
-        roadsalesman.CREATED_BY     = 61;
-        roadsalesman.USER_ID        = 61;
+        roadsalesman.CREATED_BY     = profile.id;
+        roadsalesman.USER_ID        = profile.id;
         roadsalesman.LAT            = $scope.lat;
         roadsalesman.LAG            = $scope.longi;
         roadsalesman.STATUS         = 1;
@@ -102,7 +124,7 @@ angular.module('starter')
             })
             .finally(function()
             {
-                $ionicLoading.show({template: 'Loading...',duration: 3000}); 
+                $ionicLoading.show({template: 'Loading...',duration: 500}); 
             });
         });
     }
@@ -161,7 +183,7 @@ function($rootScope,$scope,$location,$timeout,$stateParams,$filter,$ionicLoading
         })
         .finally(function()
         {
-            $ionicLoading.show({template: 'Loading...',duration: 3000}); 
+            $ionicLoading.show({template: 'Loading...',duration: 500}); 
         });
     });
 
@@ -196,7 +218,7 @@ function($rootScope,$scope,$location,$timeout,$stateParams,$filter,$ionicLoading
                     })
                     .finally(function()
                     {
-                        $ionicLoading.show({template: 'Loading...',duration: 3000}); 
+                        $ionicLoading.show({template: 'Loading...',duration: 500}); 
                     });
                 });
             });

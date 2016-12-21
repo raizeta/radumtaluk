@@ -7,23 +7,24 @@
   <ion-content class="padding">
   <form name="customerForm" ng-submit="submitForm(roadsalesman)" method="post" novalidate>
     <div class = "list">
-          <span class="input-label">Type Road</span>
-          <ion-checkbox ng-repeat="item in devList" ng-model="item.checked" ng-checked="item.checked">
-            {{ item.CASE_NAME }}
-          </ion-checkbox>
+          
 
         <label class="item item-input item-floating-label">
          <span class="input-label">Judul Road Aktifitas</span>
           <input type="text" placeholder="Judul Road Aktifitas" ng-model="roadsalesman.JUDUL">
         </label>
         <label class="item item-input item-floating-label">
-         <span class="input-label">Customers</span>
-          <input type="text" placeholder="Isi Nama Customers Disini" ng-model="roadsalesman.CUSTOMER">
+         <span class="input-label">Destination</span>
+          <input type="text" placeholder="Isi Tujuan Kemana Anda Pergi" ng-model="roadsalesman.CUSTOMER">
         </label>
         <label class="item item-input item-floating-label">
          <span class="input-label">Deskripsi</span>
           <textarea placeholder="Isi Deskripsi Aktifitas Disini" rows="15" ng-model="roadsalesman.CASE_NOTE"></textarea>
         </label>
+        <span class="input-label">Type Road</span>
+          <ion-checkbox ng-repeat="item in devList" ng-model="item.checked" ng-checked="item.checked">
+            {{ item.CASE_NAME }}
+          </ion-checkbox>
     </div>
     <button type="submit" class="button button-block button-assertive">Save</button>
   </form>

@@ -1,5 +1,5 @@
 angular.module('starter')
-.controller('DashCtrl', function($scope,$filter,$location,$ionicLoading,DashboardFac,UtilService,StorageService) 
+.controller('DashCtrl', function($scope,$filter,$location,$state,$ionicLoading,DashboardFac,UtilService,StorageService) 
 {
 	$scope.exampleForm  = {valuestart:new Date()};
 	$scope.onSearchChange = function()
@@ -16,7 +16,7 @@ angular.module('starter')
 			DashboardFac.GetDashboardChart(tglstart)
 			.then(function(response)
 			{
-				$ionicLoading.show({template: 'Loading...',duration: 3000});
+				$ionicLoading.show({template: 'Loading...',duration: 500});
 				$scope.datas = response;
 			});
 		});
@@ -28,12 +28,17 @@ angular.module('starter')
         var end         = new Date();
         if(start > end)
         {
-            alert("Tanggal Boleh Lebih Besar Dari Tanggal Sekarang");
+            alert("Tanggal Tidak Boleh Lebih Besar Dari Tanggal Sekarang");
         }
         else
         {
             $scope.onSearchChange();  
         }
+    }
+
+    $scope.gotodashdetail = function(key)
+    {
+        $state.go('tab.dash-call', {'call':key});
     }
 })
 
@@ -43,13 +48,23 @@ angular.module('starter')
 	var tanggalaction 	= StorageService.get('tanggalsekarang');
 	$scope.tanggalview  = $filter('date')(tanggalaction,'dd-MM-yyyy');
 	var tanggalplan 	= $filter('date')(tanggalaction,'yyyy-MM-dd');
-	DashboardFac.GetCustomerCall(tanggalplan,$scope.params)
-	.then(function(response)
-	{
-		$ionicLoading.show({template: 'Loading...',duration: 3000});
-		var result = UtilService.ArrayChunk(response.CustomerCall,2);
-		$scope.datas = result;
-	});
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
+    {
+    	DashboardFac.GetCustomerCall(tanggalplan,$scope.params)
+    	.then(function(response)
+    	{
+    		var result = UtilService.ArrayChunk(response.CustomerCall,2);
+    		$scope.datas = result;
+    	})
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 500}); 
+        });
+    });
 
 })
 
@@ -62,11 +77,21 @@ angular.module('starter')
 	$scope.tanggalview  = $filter('date')(tanggalaction,'dd-MM-yyyy');
 	var tanggalplan 	= $filter('date')(tanggalaction,'yyyy-MM-dd');
 
-    SalesTrackFac.GetSalesTrack(tanggalplan,$scope.users)
-    .then(function(response)
+    $ionicLoading.show
+    ({
+      template: 'Loading...'
+    })
+    .then(function()
     {
-    	$ionicLoading.show({template: 'Loading...',duration: 3000});
-        $scope.customers = response;
+        SalesTrackFac.GetSalesTrack(tanggalplan,$scope.users)
+        .then(function(response)
+        {
+            $scope.customers = response;
+        })
+        .finally(function()
+        {
+            $ionicLoading.show({template: 'Loading...',duration: 500});
+        });
     });
 
 });

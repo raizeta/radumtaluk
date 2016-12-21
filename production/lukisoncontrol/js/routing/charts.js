@@ -10,20 +10,32 @@ angular.module('starter')
             'tab-charts': 
             {
               templateUrl: 'templates/charts/index.html',
-              controller: 'SalesmanCtrl'
             }
           }
     });
-    $stateProvider.state('tab.charts.noo', 
+
+    $stateProvider.state('tab.charts.stock', 
     {
-          url: "/noo",
+          url: "/stock",
           views: 
           {
-              'noo-charts': 
+              'stock-charts': 
               {
-                  templateUrl: "templates/charts/noo-charts.html",
-                  controller:'SalesmanCtrl'
+                  templateUrl: "templates/charts/stock-charts.html",
+                  controller:'ChartStockCtrl'
               }
           },
+    });
+    $stateProvider.state('tab.charts.expired', 
+    {
+          url: "/expired",
+          views: 
+          {
+              'expired-charts': 
+              {
+                  templateUrl: "templates/charts/expired-charts.html",
+                  controller:'ChartExpiredCtrl'
+              }
+          }
     });
 });

@@ -20,7 +20,7 @@
     </div>
     <div ng-repeat="items in datas">
       <div class="row" style="text-align:center;" >
-        <div class="col col-50" ng-repeat="(key,value) in items">
+        <div class="col col-50" ng-repeat="(key,value) in items" ng-click="gotodashdetail(key)">
           <div class="item item-divider">
             {{key}} 
           </div>
@@ -28,7 +28,8 @@
             <h3>{{value}}</h3>
           </div>
           <div class="item item-divider">
-            <h1><a href="#/tab/dash/customer/{{key}}"><i class="icon ion-android-arrow-forward"></i></a></h1>
+            <!-- <h1><a href="#/tab/dash/customer/{{key}}"><i class="icon ion-android-arrow-forward"></i></a></h1> -->
+            <h1><i class="icon ion-android-arrow-forward"></i></h1>
           </div>
         </div>      
       </div>

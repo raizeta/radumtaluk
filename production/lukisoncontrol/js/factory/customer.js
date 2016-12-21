@@ -276,6 +276,39 @@ angular.module('starter')
         
         return deferred.promise;
     }
+    var SearchCustomersBerkas = function(CUST_KD)
+    {
+        var globalurl   = UtilService.ApiUrl();
+        var deferred    = $q.defer();
+        var url         = globalurl + "master/customerberkas/search?CUST_KD=" + CUST_KD;
+        var method      = "GET";
+        $http({method:method, url:url,cache:false})
+        .success(function(response) 
+        {
+            if(angular.isDefined(response.statusCode))
+            {
+                deferred.resolve([]);
+            }
+            else
+            {
+               deferred.resolve(response.CustomerBerkas); 
+            }
+            
+        })
+        .error(function()
+        {
+            if (status === 404)
+            {
+                deferred.resolve([]);
+            }
+            else    
+            {
+                deferred.reject(err);
+            }
+        });
+        
+        return deferred.promise;
+    }
 	return{
 			GetGroupCustomers:GetGroupCustomers,
 			GetSingleCustomer:GetSingleCustomer,
@@ -287,6 +320,7 @@ angular.module('starter')
             SetCustomers:SetCustomers,
             UpdateCustomers:UpdateCustomers,
             SetCustomersBerkas:SetCustomersBerkas,
-            GetCustomersBerkas:GetCustomersBerkas
+            GetCustomersBerkas:GetCustomersBerkas,
+            SearchCustomersBerkas:SearchCustomersBerkas
 		}
 });

@@ -73,8 +73,7 @@ angular.module('starter')
                 {
                     deferred.reject("username_salah");
                 });  
-            }
-            
+            } 
         })
         .error(function(err,status)
         {
